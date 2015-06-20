@@ -21,9 +21,9 @@ private:
     IplImage *frame;
     int blue, green;
     Vect<float> neck, hips;
-    float head_neck, neck_hips;
+    float lenght_head_neck, neck_hips;
 
-    SBone bone_head_neck;
+    Head *head;
 
     int comp(Vect<int> const&);
     void search_human();

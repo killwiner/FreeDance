@@ -1,6 +1,11 @@
 #include "root.h"
+#include <stdio.h>
 
-Root::Root(IplImage *frame_) : frame(frame_) {
+Root::Root() {
+}
+
+void Root::refresh(IplImage *frame_) {
+    frame = frame_;
 }
 
 void Root::search(int ray_max, float deep) {
@@ -36,8 +41,8 @@ void Root::search(int ray_max, float deep) {
             }
 
             if(n_ray > deep * (float)nbr_rays && ray > (float)radius * .5) {
-
-                radius = (float)ray_max;
+printf("R %d\n", radius);
+                ray = (float)ray_max;
                 break;
             }
         }

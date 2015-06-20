@@ -1,9 +1,9 @@
 #include "root_head.h"
 
-Head::Head() {
+Head::Head() : Root() {
 }
 
-Void<float> Head::first_search() {
+void Head::first_search(Vect<float> &neck) {
 
     Vect<float> v(WIDTH, HEIGHT);
     Vect<float> top(WIDTH, HEIGHT);
@@ -36,7 +36,7 @@ Void<float> Head::first_search() {
 
                     radius = (int)(right.x - left.x);
                     p = v_head;
-                    return neck;
+                    return;
                 }
 
             right.x = right_buff_x;

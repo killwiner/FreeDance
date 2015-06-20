@@ -66,40 +66,46 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
             }
 
         if(i == 0) {
-            bone_head_neck.root0.first_search();
-            hips = first_search_hips();
-            head_neck = sqrt((bone_head_neck.root0.p.x - neck.x) * (bone_head_neck.root0.p.x - neck.x) + (bone_head_neck.root0.p.y - neck.y) * (bone_head_neck.root0.p.y - neck.y));
-            neck_hips = sqrt((neck.x - hips.x) * (neck.x - hips.x) + (neck.y - hips.y) * (neck.y - hips.y));
+            head = new Head();
+            head->refresh(frame);
+
+            head->first_search(neck);
+            //hips = first_search_hips();
+            //head_neck = sqrt((bone_head_neck.root0.p.x - neck.x) * (bone_head_neck.root0.p.x - neck.x) + (bone_head_neck.root0.p.y - neck.y) * (bone_head_neck.root0.p.y - neck.y));
+            //neck_hips = sqrt((neck.x - hips.x) * (neck.x - hips.x) + (neck.y - hips.y) * (neck.y - hips.y));
+        }
+        else {
+            head->refresh(frame);
         }
 
-        if(!control<float>(bone_head_neck.root0.p))
-            draw_square(10, (int)bone_head_neck.root0.p.x, (int)bone_head_neck.root0.p.y);
+        if(!control<float>(head->p))
+            draw_square(10, (int)head->p.x, (int)head->p.y);
 
-        if(!control<float>(neck))
-            draw_square(10, (int)neck.x, (int)neck.y);
+        //if(!control<float>(neck))
+        //    draw_square(10, (int)neck.x, (int)neck.y);
 
-        if(!control<float>(hips))
-            draw_square(10, (int)hips.x, (int)hips.y);
+        //if(!control<float>(hips))
+        //    draw_square(10, (int)hips.x, (int)hips.y);
 
-        bone_head_neck.root0.search(200, .2);
-        neck = root_move(neck, bone_head_neck.root0.radius / 2, 200, .2);
-        hips = root_move(hips, bone_head_neck.root0.radius / 16, 25, .2);
+        head->search(200, .2);
+        //neck = root_move(neck, bone_head_neck.root0.radius / 2, 200, .2);
+        //hips = root_move(hips, bone_head_neck.root0.radius / 16, 25, .2);
 
-        Vect<float> u(neck.x - hips.x, neck.y - hips.y);
-        float k = neck_hips / sqrt(u.x * u.x + u.y * u.y);
-        neck.x = k * u.x + hips.x;
-        neck.y = k * u.y + hips.y;
+        //Vect<float> u(neck.x - hips.x, neck.y - hips.y);
+        //float k = neck_hips / sqrt(u.x * u.x + u.y * u.y);
+        //neck.x = k * u.x + hips.x;
+        //neck.y = k * u.y + hips.y;
 
-        u.x = bone_head_neck.root0.p.x - neck.x;
-        u.y = bone_head_neck.root0.p.y - neck.y;
-        k = head_neck / sqrt(u.x * u.x + u.y * u.y);
-        bone_head_neck.root0.p.x = k * u.x + neck.x;
-        bone_head_neck.root0.p.y = k * u.y + neck.y;
+        //u.x = bone_head_neck.root0.p.x - neck.x;
+        //u.y = bone_head_neck.root0.p.y - neck.y;
+        //k = head_neck / sqrt(u.x * u.x + u.y * u.y);
+        //bone_head_neck.root0.p.x = k * u.x + neck.x;
+        //bone_head_neck.root0.p.y = k * u.y + neck.y;
 
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 
-       // if(i == 6) break;
+        //if(i == 6) break;
 
     }
 
@@ -282,18 +288,4 @@ Vect<float> Skeleton::first_search_hips() {
 
     return Vect<float>((float)x_l, (float)y);
 
-}
-
-Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2) {
-
-    float a1 = (v1.y - w1.y) / (v1.x - w1.x);
-    float b1 = v1.y - v1.x * a1;
-
-    float a2 = (v2.y - w2.y) / (v2.x - w2.x);
-    float b2 = v2.y - v2.x * a2;
-
-    float x = (b2 - b1) / (a1 - a2);
-    float y = a1 * x + b1;
-
-    return Vect<float>(x, y);
 }

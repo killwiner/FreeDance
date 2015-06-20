@@ -3,10 +3,10 @@
 
 #include "root.h"
 
-class Head {
+class Head : public Root {
 public:
     explicit Head();
-    Vect<float> first_search();
+    void first_search(Vect<float> &);
 
 };
 
