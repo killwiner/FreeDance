@@ -1,11 +1,13 @@
 #ifndef VECT_H
 #define VECT_H
 
+template <typename T>
+
 class Vect {
 public:
-    explicit Vect(int, int);
+    explicit Vect(T, T);
     explicit Vect();
-    int x, y;
+    T x, y;
 
     void operator+=(Vect const& a);
     void operator-=(Vect const& a);
@@ -14,13 +16,26 @@ public:
 
 };
 
-bool operator==(Vect const& a, Vect const& b);
-bool operator!=(Vect const& a, Vect const& b);
-Vect operator+(Vect const& a, Vect const& b);
-Vect operator-(Vect const& a, Vect const& b);
-int coord_gbr(Vect const& a);
-int coord_gray(Vect const& a);
-bool is_null(Vect const &a);
-bool control(Vect const &a);
+/*
+template <typename T>
+bool operator==(Vect<T> const& a, Vect<T> const& b);
+template <typename T>
+bool operator!=(Vect<T> const& a, Vect<T> const& b);
+template <typename T>
+Vect<T> operator+(Vect<T> const& a, Vect<T> const& b);
+template <typename T>
+Vect<T> operator-(Vect<T> const& a, Vect<T> const& b);
+template <typename T>
+int coord_gbr(Vect<T> const& a);
+template <typename T>
+int coord_gray(Vect<T> const& a);
+template <typename T>
+bool is_null(Vect<T> const &a);
+template <typename T>
+bool control(Vect<T> const &a);
 
+Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
+*/
+
+#include "vect.tpp"
 #endif // VECT_H

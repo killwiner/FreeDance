@@ -1,9 +1,7 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-#include <opencv2/opencv.hpp>
-#include "vect.h"
-#include "vect_f.h"
+#include "root_head.h"
 #include "progress.h"
 #include <vector>
 #include "win_size.h"
@@ -22,19 +20,23 @@ private:
     IplImage *buffer_img;
     IplImage *frame;
     int blue, green;
-    Vect_f head, neck, hips;
+    Vect<float> neck, hips;
     float head_neck, neck_hips;
 
-    int comp(Vect const&);
+    SBone bone_head_neck;
+
+    int comp(Vect<int> const&);
     void search_human();
-    bool circle_search_head(Vect const&);
+    bool circle_search_human(Vect<int> const&);
     void replace(int a, int b);
     void draw_square(int ray, int x_, int y_);
 
-    Vect_f first_search_head(int *ray);
-    Vect_f first_search_hips();
-    Vect_f root_move(Vect_f v, int ray_min, int ray_max, float deep);
+    Vect<float> first_search_head(int *ray);
+    Vect<float> first_search_hips();
+    Vect<float> root_move(Vect<float> v, int ray_min, int ray_max, float deep);
 
 };
+
+Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
 
 #endif // SKELETON_H

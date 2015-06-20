@@ -22,11 +22,13 @@ SOURCES += main.cpp\
     render.cpp \
     render_window.cpp \
     save_load.cpp \
-    vect.cpp \
     skeleton.cpp \
     win_param.cpp \
     progress.cpp \
-    vect_f.cpp
+    vect.tpp \
+    root.cpp \
+    root_head.cpp \
+    maths_vect.cpp
 
 HEADERS  += mainwindow.h \
     opkinect.h \
@@ -37,7 +39,9 @@ HEADERS  += mainwindow.h \
     skeleton.h \
     win_param.h \
     progress.h \
-    vect_f.h \
-    win_size.h
+    win_size.h \
+    root.h \
+    root_head.h \
+    maths_vect.h
 
 FORMS    += mainwindow.ui
