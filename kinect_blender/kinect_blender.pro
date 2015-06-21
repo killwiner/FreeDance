@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     vect.tpp \
     root.cpp \
     root_head.cpp \
-    maths_vect.cpp
+    maths_vect.cpp \
+    root_hips.cpp
 
 HEADERS  += mainwindow.h \
     opkinect.h \
@@ -42,6 +43,7 @@ HEADERS  += mainwindow.h \
     win_size.h \
     root.h \
     root_head.h \
-    maths_vect.h
+    maths_vect.h \
+    root_hips.h
 
 FORMS    += mainwindow.ui

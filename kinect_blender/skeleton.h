@@ -2,6 +2,7 @@
 #define SKELETON_H
 
 #include "root_head.h"
+#include "root_hips.h"
 #include "progress.h"
 #include <vector>
 #include "win_size.h"
@@ -20,10 +21,11 @@ private:
     IplImage *buffer_img;
     IplImage *frame;
     int blue, green;
-    Vect<float> neck, hips;
-    float lenght_head_neck, neck_hips;
+    float lenght_head_neck, lenght_neck_hips;
 
     Head *head;
+    Root *neck;
+    Hips *hips;
 
     int comp(Vect<int> const&);
     void search_human();

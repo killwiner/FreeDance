@@ -13,3 +13,11 @@ Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> cons
 
     return Vect<float>(x, y);
 }
+
+float dist(Vect<float> const &u, Vect<float> const &v) {
+    return sqrt((u.x - v.x) * (u.x - v.x) + (u.y - v.y) * (u.y - v.y));
+}
+
+float normal(Vect<float> const &u) {
+    return sqrt(u.x * u.x + u.y * u.y);
+}

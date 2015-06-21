@@ -8,7 +8,7 @@
 class Root {
 public:
     explicit Root();
-    virtual void search(int, float);
+    virtual void search(float, int, float);
     void refresh(IplImage *);
 
     Vect<float> p;

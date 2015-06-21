@@ -67,45 +67,51 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
 
         if(i == 0) {
             head = new Head();
+            neck = new Root();
+            hips = new Hips();
             head->refresh(frame);
+            neck->refresh(frame);
+            hips->refresh(frame);
 
-            head->first_search(neck);
-            //hips = first_search_hips();
-            //head_neck = sqrt((bone_head_neck.root0.p.x - neck.x) * (bone_head_neck.root0.p.x - neck.x) + (bone_head_neck.root0.p.y - neck.y) * (bone_head_neck.root0.p.y - neck.y));
-            //neck_hips = sqrt((neck.x - hips.x) * (neck.x - hips.x) + (neck.y - hips.y) * (neck.y - hips.y));
+            head->first_search(neck->p);
+            hips->first_search();
+            lenght_head_neck = dist(head->p, neck->p);
+            lenght_neck_hips = dist(neck->p, hips->p);
         }
         else {
             head->refresh(frame);
+            neck->refresh(frame);
+            hips->refresh(frame);
         }
 
         if(!control<float>(head->p))
             draw_square(10, (int)head->p.x, (int)head->p.y);
 
-        //if(!control<float>(neck))
-        //    draw_square(10, (int)neck.x, (int)neck.y);
+        if(!control<float>(neck->p))
+            draw_square(10, (int)neck->p.x, (int)neck->p.y);
 
-        //if(!control<float>(hips))
-        //    draw_square(10, (int)hips.x, (int)hips.y);
+        if(!control<float>(hips->p))
+            draw_square(10, (int)hips->p.x, (int)hips->p.y);
 
-        head->search(200, .2);
-        //neck = root_move(neck, bone_head_neck.root0.radius / 2, 200, .2);
-        //hips = root_move(hips, bone_head_neck.root0.radius / 16, 25, .2);
+        head->search(.5, 200, .2);
+        neck->search(.25, 100, .2);
+        hips->search(.25, 25, .2);
 
-        //Vect<float> u(neck.x - hips.x, neck.y - hips.y);
-        //float k = neck_hips / sqrt(u.x * u.x + u.y * u.y);
-        //neck.x = k * u.x + hips.x;
-        //neck.y = k * u.y + hips.y;
+        Vect<float> u(neck->p.x - hips->p.x, neck->p.y - hips->p.y);
+        float k = lenght_neck_hips / normal(u);
+        neck->p.x = k * u.x + hips->p.x;
+        neck->p.y = k * u.y + hips->p.y;
 
-        //u.x = bone_head_neck.root0.p.x - neck.x;
-        //u.y = bone_head_neck.root0.p.y - neck.y;
-        //k = head_neck / sqrt(u.x * u.x + u.y * u.y);
-        //bone_head_neck.root0.p.x = k * u.x + neck.x;
-        //bone_head_neck.root0.p.y = k * u.y + neck.y;
+        u.x = head->p.x - neck->p.x;
+        u.y = head->p.y - neck->p.y;
+        k = lenght_head_neck / normal(u);
+        head->p.x = k * u.x + neck->p.x;
+        head->p.y = k * u.y + neck->p.y;
 
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 6) break;
+        //if(i == 50) break;
 
     }
 
@@ -233,59 +239,4 @@ void Skeleton::draw_square(int ray, int x_, int y_) {
                 frame->imageData[coord_gbr<int>(Vect<int>(x, y)) + 1] = 255;
                 frame->imageData[coord_gbr<int>(Vect<int>(x, y)) + 2] = 255;
             }
-}
-
-
-Vect<float> Skeleton::first_search_hips() {
-
-    int x = 0, y = 0;
-    int x_l = 0, x_r = 0;
-
-    for(; x < WIDTH; ++x)
-        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
-
-            for(;x < WIDTH;++x)
-                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
-                    x_l = x;
-                    x= WIDTH;
-                }
-        }
-
-    for(x = WIDTH - 1; x >= 0; --x)
-        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)])
-            for(; x > 0; --x)
-                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
-                    x_r = x;
-                    x= 0;
-                }
-
-    for(y = HEIGHT - 2; y >= 0; --y) {
-
-        bool found = false;
-
-        for(int cursor = x_l; cursor <= x_r; ++cursor) {
-            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y)) + 2)]) {
-
-                x_l = cursor;
-                found = true;
-                break;
-            }
-
-        }
-
-        for(int cursor = x_r; cursor >= x_l; --cursor) {
-            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y)) + 2)]) {
-
-                x_r = cursor;
-                found = true;
-                break;
-            }
-        }
-
-        if(!found)
-            break;
-    }
-
-    return Vect<float>((float)x_l, (float)y);
-
 }

@@ -8,7 +8,7 @@ void Root::refresh(IplImage *frame_) {
     frame = frame_;
 }
 
-void Root::search(int ray_max, float deep) {
+void Root::search(float coef_rad, int ray_max, float deep) {
 
     Vect<float> v = p;
 
@@ -40,8 +40,8 @@ void Root::search(int ray_max, float deep) {
 
             }
 
-            if(n_ray > deep * (float)nbr_rays && ray > (float)radius * .5) {
-printf("R %d\n", radius);
+            if(n_ray > deep * (float)nbr_rays && ray > (float)radius * coef_rad) {
+
                 ray = (float)ray_max;
                 break;
             }
