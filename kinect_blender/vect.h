@@ -16,26 +16,11 @@ public:
 
 };
 
-/*
-template <typename T>
-bool operator==(Vect<T> const& a, Vect<T> const& b);
-template <typename T>
-bool operator!=(Vect<T> const& a, Vect<T> const& b);
-template <typename T>
-Vect<T> operator+(Vect<T> const& a, Vect<T> const& b);
-template <typename T>
-Vect<T> operator-(Vect<T> const& a, Vect<T> const& b);
-template <typename T>
-int coord_gbr(Vect<T> const& a);
-template <typename T>
-int coord_gray(Vect<T> const& a);
-template <typename T>
-bool is_null(Vect<T> const &a);
-template <typename T>
-bool control(Vect<T> const &a);
-
-Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
-*/
+Vect<float> operator/(Vect<float> const& a, float const& s);
+Vect<int> operator+(Vect<int> const& a, Vect<int> const& b);
+Vect<float> operator+(Vect<float> const& a, Vect<float> const& b);
+Vect<int> operator-(Vect<int> const& a, Vect<int> const& b);
+Vect<float> operator-(Vect<float> const& a, Vect<float> const& b);
 
 #include "vect.tpp"
 #endif // VECT_H

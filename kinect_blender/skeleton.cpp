@@ -69,12 +69,18 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
             head = new Head();
             neck = new Root();
             hips = new Hips();
+            shoulder_r = new Shoulder();
+            shoulder_l = new Shoulder();
             head->refresh(frame);
             neck->refresh(frame);
             hips->refresh(frame);
+            shoulder_r->refresh(frame);
+            shoulder_l->refresh(frame);
 
             head->first_search(neck->p);
             hips->first_search();
+            shoulder_r->first_search(neck->p, hips->p - neck->p, false);
+            shoulder_l->first_search(neck->p, hips->p - neck->p, true);
             lenght_head_neck = dist(head->p, neck->p);
             lenght_neck_hips = dist(neck->p, hips->p);
         }
@@ -82,6 +88,9 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
             head->refresh(frame);
             neck->refresh(frame);
             hips->refresh(frame);
+            shoulder_r->refresh(frame);
+            shoulder_l->refresh(frame);
+
         }
 
         if(!control<float>(head->p))
@@ -93,9 +102,17 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         if(!control<float>(hips->p))
             draw_square(10, (int)hips->p.x, (int)hips->p.y);
 
+        if(!control<float>(shoulder_r->p))
+            draw_square(10, (int)shoulder_r->p.x, (int)shoulder_r->p.y);
+
+        if(!control<float>(shoulder_l->p))
+            draw_square(10, (int)shoulder_l->p.x, (int)shoulder_l->p.y);
+
         head->search(.5, 200, .2);
-        neck->search(.25, 100, .2);
+        neck->search(.25, 40, .2);
         hips->search(.25, 25, .2);
+        shoulder_r->search(.25, 25, .2);
+        shoulder_l->search(.25, 25, .2);
 
         Vect<float> u(neck->p.x - hips->p.x, neck->p.y - hips->p.y);
         float k = lenght_neck_hips / normal(u);
@@ -111,7 +128,7 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 50) break;
+        //if(i == 4) break;
 
     }
 

@@ -50,16 +50,27 @@ void Root::search(float coef_rad, int ray_max, float deep) {
 
     int i = 0;
 
+    Vect<float> r(0, 0);
+
     for (std::vector<int>::iterator it = vect_rays.begin(); it != vect_rays.end(); ++it) {
 
+        r.x -= (float)*it / (float)nbr_rays * cosf((float)i * PI * 2 / (float)nbr_rays);
+        r.y -= (float)*it / (float)nbr_rays * sinf((float)i * PI * 2 / (float)nbr_rays);
+
+        /*
         if (max < *it) {
              max = *it;
              alpha = i;
         }
         ++i;
+        */
+        ++i;
     }
 
-    Vect<float> r(v.x -(float)max / 2 * cosf(alpha * PI * 2 / (float)nbr_rays), v.y - (float)max / 2 * sinf(alpha * PI * 2 / (float)nbr_rays));
+    r.x += v.x;
+    r.y += v.y;
+
+    //Vect<float> r(v.x -(float)max / 2 * cosf(alpha * PI * 2 / (float)nbr_rays), v.y - (float)max / 2 * sinf(alpha * PI * 2 / (float)nbr_rays));
 
     if (!control<float>(v))
         if(!frame->imageData[coord_gbr<float>(v)] && max > 0) {

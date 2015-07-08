@@ -24,20 +24,7 @@ bool operator!=(Vect<T> const& a, Vect<T> const& b) {
         return true;
 }
 
-template <typename T>
-Vect<T> operator+(Vect<T> const& a, Vect<T> const& b) {
 
-    Vect<T> n(a.width, a.height);
-    Vect<T> c(a.x + b.x, a.y + b.y);
-
-    if (c.x >= c.width || c.x < 0)
-        return n;
-
-    if (c.y >= c.height || c.y < 0)
-        return n;
-
-    return c;
-}
 
 template <typename T>
 void Vect<T>::operator+=(Vect<T> const& a) {
@@ -48,21 +35,6 @@ void Vect<T>::operator+=(Vect<T> const& a) {
     this->y = c.y;
 }
 
-template <typename T>
-Vect<T> operator-(Vect<T> const& a, Vect<T> const& b) {
-
-    Vect<T> n(a.width, a.height);
-
-    if (a.x < b.x)
-        return n;
-
-    if (a.y < b.y)
-        return n;
-
-    Vect<T> c(a.x - b.x, a.y - b.y);
-
-    return c;
-}
 
 template <typename T>
 void Vect<T>::operator-=(Vect<T> const& a) {
@@ -97,4 +69,25 @@ bool control(Vect<T> const &a) {
         return true;
 
     return false;
+}
+
+template <typename T>
+Vect<T> quick_rot(Vect<T> v, int r) {
+
+    Vect<T> u = v;
+
+    switch(r) {
+    case 0:
+        v.x = u.y;
+        v.y = -u.x;
+        break;
+    case 1:
+        v.x = -u.y;
+        v.y = u.x;
+        break;
+    default:
+        v.x = -u.x;
+        v.y = -u.y;
+    }
+    return v;
 }
