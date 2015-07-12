@@ -29,9 +29,11 @@ SOURCES += main.cpp\
     root.cpp \
     root_head.cpp \
     root_shoulder.cpp \
+    root_elbow.cpp \
     maths_vect.cpp \
     root_hips.cpp \
-    vect.cpp
+    vect.cpp \
+    root_hand.cpp
 
 HEADERS  += mainwindow.h \
     opkinect.h \
@@ -46,7 +48,9 @@ HEADERS  += mainwindow.h \
     root.h \
     root_head.h \
     root_shoulder.h \
+    root_elbow.h \
     maths_vect.h \
-    root_hips.h
+    root_hips.h \
+    root_hand.h
 
 FORMS    += mainwindow.ui

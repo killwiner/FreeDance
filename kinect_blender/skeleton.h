@@ -4,6 +4,8 @@
 #include "root_head.h"
 #include "root_hips.h"
 #include "root_shoulder.h"
+#include "root_hand.h"
+#include "root_elbow.h"
 #include "progress.h"
 #include <vector>
 #include "win_size.h"
@@ -28,6 +30,8 @@ private:
     Root *neck;
     Hips *hips;
     Shoulder *shoulder_r, *shoulder_l;
+    Hand *hand_r, *hand_l;
+    Elbow *elbow_r, *elbow_l;
 
     int comp(Vect<int> const&);
     void search_human();

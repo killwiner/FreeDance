@@ -71,16 +71,30 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
             hips = new Hips();
             shoulder_r = new Shoulder();
             shoulder_l = new Shoulder();
+            hand_r = new Hand();
+            hand_l = new Hand();
+            elbow_r = new Elbow();
+            elbow_l = new Elbow();
+
             head->refresh(frame);
             neck->refresh(frame);
             hips->refresh(frame);
             shoulder_r->refresh(frame);
             shoulder_l->refresh(frame);
+            hand_r->refresh(frame);
+            hand_l->refresh(frame);
+            elbow_r->refresh(frame);
+            elbow_l->refresh(frame);
 
             head->first_search(neck->p);
             hips->first_search();
             shoulder_r->first_search(neck->p, hips->p - neck->p, false);
             shoulder_l->first_search(neck->p, hips->p - neck->p, true);
+            hand_r->first_search(false);
+            hand_l->first_search(true);
+            elbow_r->first_search(shoulder_r->p, hand_r->p - shoulder_r->p);
+            elbow_l->first_search(shoulder_l->p, hand_l->p - shoulder_l->p);
+
             lenght_head_neck = dist(head->p, neck->p);
             lenght_neck_hips = dist(neck->p, hips->p);
         }
@@ -90,6 +104,10 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
             hips->refresh(frame);
             shoulder_r->refresh(frame);
             shoulder_l->refresh(frame);
+            hand_r->refresh(frame);
+            hand_l->refresh(frame);
+            elbow_r->refresh(frame);
+            elbow_l->refresh(frame);
 
         }
 
@@ -108,11 +126,27 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         if(!control<float>(shoulder_l->p))
             draw_square(10, (int)shoulder_l->p.x, (int)shoulder_l->p.y);
 
+        if(!control<float>(hand_r->p))
+            draw_square(10, (int)hand_r->p.x, (int)hand_r->p.y);
+
+        if(!control<float>(hand_l->p))
+            draw_square(10, (int)hand_l->p.x, (int)hand_l->p.y);
+
+        if(!control<float>(elbow_r->p))
+            draw_square(10, (int)elbow_r->p.x, (int)elbow_r->p.y);
+
+        if(!control<float>(elbow_l->p))
+            draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
+
         head->search(.5, 200, .2);
         neck->search(.25, 40, .2);
         hips->search(.25, 25, .2);
         shoulder_r->search(.25, 25, .2);
         shoulder_l->search(.25, 25, .2);
+        hand_r->search(.25, 25, .2);
+        hand_l->search(.25, 25, .2);
+        elbow_r->search(.25, 25, .2);
+        elbow_l->search(.25, 25, .2);
 
         Vect<float> u(neck->p.x - hips->p.x, neck->p.y - hips->p.y);
         float k = lenght_neck_hips / normal(u);
@@ -125,10 +159,16 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         head->p.x = k * u.x + neck->p.x;
         head->p.y = k * u.y + neck->p.y;
 
+        Vect<float>t = neck->p;
+        t += (hips->p - neck->p) / (float)14.0;
+        u.x = shoulder_l->p.x - t.x;
+        u.y = shoulder_l->p.y - t.y;
+        k = lenght_t_shoulder / normal(u);
+
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 4) break;
+        //if(i == 1) break;
 
     }
 
