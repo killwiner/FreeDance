@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = kinect_blender1.0.0
-DISTDIR = /home/lydia/tron/kinect_blender/.tmp/kinect_blender1.0.0
+DISTDIR = /home/ttz/tron/kinect_blender/.tmp/kinect_blender1.0.0
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lfreenect -lusb-1.0 -lglut `pkg-config opencv --cflags --libs` -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -60,8 +60,11 @@ SOURCES       = main.cpp \
 		root.cpp \
 		root_head.cpp \
 		root_shoulder.cpp \
+		root_elbow.cpp \
 		maths_vect.cpp \
-		root_hips.cpp moc_mainwindow.cpp \
+		root_hips.cpp \
+		vect.cpp \
+		root_hand.cpp moc_mainwindow.cpp \
 		moc_render.cpp \
 		moc_render_window.cpp
 OBJECTS       = main.o \
@@ -76,8 +79,11 @@ OBJECTS       = main.o \
 		root.o \
 		root_head.o \
 		root_shoulder.o \
+		root_elbow.o \
 		maths_vect.o \
 		root_hips.o \
+		vect.o \
+		root_hand.o \
 		moc_mainwindow.o \
 		moc_render.o \
 		moc_render_window.o
@@ -152,8 +158,10 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		root.h \
 		root_head.h \
 		root_shoulder.h \
+		root_elbow.h \
 		maths_vect.h \
-		root_hips.h main.cpp \
+		root_hips.h \
+		root_hand.h main.cpp \
 		mainwindow.cpp \
 		opkinect.cpp \
 		render.cpp \
@@ -165,8 +173,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		root.cpp \
 		root_head.cpp \
 		root_shoulder.cpp \
+		root_elbow.cpp \
 		maths_vect.cpp \
-		root_hips.cpp
+		root_hips.cpp \
+		vect.cpp \
+		root_hand.cpp
 QMAKE_TARGET  = kinect_blender
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = kinect_blender
@@ -338,8 +349,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h opkinect.h render.h render_window.h save_load.h vect.h skeleton.h win_param.h progress.h win_size.h root.h root_head.h root_shoulder.h maths_vect.h root_hips.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp opkinect.cpp render.cpp render_window.cpp save_load.cpp skeleton.cpp win_param.cpp progress.cpp root.cpp root_head.cpp root_shoulder.cpp maths_vect.cpp root_hips.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h opkinect.h render.h render_window.h save_load.h vect.h skeleton.h win_param.h progress.h win_size.h root.h root_head.h root_shoulder.h root_elbow.h maths_vect.h root_hips.h root_hand.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp opkinect.cpp render.cpp render_window.cpp save_load.cpp skeleton.cpp win_param.cpp progress.cpp root.cpp root_head.cpp root_shoulder.cpp root_elbow.cpp maths_vect.cpp root_hips.cpp vect.cpp root_hand.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -379,9 +390,11 @@ moc_mainwindow.cpp: render_window.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h \
 		mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/lydia/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/ttz/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_render.cpp: opkinect.h \
 		save_load.h \
@@ -394,9 +407,11 @@ moc_render.cpp: opkinect.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h \
 		render.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/lydia/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include render.h -o moc_render.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/ttz/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include render.h -o moc_render.cpp
 
 moc_render_window.cpp: render.h \
 		opkinect.h \
@@ -410,9 +425,11 @@ moc_render_window.cpp: render.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h \
 		render_window.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/lydia/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include render_window.h -o moc_render_window.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/ttz/tron/kinect_blender -I/usr/include/libusb-1.0 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include render_window.h -o moc_render_window.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -446,6 +463,8 @@ main.o: main.cpp mainwindow.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
@@ -463,6 +482,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h \
 		ui_mainwindow.h \
 		win_param.h
@@ -483,6 +504,8 @@ render.o: render.cpp render.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o render.o render.cpp
 
@@ -499,6 +522,8 @@ render_window.o: render_window.cpp render_window.h \
 		vect.tpp \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o render_window.o render_window.cpp
 
@@ -515,6 +540,8 @@ skeleton.o: skeleton.cpp skeleton.h \
 		win_size.h \
 		root_hips.h \
 		root_shoulder.h \
+		root_hand.h \
+		root_elbow.h \
 		progress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o skeleton.o skeleton.cpp
 
@@ -547,6 +574,14 @@ root_shoulder.o: root_shoulder.cpp root_shoulder.h \
 		win_size.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o root_shoulder.o root_shoulder.cpp
 
+root_elbow.o: root_elbow.cpp root_elbow.h \
+		root.h \
+		maths_vect.h \
+		vect.h \
+		vect.tpp \
+		win_size.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o root_elbow.o root_elbow.cpp
+
 maths_vect.o: maths_vect.cpp maths_vect.h \
 		vect.h \
 		vect.tpp
@@ -559,6 +594,18 @@ root_hips.o: root_hips.cpp root_hips.h \
 		vect.tpp \
 		win_size.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o root_hips.o root_hips.cpp
+
+vect.o: vect.cpp vect.h \
+		vect.tpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vect.o vect.cpp
+
+root_hand.o: root_hand.cpp root_hand.h \
+		root.h \
+		maths_vect.h \
+		vect.h \
+		vect.tpp \
+		win_size.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o root_hand.o root_hand.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

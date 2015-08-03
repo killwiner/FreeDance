@@ -33,7 +33,7 @@ SOURCES += main.cpp\
     maths_vect.cpp \
     root_hips.cpp \
     vect.cpp \
-    root_hand.cpp
+    root_hand.cpp \
 
 HEADERS  += mainwindow.h \
     opkinect.h \

@@ -3,23 +3,26 @@
 RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *motion_, Skeleton *skeleton_, int status_)
     : Render(20, parent, thedevice, motion_, skeleton_, "Kinect Render")
 {
+
     status = status_;
     width = WIDTH;
     height = HEIGHT;
-    vect_motion=motion->vect_imgs.begin();
-    vect_skeleton=skeleton->vect_imgs.begin();
+//    vect_motion=motion->vect_imgs.begin();
+//    vect_skeleton=skeleton->vect_imgs.begin();
 
 }
 
 void RenderWindow::change_status(int s) {
+/*
     status = s;
     vect_motion=motion->vect_imgs.begin();
     vect_skeleton=skeleton->vect_imgs.begin();
+*/
 }
 
 void RenderWindow::initializeGL()
 {
-
+/*
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
@@ -35,6 +38,22 @@ void RenderWindow::initializeGL()
     glBindTexture(GL_TEXTURE_2D, gl_rgb_tex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    resizeGL(width, height);
+*/
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    glDisable(GL_ALPHA_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glShadeModel(GL_FLAT);
+
+    glGenTextures(1, &gl_depth_tex);
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     resizeGL(width, height);
 
 }
@@ -55,20 +74,90 @@ void RenderWindow::paintGL()
 
     if (status == STATUS_KINECT || status == STATUS_RECORD) {
 
-        static std::vector<uint8_t> depth(width*height*3);
+    pthread_mutex_lock(&thedevice->gl_backbuf_mutex);
 
-        thedevice->device->updateState();
-        thedevice->device->getDepth(depth);
+    // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
+    // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
+    if (thedevice->current_format == FREENECT_VIDEO_YUV_RGB) {
+        while (!thedevice->got_depth) {
+            pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
+        }
+    } else {
+        while ((!thedevice->got_depth) && thedevice->requested_format != thedevice->current_format) {
+            pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
+        }
+    }
 
-        thedevice->got_frames = 0;
+    if (thedevice->requested_format != thedevice->current_format) {
+        pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
+        return;
+    }
+
+    uint8_t *tmp;
+
+    if (thedevice->got_depth) {
+        tmp = thedevice->depth_front;
+        thedevice->depth_front = thedevice->depth_mid;
+        thedevice->depth_mid = tmp;
+        thedevice->got_depth = 0;
+    }
+
+    pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
+    /*
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->depth_front);
+
+    glLoadIdentity();
+    glPushMatrix();
+    glTranslatef((640.0/2.0),(480.0/2.0) ,0.0);
+    glRotatef(0.0, 0.0, 0.0, 1.0);
+    glTranslatef(-(640.0/2.0),-(480.0/2.0) ,0.0);
+    glBegin(GL_TRIANGLE_FAN);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0, 1); glVertex3f(0,0,1.0);
+    glTexCoord2f(1, 1); glVertex3f(640,0,1.0);
+    glTexCoord2f(1, 0); glVertex3f(640,480,1.0);
+    glTexCoord2f(0, 0); glVertex3f(0,480,1.0);
+    glEnd();
+    glPopMatrix();
+
+    glBindTexture(GL_TEXTURE_2D, gl_rgb_tex);
+    if (thedevice->current_format == FREENECT_VIDEO_RGB || thedevice->current_format == FREENECT_VIDEO_YUV_RGB)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->rgb_front);
+    else
+        glTexImage2D(GL_TEXTURE_2D, 0, 1, 640, 480, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, thedevice->rgb_front+640*4);
+
+    glPushMatrix();
+    glTranslatef(640+(640.0/2.0),(480.0/2.0) ,0.0);
+    glRotatef(0.0, 0.0, 0.0, 1.0);
+    glTranslatef(-(640+(640.0/2.0)),-(480.0/2.0) ,0.0);
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0, 1); glVertex3f(640,0,0);
+    glTexCoord2f(1, 1); glVertex3f(1280,0,0);
+    glTexCoord2f(1, 0); glVertex3f(1280,480,0);
+    glTexCoord2f(0, 0); glVertex3f(640,480,0);
+    glEnd();
+*/
+
+//        static std::vector<uint8_t> depth(width*height*3);
+
+//        thedevice->device->updateState();
+//        thedevice->device->getDepth(depth);
+
+//        thedevice->got_frames = 0;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();
 
         glEnable(GL_TEXTURE_2D);
 
+  //      glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
+  //      glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, &depth[0]);
+
         glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, &depth[0]);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->depth_front);
 
         glBegin(GL_TRIANGLE_FAN);
         glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
@@ -77,7 +166,7 @@ void RenderWindow::paintGL()
         glTexCoord2f(1, 1); glVertex3f(width,height,0);
         glTexCoord2f(0, 1); glVertex3f(0,height,0);
         glEnd();
-
+/*
         if (status == STATUS_RECORD) {
 
             if (!thedevice->is_recording()) {
@@ -90,8 +179,9 @@ void RenderWindow::paintGL()
             memory_info();
 
         }
+    */
     }
-
+/*
     if (status == STATUS_MOTION) {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -140,7 +230,7 @@ void RenderWindow::paintGL()
 
     }
 
-
+*/
 }
 
 void RenderWindow::memory_info() {

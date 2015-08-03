@@ -158,13 +158,13 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         k = lenght_head_neck / normal(u);
         head->p.x = k * u.x + neck->p.x;
         head->p.y = k * u.y + neck->p.y;
-
+/*
         Vect<float>t = neck->p;
         t += (hips->p - neck->p) / (float)14.0;
         u.x = shoulder_l->p.x - t.x;
         u.y = shoulder_l->p.y - t.y;
         k = lenght_t_shoulder / normal(u);
-
+*/
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 

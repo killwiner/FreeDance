@@ -24,6 +24,8 @@ private:
 
     std::vector<IplImage>::const_iterator vect_motion, vect_skeleton;
 
+
+
 };
 
 

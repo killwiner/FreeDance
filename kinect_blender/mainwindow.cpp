@@ -6,15 +6,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    thedevice = new TheDevice();
     ui->setupUi(this);
 
 }
 
 MainWindow::~MainWindow()
 {
-    if (thedevice->is_connected())
-        thedevice->stop();
+
+    thedevice->stop();
     delete ui;
+
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -46,7 +48,6 @@ void MainWindow::on_actionRun_triggered()
     }
 
     thedevice->start();
-
     if (!Win) {
 
         Win = new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_KINECT);
