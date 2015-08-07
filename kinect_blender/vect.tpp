@@ -1,16 +1,16 @@
 #include "vect.h"
 
 template <typename T>
-Vect<T>::Vect(T x_, T y_) : x(x_), y(y_), width(640), height(480) {
+Vect<T>::Vect(T x_, T y_, T z_) : x(x_), y(y_), z(z_), width(640), height(480) {
 }
 
 template <typename T>
-Vect<T>::Vect() : x(0), y(0), width(640), height(480) {
+Vect<T>::Vect() : x(0), y(0), z(0), width(640), height(480) {
 }
 
 template <typename T>
 bool operator==(Vect<T> const& a, Vect<T> const& b) {
-    if (a.x == b.x && a.y == b.y)
+    if (a.x == b.x && a.y == b.y, a.z == b.z)
         return true;
     else
         return false;
@@ -24,8 +24,6 @@ bool operator!=(Vect<T> const& a, Vect<T> const& b) {
         return true;
 }
 
-
-
 template <typename T>
 void Vect<T>::operator+=(Vect<T> const& a) {
 
@@ -33,6 +31,7 @@ void Vect<T>::operator+=(Vect<T> const& a) {
     c = a + *this;
     this->x = c.x;
     this->y = c.y;
+    this->z = c.z;
 }
 
 
@@ -43,6 +42,7 @@ void Vect<T>::operator-=(Vect<T> const& a) {
     c = *this - a;
     this->x = c.x;
     this->y = c.y;
+    this->z = c.z;
 }
 
 template <typename T>

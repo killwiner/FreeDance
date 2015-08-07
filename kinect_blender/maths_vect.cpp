@@ -11,7 +11,7 @@ Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> cons
     float x = (b2 - b1) / (a1 - a2);
     float y = a1 * x + b1;
 
-    return Vect<float>(x, y);
+    return Vect<float>(x, y, 0);
 }
 
 float dist(Vect<float> const &u, Vect<float> const &v) {

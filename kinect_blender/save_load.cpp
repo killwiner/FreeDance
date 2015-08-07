@@ -6,7 +6,7 @@ SaveLoad::SaveLoad() : capture(0), frame(0){
 
 void SaveLoad::load() {
 
-    capture = cvCaptureFromAVI("tmp/kinect_out.avi"); // read AVI video
+    capture = cvCaptureFromAVI("tmp/kinect_video_2.avi"); // read AVI video
     if( !capture ) {
         std::cerr << "Can't open the file.\n";
         return;
@@ -48,11 +48,17 @@ void SaveLoad::make_list(char* data) {
 
 void SaveLoad::save() {
 
+    if(vect_imgs.empty()) {
+        std::cerr << "Can't save the file, empty video.\n";
+        return;
+    }
     CvSize size;
     size.width = WIDTH;
     size.height = HEIGHT;
 
-    CvVideoWriter *writer = cvCreateVideoWriter("tmp/kinect_in.avi", CV_FOURCC('I','Y','U','V'), 20, size);
+    boost::filesystem::path dir("tmp");
+    boost::filesystem::create_directory(dir);
+    CvVideoWriter *writer = cvCreateVideoWriter("tmp/kinect_video_1.avi", CV_FOURCC('I','Y','U','V'), 20, size);
 
     if(writer == NULL) {
         std::cerr << "Can't create the file.\n";
@@ -67,7 +73,7 @@ void SaveLoad::save() {
 
     cvReleaseVideoWriter(&writer);
 
-    // without avconv core dump when we load the motion
-    system("avconv -y -i tmp/kinect_in.avi -vcodec mpeg4 -b 20000k -pass 1 tmp/kinect_out.avi");
+    // without avconv we got a core dump when we load the motion
+    system("avconv -y -i tmp/kinect_video_1.avi -vcodec mpeg4 -b 20000k -pass 1 tmp/kinect_video_2.avi");
 
 }

@@ -9,19 +9,19 @@ void Hips::first_search() {
     int x_l = 0, x_r = 0;
 
     for(; x < WIDTH; ++x)
-        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
+        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1, 0)) + 2)]) {
 
             for(;x < WIDTH;++x)
-                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
+                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1, 0)) + 2)]) {
                     x_l = x;
                     x= WIDTH;
                 }
         }
 
     for(x = WIDTH - 1; x >= 0; --x)
-        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)])
+        if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1, 0)) + 2)])
             for(; x > 0; --x)
-                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1)) + 2)]) {
+                if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, HEIGHT - 1, 0)) + 2)]) {
                     x_r = x;
                     x= 0;
                 }
@@ -31,7 +31,7 @@ void Hips::first_search() {
         bool found = false;
 
         for(int cursor = x_l; cursor <= x_r; ++cursor) {
-            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y)) + 2)]) {
+            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y, 0)) + 2)]) {
 
                 x_l = cursor;
                 found = true;
@@ -40,7 +40,7 @@ void Hips::first_search() {
         }
 
         for(int cursor = x_r; cursor >= x_l; --cursor) {
-            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y)) + 2)]) {
+            if (!frame->imageData[(int)(coord_gbr<int>(Vect<int>(cursor, y, 0)) + 2)]) {
 
                 x_r = cursor;
                 found = true;

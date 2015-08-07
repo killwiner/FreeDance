@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <boost/filesystem.hpp>
 #include "win_size.h"
 
 class SaveLoad

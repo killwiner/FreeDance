@@ -17,8 +17,9 @@ public:
 private:
 
     void memory_info();
+    bool count_down();
     QMessageBox *message = NULL;
-    int timer = 0;
+    int timer = 0, count_d = 10;
 
     GLuint gl_depth_tex, gl_rgb_tex;
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>254</width>
-    <height>118</height>
+    <width>260</width>
+    <height>131</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>254</width>
-     <height>27</height>
+     <width>260</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -34,16 +34,18 @@
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuSkeleton">
+   <widget class="QMenu" name="menuKinect">
     <property name="title">
      <string>Kinect</string>
     </property>
     <addaction name="actionConnect"/>
     <addaction name="actionRun"/>
-    <addaction name="actionStop"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="actionPause"/>
     <addaction name="actionRecord"/>
    </widget>
-   <widget class="QMenu" name="menuSkeleton_2">
+   <widget class="QMenu" name="menuSkeleton">
     <property name="title">
      <string>Skeleton</string>
     </property>
@@ -51,8 +53,8 @@
     <addaction name="actionExport_to_blender_2"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuKinect"/>
    <addaction name="menuSkeleton"/>
-   <addaction name="menuSkeleton_2"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionCapture">
@@ -78,11 +80,6 @@
   <action name="actionRun">
    <property name="text">
     <string>Run</string>
-   </property>
-  </action>
-  <action name="actionStop">
-   <property name="text">
-    <string>Stop</string>
    </property>
   </action>
   <action name="actionCreate">
@@ -118,6 +115,11 @@
   <action name="actionStop_Motion">
    <property name="text">
     <string>Stop Motion</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="text">
+    <string>Pause</string>
    </property>
   </action>
  </widget>

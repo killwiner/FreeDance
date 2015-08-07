@@ -5,7 +5,7 @@ Shoulder::Shoulder() : Root() {
 
 void Shoulder::first_search(Vect<float> neck, Vect<float> neck_to_hips, bool l_r) {
 
-    Vect<float> v(0, 0);
+    Vect<float> v(0, 0, 0);
 
     if(!l_r)
         v = quick_rot(neck_to_hips, 0);

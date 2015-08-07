@@ -24,7 +24,8 @@ private:
     IplImage *buffer_img;
     IplImage *frame;
     int blue, green;
-    float lenght_head_neck, lenght_neck_hips;
+    float lenght_head_neck, lenght_neck_hips, lenght_neck_shoulder;
+    float offset_z;
 
     Head *head;
     Root *neck;

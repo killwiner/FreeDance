@@ -10,7 +10,7 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
     green = green_;
     filt = new std::vector<int>(WIDTH*HEIGHT, 0);
 
-    CvCapture* capture = cvCaptureFromAVI("tmp/kinect_out.avi"); // read AVI video
+    CvCapture* capture = cvCaptureFromAVI("tmp/kinect_video_2.avi"); // read AVI video
     if( !capture ) {
         std::cerr << "Can't open the file.\n";
         return;
@@ -53,16 +53,16 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
 
         for(int y = 0; y < HEIGHT; ++y)
             for(int x = 0; x < WIDTH; ++x) {
-                frame->imageData[coord_gbr(Vect<int>(x, y))] = 0;
-                frame->imageData[coord_gbr(Vect<int>(x, y)) + 1] = 0;
+                frame->imageData[coord_gbr(Vect<int>(x, y, 0))] = 0;
+                frame->imageData[coord_gbr(Vect<int>(x, y, 0)) + 1] = 0;
 
-                int g_color = filt->at(coord_gray(Vect<int>(x, y)));
-                if(filt->at(coord_gray(Vect<int>(x, y))) == pos)
-                    frame->imageData[coord_gbr(Vect<int>(x, y)) + 2] = 255;
+                int g_color = filt->at(coord_gray(Vect<int>(x, y, 0)));
+                if(filt->at(coord_gray(Vect<int>(x, y, 0))) == pos)
+                    frame->imageData[coord_gbr(Vect<int>(x, y, 0)) + 2] = 255;
                 else
-                    frame->imageData[coord_gbr(Vect<int>(x, y)) + 2] = 0;
+                    frame->imageData[coord_gbr(Vect<int>(x, y, 0)) + 2] = 0;
                 if(g_color > 0)
-                    frame->imageData[coord_gbr(Vect<int>(x, y))] = 255;
+                    frame->imageData[coord_gbr(Vect<int>(x, y, 0))] = 255;
             }
 
         if(i == 0) {
@@ -97,6 +97,12 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
 
             lenght_head_neck = dist(head->p, neck->p);
             lenght_neck_hips = dist(neck->p, hips->p);
+
+            Vect<float>t = neck->p;
+            t += (hips->p - neck->p) / (float)14.0;
+            lenght_neck_shoulder = (dist(shoulder_l->p, neck->p) + dist(shoulder_l->p, neck->p)) / 2.0f;
+
+            offset_z = frame->imageData[coord_gbr(Vect<int>(neck->p.x, neck->p.y, 0))];
         }
         else {
             head->refresh(frame);
@@ -148,23 +154,40 @@ void Skeleton::start(Progress *prog, int green_, int blue_) {
         elbow_r->search(.25, 25, .2);
         elbow_l->search(.25, 25, .2);
 
-        Vect<float> u(neck->p.x - hips->p.x, neck->p.y - hips->p.y);
+        // keep lenght between hips and neck
+        Vect<float> u(neck->p.x - hips->p.x, neck->p.y - hips->p.y, 0);
         float k = lenght_neck_hips / normal(u);
         neck->p.x = k * u.x + hips->p.x;
         neck->p.y = k * u.y + hips->p.y;
 
+        // keep lenght between head and neck
         u.x = head->p.x - neck->p.x;
         u.y = head->p.y - neck->p.y;
         k = lenght_head_neck / normal(u);
         head->p.x = k * u.x + neck->p.x;
         head->p.y = k * u.y + neck->p.y;
-/*
+
         Vect<float>t = neck->p;
         t += (hips->p - neck->p) / (float)14.0;
         u.x = shoulder_l->p.x - t.x;
         u.y = shoulder_l->p.y - t.y;
-        k = lenght_t_shoulder / normal(u);
-*/
+        k = lenght_neck_shoulder / normal(u);
+        if(k < 1.0f) {
+            shoulder_l->p.x = k * u.x + t.x;
+            shoulder_l->p.y = k * u.y + t.y;
+        }
+
+        u.x = shoulder_r->p.x - t.x;
+        u.y = shoulder_r->p.y - t.y;
+        k = lenght_neck_shoulder / normal(u);
+        if(k < 1.0f) {
+            shoulder_r->p.x = k * u.x + t.x;
+            shoulder_r->p.y = k * u.y + t.y;
+        }
+
+        hand_r->p.z = buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z;
+        hand_l->p.z = buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z;
+
         vect_imgs.push_back(*frame);
         // cvReleaseImage(&buffer_img);
 
@@ -180,16 +203,16 @@ bool Skeleton::circle_search_human(Vect<int> const& v0) {
 
     int dist0, dist1, dist2, dist3;
 
-    Vect<int> v1 = v0 + Vect<int>(-1, 0);
+    Vect<int> v1 = v0 + Vect<int>(-1, 0, 0);
     dist0 = comp(v1);
 
-    Vect<int> v2 = v0 + Vect<int>(-1, -1);
+    Vect<int> v2 = v0 + Vect<int>(-1, -1, 0);
     dist1 = comp(v2);
 
-    Vect<int> v3 = v0 + Vect<int>(0, -1);
+    Vect<int> v3 = v0 + Vect<int>(0, -1, 0);
     dist2 = comp(v3);
 
-    Vect<int> v4 = v0 + Vect<int>(1, -1);
+    Vect<int> v4 = v0 + Vect<int>(1, -1, 0);
     dist3 = comp(v4);
 
     int inf = 0;
@@ -291,9 +314,9 @@ void Skeleton::replace(int a, int b) {
 void Skeleton::draw_square(int ray, int x_, int y_) {
     for (int x = x_ - ray; x < x_ + ray; ++x)
         for (int y = y_ - ray; y < y_ + ray; ++y)
-            if (!control<int>(Vect<int>(x, y))) {
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y))] = 255;
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y)) + 1] = 255;
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y)) + 2] = 255;
+            if (!control<int>(Vect<int>(x, y, 0))) {
+                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
+                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
+                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
             }
 }

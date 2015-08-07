@@ -42,6 +42,8 @@ private slots:
 
     void on_actionCreate_triggered(); // create the skeleton from the file
 
+    void on_actionPause_triggered();
+
 private:
     Ui::MainWindow *ui;
     RenderWindow *Win = NULL;

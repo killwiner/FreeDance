@@ -5,11 +5,11 @@ Head::Head() : Root() {
 
 void Head::first_search(Vect<float> &neck) {
 
-    Vect<float> v(WIDTH, HEIGHT);
-    Vect<float> top(WIDTH, HEIGHT);
-    Vect<float> bottom(0, 0);
-    Vect<float> left(0, 0);
-    Vect<float> right(0, 0);
+    Vect<float> v(WIDTH, HEIGHT, 0);
+    Vect<float> top(WIDTH, HEIGHT, 0);
+    Vect<float> bottom(0, 0, 0);
+    Vect<float> left(0, 0, 0);
+    Vect<float> right(0, 0, 0);
 
     float n = 0, y_l = 0, n_buff = 0, y_l_n = 0;
     bool ch_y = false, top_flag = true;
@@ -50,7 +50,7 @@ void Head::first_search(Vect<float> &neck) {
         }
 
         for(float x = 0; x < WIDTH; ++x) {
-            if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, y)) + 2)]) {
+            if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, y, 0)) + 2)]) {
 
                 v.x = x;
                 v.y = y;

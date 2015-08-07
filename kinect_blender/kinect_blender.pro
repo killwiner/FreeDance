@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = kinect_blender
 TEMPLATE = app
 
-LIBS += -lfreenect -lusb-1.0 -lglut `pkg-config opencv --cflags --libs`# -lGL -lGLU -lglut
+LIBS += -lboost_system -lboost_filesystem -lfreenect -lusb-1.0 -lglut `pkg-config opencv --cflags --libs`# -lGL -lGLU -lglut
 
 INCLUDEPATH += /usr/include/libusb-1.0
 

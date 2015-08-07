@@ -7,8 +7,8 @@ Elbow::Elbow() : Root() {
 
 void Elbow::first_search(Vect<float> shoulder, Vect<float> shoulder_to_hand) {
 
-    Vect<float> v(0, 0);
-    Vect<float> w(0, 0);
+    Vect<float> v(0, 0, 0);
+    Vect<float> w(0, 0, 0);
 
     v = quick_rot(shoulder_to_hand, 0);
 

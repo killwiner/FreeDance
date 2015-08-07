@@ -5,9 +5,9 @@ template <typename T>
 
 class Vect {
 public:
-    explicit Vect(T, T);
+    explicit Vect(T, T, T);
     explicit Vect();
-    T x, y;
+    T x, y, z;
 
     void operator+=(Vect const& a);
     void operator-=(Vect const& a);

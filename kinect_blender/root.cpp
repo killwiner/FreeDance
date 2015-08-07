@@ -23,7 +23,7 @@ void Root::search(float coef_rad, int ray_max, float deep) {
         l_ray = ray;
         for(int j = 0; j < nbr_rays; ++j) {
             teta = (float)j * 2 * PI / (float)nbr_rays;
-            Vect<float> p(v.x + ray * cosf(teta), v.y + ray * sinf(teta));
+            Vect<float> p(v.x + ray * cosf(teta), v.y + ray * sinf(teta), 0);
             if(control<float>(p)) {
                 ++n_ray;
                 vect_rays.at(j) += 1;
@@ -50,7 +50,7 @@ void Root::search(float coef_rad, int ray_max, float deep) {
 
     int i = 0;
 
-    Vect<float> r(0, 0);
+    Vect<float> r(0, 0, 0);
 
     for (std::vector<int>::iterator it = vect_rays.begin(); it != vect_rays.end(); ++it) {
 
