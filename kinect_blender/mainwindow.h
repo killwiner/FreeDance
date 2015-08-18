@@ -30,9 +30,9 @@ private slots:
 
     void on_actionRun_triggered(); // run the capture
 
-    void on_actionLoad_Motion_triggered(); // load a motion from the file
+    void on_actionLoad_Motion_triggered(); // load the motion from the file
 
-    void on_actionSave_Motion_triggered(); // save a record to the file
+    void on_actionSave_Motion_triggered(); // save the record to the file
 
     void on_actionRun_Motion_triggered(); // play the motion
 
@@ -42,15 +42,15 @@ private slots:
 
     void on_actionCreate_triggered(); // create the skeleton from the file
 
-    void on_actionPause_triggered();
+    void on_actionPause_triggered(); // pause on the motion
 
 private:
     Ui::MainWindow *ui;
     RenderWindow *Win = NULL;
-    TheDevice *thedevice;
-    SaveLoad saveload;
+    TheDevice *thedevice; // the device for the kinect
+    SaveLoad saveload; // to save or load a motion
     Skeleton skeleton;
-    Progress *prog;
+    Progress *prog; // the progress bar when it's building the skeleton
 };
 
 #endif // MAINWINDOW_H

@@ -7,7 +7,6 @@ uint8_t *TheDevice::rgb_front = (uint8_t*)malloc(640*480*3);
 uint8_t *TheDevice::rgb_mid = (uint8_t*)malloc(640*480*3);
 uint8_t *TheDevice::depth_front = (uint8_t*)malloc(640*480*3);
 uint8_t *TheDevice::depth_mid = (uint8_t*)malloc(640*480*3);
-int TheDevice::got_rgb = 0;
 int TheDevice::got_depth = 0;
 uint16_t *TheDevice::t_gamma = (uint16_t*)malloc(2048 * 2);
 
@@ -18,14 +17,11 @@ freenect_device *TheDevice::f_dev = 0;
 
 bool volatile TheDevice::die = false;
 
-
 TheDevice::TheDevice() {
-
     connected = running = recording = false;
-
 }
 
-
+// connect only the kinect
 bool TheDevice::connect() {
 
     if (freenect_init(&f_ctx, NULL) < 0) {
@@ -76,6 +72,7 @@ bool TheDevice::connect() {
         recording = r;
     }
 
+    // stop the device
 void TheDevice::stop() {
 
     if (connected) {
@@ -144,6 +141,7 @@ void TheDevice::depth_cb(freenect_device *dev, void *v_depth, uint32_t timestamp
     pthread_mutex_unlock(&gl_backbuf_mutex);
 }
 
+// the loop thread
 void *TheDevice::loop(void *arg) {
    int freenect_angle = 0;
     freenect_set_tilt_degs(f_dev,freenect_angle);
@@ -164,6 +162,7 @@ void *TheDevice::loop(void *arg) {
      }
 }
 
+// start the device
 void TheDevice::start() {
 
     if (!connected)

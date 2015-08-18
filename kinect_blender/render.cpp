@@ -1,8 +1,8 @@
 #include "render.h"
 #include <stdio.h>
 
-Render::Render(int framesPerSecond, QWidget *parent, TheDevice *thedevice_, SaveLoad *motion_, Skeleton *skeleton_, char *name)
-    : QGLWidget(parent)
+Render::Render(int framesPerSecond, QWidget *parent, TheDevice *thedevice_, SaveLoad *saveload_, Skeleton *skeleton_, char *name)
+    : QGLWidget(parent), saveload(saveload_), skeleton(skeleton_), thedevice(thedevice_)
 {
 
     setWindowTitle(QString::fromUtf8(name));
@@ -10,25 +10,16 @@ Render::Render(int framesPerSecond, QWidget *parent, TheDevice *thedevice_, Save
         t_Timer = NULL;
     else
     {
-        int seconde = 1000;
+        int seconde = interval_time;
         int timerInterval = seconde / framesPerSecond;
         t_Timer = new QTimer(this);
         connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
         t_Timer->start( timerInterval );
     }
-
-    thedevice = thedevice_;
-    motion = motion_;
-    skeleton = skeleton_;
-
 }
 
+// to make a pause or to play
 void Render::change_pause(bool p) {
-
-    if (p)
-        printf("STOPED\n");
-    else
-        printf("RUNNING\n");
     if (p)
         t_Timer->stop();
     else
@@ -38,7 +29,5 @@ void Render::change_pause(bool p) {
 
 void Render::timeOutSlot()
 {
-
     updateGL();
-
 }

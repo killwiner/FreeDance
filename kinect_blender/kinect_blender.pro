@@ -34,6 +34,8 @@ SOURCES += main.cpp\
     root_hips.cpp \
     vect.cpp \
     root_hand.cpp \
+    root_neck.cpp \
+    search_partitions.cpp
 
 HEADERS  += mainwindow.h \
     opkinect.h \
@@ -51,6 +53,7 @@ HEADERS  += mainwindow.h \
     root_elbow.h \
     maths_vect.h \
     root_hips.h \
-    root_hand.h
+    root_hand.h \
+    root_neck.h
 
 FORMS    += mainwindow.ui

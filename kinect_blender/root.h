@@ -7,12 +7,10 @@
 
 class Root {
 public:
-    explicit Root();
-    virtual void search(float, int, float);
-    void refresh(IplImage *);
+    explicit Root(IplImage*);
+    virtual void search(IplImage*, float const &, int const &);
 
     Vect<float> p;
-    int radius;
 
 protected:
     IplImage *frame;

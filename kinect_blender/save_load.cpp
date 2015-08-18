@@ -46,9 +46,9 @@ void SaveLoad::make_list(char* data) {
     cvReleaseImageHeader(&buffer_img);
 }
 
-void SaveLoad::save() {
+void SaveLoad::save(std::vector<IplImage> &vect_motion) {
 
-    if(vect_imgs.empty()) {
+    if(vect_motion.empty()) {
         std::cerr << "Can't save the file, empty video.\n";
         return;
     }
@@ -65,7 +65,7 @@ void SaveLoad::save() {
         return;
     }
 
-    for (std::vector<IplImage>::iterator i = vect_imgs.begin() ; i != vect_imgs.end(); ++i)
+    for (std::vector<IplImage>::iterator i = vect_motion.begin() ; i != vect_motion.end(); ++i)
     {
         frame = &(*i);
         cvWriteFrame(writer, &(*i));

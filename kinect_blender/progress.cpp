@@ -1,5 +1,6 @@
 #include "progress.h"
 
+// The progress bar, while the program is building the skeleton
 Progress::Progress(QWidget *parent)
     : QWidget(parent)
 {

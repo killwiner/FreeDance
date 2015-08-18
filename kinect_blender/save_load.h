@@ -12,7 +12,7 @@ class SaveLoad
 public:
     explicit SaveLoad();
     void load();
-    void save();
+    void save(std::vector<IplImage>&);
     void make_list(char*); // make a vector from data
 
     IplImage *frame;

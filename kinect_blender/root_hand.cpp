@@ -2,11 +2,15 @@
 
 #include <stdio.h>
 
-Hand::Hand() : Root() {
+Hand::Hand(IplImage *frame_) : Root(frame_) {
 }
 
+// Recherche les mains gauche et droite en partant du côté droit et gauche de l'image
+// Search hands from the sides of the picture
 void Hand::first_search(bool l_r) {
 
+    // right hand
+    // main droite
     if (!l_r == false) {
         for (int x = 0; x < WIDTH; ++x)
             for (int y = 0; y < HEIGHT; ++y)

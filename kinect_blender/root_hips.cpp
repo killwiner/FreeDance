@@ -1,6 +1,6 @@
 #include "root_hips.h"
 
-Hips::Hips() : Root() {
+Hips::Hips(IplImage *frame_) : Root(frame_) {
 }
 
 void Hips::first_search() {

@@ -24,13 +24,14 @@ public slots:
 
 private:
     QTimer *t_Timer;
+    int interval_time = 1000; // interval time between each image
 
 protected:
     TheDevice *thedevice;
-    SaveLoad *motion = NULL;
+    SaveLoad *saveload = NULL;
     Skeleton *skeleton = NULL;
     int width, height;
-    int status;
+    int status; // can be STATUS_KINECT, STATUS_MOTION, STATUS_RECORD, STATUS_SKELETON
 };
 
 enum {

@@ -5,7 +5,7 @@
 
 class Hips : public Root {
 public:
-    explicit Hips();
+    explicit Hips(IplImage*);
     void first_search();
 
 };

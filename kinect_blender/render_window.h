@@ -7,12 +7,12 @@ class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent = 0, TheDevice *thedevice = 0, SaveLoad *motion_ = 0, Skeleton *skeleton_ = 0, int status_ = 0);
+    explicit RenderWindow(QWidget *parent = 0, TheDevice *thedevice = 0, SaveLoad *saveload = 0, Skeleton *skeleton = 0, int const &status_ = 0);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
 
-    void change_status(int s); // change to skeleton view, kinect view, motion view
+    void change_status(int s); // change the render to skeleton view, kinect view, motion view
 
 private:
 
@@ -21,12 +21,9 @@ private:
     QMessageBox *message = NULL;
     int timer = 0, count_d = 10;
 
-    GLuint gl_depth_tex, gl_rgb_tex;
+    GLuint gl_depth_tex;
 
-    std::vector<IplImage>::const_iterator vect_motion, vect_skeleton;
-
-
-
+    std::vector<IplImage>::const_iterator vect_motion_kinect, vect_motion_skeleton;
 };
 
 

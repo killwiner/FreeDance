@@ -6,8 +6,8 @@
 
 #define PI 3.141592654
 
-Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
-float dist(Vect<float> const &u, Vect<float> const &v);
+Vect<float> cross_2D(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
+float lenght(Vect<float> const &u, Vect<float> const &v);
 float normal(Vect<float> const &u);
 
 #endif // MATHS_VECT_H

@@ -19,11 +19,13 @@ MainWindow::~MainWindow()
 
 }
 
+// to exit the program
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::quit();
 }
 
+// to connect the kinect
 void MainWindow::on_actionConnect_triggered()
 {
 
@@ -37,6 +39,7 @@ void MainWindow::on_actionConnect_triggered()
 
 }
 
+// show images from the kinect
 void MainWindow::on_actionRun_triggered()
 {
 
@@ -47,6 +50,7 @@ void MainWindow::on_actionRun_triggered()
         return;
     }
 
+    // first time, we create the opengl window and reajust the win size
     if (!Win) {
         thedevice->start();
 
@@ -63,14 +67,18 @@ void MainWindow::on_actionRun_triggered()
 
 }
 
+// load the motion
 void MainWindow::on_actionLoad_Motion_triggered()
 {
 
+    // movie on pause when it's loading
     if (Win)
         Win->change_pause(true);
 
+    // we load the motion
     saveload.load();
 
+    // first time, we create the opengl window and reajust the win size
     if (!Win) {
 
         Win = new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_MOTION);
@@ -81,33 +89,47 @@ void MainWindow::on_actionLoad_Motion_triggered()
     }
     else
         Win->change_status(STATUS_MOTION);
+
     Win->change_pause(false);
-printf("ICI\n");
+
 }
 
+// save the motion
 void MainWindow::on_actionSave_Motion_triggered()
 {
+    printf("#1#\n");
     if (Win) {
         Win->change_pause(true);
-        saveload.save();
+        if(skeleton.vect_imgs.empty())
+            saveload.save(saveload.vect_imgs);
+        else {
+                printf("#2#\n");
+            saveload.save(skeleton.vect_imgs);
+        }
     }
 }
 
+// play the motion
 void MainWindow::on_actionRun_Motion_triggered()
 {
-    Win = new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_MOTION);
-    this->setCentralWidget(Win);
-    Win->setFixedSize(640, 480);
-    this->adjustSize();
+    if(!Win) {
+        Win = new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_MOTION);
+        this->setCentralWidget(Win);
+        Win->setFixedSize(640, 480);
+        this->adjustSize();
+    }
+    else
+        Win->change_status(STATUS_MOTION);
     Win->change_pause(false);
-
 }
 
+// pause the play
 void MainWindow::on_actionStop_Motion_triggered()
 {
     Win->change_pause(true);
 }
 
+// record the movie
 void MainWindow::on_actionRecord_triggered()
 {
     QMessageBox *message = new QMessageBox;
@@ -119,28 +141,33 @@ void MainWindow::on_actionRecord_triggered()
     }
 
     if (Win) {
-
         Win->change_status(STATUS_RECORD);
         Win->change_pause(false);
     }
 }
 
+// create a skeleton from the saved motion
 void MainWindow::on_actionCreate_triggered()
 {
 
+    // default filters parameters
     int blue_p = 128;
     int red_p = 32;
 
+    // show the progress bar
     prog = new Progress(NULL);
     prog->show();
 
+    // to set filters parameters values
     WinParam wp(NULL, &blue_p, &red_p);
     wp.exec();
 
+    // create the skeleton
     skeleton.start(prog, blue_p, red_p);
 
     prog->close();
 
+    // show results
     if (!Win) {
 
         Win = new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_SKELETON);
@@ -155,6 +182,7 @@ void MainWindow::on_actionCreate_triggered()
 
 }
 
+// pause on playing
 void MainWindow::on_actionPause_triggered()
 {
     if(thedevice->is_running())

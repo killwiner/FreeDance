@@ -2,6 +2,7 @@
 #define SKELETON_H
 
 #include "root_head.h"
+#include "root_neck.h"
 #include "root_hips.h"
 #include "root_shoulder.h"
 #include "root_hand.h"
@@ -10,33 +11,36 @@
 #include <vector>
 #include "win_size.h"
 
+#define PIXEL_COLOR_BLUE(X, Y) imageData[coord_gbr(Vect<int>(X, Y, 0))]
+#define PIXEL_COLOR_GREEN(X, Y) imageData[coord_gbr(Vect<int>(x, y, 0)) + 1]
+#define PIXEL_COLOR_RED(X, Y) imageData[coord_gbr(Vect<int>(x, y, 0)) + 2]
+
 class Skeleton {
 public:
     explicit Skeleton();
-    void start(Progress *prog, int green_, int blue_);
+    void start(Progress*, int, int);
 
     std::vector<IplImage> vect_imgs;
 
 private:
 
-    std::vector<int> *filt;
-    std::vector<int> surf;
+    std::vector<int> *partition;
+    std::vector<int> id_area;
     IplImage *buffer_img;
     IplImage *frame;
-    int blue, green;
-    float lenght_head_neck, lenght_neck_hips, lenght_neck_shoulder;
+    int blue_color, green_color;
     float offset_z;
 
+    Neck *neck;
     Head *head;
-    Root *neck;
     Hips *hips;
     Shoulder *shoulder_r, *shoulder_l;
     Hand *hand_r, *hand_l;
     Elbow *elbow_r, *elbow_l;
 
-    int comp(Vect<int> const&);
-    void search_human();
-    bool circle_search_human(Vect<int> const&);
+    int id_non_null(Vect<int> const&);
+    void search_partitions();
+    bool fusion(Vect<int> const&);
     void replace(int a, int b);
     void draw_square(int ray, int x_, int y_);
 
@@ -47,5 +51,24 @@ private:
 };
 
 Vect<float> cross(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2);
+
+// retoune l'identifiant de la partition d'un point, même si le point est en dehors de l'image
+// return the area id from the point, even if the point is out from the picture
+inline int Skeleton::id_non_null(Vect<int> const& a) {
+
+    if(is_null(a))
+        return -1;
+
+    return partition->at(coord_gray(a));
+
+}
+
+// tous les points de l'ancienne partition prennent la valeur de l'identifiant de la nouvelle partition
+// all points of the old area have the value of the identifier of the new area
+inline void Skeleton::replace(int a, int b) {
+    for (int i = 0; i < WIDTH * HEIGHT; ++i)
+        if (partition->at(i) == a)
+            partition->at(i) = b;
+}
 
 #endif // SKELETON_H

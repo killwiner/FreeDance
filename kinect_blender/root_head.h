@@ -5,9 +5,12 @@
 
 class Head : public Root {
 public:
-    explicit Head();
-    void first_search(Vect<float> &);
+    explicit Head(IplImage*);
+    Vect<float> first_search();
+    void bone(Vect<float> const&);
 
+private:
+    float lenght_head_neck;
 };
 
 #endif // ROOT_HEAD_H

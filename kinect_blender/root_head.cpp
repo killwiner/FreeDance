@@ -1,15 +1,16 @@
 #include "root_head.h"
 
-Head::Head() : Root() {
+Head::Head(IplImage *frame_) : Root(frame_) {
 }
 
-void Head::first_search(Vect<float> &neck) {
+Vect<float> Head::first_search() {
 
     Vect<float> v(WIDTH, HEIGHT, 0);
     Vect<float> top(WIDTH, HEIGHT, 0);
     Vect<float> bottom(0, 0, 0);
     Vect<float> left(0, 0, 0);
     Vect<float> right(0, 0, 0);
+    Vect<float> neck(0, 0, 0);
 
     float n = 0, y_l = 0, n_buff = 0, y_l_n = 0;
     bool ch_y = false, top_flag = true;
@@ -32,11 +33,12 @@ void Head::first_search(Vect<float> &neck) {
                     neck.y = y;
                     neck.x = bottom.x;
                     right.y = left.y = top.y + (bottom.y - top.y) / 2;
-                    Vect<float> v_head = cross(left, right, bottom, top);
+                    Vect<float> v_head = cross_2D(left, right, bottom, top);
 
-                    radius = (int)(right.x - left.x);
+                    //radius = (int)(right.x - left.x);
                     p = v_head;
-                    return;
+                    lenght_head_neck = lenght(p, neck);
+                    return neck;
                 }
 
             right.x = right_buff_x;
@@ -82,5 +84,17 @@ void Head::first_search(Vect<float> &neck) {
         }
         ch_y = false;
     }
+
+    lenght_head_neck = lenght(p, neck);
+    return neck;
+}
+
+// keep lenght between head and neck
+void Head::bone(Vect<float> const& vect_neck) {
+
+    Vect<float> u(p.x - vect_neck.x, p.y - vect_neck.y, 0);
+    float k = lenght_head_neck / normal(u);
+    p.x = k * u.x + vect_neck.x;
+    p.y = k * u.y + vect_neck.y;
 }
 

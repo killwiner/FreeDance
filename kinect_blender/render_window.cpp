@@ -1,28 +1,29 @@
 #include "render_window.h"
 
-RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *motion_, Skeleton *skeleton_, int status_)
-    : Render(20, parent, thedevice, motion_, skeleton_, "Kinect Render")
+RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *saveload_, Skeleton *skeleton_, int const &status_)
+    : Render(20, parent, thedevice, saveload_, skeleton_, "Kinect Render")
 {
 
     status = status_;
     width = WIDTH;
     height = HEIGHT;
 
-    vect_motion=motion->vect_imgs.begin();
-    vect_skeleton=skeleton->vect_imgs.begin();
+    // vectors with motion movie or the skeleton movie
+    vect_motion_kinect=saveload->vect_imgs.begin();
+    vect_motion_skeleton=skeleton->vect_imgs.begin();
 
 }
 
+// change to show the kinect motion, the record ...
 void RenderWindow::change_status(int s) {
     status = s;
-    vect_motion=motion->vect_imgs.begin();
-    vect_skeleton=skeleton->vect_imgs.begin();
+    vect_motion_kinect=saveload->vect_imgs.begin();
+    vect_motion_skeleton=skeleton->vect_imgs.begin();
 
 }
 
 void RenderWindow::initializeGL()
 {
-
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glDisable(GL_DEPTH_TEST);
@@ -57,74 +58,77 @@ void RenderWindow::paintGL()
 
     if (status == STATUS_KINECT || status == STATUS_RECORD) {
 
-    pthread_mutex_lock(&thedevice->gl_backbuf_mutex);
+        pthread_mutex_lock(&thedevice->gl_backbuf_mutex);
 
-    // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
-    // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
-    if (thedevice->current_format == FREENECT_VIDEO_YUV_RGB) {
-        while (!thedevice->got_depth) {
-            pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
-        }
-    } else {
-        while ((!thedevice->got_depth) && thedevice->requested_format != thedevice->current_format) {
-            pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
-        }
-    }
+        // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
+        // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
+        if (thedevice->current_format == FREENECT_VIDEO_YUV_RGB) {
+         while (!thedevice->got_depth) {
+              pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
+          }
+      } else {
+          while ((!thedevice->got_depth) && thedevice->requested_format != thedevice->current_format) {
+              pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
+          }
+      }
 
-    if (thedevice->requested_format != thedevice->current_format) {
-        pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
-        return;
-    }
+      if (thedevice->requested_format != thedevice->current_format) {
+          pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
+          return;
+      }
 
-    uint8_t *tmp;
+     uint8_t *tmp;
 
-    if (thedevice->got_depth) {
-        tmp = thedevice->depth_front;
-        thedevice->depth_front = thedevice->depth_mid;
-        thedevice->depth_mid = tmp;
-        thedevice->got_depth = 0;
-    }
+      if (thedevice->got_depth) {
+          tmp = thedevice->depth_front;
+          thedevice->depth_front = thedevice->depth_mid;
+          thedevice->depth_mid = tmp;
+          thedevice->got_depth = 0;
+      }
 
-    pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
+      pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      glLoadIdentity();
 
-        glEnable(GL_TEXTURE_2D);
+      glEnable(GL_TEXTURE_2D);
 
-        glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->depth_front);
+      glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
+      glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->depth_front);
 
-        glBegin(GL_TRIANGLE_FAN);
-        glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
-        glTexCoord2f(0, 0); glVertex3f(0,0,0);
-        glTexCoord2f(1, 0); glVertex3f(width,0,0);
-        glTexCoord2f(1, 1); glVertex3f(width,height,0);
-        glTexCoord2f(0, 1); glVertex3f(0,height,0);
-        glEnd();
+      glBegin(GL_TRIANGLE_FAN);
+      glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
+      glTexCoord2f(0, 0); glVertex3f(0,0,0);
+      glTexCoord2f(1, 0); glVertex3f(width,0,0);
+      glTexCoord2f(1, 1); glVertex3f(width,height,0);
+      glTexCoord2f(0, 1); glVertex3f(0,height,0);
+      glEnd();
 
-        if (status == STATUS_RECORD) {
+      if (status == STATUS_RECORD) {
 
-            if(!count_down())
-                return;
+          if(!count_down())
+              return;
 
-            if (!thedevice->is_recording()) {
-                std::vector<IplImage>().swap(motion->vect_imgs);
-                motion->vect_imgs.resize(0);
-                thedevice->record(true);
-            }
+          if (!thedevice->is_recording()) {
 
-            //motion->make_list((char*)&depth[0]);
-            motion->make_list((char*)thedevice->depth_front);
-            memory_info();
+              // reset the vector
+              std::vector<IplImage>().swap(saveload->vect_imgs);
+              saveload->vect_imgs.resize(0);
 
-        }
+              thedevice->record(true);
+          }
+
+          // make the list from the kinect's images
+          saveload->make_list((char*)thedevice->depth_front);
+          // show the free space memory
+          memory_info();
+      }
 
     }
 
     if (status == STATUS_MOTION) {
 
-        if(motion->vect_imgs.empty())
+        if(saveload->vect_imgs.empty())
             return;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -133,7 +137,7 @@ void RenderWindow::paintGL()
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_motion).width, (*vect_motion).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_motion).imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_motion_kinect).width, (*vect_motion_kinect).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_motion_kinect).imageData);
 
         glBegin(GL_TRIANGLE_FAN);
         glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
@@ -143,11 +147,12 @@ void RenderWindow::paintGL()
         glTexCoord2f(0, 1); glVertex3f(0,height,0);
         glEnd();
 
-        if (vect_motion + 1 != motion->vect_imgs.end()) {
-            ++vect_motion;
+        // loop the movie
+        if (vect_motion_kinect + 1 != saveload->vect_imgs.end()) {
+            ++vect_motion_kinect;
         }
         else {
-            vect_motion = motion->vect_imgs.begin();
+            vect_motion_kinect = saveload->vect_imgs.begin();
         }
 
     }
@@ -160,7 +165,7 @@ void RenderWindow::paintGL()
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_skeleton).width, (*vect_skeleton).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_skeleton).imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_motion_skeleton).width, (*vect_motion_skeleton).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_motion_skeleton).imageData);
         glBegin(GL_TRIANGLE_FAN);
         glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
         glTexCoord2f(0, 0); glVertex3f(0,0,0);
@@ -169,16 +174,15 @@ void RenderWindow::paintGL()
         glTexCoord2f(0, 1); glVertex3f(0,height,0);
         glEnd();
 
-        if (vect_skeleton + 1 != skeleton->vect_imgs.end())
-            ++vect_skeleton;
+        // loop the movie
+        if (vect_motion_skeleton + 1 != skeleton->vect_imgs.end())
+            ++vect_motion_skeleton;
         else
-            vect_skeleton = skeleton->vect_imgs.begin();
-
+            vect_motion_skeleton = skeleton->vect_imgs.begin();
     }
-
-
 }
 
+// return false when the count_down finish
 bool RenderWindow::count_down() {
 
     if(!count_d)
@@ -208,23 +212,14 @@ bool RenderWindow::count_down() {
 
     --count_d;
     return false;
-
 }
 
-
+// show in a window the free memory
 void RenderWindow::memory_info() {
-
-    // show a new memory info box
-    //if (!message_memory) {
-    //    message_memory = new QMessageBox;
-    //    message_memory->setStandardButtons(QMessageBox::Yes);
-    //    message_memory->setDefaultButton(QMessageBox::Yes);
-    //    message_memory->show();
-    //}
 
     // save capture in the file
     if(message->clickedButton()) {
-        motion->save();
+        saveload->save(saveload->vect_imgs);
         status = STATUS_KINECT;
         thedevice->record(false);
     }
@@ -272,5 +267,4 @@ void RenderWindow::memory_info() {
         message->setText(str.c_str());
         message->update();
     }
-
 }

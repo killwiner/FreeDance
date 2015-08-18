@@ -5,8 +5,8 @@
 
 class Elbow : public Root {
 public:
-    explicit Elbow();
-    void first_search(Vect<float> shoulder, Vect<float> shoulder_to_hand);
+    explicit Elbow(IplImage*);
+    void first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand);
 
 };
 
