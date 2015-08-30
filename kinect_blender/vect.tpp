@@ -65,7 +65,7 @@ bool is_null(Vect<T> const &a) {
 
 template <typename T>
 bool control(Vect<T> const &a) {
-    if(a.x > a.width || a.y > a.height || a.x < 0 || a.y < 0)
+    if(a.x >= a.width || a.y >= a.height || a.x < 0 || a.y < 0)
         return true;
 
     return false;

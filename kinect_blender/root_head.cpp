@@ -6,83 +6,117 @@ Head::Head(IplImage *frame_) : Root(frame_) {
 Vect<float> Head::first_search() {
 
     Vect<float> v(WIDTH, HEIGHT, 0);
-    Vect<float> top(WIDTH, HEIGHT, 0);
-    Vect<float> bottom(0, 0, 0);
+    Vect<float> top(WIDTH, HEIGHT, 0); // the coordinates of the uppermost point on the head
+    Vect<float> bottom(0, 0, 0); // the coordinates of the lowest point on the head
     Vect<float> left(0, 0, 0);
     Vect<float> right(0, 0, 0);
     Vect<float> neck(0, 0, 0);
 
-    float n = 0, y_l = 0, n_buff = 0, y_l_n = 0;
-    bool ch_y = false, top_flag = true;
+    float web_surface = 0, web_width = 0, web_surface_last = 0, num_webs = 0;
+    bool top_flag = true, start = false;
     float n_top_x = 0, n_bottom_x = 0;
-    float left_buff_x = WIDTH, right_buff_x = 0;
+    float left_last_x = WIDTH, right_last_x = 0;
 
+    // recherche verticale de haut vers le bas dans l'image
+    // search from up to down in the picture
     for(float y = 0; y < HEIGHT; ++y) {
-        ch_y = true;
 
-        if (y_l == 8) {
+        // every m_lines lines
+        // toutes les m_lines lines
+        if (web_width >= m_lines && start) {
+
+            // fin du calcul de la moyenne horizontale du haut de la tête
+            // end of averaging the horizontal top of the head
             top_flag = false;
-            y_l = 0;
-            ++y_l_n;
 
-            if (n > n_buff * 1.3 && y_l_n > 4) {
+            // calcule à nouveau la largeur de la nouvelle bande
+            // Calculate the new bandwidth again
+            web_width = 0;
 
-                    bottom.y = y - 8;
-                    top.x = top.x / n_top_x;
-                    bottom.x = bottom.x / n_bottom_x;
+            // num_webs is the number of bands with width = m_lines
+            ++num_webs;
+
+            // if the web is growing more than 13% and we exceeded 6 bands
+            // is la bande est plus importante de 13% que la précédente et que nous avons dépassé les 6 bandes
+            if (web_surface > web_surface_last * 1.3 && num_webs > 4) {
+
+                    bottom.y = y - m_lines;
+                    if(n_top_x == 0)
+                        top.x = 0;
+                    else
+                        top.x = top.x / n_top_x;
+
+                    if(n_bottom_x == 0)
+                        bottom.x = 0;
+                    else
+                        bottom.x = bottom.x / n_bottom_x;
                     neck.y = y;
                     neck.x = bottom.x;
                     right.y = left.y = top.y + (bottom.y - top.y) / 2;
-                    Vect<float> v_head = cross_2D(left, right, bottom, top);
+                    p = cross_2D(left, right, bottom, top);
 
-                    //radius = (int)(right.x - left.x);
-                    p = v_head;
                     lenght_head_neck = lenght(p, neck);
                     return neck;
                 }
 
-            right.x = right_buff_x;
-            left.x = left_buff_x;
+            right.x = right_last_x;
+            left.x = left_last_x;
 
-            n_buff = n;
-            n = 0;
+            web_surface_last = web_surface;
+            web_surface = 0;
 
             bottom.x = 0;
             n_bottom_x = 0;
         }
 
+        // Recherche le long de la ligne X
+        // Search along the line X
         for(float x = 0; x < WIDTH; ++x) {
-            if (frame->imageData[(int)(coord_gbr<int>(Vect<int>(x, y, 0)) + 2)]) {
 
+            // Si le pixel est sur la partition recherchée
+            // If the point is on the right area
+            if (frame->PIXEL_COLOR_RED(x, y)) {
+
+                if (start == false)
+                    web_width = 0;
+
+                start = true;
+
+                // v take the point coordinates
+                // v prend les coordonnées du point
                 v.x = x;
                 v.y = y;
 
-                if(v.x < left_buff_x)
-                    left_buff_x = v.x;
+                // on décalle left_last_x encore plus à gauche
+                // we move left_last_x more to the left
+                if(v.x < left_last_x)
+                    left_last_x = v.x;
 
-                if(v.x > right_buff_x)
-                    right_buff_x = v.x;
+                // on décalle right_last_x encore plus à droite
+                // we move right_last_x more to the right
+                if(v.x > right_last_x)
+                    right_last_x = v.x;
 
+                // take the uppermost y coordinates for the point 'top'
+                // 'top' prend les coordonnées les plus hautes y
                 if(is_null<float>(top))
                     top.y = y;
 
-                    if (top_flag == true) {
-                        top.x += v.x;
-                        ++n_top_x;
-                    }
+                // tant qu'on se situe dans la première bande on calcule la moyenne horizontale du haut de la tête
+                if (top_flag == true) {
+                    top.x += v.x;
+                    ++n_top_x;
+                }
 
                 bottom.x += v.x;
                 ++n_bottom_x;
 
-                if(ch_y == true) {
-                    ch_y = false;
-                    ++y_l;
-                }
-
-                ++n;
+                // surface de la bande
+                // web surface
+                ++web_surface;
             }
         }
-        ch_y = false;
+        ++web_width;
     }
 
     lenght_head_neck = lenght(p, neck);

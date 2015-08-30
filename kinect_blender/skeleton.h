@@ -11,10 +11,6 @@
 #include <vector>
 #include "win_size.h"
 
-#define PIXEL_COLOR_BLUE(X, Y) imageData[coord_gbr(Vect<int>(X, Y, 0))]
-#define PIXEL_COLOR_GREEN(X, Y) imageData[coord_gbr(Vect<int>(x, y, 0)) + 1]
-#define PIXEL_COLOR_RED(X, Y) imageData[coord_gbr(Vect<int>(x, y, 0)) + 2]
-
 class Skeleton {
 public:
     explicit Skeleton();
@@ -30,6 +26,7 @@ private:
     IplImage *frame;
     int blue_color, green_color;
     float offset_z;
+    Vect<long int> centroid;
 
     Neck *neck;
     Head *head;
@@ -37,9 +34,12 @@ private:
     Shoulder *shoulder_r, *shoulder_l;
     Hand *hand_r, *hand_l;
     Elbow *elbow_r, *elbow_l;
+    long int surface;
 
     int id_non_null(Vect<int> const&);
     void search_partitions();
+    void search_human(Vect<int>);
+    int scan_pixel(Vect<int>);
     bool fusion(Vect<int> const&);
     void replace(int a, int b);
     void draw_square(int ray, int x_, int y_);

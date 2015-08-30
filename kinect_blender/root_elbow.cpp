@@ -7,6 +7,15 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
 
     Vect<float> shoulder_to_hand = vect_hand - vect_shoulder;
 
+    if(vect_hand.x == vect_shoulder.x || vect_hand.y == vect_shoulder.y)
+        try {
+            throw std::string("Division by 0 in root_elbow.");
+        }
+        catch(std::string const& str) {
+            std::cerr << str << std::endl;
+            return;
+        }
+
     Vect<float> v(0, 0, 0);
     Vect<float> w(0, 0, 0);
 
@@ -19,12 +28,12 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
     u += shoulder_to_hand / 2.0f;
 
     while(!control<float>(u + w)) {
-        if (frame->imageData[(int)(coord_gbr(u + w) + 2)]) {
+        if (frame->PIXEL_COLOR_RED_VECT(u + v)) {
             p = u + w;
             return;
         }
 
-        if (frame->imageData[(int)(coord_gbr(u - w) + 2)]) {
+        if (frame->PIXEL_COLOR_RED_VECT(u - v)) {
             p = u - w;
             return;
         }

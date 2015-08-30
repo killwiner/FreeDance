@@ -1,5 +1,4 @@
 #include "root.h"
-#include <stdio.h>
 
 Root::Root(IplImage *frame_) : frame(frame_) {
 }
@@ -61,8 +60,8 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
 
             // We are out of the right zone
             // Nous sommes en dehors de la partition
-            if (!frame->imageData[coord_gbr<float>(v) + 2]) {
-                frame->imageData[coord_gbr<float>(v) + 1] = 255;
+            if (!frame->PIXEL_COLOR_RED_VECT(v)) {
+                frame->PIXEL_COLOR_GREEN_VECT(v) = 255;
 
                 ++black_ray;
 
@@ -73,8 +72,8 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
             // We draw rays in a white color
             // Nous dessinons les rayons en blanc
             else {
-                frame->imageData[coord_gbr<float>(v)] = 255;
-                frame->imageData[coord_gbr<float>(v) + 1] = 255;
+                frame->PIXEL_COLOR_BLUE_VECT(v) = 255;
+                frame->PIXEL_COLOR_GREEN_VECT(v) = 255;
             }
 
             // we stop the loop when the arc out of the right area is bigger than black_arc
@@ -88,7 +87,6 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
         }
     }
 
-    int i = 0;
     Vect<float> r(0, 0, 0);
 
     // for all rays, *it is the weight
@@ -97,11 +95,8 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
 
         // r is the vector to move the root into the right area with a speed proportional to the weight
         // r est le vecteur de déplacement du noeud vers l'intérieur de la partition avec une vitesse proportionnelle au poids
-
-        r.x -= (float)*it / (float)nbr_rays * cosf((float)i * PI * 2 / (float)nbr_rays);
-        r.y -= (float)*it / (float)nbr_rays * sinf((float)i * PI * 2 / (float)nbr_rays);
-
-        ++i;
+        r.x -= (float)*it / (float)nbr_rays * cosf((float)(it - vect_rays.begin()) * PI * 2 / (float)nbr_rays);
+        r.y -= (float)*it / (float)nbr_rays * sinf((float)(it - vect_rays.begin()) * PI * 2 / (float)nbr_rays);
     }
 
     p += r;

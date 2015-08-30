@@ -1,4 +1,5 @@
 #include "skeleton.h"
+#include <stdio.h>
 
 void Skeleton::search_partitions() {
 
@@ -39,6 +40,102 @@ void Skeleton::search_partitions() {
                 id_area.push_back(1);
             }
         }
+
+}
+
+void Skeleton::search_human(Vect<int> v) {
+
+    int a0 = scan_pixel(v);
+
+    int a1 = scan_pixel(Vect<int> (v.x - 1, v.y - 1, 0));
+    int a2 = scan_pixel(Vect<int> (v.x, v.y -1, 0));
+    int a3 = scan_pixel(Vect<int> (v.x + 1, v.y - 1, 0));
+    int a4 = scan_pixel(Vect<int> (v.x + 1, v.y, 0));
+    int a5 = scan_pixel(Vect<int> (v.x + 1, v.y + 1, 0));
+    int a6 = scan_pixel(Vect<int> (v.x, v.y + 1, 0));
+    int a7 = scan_pixel(Vect<int> (v.x - 1, v.y + 1, 0));
+    int a8 = scan_pixel(Vect<int> (v.x - 1, v.y, 0));
+
+    if(a1 <= 0 && a2 <= 0 && a3 <= 0 && a4 <= 0 && a5 <= 0 && a6 <= 0 && a7 <= 0 && a8 <= 0)
+        return;
+/*
+    if(a1 == 1)
+        printf("a1 : %d %d\n", v.x, v.y);
+    if(a2 == 1)
+        printf("a2 : %d %d\n", v.x, v.y);
+    if(a3 == 1)
+        printf("a3 : %d %d\n", v.x, v.y);
+    if(a4 == 1)
+        printf("a4 : %d %d\n", v.x, v.y);
+    if(a5 == 1)
+        printf("a5 : %d %d\n", v.x, v.y);
+    if(a6 == 1)
+        printf("a6 : %d %d\n", v.x, v.y);
+    if(a7 == 1)
+        printf("a7 : %d %d\n", v.x, v.y);
+    if(a8 == 1)
+        printf("a8 : %d %d\n", v.x, v.y);
+*/
+
+    if(a1 == 1)
+        search_human(Vect<int> (v.x - 1, v.y - 1, 0));
+
+    if(a2 == 1)
+        search_human(Vect<int> (v.x, v.y - 1, 0));
+
+    if(a3 == 1)
+        search_human(Vect<int> (v.x + 1, v.y - 1, 0));
+
+    if(a4 == 1)
+        search_human(Vect<int> (v.x + 1, v.y, 0));
+
+    if(a5 == 1)
+        search_human(Vect<int> (v.x + 1, v.y + 1, 0));
+
+    if(a6 == 1)
+        search_human(Vect<int> (v.x, v.y + 1, 0));
+
+    if(a7 == 1)
+        search_human(Vect<int> (v.x - 1, v.y + 1, 0));
+
+    if(a8 == 1)
+        search_human(Vect<int> (v.x - 1, v.y, 0));
+
+}
+
+int Skeleton::scan_pixel(Vect<int> v) {
+
+    if(control<int>(v)) {
+
+        return -1;
+    }
+
+
+    if(partition->at(coord_gray<int>(v)) == 1)
+        if (((uint8_t)buffer_img->imageData[coord_gbr<int>(v)] <= green_color)
+        && ((uint8_t)buffer_img->imageData[coord_gbr<int>(v) + 1] >= 255 - blue_color))
+            return -1;
+
+    if(partition->at(coord_gray<int>(v)) == 0) {
+
+        if (((uint8_t)buffer_img->imageData[coord_gbr<int>(v)] <= green_color)
+        && ((uint8_t)buffer_img->imageData[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
+
+            partition->at(coord_gray<int>(v)) = 1;
+            centroid.x += (long int)v.x;
+            centroid.y += (long int)v.y;
+            ++surface;
+
+            // the human area is colored
+            // La partition représentant l'humain est colorisé
+            frame->PIXEL_COLOR_RED(v.x, v.y) = 255;
+        }
+        else
+            partition->at(coord_gray<int>(v)) = -1;
+    }
+
+    return partition->at(coord_gray<int>(v));
+
 }
 
 // nous tournons autour du point v et cherchons à fusionner les partitions qui se juxtaposent

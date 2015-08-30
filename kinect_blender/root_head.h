@@ -11,6 +11,7 @@ public:
 
 private:
     float lenght_head_neck;
+    int m_lines = 8; // every m_lines lines, ch_y turn to true
 };
 
 #endif // ROOT_HEAD_H

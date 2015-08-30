@@ -10,6 +10,19 @@ void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &ve
     vect_neck = vect_neck_;
     neck_to_hips = vect_hips_ - vect_neck;
 
+    if(vect_hips_.x == vect_neck.x || vect_hips_.y == vect_neck.y)
+        try {
+            throw std::string("Division by 0 in root_shoulder.");
+        }
+        catch(std::string const& str) {
+            std::cerr << str << std::endl;
+            return;
+        }
+
+    // is it the left shoulder or the right shoulder ?
+    // s'agit-il de l'épaule droite ou de l'épaule gauche ?
+    // nous pivotons le vecteur de PI/2 dans le sens direct ou indirect, suivant s'il s'agit de l'épaule gauche ou droite
+    // we rotate the vector of PI / 2 in the direct or indirect way, following the case of the left or right shoulder
     if(!l_r)
         v = quick_rot(neck_to_hips, 0);
     else
@@ -20,8 +33,10 @@ void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &ve
 
     u += neck_to_hips / (float)14.0;
 
+    // A partir du point u, nous cherchons à sortir de la zone rouge, une fois la zone noire trouvée, nous sommes alors sur l'épaule
+    // From the point u, we try to exit from the red area, once found the black area, then we are on the shoulder
     while(!control<float>(u)) {
-        if (!(frame->imageData[(int)(coord_gbr(u) + 2)]))
+        if (!(frame->PIXEL_COLOR_RED_VECT(u)))
             break;
         u += i;
     }
