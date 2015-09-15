@@ -128,7 +128,6 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
                     //frame->PIXEL_COLOR_GREEN(x, y) = 0;
                     //frame->PIXEL_COLOR_RED(x, y) = 0;
 
-
                     if(partition->at(coord_gray(Vect<int>(x, y, 0))) == max - id_area.begin()) {
 
                         // the human area is colored
@@ -175,14 +174,37 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             shoulder_l->first_search(neck->p, hips->p, true);
             hand_r->first_search(false);
             hand_l->first_search(true);
-            //elbow_r->first_search(shoulder_r->p, hand_r->p - shoulder_r->p);
-            //elbow_l->first_search(shoulder_l->p, hand_l->p - shoulder_l->p);
+
+            elbow_r->first_search(shoulder_r->p, hand_r->p);
+            elbow_l->first_search(shoulder_l->p, hand_l->p);
 
             // on considère le bassin comme le référentiel 0 pour la profondeur
             // hips are the reference for the deep as 0
             offset_z = frame->imageData[coord_gbr(Vect<int>(hips->p.x, hips->p.y, 0))];
 
         }
+
+        //if(!control<float>(elbow_l->p))
+        //    draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
+
+        // search new positions for roots
+        // recherche les nouvelles coordonnées des noeuds
+        hips->search(frame, 25, 16);
+        head->search(frame, 200, 16);
+        neck->search(frame, 40, 16);
+        neck->bone();
+        head->bone(neck->p);
+        shoulder_r->search(frame, 25, 16);
+        shoulder_r->bone();
+        shoulder_l->search(frame, 25, 16);
+        shoulder_l->bone();
+        hand_r->search(frame, 25, 16);
+        //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
+        hand_l->search(frame, 25, 16);
+        //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
+
+        elbow_r->search(frame, shoulder_r->p, hand_r->p, hips->p);
+        elbow_l->search(frame, shoulder_l->p, hand_l->p, hips->p);
 
         // draw roots
         if(!control<float>(hips->p))
@@ -206,27 +228,12 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         if(!control<float>(hand_l->p))
             draw_square(10, (int)hand_l->p.x, (int)hand_l->p.y);
 
-        //if(!control<float>(elbow_r->p))
-        //    draw_square(10, (int)elbow_r->p.x, (int)elbow_r->p.y);
+        if(!control<float>(elbow_r->p))
+            draw_square(10, (int)elbow_r->p.x, (int)elbow_r->p.y);
 
-        //if(!control<float>(elbow_l->p))
-        //    draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
+        if(!control<float>(elbow_l->p))
+            draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
 
-        // search new positions for roots
-        // recherche les nouvelles coordonnées des noeuds
-        hips->search(frame, 25, 16);
-        head->search(frame, 200, 16);
-        neck->search(frame, 40, 16);
-        neck->bone();
-        head->bone(neck->p);
-        shoulder_r->search(frame, 25, 16);
-        shoulder_r->bone();
-        shoulder_l->search(frame, 25, 16);
-        shoulder_l->bone();
-        hand_r->search(frame, 25, 16);
-        //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-        hand_l->search(frame, 25, 16);
-        //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
         vect_imgs.push_back(*frame);

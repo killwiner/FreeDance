@@ -23,3 +23,15 @@ float lenght(Vect<float> const &u, Vect<float> const &v) {
 float normal(Vect<float> const &u) {
     return sqrt(u.x * u.x + u.y * u.y + u.z * u.z);
 }
+
+Vect<float> cross_product(Vect<float> const &u, Vect<float> const &v) {
+    return Vect<float>(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x);
+}
+
+Vect<float> matrix_3_3_product_1_3(Vect< Vect<float> > const &u, Vect<float> const &v) {
+    Vect<float> r;
+    r.x = u.x.x * v.x + u.x.y * v.y + u.x.z * v.z;
+    r.y = u.y.x * v.x + u.y.y * v.y + u.y.z * v.z;
+    r.z = u.z.x * v.x + u.z.y * v.y + u.z.z * v.z;
+    return r;
+}

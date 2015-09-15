@@ -22,17 +22,19 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
     // black_ray, nombre de points le long du rayon et en dehors de la partition
     int black_ray = 0;
 
+    bool black_ray_buff = false;
+
     //teta is the ray's angle
     // teta représente l'angle du rayon
     float teta = 0;
 
     // vect_rays, vector with weight of rays. A ray is heavy when it's very out from the right area
-    // vect_rays, vecteur comprenant les poids des rayons. Un rayond est de poid ford lorsqu'il est très en dehors de la partition
+    // vect_rays, vecteur comprenant les poids des rayons. Un rayon est de poid ford lorsqu'il est très en dehors de la partition
     std::vector<int> vect_rays(nbr_rays, 0);
 
     // We explore all points along the ray
     // Nous testons tous les points situés sur le rayon
-    for(float ray = 1.0f; ray < radius; ++ray) {
+    for(float ray = 1.0f; ray < radius || !black_ray_buff; ++ray) {
 
         black_ray = 0;
 
@@ -68,13 +70,20 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
                 // the ray(j) is turning more heavy
                 // le rayon(j) devient plus lours
                 vect_rays.at(j) += 1;
+
             }
             // We draw rays in a white color
             // Nous dessinons les rayons en blanc
             else {
+
+                black_ray_buff = true;
                 frame->PIXEL_COLOR_BLUE_VECT(v) = 255;
                 frame->PIXEL_COLOR_GREEN_VECT(v) = 255;
             }
+
+            if(!control<float>(p))
+                if(!frame->PIXEL_COLOR_RED_VECT(v))
+                    continue;
 
             // we stop the loop when the arc out of the right area is bigger than black_arc
             // Lorsque l'arc de cercle en dehors de la partition est suffisemment grand, nous arrêtons la boucle principale
@@ -88,6 +97,16 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc) {
     }
 
     Vect<float> r(0, 0, 0);
+
+    if(!control<float>(p))
+        if(!frame->PIXEL_COLOR_RED_VECT(p))
+            for (std::vector<int>::iterator it = vect_rays.begin(); it != vect_rays.end(); ++it) {
+                if(*it)
+                    if(it - vect_rays.begin() < 16)
+                        vect_rays.at(it - vect_rays.begin() + 16) = 0;
+                    else
+                        vect_rays.at(it - vect_rays.begin()) = 0;
+            }
 
     // for all rays, *it is the weight
     // pour tous les rayons, *it représente le poids

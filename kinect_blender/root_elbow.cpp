@@ -1,4 +1,5 @@
 #include "root_elbow.h"
+#include <stdio.h>
 
 Elbow::Elbow(IplImage *frame_) : Root(frame_) {
 }
@@ -28,15 +29,129 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
     u += shoulder_to_hand / 2.0f;
 
     while(!control<float>(u + w)) {
-        if (frame->PIXEL_COLOR_RED_VECT(u + v)) {
+
+        if (frame->PIXEL_COLOR_RED_VECT(u + w)) {
             p = u + w;
+            lenght_elbow_hand = lenght(p, vect_hand);
             return;
         }
 
-        if (frame->PIXEL_COLOR_RED_VECT(u - v)) {
+        if (frame->PIXEL_COLOR_RED_VECT(u - w)) {
             p = u - w;
+            lenght_elbow_hand = lenght(p, vect_hand);
             return;
         }
         w += h;
+    }
+}
+
+void Elbow::search(IplImage *frame_, Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips) {
+
+    Vect<float> ca = shoulder - hand;
+    Vect<float> w = ca / normal(ca);
+    Vect<float> u(0, 0, 0);
+    float epsilone = .001f;
+
+    frame = frame_;
+
+    if(w.x == .0f && w.y == .0f)
+        return;
+
+    u.y = -w.x / (sqrt(w.x * w.x + w.y * w.y));
+
+    if(w.x == .0f)
+        return;
+
+    u.x = -w.y * u.y / w.x;
+    u.z = .0f;
+    Vect<float> v = cross_product(u, w);
+
+    if(u.x == .0f)
+        return;
+
+    float gamma_v = u.x / (u.x * v.y - v.x * u.y);
+    float gamma_w = u.x / (u.x * w.y - w.x * u.y);
+    float lambda = gamma_w * w.z - gamma_v * v.z;
+
+    Vect < Vect < float > > p1(Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f));
+    Vect < Vect < float > > p2(Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f));
+
+    p1.x.x = u.x;
+    p1.x.y = u.y;
+    p1.x.z = u.z;
+    p1.y.x = v.x;
+    p1.y.y = v.y;
+    p1.y.z = v.z;
+    p1.z.x = w.x;
+    p1.z.y = w.y;
+    p1.z.z = w.z;
+
+    if(lambda == .0f)
+        return;
+
+    if(v.x * v.x > epsilone || v.y * v.y > epsilone) {
+
+        p2.x.x = 1/u.x + (v.x * gamma_v * u.y / (u.x * u.x) + (gamma_v * v.z * u.y) * (gamma_v * v.x - gamma_w * w.x) / ((u.x * u.x) * lambda));
+        p2.x.y = -gamma_v * gamma_v * u.y * v.z / (lambda * u.x) - gamma_v * u.y / u.x;
+        p2.x.z = u.y * gamma_v * gamma_w * v.z / (u.x * lambda);
+        p2.y.x = -v.x * gamma_v / u.x + (gamma_v * v.z) * (gamma_w * w.x - gamma_v * v.x) / (u.x * lambda);
+        p2.y.y = gamma_v + gamma_v * gamma_v * v.z / lambda;
+        p2.y.z = -gamma_w * gamma_v * v.z / lambda;
+        p2.z.x = (gamma_v * v.x - gamma_w * w.x) / (u.x * lambda);
+        p2.z.y = -gamma_v / lambda;
+        p2.z.z = gamma_w / lambda;
+    }
+    else {
+        p2.x.x = 1/u.x + gamma_w * u.y * w.x / (u.x * u.x);
+        p2.x.y = gamma_w * u.y * w.z / u.x;
+        p2.x.z = -gamma_w * u.y / u.x;
+        p2.y.x = -gamma_w * w.x / u.x;
+        p2.y.y =.0f;
+        p2.y.z = gamma_w;
+        p2.z.x = .0f;
+        p2.z.y = 1.0f;
+        p2.z.z = .0f;
+    }
+
+//    printf("%f %f %f\n", p.x.x * u.x + p.x.y * v.x + p.x.z * w.x, p.y.x * u.x + p.y.y * v.x + p.y.z * w.x, p.z.x * u.x + p.z.y * v.x + p.z.z * w.x);
+//    printf("%f %f %f\n", p.x.x * u.y + p.x.y * v.y + p.x.z * w.y, p.y.x * u.y + p.y.y * v.y + p.y.z * w.y, p.z.x * u.y + p.z.y * v.y + p.z.z * w.y);
+//    printf("%f %f %f\n", p.x.x * u.z + p.x.y * v.z + p.x.z * w.z, p.y.x * u.z + p.y.y * v.z + p.y.z * w.z, p.z.x * u.z + p.z.y * v.z + p.z.z * w.z);
+
+    float ray = lenght_elbow_hand * lenght_elbow_hand - (ca.x * ca.x + ca.y * ca.y) / 4;
+    if (ray <= .0f)
+        return;
+    ray = sqrt(ray);
+
+    Vect<float> n = cross_product(p - shoulder, hips - shoulder);
+    n = n / normal(n);
+    n = matrix_3_3_product_1_3(p1, n);
+
+    float t, at;
+
+    Vect<float> r(.0f, .0f, .0f);
+    bool start_r = false;
+
+    if(n.x == .0f) {
+        for(t = asin(-n.y); t < 2 * PI; t += PI / 10.0f)
+            get_circle(shoulder, ray, t, p2, ca, start_r, r);
+        p = r;
+    }
+    if(n.x > .0f) {
+        at = atan(-n.y / n.x);
+        for(t = (at <= .0f ? .0f : at); t < PI; t += PI / 10.0f)
+            get_circle(shoulder, ray, t, p2, ca, start_r, r);
+        p = r;
+        for(t = PI; t < (at <= 2 * PI ? at : 2 * PI); t += PI / 10.0f)
+            get_circle(shoulder, ray, t, p2, ca, start_r, r);
+        p = r;
+    }
+    if(n.x < .0f) {
+        at = atan(-n.y / n.x);
+        for(t = 0; t < (at < PI ? at : PI); t += PI / 10.0f)
+            get_circle(shoulder, ray, t, p2, ca, start_r, r);
+        p = r;
+        for(t = (at <= PI ? PI : at); t < 2 * PI; t += PI / 10.0f)
+            get_circle(shoulder, ray, t, p2, ca, start_r, r);
+        p = r;
     }
 }
