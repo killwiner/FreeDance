@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include "render_window.h"
 #include "skeleton.h"
+#include "export_motion.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,8 @@ private slots:
     void on_actionCreate_triggered(); // create the skeleton from the file
 
     void on_actionPause_triggered(); // pause on the motion
+
+    void on_actionExport_to_blender_2_triggered();
 
 private:
     Ui::MainWindow *ui;

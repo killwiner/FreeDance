@@ -91,3 +91,12 @@ Vect<T> quick_rot(Vect<T> v, int r) {
     }
     return v;
 }
+
+template <typename T>
+Vect<T> Vect<T>::clone() {
+    Vect<T> c;
+    c.x = this.x;
+    c.y = this.y;
+    c.z = this.z;
+    return c;
+}

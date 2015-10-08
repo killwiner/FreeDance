@@ -9,6 +9,8 @@ public:
     Vect<float> first_search();
     void bone(Vect<float> const&);
 
+    Vect<float> s;
+
 private:
     float lenght_head_neck;
     int m_lines = 8; // every m_lines lines, ch_y turn to true

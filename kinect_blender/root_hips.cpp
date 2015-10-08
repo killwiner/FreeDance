@@ -8,6 +8,8 @@ void Hips::first_search() {
     int x, y;
     int x_l = 0, x_r = 0;
 
+    s = Vect<float>(0.000000, 9.236752, 0.030254);
+
     // nous cherchons à partir de la ligne la plus basse le premier pixel rouge en partant de la gauche vers la droite
     // We seek from the lowest line the first red pixel from left to right
     for(x = 0; x < WIDTH; ++x)

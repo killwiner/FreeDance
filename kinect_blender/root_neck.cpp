@@ -4,6 +4,7 @@ Neck::Neck(IplImage *frame_) : Root(frame_) {
 }
 
 void Neck::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_) {
+    s = Vect<float>(0.000000, 3.427901, 0.401210);
     p = vect_neck_;
     vect_hips = vect_hips_;
     lenght_neck_hips = lenght(p, vect_hips);

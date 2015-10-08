@@ -9,6 +9,8 @@ public:
     void first_search(Vect<float> const&, Vect<float> const&);
     void bone();
 
+    Vect<float> s;
+
 private:
     float lenght_neck_hips;
     Vect<float> vect_hips;

@@ -17,6 +17,8 @@ Vect<float> Head::first_search() {
     float n_top_x = 0, n_bottom_x = 0;
     float left_last_x = WIDTH, right_last_x = 0;
 
+    s = Vect<float>(0.000000, 1.094051, -0.084560);
+
     // recherche verticale de haut vers le bas dans l'image
     // search from up to down in the picture
     for(float y = 0; y < HEIGHT; ++y) {

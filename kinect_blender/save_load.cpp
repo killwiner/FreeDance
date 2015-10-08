@@ -4,9 +4,9 @@
 SaveLoad::SaveLoad() : capture(0), frame(0){
 }
 
-void SaveLoad::load() {
+void SaveLoad::load(const QString &fileName) {
 
-    capture = cvCaptureFromAVI("tmp/kinect_video_2.avi"); // read AVI video
+    capture = cvCaptureFromAVI(fileName.toStdString().c_str()); // read AVI video
     if( !capture ) {
         std::cerr << "Can't open the file.\n";
         return;

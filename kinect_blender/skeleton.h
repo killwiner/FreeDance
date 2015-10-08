@@ -18,6 +18,13 @@ public:
 
     std::vector<IplImage> vect_imgs;
 
+    Neck *neck;
+    Head *head;
+    Hips *hips;
+    Shoulder *shoulder_r, *shoulder_l;
+    Hand *hand_r, *hand_l;
+    Elbow *elbow_r, *elbow_l;
+
 private:
 
     std::vector<int> *partition;
@@ -27,13 +34,6 @@ private:
     int blue_color, green_color;
     float offset_z;
     Vect<long int> centroid;
-
-    Neck *neck;
-    Head *head;
-    Hips *hips;
-    Shoulder *shoulder_r, *shoulder_l;
-    Hand *hand_r, *hand_l;
-    Elbow *elbow_r, *elbow_l;
     long int surface;
 
     int id_non_null(Vect<int> const&);

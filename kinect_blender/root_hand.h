@@ -9,6 +9,7 @@ public:
     void first_search(bool l_r);
     void z_axis(float const&);
 
+    Vect<float> s;
 };
 
 inline void Hand::z_axis(const float &z) {

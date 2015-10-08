@@ -5,13 +5,14 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 #include "win_size.h"
+#include <QString>
 
 class SaveLoad
 {
 
 public:
     explicit SaveLoad();
-    void load();
+    void load(const QString &fileName);
     void save(std::vector<IplImage>&);
     void make_list(char*); // make a vector from data
 

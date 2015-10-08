@@ -75,8 +75,10 @@ void MainWindow::on_actionLoad_Motion_triggered()
     if (Win)
         Win->change_pause(true);
 
+    QString fileName = QFileDialog::getOpenFileName(this, "Open Video", "", "Video Files (*.avi)");
+
     // we load the motion
-    saveload.load();
+    saveload.load(fileName);
 
     // first time, we create the opengl window and reajust the win size
     if (!Win) {
@@ -97,15 +99,13 @@ void MainWindow::on_actionLoad_Motion_triggered()
 // save the motion
 void MainWindow::on_actionSave_Motion_triggered()
 {
-    printf("#1#\n");
+
     if (Win) {
         Win->change_pause(true);
         if(skeleton.vect_imgs.empty())
             saveload.save(saveload.vect_imgs);
-        else {
-                printf("#2#\n");
+        else
             saveload.save(skeleton.vect_imgs);
-        }
     }
 }
 
@@ -187,4 +187,11 @@ void MainWindow::on_actionPause_triggered()
 {
     if(thedevice->is_running())
         Win->change_pause(true);
+}
+
+void MainWindow::on_actionExport_to_blender_2_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", "skeleton.bvh", "Motions (*.bvh)");
+    ExportMotion exportmotion;
+    exportmotion.save(fileName, skeleton, 10);
 }

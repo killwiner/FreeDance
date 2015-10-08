@@ -16,7 +16,7 @@
 class Root {
 public:
     explicit Root(IplImage*);
-    virtual void search(IplImage*, float const &, int const &);
+    virtual void search(IplImage*, float const &, int const &, Vect<float>);
 
     Vect<float> p;
 

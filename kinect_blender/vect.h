@@ -12,11 +12,14 @@ public:
     void operator+=(Vect const& a);
     void operator-=(Vect const& a);
 
+    Vect<T> clone();
+
     int width, height;
 
 };
 
 Vect<float> operator/(Vect<float> const& a, float const& s);
+Vect<float> operator*(Vect<float> const& a, float const& s);
 Vect<int> operator+(Vect<int> const& a, Vect<int> const& b);
 Vect<float> operator+(Vect<float> const& a, Vect<float> const& b);
 Vect<int> operator-(Vect<int> const& a, Vect<int> const& b);

@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     vect.cpp \
     root_hand.cpp \
     root_neck.cpp \
-    search_partitions.cpp
+    search_partitions.cpp \
+    export_motion.cpp
 
 HEADERS  += mainwindow.h \
     opkinect.h \
@@ -54,6 +55,7 @@ HEADERS  += mainwindow.h \
     maths_vect.h \
     root_hips.h \
     root_hand.h \
-    root_neck.h
+    root_neck.h \
+    export_motion.h
 
 FORMS    += mainwindow.ui

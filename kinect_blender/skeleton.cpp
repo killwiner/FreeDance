@@ -170,10 +170,10 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             // recherche les noeuds pour la première fois
             hips->first_search();
             neck->first_search(head->first_search(), hips->p);
-            shoulder_r->first_search(neck->p, hips->p, false);
-            shoulder_l->first_search(neck->p, hips->p, true);
-            hand_r->first_search(false);
-            hand_l->first_search(true);
+            shoulder_r->first_search(neck->p, hips->p, true);
+            shoulder_l->first_search(neck->p, hips->p, false);
+            hand_r->first_search(true);
+            hand_l->first_search(false);
 
             elbow_r->first_search(shoulder_r->p, hand_r->p);
             elbow_l->first_search(shoulder_l->p, hand_l->p);
@@ -184,23 +184,24 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         }
 
-        //if(!control<float>(elbow_l->p))
-        //    draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
 
         // search new positions for roots
         // recherche les nouvelles coordonnées des noeuds
-        hips->search(frame, 25, 16);
-        head->search(frame, 200, 16);
-        neck->search(frame, 40, 16);
+        hips->search(frame, 25, 1, Vect<float>(0, 1, 0));
+        head->search(frame, 200, 16, Vect<float>(0, -1, 0));
+
+        neck->search(frame, 40, 16, Vect<float>(0, 0, 0));
         neck->bone();
         head->bone(neck->p);
-        shoulder_r->search(frame, 25, 16);
+
+        shoulder_r->search(frame, 25, 16, Vect<float>(-1, -1, 0));
         shoulder_r->bone();
-        shoulder_l->search(frame, 25, 16);
+        shoulder_l->search(frame, 25, 16, Vect<float>(1, -1, 0));
         shoulder_l->bone();
-        hand_r->search(frame, 25, 16);
+
+        hand_r->search(frame, 25, 24, (hand_r->p - elbow_r->p) / lenght(hand_r->p, elbow_r->p));
         //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-        hand_l->search(frame, 25, 16);
+        hand_l->search(frame, 25, 24, (hand_l->p - elbow_l->p) / lenght(hand_l->p, elbow_l->p));
         //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
         elbow_r->search(frame, shoulder_r->p, hand_r->p, hips->p);
@@ -242,7 +243,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         // don't work :-(
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 10) break;
+        if(i == 10) break;
 
     }
 
