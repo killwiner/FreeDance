@@ -25,6 +25,8 @@ public:
     Hand *hand_r, *hand_l;
     Elbow *elbow_r, *elbow_l;
 
+    int nbr_imgs;
+
 private:
 
     std::vector<int> *partition;

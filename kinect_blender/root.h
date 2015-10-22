@@ -20,6 +20,7 @@ public:
 
     Vect<float> p;
 
+
 protected:
     IplImage *frame;
 

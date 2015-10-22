@@ -2,7 +2,7 @@
 #define MATHS_VECT_H
 
 #include "vect.h"
-#include <math.h>
+#include <cmath>
 
 #define PI 3.141592654
 
@@ -11,5 +11,6 @@ float lenght(Vect<float> const &u, Vect<float> const &v);
 float normal(Vect<float> const &u);
 Vect<float> cross_product(Vect<float> const &u, Vect<float> const &v);
 Vect<float> matrix_3_3_product_1_3(Vect< Vect<float> > const &u, Vect<float> const &v);
+float angle_vects(Vect<float> const &u, Vect<float> const &v);
 
 #endif // MATHS_VECT_H

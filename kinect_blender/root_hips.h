@@ -7,6 +7,7 @@ class Hips : public Root {
 public:
     explicit Hips(IplImage*);
     void first_search();
+    void search(IplImage *, float const &, int const &, Vect<float>);
 
     Vect<float> s;
 };

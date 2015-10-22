@@ -139,10 +139,13 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc, V
             }
             else {
 
-                vec_black_arc.x = -vec_black_arc.x;
-                vec_black_arc.y = -vec_black_arc.y;
-                vec_black_arc.z = -vec_black_arc.z;
-                p += vec_black_arc * normal(r);
+                p.x -= vec_black_arc.x * (radius * nbr_rays - total_black_ray) / (nbr_rays * radius);
+                p.y -= vec_black_arc.y * (radius * nbr_rays - total_black_ray) / (nbr_rays * radius);
+
+                //vec_black_arc.x = -vec_black_arc.x;
+                //vec_black_arc.y = -vec_black_arc.y;
+                //vec_black_arc.z = -vec_black_arc.z;
+                //p += vec_black_arc * normal(r);
 
             }
 }

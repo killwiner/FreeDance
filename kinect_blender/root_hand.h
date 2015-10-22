@@ -8,6 +8,7 @@ public:
     explicit Hand(IplImage*);
     void first_search(bool l_r);
     void z_axis(float const&);
+    void search(IplImage *, float const &, int const &, Vect<float>, Vect<float> elbow);
 
     Vect<float> s;
 };

@@ -8,7 +8,7 @@ void Hips::first_search() {
     int x, y;
     int x_l = 0, x_r = 0;
 
-    s = Vect<float>(0.000000, 9.236752, 0.030254);
+    s = Vect<float>(0.000000, -0.030254, 9.236752);
 
     // nous cherchons à partir de la ligne la plus basse le premier pixel rouge en partant de la gauche vers la droite
     // We seek from the lowest line the first red pixel from left to right
@@ -76,5 +76,43 @@ void Hips::first_search() {
 
     p.x = (float)x_l;
     p.y = (float)y;
+
+}
+
+void Hips::search(IplImage* frame_, float const &radius, int const &black_arc, Vect<float> vec_black_arc) {
+
+    Root::search(frame_, radius, black_arc, vec_black_arc);
+
+    // number of rays, the root is the center
+    // nombre de rayons, le noeud étant le centre
+    int nbr_rays = 32;
+
+    float x1, x2;
+    x1 = x2 = p.x;
+
+    // We explore all rays
+    // Nous testons tous les rayons
+    for(int j = 0; j < nbr_rays; ++j) {
+
+        float teta = (float)j * 2 * PI / (float)nbr_rays;
+
+        // the point v is exploring all top of rays
+        // Le point v explore tous les sommets des rayons
+        Vect<float> v(p.x + radius * cosf(teta), p.y + radius * sinf(teta), 0);
+
+        if(!control<float>(v))
+            if(!frame->PIXEL_COLOR_RED_VECT(v)) {
+                if(x1 > v.x)
+                    x1 = v.x;
+                if(x2 < v.x)
+                    x2 = v.x;
+
+            }
+
+    }
+
+    float dep = (p.x - x1) - (x2 - x1) / 2;
+
+        p.x -= dep;
 
 }

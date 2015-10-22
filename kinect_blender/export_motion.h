@@ -21,7 +21,7 @@ private:
     void close_root(std::ofstream &file);
     int imbricate;
     std::vector< Vect< float > > vect_offset;
-    std::vector< Vect< float > > vect_rot;
+    //std::vector< Vect< float > > vect_rot;
     std::vector<bool> vect_channel;
 };
 

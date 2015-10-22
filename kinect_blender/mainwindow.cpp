@@ -193,5 +193,6 @@ void MainWindow::on_actionExport_to_blender_2_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "skeleton.bvh", "Motions (*.bvh)");
     ExportMotion exportmotion;
-    exportmotion.save(fileName, skeleton, 10);
+
+    exportmotion.save(fileName, skeleton, skeleton.nbr_imgs);
 }

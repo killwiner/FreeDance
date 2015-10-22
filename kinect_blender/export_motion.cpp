@@ -12,66 +12,66 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
     file << std::setprecision(6) << std::fixed; // show 16 digits
     file << "HIERARCHY\n";  
     new_root(file, std::string("ROOT hips"), skel.hips->s, false, true);
-    new_root(file, std::string("JOINT thigh_L"), Vect<float>(1.084882, -0.050324, -0.106374), false, true);
-    new_root(file, std::string("JOINT shin_L"), Vect<float>(0.428269, -4.139606, 0.345176), false, false);
-    new_root(file, std::string("JOINT foot_L"), Vect<float>(0.464369, -4.335489, -0.117003), false, false);
-    new_root(file, std::string("JOINT toe_L"), Vect<float>(0.040782, -0.632070, 1.254991), false, false);
-    new_root(file, std::string("End Site"), Vect<float>(-0.003283, -0.000014, 0.414396), true, false);
+    new_root(file, std::string("JOINT thigh_L"), Vect<float>(1.084882, 0.106374, -0.050324), false, true);
+    new_root(file, std::string("JOINT shin_L"), Vect<float>(0.428269, -0.345176, -4.139606), false, false);
+    new_root(file, std::string("JOINT foot_L"), Vect<float>(0.464369, 0.117003, -4.335488), false, false);
+    new_root(file, std::string("JOINT toe_L"), Vect<float>(0.040781, -1.254992, -0.632071), false, false);
+    new_root(file, std::string("End Site"), Vect<float>(-0.003283, -0.414396, -0.000014), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT thigh_R"), Vect<float>(-1.084882, -0.050324, -0.106374), false, true);
-    new_root(file, std::string("JOINT shin_R"), Vect<float>(-0.428269, -4.139606, 0.345176), false, false);
-    new_root(file, std::string("JOINT foot_R"), Vect<float>(-0.464369, -4.335489, -0.117003), false, false);
-    new_root(file, std::string("JOINT toe_R"), Vect<float>(-0.040782, -0.632070, 1.254991), false, false);
-    new_root(file, std::string("End Site"), Vect<float>(-0.003283, -0.000014, 0.414396), true, false);
+    new_root(file, std::string("JOINT thigh_R"), Vect<float>(-1.084882, 0.106374, -0.050324), false, true);
+    new_root(file, std::string("JOINT shin_R"), Vect<float>(-0.428269, -0.345176, -4.139606), false, false);
+    new_root(file, std::string("JOINT foot_R"), Vect<float>(-0.464369, 0.117003, -4.335488), false, false);
+    new_root(file, std::string("JOINT toe_R"), Vect<float>(-0.040781, -1.254992, -0.632071), false, false);
+    new_root(file, std::string("End Site"), Vect<float>(-0.003283, -0.414396, -0.000014), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT spine"), Vect<float>(0.000000, 1.572143, -0.228833), false, true);
-    new_root(file, std::string("JOINT chest"), Vect<float>(0.000000, 0.599468, -0.087254), false, false);
-    new_root(file, std::string("JOINT clavicle_R"), Vect<float>(-0.227391, 2.683225, 0.803817), false, true);
-    new_root(file, std::string("JOINT upper_arm_R"), Vect<float>(-1.637361, -0.300515, -0.340290), false, false);
-    new_root(file, std::string("JOINT forearm_R"), Vect<float>(-1.657613, -1.898825, -0.021382), false, false);
+    new_root(file, std::string("JOINT spine"), Vect<float>(0.000000, 0.228833, 1.572143), false, true);
+    new_root(file, std::string("JOINT chest"), Vect<float>(0.000000, 0.087254, 0.599468), false, false);
+    new_root(file, std::string("JOINT clavicle_R"), Vect<float>(-0.227391, -0.803817, 2.683225), false, true);
+    new_root(file, std::string("JOINT upper_arm_R"), Vect<float>(-1.637361, 0.340290, -0.300515), false, false);
+    new_root(file, std::string("JOINT forearm_R"), Vect<float>(-1.657613, 0.021382, -1.898825), false, false);
     new_root(file, std::string("JOINT hand_R"), skel.hand_r->s, false, false);
-    new_root(file, std::string("JOINT thumb_02_R"), Vect<float>(0.206955, -0.178245, 0.724975), false, true);
-    new_root(file, std::string("JOINT thumb_03_R"), Vect<float>(0.127764, -0.167897, 0.356682), false, false);
-    new_root(file, std::string("End Site"), Vect<float>(0.119884, -0.195224, 0.345326), true, false);
+    new_root(file, std::string("JOINT thumb_02_R"), Vect<float>(0.206955, -0.234199, -0.708880), false, true);
+    new_root(file, std::string("JOINT thumb_03_R"), Vect<float>(0.127764, -0.047279, -0.391377), false, false);
+    new_root(file, std::string("End Site"), Vect<float>(0.119884, -0.018095, -0.396276), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT f_ring_01_R"), Vect<float>(-0.487513, -0.674685, 0.652110), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(-0.169222, -0.305496, 0.223094), true, false);
+    new_root(file, std::string("JOINT f_ring_01_R"), Vect<float>(-0.487513, 0.225084, -0.910926), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(-0.169222, 0.140269, -0.351316), true, false);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT f_index_01_R"), Vect<float>(-0.254855, -0.437570, 1.037566), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(-0.059301, -0.222196, 0.344743), true, false);
-    close_root(file);
-    close_root(file);
-    close_root(file);
+    new_root(file, std::string("JOINT f_index_01_R"), Vect<float>(-0.254855, -0.180597, -1.111484), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(-0.059301, 0.005064, -0.410113), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT clavicle_L"), Vect<float>(0.227391, 2.683225, 0.803817), false, true);
-    new_root(file, std::string("JOINT upper_arm_L"), Vect<float>(1.637361, -0.300515, -0.340290), false, false);
-    new_root(file, std::string("JOINT forearm_L"), Vect<float>(1.657613, -1.898825, -0.021382), false, false);
+    close_root(file);
+    close_root(file);
+    close_root(file);
+    new_root(file, std::string("JOINT clavicle_L"), Vect<float>(0.227391, -0.803817, 2.683225), false, true);
+    new_root(file, std::string("JOINT upper_arm_L"), Vect<float>(1.637361, 0.340290, -0.300515), false, false);
+    new_root(file, std::string("JOINT forearm_L"), Vect<float>(1.657613, 0.021382, -1.898825), false, false);
     new_root(file, std::string("JOINT hand_L"), skel.hand_l->s, false, false);
-    new_root(file, std::string("JOINT thumb_02_L"), Vect<float>(-0.207201, -0.178106, 0.724951), false, true);
-    new_root(file, std::string("JOINT thumb_03_L"), Vect<float>(-0.127731, -0.167987, 0.356659), false, false);
-    new_root(file, std::string("End Site"), Vect<float>(-0.119884, -0.195224, 0.345326), true, false);
+    new_root(file, std::string("JOINT thumb_02_L"), Vect<float>(-0.207201, -0.236211, -0.708153), false, true);
+    new_root(file, std::string("JOINT thumb_03_L"), Vect<float>(-0.127731, -0.048245, -0.391277), false, false);
+    new_root(file, std::string("End Site"), Vect<float>(-0.119884, -0.019162, -0.396226), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT f_ring_01_L"), Vect<float>(0.487513, -0.674685, 0.652110), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(0.169222, -0.305496, 0.223094), true, false);
+    new_root(file, std::string("JOINT f_ring_01_L"), Vect<float>(0.487513, 0.222631, -0.911529), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(0.169222, 0.139323, -0.351693), true, false);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT f_index_01_L"), Vect<float>(0.254855, -0.437570, 1.037566), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(0.059301, -0.222196, 0.344743), true, false);
+    new_root(file, std::string("JOINT f_index_01_L"), Vect<float>(0.254856, -0.183589, -1.110993), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(0.059301, 0.003960, -0.410126), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
@@ -80,16 +80,16 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
     close_root(file);
     new_root(file, std::string("JOINT neck"), skel.neck->s, false, true);
     new_root(file, std::string("JOINT head"), skel.head->s, false, false);
-    new_root(file, std::string("JOINT jaw"), Vect<float>(0.000000, -0.046073, 0.556994), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(0.000000, -0.290911, 0.295137), true, false);
+    new_root(file, std::string("JOINT jaw"), Vect<float>(0.000000, -0.556994, -0.046074), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(0.000000, -0.295137, -0.290915), true, false);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT eye_R"), Vect<float>(-0.293725, 0.285738, 1.232861), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(-0.039113, -0.028572, 0.411569), true, false);
+    new_root(file, std::string("JOINT eye_R"), Vect<float>(-0.293725, -1.232862, 0.285738), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(-0.039113, -0.411569, -0.028574), true, false);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT eye_L"), Vect<float>(0.293725, 0.285738, 1.232861), false, true);
-    new_root(file, std::string("End Site"), Vect<float>(0.039113, -0.028572, 0.411569), true, false);
+    new_root(file, std::string("JOINT eye_L"), Vect<float>(0.293725, -1.232862, 0.285738), false, true);
+    new_root(file, std::string("End Site"), Vect<float>(0.039113, -0.411569, -0.028574), true, false);
     close_root(file);
     close_root(file);
     close_root(file);
@@ -108,11 +108,23 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
         for(std::vector< Vect< float > >::iterator it = vect_offset.begin(); it != vect_offset.end(); ++it) {
             if(vect_channel.at(it - vect_offset.begin())) {
                 file << it->x << " " << it->y << " " << it->z << " ";
-                file << vect_rot.at(it - vect_offset.begin()).x << " " << vect_rot.at(it - vect_offset.begin()).y << " " << vect_rot.at(it - vect_offset.begin()).z << " ";
+                switch(it - vect_offset.begin()) {
+                case 27:
+
+                    file << skel.head->vect_rot.at(i).x << " " << skel.head->vect_rot.at(i).y << " " << skel.head->vect_rot.at(i).z << " ";
+
+                    break;
+
+                default:
+                    file << "0.000000 0.000000 0.000000 ";
+                }
+
+                //file << it - vect_offset.begin() << " ";
+
             }
-            else {
+            else
                 file << "0.000000 0.000000 0.000000 ";
-            }
+
         }
         file << std::endl;
     }
@@ -124,7 +136,7 @@ void ExportMotion::new_root(std::ofstream &file, std::string const root, const V
 {
     if(!end) {
         vect_offset.push_back(v);
-        vect_rot.push_back(Vect<float>(0.0f, 0.0f, 0.0f));
+        //vect_rot.push_back(Vect<float>(0.0f, 0.0f, 0.0f));
         vect_channel.push_back(offset);
     }
 
