@@ -58,24 +58,6 @@ void Skeleton::search_human(Vect<int> v) {
 
     if(a1 <= 0 && a2 <= 0 && a3 <= 0 && a4 <= 0 && a5 <= 0 && a6 <= 0 && a7 <= 0 && a8 <= 0)
         return;
-/*
-    if(a1 == 1)
-        printf("a1 : %d %d\n", v.x, v.y);
-    if(a2 == 1)
-        printf("a2 : %d %d\n", v.x, v.y);
-    if(a3 == 1)
-        printf("a3 : %d %d\n", v.x, v.y);
-    if(a4 == 1)
-        printf("a4 : %d %d\n", v.x, v.y);
-    if(a5 == 1)
-        printf("a5 : %d %d\n", v.x, v.y);
-    if(a6 == 1)
-        printf("a6 : %d %d\n", v.x, v.y);
-    if(a7 == 1)
-        printf("a7 : %d %d\n", v.x, v.y);
-    if(a8 == 1)
-        printf("a8 : %d %d\n", v.x, v.y);
-*/
 
     if(a1 == 1)
         search_human(Vect<int> (v.x - 1, v.y - 1, 0));

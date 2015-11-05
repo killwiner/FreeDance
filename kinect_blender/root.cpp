@@ -36,7 +36,10 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc, V
 
     // We explore all points along the ray
     // Nous testons tous les points situés sur le rayon
-    for(float ray = 1.0f; ray < radius || !black_ray_buff; ++ray) {
+    for(float ray = 1.0f; ray < radius || !black_ray_buff; ray = ray + 1.0f) {
+
+        if(ray >= radius && !black_ray_buff)
+            break;
 
         total_black_ray += black_ray;
         black_ray = 0;
@@ -131,7 +134,6 @@ void Root::search(IplImage* frame_, float const &radius, int const &black_arc, V
     if(!control<float>(p))
         if(frame->PIXEL_COLOR_RED_VECT(p))
             if(!black_arc_flag) {
-            //if(total_black_ray == 0) {
 
                 p.x += vec_black_arc.x * (radius * nbr_rays - total_black_ray) / (nbr_rays * radius);
                 p.y += vec_black_arc.y * (radius * nbr_rays - total_black_ray) / (nbr_rays * radius);

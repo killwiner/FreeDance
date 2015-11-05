@@ -6,12 +6,17 @@
 class Elbow : public Root {
 public:
     explicit Elbow(IplImage*);
-    void first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand);
+    void first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_);
     void search(IplImage *frame_, Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips);
+    void new_rot(Vect<float> const&, Vect<float> const&);
+
+    std::vector< Vect <float> > vect_rot;
 
 private:
     void get_circle(Vect<float> shoulder, float ray, float t, Vect< Vect <float> > p2, Vect<float> ca, bool &start_r, Vect<float> &r);
     float lenght_elbow_hand;
+    float init_angle;
+    bool l_r;
 };
 
 inline void Elbow::get_circle(Vect<float> shoulder, float ray, float t, Vect< Vect <float> > p2, Vect<float> ca, bool &start_r, Vect<float> &r) {

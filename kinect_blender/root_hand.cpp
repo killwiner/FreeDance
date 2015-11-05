@@ -1,5 +1,4 @@
 #include "root_hand.h"
-#include <iostream>
 
 Hand::Hand(IplImage *frame_) : Root(frame_) {
 
@@ -59,6 +58,5 @@ void Hand::search(IplImage* frame_, float const &radius, int const &black_arc, V
 
         p = p + unit_dep;
 
-        std::cout << "yooo : " << p.x << " " << p.y << " " << p.z << std::endl;
     }
 }

@@ -112,8 +112,12 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
             search_human(v);
 
-            centroid.x = centroid.x / surface;
-            centroid.y = centroid.y / surface;
+            if(surface) {
+                centroid.x = centroid.x / surface;
+                centroid.y = centroid.y / surface;
+            }
+            else
+                centroid.x = centroid.y = 0;
         }
 
         long int s = 0;
@@ -177,12 +181,12 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             hand_r->first_search(true);
             hand_l->first_search(false);
 
-            elbow_r->first_search(shoulder_r->p, hand_r->p);
-            elbow_l->first_search(shoulder_l->p, hand_l->p);
+            elbow_r->first_search(shoulder_r->p, hand_r->p, neck->p, true);
+            elbow_l->first_search(shoulder_l->p, hand_l->p, neck->p, false);
 
             // on considère le bassin comme le référentiel 0 pour la profondeur
             // hips are the reference for the deep as 0
-            offset_z = frame->imageData[coord_gbr(Vect<int>(hips->p.x, hips->p.y, 0))];
+            //offset_z = frame->imageData[coord_gbr(Vect<int>(hips->p.x, hips->p.y, 0))];
 
         }
 
@@ -197,9 +201,9 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             neck->bone();
             head->bone(neck->p);
 
-            shoulder_r->search(frame, 25, 16, Vect<float>(-1, -1, 0));
+            shoulder_r->search(frame, 25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
             shoulder_r->bone();
-            shoulder_l->search(frame, 25, 16, Vect<float>(1, -1, 0));
+            shoulder_l->search(frame, 25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
             shoulder_l->bone();
 
             hand_r->search(frame, 25, 24, (hand_r->p - elbow_r->p) / lenght(hand_r->p, elbow_r->p), elbow_r->p);
@@ -213,6 +217,10 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         }
 
         head->new_rot(hips->p, neck->p);
+        shoulder_l->new_rot(hips->p, neck->p);
+        shoulder_r->new_rot(hips->p, neck->p);
+        elbow_l->new_rot(neck->p, shoulder_r->p);
+        elbow_r->new_rot(neck->p, shoulder_r->p);
 
         // draw roots
         if(!control<float>(hips->p))
@@ -250,7 +258,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         // don't work :-(
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 10) break;
+        //if(i == 300) break;
 
     }
 

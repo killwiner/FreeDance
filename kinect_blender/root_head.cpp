@@ -1,5 +1,4 @@
 #include "root_head.h"
-#include <iostream>
 
 Head::Head(IplImage *frame_) : Root(frame_) {
 }
@@ -139,5 +138,5 @@ void Head::bone(Vect<float> const& vect_neck) {
 void Head::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
     Vect<float> hips_to_neck = neck - hips;
     Vect<float> neck_to_head = p - neck;
-    vect_rot.push_back(Vect<float>(.0f, 360.0f * angle_vects(hips_to_neck, neck_to_head) / PI, .0f));
+    vect_rot.push_back(Vect<float>(.0f, 180.0f * angle_vects(hips_to_neck, neck_to_head) / PI, .0f));
 }
