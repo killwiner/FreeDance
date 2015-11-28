@@ -32,8 +32,8 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
     close_root(file);
     close_root(file);
     close_root(file);
-    new_root(file, std::string("JOINT spine"), Vect<float>(0.000000, 0.228833, 1.572143), false, true);
-    new_root(file, std::string("JOINT chest"), Vect<float>(0.000000, 0.087254, 0.599468), false, true);
+    new_root(file, std::string("JOINT spine"), Vect<float>(0.000000, 0.228833, 1.572143), false, true); // 9
+    new_root(file, std::string("JOINT chest"), Vect<float>(0.000000, 0.087254, 0.599468), false, true); // 10
     new_root(file, std::string("JOINT clavicle_R"), Vect<float>(-0.227391, -0.803817, 2.683225), false, true); // 11
     new_root(file, std::string("JOINT upper_arm_R"), Vect<float>(-1.637361, 0.340290, -0.300515), false, true); // 12
     new_root(file, std::string("JOINT forearm_R"), Vect<float>(-1.657613, 0.021382, -1.898825), false, true); // 13
@@ -57,11 +57,11 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
     close_root(file);
     close_root(file);
     new_root(file, std::string("JOINT clavicle_L"), Vect<float>(0.227391, -0.803817, 2.683225), false, true); // 19
-    new_root(file, std::string("JOINT upper_arm_L"), Vect<float>(1.637361, 0.340290, -0.300515), false, true); // NILL
-    new_root(file, std::string("JOINT forearm_L"), Vect<float>(1.657613, 0.021382, -1.898825), false, true); // 20
-    new_root(file, std::string("JOINT hand_L"), skel.hand_l->s, false, true); // 21
-    new_root(file, std::string("JOINT thumb_02_L"), Vect<float>(-0.207201, -0.236211, -0.708153), false, true); // 22
-    new_root(file, std::string("JOINT thumb_03_L"), Vect<float>(-0.127731, -0.048245, -0.391277), false, true); // 23
+    new_root(file, std::string("JOINT upper_arm_L"), Vect<float>(1.637361, 0.340290, -0.300515), false, true); // 20
+    new_root(file, std::string("JOINT forearm_L"), Vect<float>(1.657613, 0.021382, -1.898825), false, true); // 21
+    new_root(file, std::string("JOINT hand_L"), skel.hand_l->s, false, true); // 22
+    new_root(file, std::string("JOINT thumb_02_L"), Vect<float>(-0.207201, -0.236211, -0.708153), false, true); // 23
+    new_root(file, std::string("JOINT thumb_03_L"), Vect<float>(-0.127731, -0.048245, -0.391277), false, true); // 24
     new_root(file, std::string("End Site"), Vect<float>(-0.119884, -0.019162, -0.396226), true, false);
     close_root(file);
     close_root(file);
@@ -106,12 +106,21 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
 
     for(int i = 0; i < nbr_frames; ++i) {
         for(std::vector< Vect< float > >::iterator it = vect_offset.begin(); it != vect_offset.end(); ++it) {
-            if(vect_channel.at(it - vect_offset.begin()))
-                file << it->x << " " << it->y << " " << it->z << " ";
-            else
-                file << "0.000000 0.000000 0.000000 ";
+
+            if(it - vect_offset.begin() == 0)
+                file << skel.hips->vect_offset.at(i).x << " " << skel.hips->vect_offset.at(i).y << " " << skel.hips->vect_offset.at(i).z << " ";
+            else {
+                if(vect_channel.at(it - vect_offset.begin()))
+                    file << it->x << " " << it->y << " " << it->z << " ";
+                else
+                    file << "0.000000 0.000000 0.000000 ";
+            }
 
             switch(it - vect_offset.begin()) {
+
+                case 9:
+                    file << skel.hips->vect_rot.at(i).x << " " << skel.hips->vect_rot.at(i).y << " " << skel.hips->vect_rot.at(i).z << " ";
+                    break;
 
                 case 11:
                     file << skel.shoulder_r->vect_rot.at(i).x << " " << skel.shoulder_r->vect_rot.at(i).y << " " << skel.shoulder_r->vect_rot.at(i).z << " ";
@@ -121,6 +130,10 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
                     file << skel.elbow_r->vect_rot.at(i).x << " " << skel.elbow_r->vect_rot.at(i).y << " " << skel.elbow_r->vect_rot.at(i).z << " ";
                     break;
 
+                case 13:
+                    file << skel.hand_r->vect_rot.at(i).x << " " << skel.hand_r->vect_rot.at(i).y << " " << skel.hand_r->vect_rot.at(i).z << " ";
+                break;
+
                 case 19:
                     file << skel.shoulder_l->vect_rot.at(i).x << " " << skel.shoulder_l->vect_rot.at(i).y << " " << skel.shoulder_l->vect_rot.at(i).z << " ";
                     break;
@@ -128,6 +141,10 @@ void ExportMotion::save(const QString &fileName,const Skeleton &skel, const int 
                 case 20:
                     file << skel.elbow_l->vect_rot.at(i).x << " " << skel.elbow_l->vect_rot.at(i).y << " " << skel.elbow_l->vect_rot.at(i).z << " ";
                     break;
+
+                case 21:
+                    file << skel.elbow_r->vect_rot.at(i).x << " " << skel.elbow_r->vect_rot.at(i).y << " " << skel.elbow_r->vect_rot.at(i).z << " ";
+                break;
 
                 case 27:
                     file << skel.head->vect_rot.at(i).x << " " << skel.head->vect_rot.at(i).y << " " << skel.head->vect_rot.at(i).z << " ";

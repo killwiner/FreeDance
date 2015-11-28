@@ -30,23 +30,27 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
 
     while(!control<float>(u + w)) {
 
-        if (frame->PIXEL_COLOR_RED_VECT(u + w)) {
+        if (frame->PIXEL_COLOR_RED_VECT(u + w))
             p = u + w;
+
+        if (frame->PIXEL_COLOR_RED_VECT(u - w))
+            p = u - w;
+
+        if (frame->PIXEL_COLOR_RED_VECT(u - w) || frame->PIXEL_COLOR_RED_VECT(u + w)) {
+
             lenght_elbow_hand = lenght(p, vect_hand);
+
             Vect<float> p_x_y = p;
+            Vect<float> p_y_z = p;
             p_x_y.z = .0f;
-            init_angle = angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
+            p_y_z.x = .0f;
+
+            init_angle_x_y = angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
+            init_angle_y_z = -angle_vects(Vect<float>(.0f, 1.0f, .0f), p_y_z - Vect<float>(.0f, vect_shoulder.y, .0f));
+
             return;
         }
 
-        if (frame->PIXEL_COLOR_RED_VECT(u - w)) {
-            p = u - w;
-            lenght_elbow_hand = lenght(p, vect_hand);
-            Vect<float> p_x_y = p;
-            p_x_y.z = .0f;
-            init_angle = angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
-            return;
-        }
         w += h;
     }
 }
@@ -169,14 +173,18 @@ void Elbow::new_rot(Vect<float> const &neck, Vect<float> const &shoulder) {
     Vect<float> p_x_y = p;
     p_x_y.z = .0f;
 
+    Vect<float> p_y_z = p;
+    p_y_z.x = .0f;
+    p_y_z.z *= 2.0f;
+
     Vect<float> neck_to_shoulder = shoulder - neck;
-    Vect<float> elbow_to_shoulder = shoulder - p_x_y;
+    Vect<float> elbow_to_shoulder_y_z = Vect<float>(.0f, 1.0f, .0f) - p_y_z;
+    Vect<float> elbow_to_shoulder_x_y = shoulder - p_x_y;
 
-    float init_angle_cor;
-    //if(l_r)
-        init_angle_cor = init_angle - PI / 2 - PI / 8;
-    //else
-    //    init_angle_cor = init_angle + PI / 2 + PI / 8;
+    float init_angle_cor_y_z, init_angle_cor_x_y;
+    init_angle_cor_y_z = init_angle_y_z - PI - PI / 8;
+    init_angle_cor_x_y = init_angle_x_y - PI / 2 - PI / 8;
 
-    vect_rot.push_back(Vect<float>(.0f, 180.0f * (init_angle_cor + angle_vects(neck_to_shoulder, elbow_to_shoulder)) / PI, .0f));
+    vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - angle_vects(Vect<float>(.0f, 1.0f, .0f), elbow_to_shoulder_y_z)) / PI,
+                                   180.0f * (init_angle_cor_x_y + angle_vects(neck_to_shoulder, elbow_to_shoulder_x_y)) / PI, .0f));
 }

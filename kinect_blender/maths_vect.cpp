@@ -37,6 +37,10 @@ Vect<float> matrix_3_3_product_1_3(Vect< Vect<float> > const &u, Vect<float> con
 }
 
 float angle_vects(Vect<float> const &u, Vect<float> const &v) {
+
+    if(normal(u) * normal(v) == .0f)
+        return .0f;
+
     float angle = acosf((u.x*v.x + u.y*v.y + u.z*v.z) / (normal(u) * normal(v)));
     if(cross_product(u, v).z < 0)
         angle *= -1.0f;

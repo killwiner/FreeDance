@@ -6,11 +6,17 @@
 class Hand : public Root {
 public:
     explicit Hand(IplImage*);
-    void first_search(bool l_r);
+    void first_search(bool l_r, Vect<float>, Vect<float>);
     void z_axis(float const&);
     void search(IplImage *, float const &, int const &, Vect<float>, Vect<float> elbow);
+    void new_rot(Vect<float> const&, Vect<float> const&);
+
+    std::vector< Vect <float> > vect_rot;
 
     Vect<float> s;
+
+private:
+    float init_angle_x_y, init_angle_y_z;
 };
 
 inline void Hand::z_axis(const float &z) {

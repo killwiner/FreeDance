@@ -178,8 +178,8 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             neck->first_search(head->first_search(), hips->p);
             shoulder_r->first_search(neck->p, hips->p, true);
             shoulder_l->first_search(neck->p, hips->p, false);
-            hand_r->first_search(true);
-            hand_l->first_search(false);
+            hand_r->first_search(true, elbow_r->p, shoulder_r->p);
+            hand_l->first_search(false, elbow_l->p, shoulder_r->p);
 
             elbow_r->first_search(shoulder_r->p, hand_r->p, neck->p, true);
             elbow_l->first_search(shoulder_l->p, hand_l->p, neck->p, false);
@@ -221,6 +221,9 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         shoulder_r->new_rot(hips->p, neck->p);
         elbow_l->new_rot(neck->p, shoulder_r->p);
         elbow_r->new_rot(neck->p, shoulder_r->p);
+        hand_r->new_rot(shoulder_r->p, elbow_r->p);
+        hand_l->new_rot(shoulder_l->p, elbow_l->p);
+        hips->new_rot(neck->p);
 
         // draw roots
         if(!control<float>(hips->p))

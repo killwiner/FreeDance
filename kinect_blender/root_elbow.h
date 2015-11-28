@@ -15,7 +15,7 @@ public:
 private:
     void get_circle(Vect<float> shoulder, float ray, float t, Vect< Vect <float> > p2, Vect<float> ca, bool &start_r, Vect<float> &r);
     float lenght_elbow_hand;
-    float init_angle;
+    float init_angle_x_y, init_angle_y_z;
     bool l_r;
 };
 
