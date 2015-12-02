@@ -38,7 +38,6 @@ void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
                     Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
                     Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
 
-                    float init_angle_cor_y_z, init_angle_cor_x_y;
                     init_angle_y_z = angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
                     init_angle_x_y = angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
 
@@ -72,7 +71,6 @@ void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
                     Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
                     Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
 
-                    float init_angle_cor_y_z, init_angle_cor_x_y;
                     init_angle_y_z = angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
                     init_angle_x_y = angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
 

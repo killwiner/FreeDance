@@ -13,6 +13,7 @@ TARGET = kinect_blender
 TEMPLATE = app
 
 LIBS += -lboost_system -lboost_filesystem -lfreenect -lusb-1.0 -lglut `pkg-config opencv --cflags --libs`# -lGL -lGLU -lglut
+QMAKE_CXXFLAGS = -std=c++11
 
 INCLUDEPATH += /usr/include/libusb-1.0
 
