@@ -1,0 +1,296 @@
+\hypertarget{class_the_device}{\section{The\+Device Class Reference}
+\label{class_the_device}\index{The\+Device@{The\+Device}}
+}
+
+
+{\ttfamily \#include $<$opkinect.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_the_device_a397d63518536d848541fbcb564062e91}{The\+Device} ()
+\item 
+bool \hyperlink{class_the_device_aaad601e00c361e996176237ce5a219c5}{connect} ()
+\item 
+void \hyperlink{class_the_device_a2b6ba68f94c5d28ba2d146312cfde405}{stop} ()
+\item 
+void \hyperlink{class_the_device_a99fc93db2519684bc5e6e20fb3c1b1c1}{start} ()
+\item 
+void \hyperlink{class_the_device_a1e91e4f9382c7aaae2930623f7cadcc8}{record} (bool)
+\item 
+bool \hyperlink{class_the_device_af983b1f813f7d4287358098c61a98107}{is\+\_\+connected} ()
+\item 
+bool \hyperlink{class_the_device_a82a0327fc52e2f952c3c9c705094459c}{is\+\_\+running} ()
+\item 
+bool \hyperlink{class_the_device_a9f3adcc1ff86d8ee612174ad65968181}{is\+\_\+recording} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_the_device_a2296ca12439d1c640c215453eaf91966}{depth\+\_\+cb} (freenect\+\_\+device $\ast$dev, void $\ast$v\+\_\+depth, uint32\+\_\+t timestamp)
+\item 
+static void $\ast$ \hyperlink{class_the_device_a03f2256b5a3ccdbb6e73dcfb1d19a7c2}{loop} (void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static freenect\+\_\+video\+\_\+format \hyperlink{class_the_device_a4461a50305403bef90cd2c8ed3abe887}{current\+\_\+format} = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B
+\item 
+static freenect\+\_\+video\+\_\+format \hyperlink{class_the_device_a36b600c96ef49a9d585e641c034fee40}{requested\+\_\+format} = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B
+\item 
+static int \hyperlink{class_the_device_a998f82ad80842ecb61506eb373290a6e}{got\+\_\+depth} = 0
+\item 
+static uint16\+\_\+t $\ast$ \hyperlink{class_the_device_afc5f9b8496261c692b5b42d0bf4fe564}{t\+\_\+gamma} = (uint16\+\_\+t$\ast$)malloc(2048 $\ast$ 2)
+\item 
+static pthread\+\_\+cond\+\_\+t \hyperlink{class_the_device_abe546632e82af214d61db8d9d04a288d}{gl\+\_\+frame\+\_\+cond} = P\+T\+H\+R\+E\+A\+D\+\_\+\+C\+O\+N\+D\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R
+\item 
+static pthread\+\_\+mutex\+\_\+t \hyperlink{class_the_device_a4c323578c55eb1579d502ac00a646f48}{gl\+\_\+backbuf\+\_\+mutex} = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R
+\item 
+static uint8\+\_\+t $\ast$ \hyperlink{class_the_device_a891e436e57a14948d2a86f7b0176d4c6}{rgb\+\_\+back} = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)
+\item 
+static uint8\+\_\+t $\ast$ \hyperlink{class_the_device_a996a11e8402b9ac9893a8ff7de033a28}{rgb\+\_\+front} = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)
+\item 
+static uint8\+\_\+t $\ast$ \hyperlink{class_the_device_a9f2536b80117cf3b969b5b73dfcda9c9}{rgb\+\_\+mid} = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)
+\item 
+static uint8\+\_\+t $\ast$ \hyperlink{class_the_device_a2b13e5d032110be8e42657f496bbbec8}{depth\+\_\+mid} = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)
+\item 
+static uint8\+\_\+t $\ast$ \hyperlink{class_the_device_a28a01b250bdc6ca42383a69cdd71e4d4}{depth\+\_\+front} = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)
+\item 
+static freenect\+\_\+context $\ast$ \hyperlink{class_the_device_ac9679edd0e49b43515712cabf1644f9a}{f\+\_\+ctx} = 0
+\item 
+static freenect\+\_\+device $\ast$ \hyperlink{class_the_device_a1ac2bb1c0f50ef433c645d05be0f4c43}{f\+\_\+dev} = 0
+\item 
+static volatile bool \hyperlink{class_the_device_ab301f4e54b7f298be586b6a119dbf9db}{die} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 14 of file opkinect.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_the_device_a397d63518536d848541fbcb564062e91}{\index{The\+Device@{The\+Device}!The\+Device@{The\+Device}}
+\index{The\+Device@{The\+Device}!The\+Device@{The\+Device}}
+\subsubsection[{The\+Device}]{\setlength{\rightskip}{0pt plus 5cm}The\+Device\+::\+The\+Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_the_device_a397d63518536d848541fbcb564062e91}
+
+
+Definition at line 20 of file opkinect.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_the_device_aaad601e00c361e996176237ce5a219c5}{\index{The\+Device@{The\+Device}!connect@{connect}}
+\index{connect@{connect}!The\+Device@{The\+Device}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}bool The\+Device\+::connect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_aaad601e00c361e996176237ce5a219c5}
+
+
+Definition at line 25 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a2296ca12439d1c640c215453eaf91966}{\index{The\+Device@{The\+Device}!depth\+\_\+cb@{depth\+\_\+cb}}
+\index{depth\+\_\+cb@{depth\+\_\+cb}!The\+Device@{The\+Device}}
+\subsubsection[{depth\+\_\+cb}]{\setlength{\rightskip}{0pt plus 5cm}void The\+Device\+::depth\+\_\+cb (
+\begin{DoxyParamCaption}
+\item[{freenect\+\_\+device $\ast$}]{dev, }
+\item[{void $\ast$}]{v\+\_\+depth, }
+\item[{uint32\+\_\+t}]{timestamp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a2296ca12439d1c640c215453eaf91966}
+
+
+Definition at line 92 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_af983b1f813f7d4287358098c61a98107}{\index{The\+Device@{The\+Device}!is\+\_\+connected@{is\+\_\+connected}}
+\index{is\+\_\+connected@{is\+\_\+connected}!The\+Device@{The\+Device}}
+\subsubsection[{is\+\_\+connected}]{\setlength{\rightskip}{0pt plus 5cm}bool The\+Device\+::is\+\_\+connected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_af983b1f813f7d4287358098c61a98107}
+
+
+Definition at line 59 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a9f3adcc1ff86d8ee612174ad65968181}{\index{The\+Device@{The\+Device}!is\+\_\+recording@{is\+\_\+recording}}
+\index{is\+\_\+recording@{is\+\_\+recording}!The\+Device@{The\+Device}}
+\subsubsection[{is\+\_\+recording}]{\setlength{\rightskip}{0pt plus 5cm}bool The\+Device\+::is\+\_\+recording (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_a9f3adcc1ff86d8ee612174ad65968181}
+
+
+Definition at line 67 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a82a0327fc52e2f952c3c9c705094459c}{\index{The\+Device@{The\+Device}!is\+\_\+running@{is\+\_\+running}}
+\index{is\+\_\+running@{is\+\_\+running}!The\+Device@{The\+Device}}
+\subsubsection[{is\+\_\+running}]{\setlength{\rightskip}{0pt plus 5cm}bool The\+Device\+::is\+\_\+running (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_a82a0327fc52e2f952c3c9c705094459c}
+
+
+Definition at line 63 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a03f2256b5a3ccdbb6e73dcfb1d19a7c2}{\index{The\+Device@{The\+Device}!loop@{loop}}
+\index{loop@{loop}!The\+Device@{The\+Device}}
+\subsubsection[{loop}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ The\+Device\+::loop (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a03f2256b5a3ccdbb6e73dcfb1d19a7c2}
+
+
+Definition at line 145 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a1e91e4f9382c7aaae2930623f7cadcc8}{\index{The\+Device@{The\+Device}!record@{record}}
+\index{record@{record}!The\+Device@{The\+Device}}
+\subsubsection[{record}]{\setlength{\rightskip}{0pt plus 5cm}void The\+Device\+::record (
+\begin{DoxyParamCaption}
+\item[{bool}]{r}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_a1e91e4f9382c7aaae2930623f7cadcc8}
+
+
+Definition at line 71 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a99fc93db2519684bc5e6e20fb3c1b1c1}{\index{The\+Device@{The\+Device}!start@{start}}
+\index{start@{start}!The\+Device@{The\+Device}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}void The\+Device\+::start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_a99fc93db2519684bc5e6e20fb3c1b1c1}
+
+
+Definition at line 166 of file opkinect.\+cpp.
+
+\hypertarget{class_the_device_a2b6ba68f94c5d28ba2d146312cfde405}{\index{The\+Device@{The\+Device}!stop@{stop}}
+\index{stop@{stop}!The\+Device@{The\+Device}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void The\+Device\+::stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_the_device_a2b6ba68f94c5d28ba2d146312cfde405}
+
+
+Definition at line 76 of file opkinect.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_the_device_a4461a50305403bef90cd2c8ed3abe887}{\index{The\+Device@{The\+Device}!current\+\_\+format@{current\+\_\+format}}
+\index{current\+\_\+format@{current\+\_\+format}!The\+Device@{The\+Device}}
+\subsubsection[{current\+\_\+format}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+video\+\_\+format The\+Device\+::current\+\_\+format = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a4461a50305403bef90cd2c8ed3abe887}
+
+
+Definition at line 28 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a28a01b250bdc6ca42383a69cdd71e4d4}{\index{The\+Device@{The\+Device}!depth\+\_\+front@{depth\+\_\+front}}
+\index{depth\+\_\+front@{depth\+\_\+front}!The\+Device@{The\+Device}}
+\subsubsection[{depth\+\_\+front}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ The\+Device\+::depth\+\_\+front = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a28a01b250bdc6ca42383a69cdd71e4d4}
+
+
+Definition at line 35 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a2b13e5d032110be8e42657f496bbbec8}{\index{The\+Device@{The\+Device}!depth\+\_\+mid@{depth\+\_\+mid}}
+\index{depth\+\_\+mid@{depth\+\_\+mid}!The\+Device@{The\+Device}}
+\subsubsection[{depth\+\_\+mid}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ The\+Device\+::depth\+\_\+mid = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a2b13e5d032110be8e42657f496bbbec8}
+
+
+Definition at line 35 of file opkinect.\+h.
+
+\hypertarget{class_the_device_ab301f4e54b7f298be586b6a119dbf9db}{\index{The\+Device@{The\+Device}!die@{die}}
+\index{die@{die}!The\+Device@{The\+Device}}
+\subsubsection[{die}]{\setlength{\rightskip}{0pt plus 5cm}bool volatile The\+Device\+::die = false\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_ab301f4e54b7f298be586b6a119dbf9db}
+
+
+Definition at line 42 of file opkinect.\+h.
+
+\hypertarget{class_the_device_ac9679edd0e49b43515712cabf1644f9a}{\index{The\+Device@{The\+Device}!f\+\_\+ctx@{f\+\_\+ctx}}
+\index{f\+\_\+ctx@{f\+\_\+ctx}!The\+Device@{The\+Device}}
+\subsubsection[{f\+\_\+ctx}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+context $\ast$ The\+Device\+::f\+\_\+ctx = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_ac9679edd0e49b43515712cabf1644f9a}
+
+
+Definition at line 39 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a1ac2bb1c0f50ef433c645d05be0f4c43}{\index{The\+Device@{The\+Device}!f\+\_\+dev@{f\+\_\+dev}}
+\index{f\+\_\+dev@{f\+\_\+dev}!The\+Device@{The\+Device}}
+\subsubsection[{f\+\_\+dev}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+device $\ast$ The\+Device\+::f\+\_\+dev = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a1ac2bb1c0f50ef433c645d05be0f4c43}
+
+
+Definition at line 40 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a4c323578c55eb1579d502ac00a646f48}{\index{The\+Device@{The\+Device}!gl\+\_\+backbuf\+\_\+mutex@{gl\+\_\+backbuf\+\_\+mutex}}
+\index{gl\+\_\+backbuf\+\_\+mutex@{gl\+\_\+backbuf\+\_\+mutex}!The\+Device@{The\+Device}}
+\subsubsection[{gl\+\_\+backbuf\+\_\+mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\+\_\+mutex\+\_\+t The\+Device\+::gl\+\_\+backbuf\+\_\+mutex = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a4c323578c55eb1579d502ac00a646f48}
+
+
+Definition at line 34 of file opkinect.\+h.
+
+\hypertarget{class_the_device_abe546632e82af214d61db8d9d04a288d}{\index{The\+Device@{The\+Device}!gl\+\_\+frame\+\_\+cond@{gl\+\_\+frame\+\_\+cond}}
+\index{gl\+\_\+frame\+\_\+cond@{gl\+\_\+frame\+\_\+cond}!The\+Device@{The\+Device}}
+\subsubsection[{gl\+\_\+frame\+\_\+cond}]{\setlength{\rightskip}{0pt plus 5cm}pthread\+\_\+cond\+\_\+t The\+Device\+::gl\+\_\+frame\+\_\+cond = P\+T\+H\+R\+E\+A\+D\+\_\+\+C\+O\+N\+D\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_abe546632e82af214d61db8d9d04a288d}
+
+
+Definition at line 33 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a998f82ad80842ecb61506eb373290a6e}{\index{The\+Device@{The\+Device}!got\+\_\+depth@{got\+\_\+depth}}
+\index{got\+\_\+depth@{got\+\_\+depth}!The\+Device@{The\+Device}}
+\subsubsection[{got\+\_\+depth}]{\setlength{\rightskip}{0pt plus 5cm}int The\+Device\+::got\+\_\+depth = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a998f82ad80842ecb61506eb373290a6e}
+
+
+Definition at line 30 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a36b600c96ef49a9d585e641c034fee40}{\index{The\+Device@{The\+Device}!requested\+\_\+format@{requested\+\_\+format}}
+\index{requested\+\_\+format@{requested\+\_\+format}!The\+Device@{The\+Device}}
+\subsubsection[{requested\+\_\+format}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+video\+\_\+format The\+Device\+::requested\+\_\+format = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a36b600c96ef49a9d585e641c034fee40}
+
+
+Definition at line 29 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a891e436e57a14948d2a86f7b0176d4c6}{\index{The\+Device@{The\+Device}!rgb\+\_\+back@{rgb\+\_\+back}}
+\index{rgb\+\_\+back@{rgb\+\_\+back}!The\+Device@{The\+Device}}
+\subsubsection[{rgb\+\_\+back}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ The\+Device\+::rgb\+\_\+back = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a891e436e57a14948d2a86f7b0176d4c6}
+
+
+Definition at line 35 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a996a11e8402b9ac9893a8ff7de033a28}{\index{The\+Device@{The\+Device}!rgb\+\_\+front@{rgb\+\_\+front}}
+\index{rgb\+\_\+front@{rgb\+\_\+front}!The\+Device@{The\+Device}}
+\subsubsection[{rgb\+\_\+front}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ The\+Device\+::rgb\+\_\+front = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a996a11e8402b9ac9893a8ff7de033a28}
+
+
+Definition at line 35 of file opkinect.\+h.
+
+\hypertarget{class_the_device_a9f2536b80117cf3b969b5b73dfcda9c9}{\index{The\+Device@{The\+Device}!rgb\+\_\+mid@{rgb\+\_\+mid}}
+\index{rgb\+\_\+mid@{rgb\+\_\+mid}!The\+Device@{The\+Device}}
+\subsubsection[{rgb\+\_\+mid}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ The\+Device\+::rgb\+\_\+mid = (uint8\+\_\+t$\ast$)malloc(640$\ast$480$\ast$3)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_a9f2536b80117cf3b969b5b73dfcda9c9}
+
+
+Definition at line 35 of file opkinect.\+h.
+
+\hypertarget{class_the_device_afc5f9b8496261c692b5b42d0bf4fe564}{\index{The\+Device@{The\+Device}!t\+\_\+gamma@{t\+\_\+gamma}}
+\index{t\+\_\+gamma@{t\+\_\+gamma}!The\+Device@{The\+Device}}
+\subsubsection[{t\+\_\+gamma}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t $\ast$ The\+Device\+::t\+\_\+gamma = (uint16\+\_\+t$\ast$)malloc(2048 $\ast$ 2)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_the_device_afc5f9b8496261c692b5b42d0bf4fe564}
+
+
+Definition at line 32 of file opkinect.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{opkinect_8h}{opkinect.\+h}\item 
+/home/lydia/tron/src/\hyperlink{opkinect_8cpp}{opkinect.\+cpp}\end{DoxyCompactItemize}

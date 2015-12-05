@@ -1,0 +1,126 @@
+\hypertarget{class_hips}{\section{Hips Class Reference}
+\label{class_hips}\index{Hips@{Hips}}
+}
+
+
+{\ttfamily \#include $<$root\+\_\+hips.\+h$>$}
+
+
+
+Inherits \hyperlink{class_root}{Root}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_hips_a2de32180f71891e5f1cb4270422dcb1f}{Hips} (Ipl\+Image $\ast$)
+\item 
+void \hyperlink{class_hips_afe6adbda4359347a73c4e545ad1c7f16}{first\+\_\+search} ()
+\item 
+void \hyperlink{class_hips_af555079fdd63afe05341c8c31061dffd}{search} (Ipl\+Image $\ast$, float const \&, int const \&, \hyperlink{class_vect}{Vect}$<$ float $>$)
+\item 
+void \hyperlink{class_hips_af2791e6036567db428b87247e036fb8e}{new\+\_\+rot} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_vect}{Vect}$<$ float $>$ \hyperlink{class_hips_a9bf3db02fee9c8d80fd8e5008ae84620}{s}
+\item 
+std\+::vector$<$ \hyperlink{class_vect}{Vect}$<$ float $>$ $>$ \hyperlink{class_hips_a42ff186d2f751d6a24ed2b2c8cb350ad}{vect\+\_\+offset}
+\item 
+std\+::vector$<$ \hyperlink{class_vect}{Vect}$<$ float $>$ $>$ \hyperlink{class_hips_a704c04efaf11d71f44ee571a9ed1b6f7}{vect\+\_\+rot}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file root\+\_\+hips.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_hips_a2de32180f71891e5f1cb4270422dcb1f}{\index{Hips@{Hips}!Hips@{Hips}}
+\index{Hips@{Hips}!Hips@{Hips}}
+\subsubsection[{Hips}]{\setlength{\rightskip}{0pt plus 5cm}Hips\+::\+Hips (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_hips_a2de32180f71891e5f1cb4270422dcb1f}
+
+
+Definition at line 3 of file root\+\_\+hips.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_hips_afe6adbda4359347a73c4e545ad1c7f16}{\index{Hips@{Hips}!first\+\_\+search@{first\+\_\+search}}
+\index{first\+\_\+search@{first\+\_\+search}!Hips@{Hips}}
+\subsubsection[{first\+\_\+search}]{\setlength{\rightskip}{0pt plus 5cm}void Hips\+::first\+\_\+search (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_hips_afe6adbda4359347a73c4e545ad1c7f16}
+
+
+Definition at line 6 of file root\+\_\+hips.\+cpp.
+
+\hypertarget{class_hips_af2791e6036567db428b87247e036fb8e}{\index{Hips@{Hips}!new\+\_\+rot@{new\+\_\+rot}}
+\index{new\+\_\+rot@{new\+\_\+rot}!Hips@{Hips}}
+\subsubsection[{new\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}void Hips\+::new\+\_\+rot (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{neck}
+\end{DoxyParamCaption}
+)}}\label{class_hips_af2791e6036567db428b87247e036fb8e}
+
+
+Definition at line 123 of file root\+\_\+hips.\+cpp.
+
+\hypertarget{class_hips_af555079fdd63afe05341c8c31061dffd}{\index{Hips@{Hips}!search@{search}}
+\index{search@{search}!Hips@{Hips}}
+\subsubsection[{search}]{\setlength{\rightskip}{0pt plus 5cm}void Hips\+::search (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+, }
+\item[{float const \&}]{radius, }
+\item[{int const \&}]{black\+\_\+arc, }
+\item[{{\bf Vect}$<$ float $>$}]{vec\+\_\+black\+\_\+arc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_hips_af555079fdd63afe05341c8c31061dffd}
+
+
+Reimplemented from \hyperlink{class_root_a536b4ace93b3d9dfdc50d8d8851a4554}{Root}.
+
+
+
+Definition at line 85 of file root\+\_\+hips.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_hips_a9bf3db02fee9c8d80fd8e5008ae84620}{\index{Hips@{Hips}!s@{s}}
+\index{s@{s}!Hips@{Hips}}
+\subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Vect}$<$float$>$ Hips\+::s}}\label{class_hips_a9bf3db02fee9c8d80fd8e5008ae84620}
+
+
+Definition at line 13 of file root\+\_\+hips.\+h.
+
+\hypertarget{class_hips_a42ff186d2f751d6a24ed2b2c8cb350ad}{\index{Hips@{Hips}!vect\+\_\+offset@{vect\+\_\+offset}}
+\index{vect\+\_\+offset@{vect\+\_\+offset}!Hips@{Hips}}
+\subsubsection[{vect\+\_\+offset}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Vect} $<$float$>$ $>$ Hips\+::vect\+\_\+offset}}\label{class_hips_a42ff186d2f751d6a24ed2b2c8cb350ad}
+
+
+Definition at line 14 of file root\+\_\+hips.\+h.
+
+\hypertarget{class_hips_a704c04efaf11d71f44ee571a9ed1b6f7}{\index{Hips@{Hips}!vect\+\_\+rot@{vect\+\_\+rot}}
+\index{vect\+\_\+rot@{vect\+\_\+rot}!Hips@{Hips}}
+\subsubsection[{vect\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Vect} $<$float$>$ $>$ Hips\+::vect\+\_\+rot}}\label{class_hips_a704c04efaf11d71f44ee571a9ed1b6f7}
+
+
+Definition at line 15 of file root\+\_\+hips.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{root__hips_8h}{root\+\_\+hips.\+h}\item 
+/home/lydia/tron/src/\hyperlink{root__hips_8cpp}{root\+\_\+hips.\+cpp}\end{DoxyCompactItemize}

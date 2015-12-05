@@ -1,0 +1,184 @@
+\hypertarget{class_render}{\section{Render Class Reference}
+\label{class_render}\index{Render@{Render}}
+}
+
+
+{\ttfamily \#include $<$render.\+h$>$}
+
+
+
+Inherits Q\+G\+L\+Widget.
+
+
+
+Inherited by \hyperlink{class_render_window}{Render\+Window}.
+
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_render_ae2ecac1e840106615081b6f956f83755}{time\+Out\+Slot} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_render_ae6d46e7398a9b7901a797088815fba73}{Render} (int frames\+Per\+Second=0, Q\+Widget $\ast$parent=0, \hyperlink{class_the_device}{The\+Device} $\ast$\hyperlink{class_render_aea72c3cd7f9b31257d99cd1be92fe550}{thedevice}=0, \hyperlink{class_save_load}{Save\+Load} $\ast$\hyperlink{class_render_ae359d4eb07503161a339ad8bfd79685e}{saveload}=0, \hyperlink{class_skeleton}{Skeleton} $\ast$\hyperlink{class_render_aa6c02e21d3907a61880c5b3d723e588f}{skeleton}=0, char $\ast$name=0)
+\item 
+virtual void \hyperlink{class_render_ab033459d17cea5b9d2ee1f42970fdaa0}{initialize\+G\+L} ()=0
+\item 
+virtual void \hyperlink{class_render_aa6fe6cc6f3d5ed00e490703a60fd4e4d}{resize\+G\+L} (int \hyperlink{class_render_a54b5039b8443453e3321997f5697a711}{width}, int \hyperlink{class_render_aa1d23d7ff6a91e29b4d001fdbe185e16}{height})=0
+\item 
+virtual void \hyperlink{class_render_a5f618b419d8381bd7b9682996695a3e8}{paint\+G\+L} ()=0
+\item 
+void \hyperlink{class_render_a8c1d23f58ded9111166e7ba963703f0f}{change\+\_\+pause} (bool p)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_the_device}{The\+Device} $\ast$ \hyperlink{class_render_aea72c3cd7f9b31257d99cd1be92fe550}{thedevice}
+\item 
+\hyperlink{class_save_load}{Save\+Load} $\ast$ \hyperlink{class_render_ae359d4eb07503161a339ad8bfd79685e}{saveload} = N\+U\+L\+L
+\item 
+\hyperlink{class_skeleton}{Skeleton} $\ast$ \hyperlink{class_render_aa6c02e21d3907a61880c5b3d723e588f}{skeleton} = N\+U\+L\+L
+\item 
+int \hyperlink{class_render_a54b5039b8443453e3321997f5697a711}{width}
+\item 
+int \hyperlink{class_render_aa1d23d7ff6a91e29b4d001fdbe185e16}{height}
+\item 
+int \hyperlink{class_render_af2d4c7677e317f9ac7cd115ffcc8c367}{status}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 11 of file render.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_render_ae6d46e7398a9b7901a797088815fba73}{\index{Render@{Render}!Render@{Render}}
+\index{Render@{Render}!Render@{Render}}
+\subsubsection[{Render}]{\setlength{\rightskip}{0pt plus 5cm}Render\+::\+Render (
+\begin{DoxyParamCaption}
+\item[{int}]{frames\+Per\+Second = {\ttfamily 0}, }
+\item[{Q\+Widget $\ast$}]{parent = {\ttfamily 0}, }
+\item[{{\bf The\+Device} $\ast$}]{thedevice = {\ttfamily 0}, }
+\item[{{\bf Save\+Load} $\ast$}]{saveload = {\ttfamily 0}, }
+\item[{{\bf Skeleton} $\ast$}]{skeleton = {\ttfamily 0}, }
+\item[{char $\ast$}]{name = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_render_ae6d46e7398a9b7901a797088815fba73}
+
+
+Definition at line 4 of file render.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_render_a8c1d23f58ded9111166e7ba963703f0f}{\index{Render@{Render}!change\+\_\+pause@{change\+\_\+pause}}
+\index{change\+\_\+pause@{change\+\_\+pause}!Render@{Render}}
+\subsubsection[{change\+\_\+pause}]{\setlength{\rightskip}{0pt plus 5cm}void Render\+::change\+\_\+pause (
+\begin{DoxyParamCaption}
+\item[{bool}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_render_a8c1d23f58ded9111166e7ba963703f0f}
+
+
+Definition at line 22 of file render.\+cpp.
+
+\hypertarget{class_render_ab033459d17cea5b9d2ee1f42970fdaa0}{\index{Render@{Render}!initialize\+G\+L@{initialize\+G\+L}}
+\index{initialize\+G\+L@{initialize\+G\+L}!Render@{Render}}
+\subsubsection[{initialize\+G\+L}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Render\+::initialize\+G\+L (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_render_ab033459d17cea5b9d2ee1f42970fdaa0}
+
+
+Implemented in \hyperlink{class_render_window_af88a2dae613a7b174325417d817d2d6b}{Render\+Window}.
+
+\hypertarget{class_render_a5f618b419d8381bd7b9682996695a3e8}{\index{Render@{Render}!paint\+G\+L@{paint\+G\+L}}
+\index{paint\+G\+L@{paint\+G\+L}!Render@{Render}}
+\subsubsection[{paint\+G\+L}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Render\+::paint\+G\+L (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_render_a5f618b419d8381bd7b9682996695a3e8}
+
+
+Implemented in \hyperlink{class_render_window_a69f8331a401933a444f03cef556cf461}{Render\+Window}.
+
+\hypertarget{class_render_aa6fe6cc6f3d5ed00e490703a60fd4e4d}{\index{Render@{Render}!resize\+G\+L@{resize\+G\+L}}
+\index{resize\+G\+L@{resize\+G\+L}!Render@{Render}}
+\subsubsection[{resize\+G\+L}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Render\+::resize\+G\+L (
+\begin{DoxyParamCaption}
+\item[{int}]{width, }
+\item[{int}]{height}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_render_aa6fe6cc6f3d5ed00e490703a60fd4e4d}
+
+
+Implemented in \hyperlink{class_render_window_abc2d513acb2b22a334314e1125b99890}{Render\+Window}.
+
+\hypertarget{class_render_ae2ecac1e840106615081b6f956f83755}{\index{Render@{Render}!time\+Out\+Slot@{time\+Out\+Slot}}
+\index{time\+Out\+Slot@{time\+Out\+Slot}!Render@{Render}}
+\subsubsection[{time\+Out\+Slot}]{\setlength{\rightskip}{0pt plus 5cm}void Render\+::time\+Out\+Slot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_render_ae2ecac1e840106615081b6f956f83755}
+
+
+Definition at line 30 of file render.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_render_aa1d23d7ff6a91e29b4d001fdbe185e16}{\index{Render@{Render}!height@{height}}
+\index{height@{height}!Render@{Render}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}int Render\+::height\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_aa1d23d7ff6a91e29b4d001fdbe185e16}
+
+
+Definition at line 33 of file render.\+h.
+
+\hypertarget{class_render_ae359d4eb07503161a339ad8bfd79685e}{\index{Render@{Render}!saveload@{saveload}}
+\index{saveload@{saveload}!Render@{Render}}
+\subsubsection[{saveload}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Save\+Load}$\ast$ Render\+::saveload = N\+U\+L\+L\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_ae359d4eb07503161a339ad8bfd79685e}
+
+
+Definition at line 31 of file render.\+h.
+
+\hypertarget{class_render_aa6c02e21d3907a61880c5b3d723e588f}{\index{Render@{Render}!skeleton@{skeleton}}
+\index{skeleton@{skeleton}!Render@{Render}}
+\subsubsection[{skeleton}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Skeleton}$\ast$ Render\+::skeleton = N\+U\+L\+L\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_aa6c02e21d3907a61880c5b3d723e588f}
+
+
+Definition at line 32 of file render.\+h.
+
+\hypertarget{class_render_af2d4c7677e317f9ac7cd115ffcc8c367}{\index{Render@{Render}!status@{status}}
+\index{status@{status}!Render@{Render}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}int Render\+::status\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_af2d4c7677e317f9ac7cd115ffcc8c367}
+
+
+Definition at line 34 of file render.\+h.
+
+\hypertarget{class_render_aea72c3cd7f9b31257d99cd1be92fe550}{\index{Render@{Render}!thedevice@{thedevice}}
+\index{thedevice@{thedevice}!Render@{Render}}
+\subsubsection[{thedevice}]{\setlength{\rightskip}{0pt plus 5cm}{\bf The\+Device}$\ast$ Render\+::thedevice\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_aea72c3cd7f9b31257d99cd1be92fe550}
+
+
+Definition at line 30 of file render.\+h.
+
+\hypertarget{class_render_a54b5039b8443453e3321997f5697a711}{\index{Render@{Render}!width@{width}}
+\index{width@{width}!Render@{Render}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}int Render\+::width\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_render_a54b5039b8443453e3321997f5697a711}
+
+
+Definition at line 33 of file render.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{render_8h}{render.\+h}\item 
+/home/lydia/tron/src/\hyperlink{render_8cpp}{render.\+cpp}\end{DoxyCompactItemize}

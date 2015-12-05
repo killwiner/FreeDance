@@ -1,0 +1,122 @@
+\hypertarget{class_shoulder}{\section{Shoulder Class Reference}
+\label{class_shoulder}\index{Shoulder@{Shoulder}}
+}
+
+
+{\ttfamily \#include $<$root\+\_\+shoulder.\+h$>$}
+
+
+
+Inherits \hyperlink{class_root}{Root}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_shoulder_a82e8026dd1fbec038d20d50f094918c9}{Shoulder} (Ipl\+Image $\ast$)
+\item 
+void \hyperlink{class_shoulder_a50b0698dc9e1fc894c06da6ce51643c2}{first\+\_\+search} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&, bool)
+\item 
+void \hyperlink{class_shoulder_a9192e90365e74d81fd26612a8538808f}{bone} ()
+\item 
+void \hyperlink{class_shoulder_ae1b8830114437b4caa5eef357abcf4a7}{search} (Ipl\+Image $\ast$, float const \&, int const \&, \hyperlink{class_vect}{Vect}$<$ float $>$, \hyperlink{class_vect}{Vect}$<$ float $>$, \hyperlink{class_vect}{Vect}$<$ float $>$)
+\item 
+void \hyperlink{class_shoulder_a3c90ae16e078e0633cdb970dbd416458}{new\+\_\+rot} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{class_vect}{Vect}$<$ float $>$ $>$ \hyperlink{class_shoulder_a9d8a5bcf46efc7fcd8323410bfdb0646}{vect\+\_\+rot}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file root\+\_\+shoulder.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_shoulder_a82e8026dd1fbec038d20d50f094918c9}{\index{Shoulder@{Shoulder}!Shoulder@{Shoulder}}
+\index{Shoulder@{Shoulder}!Shoulder@{Shoulder}}
+\subsubsection[{Shoulder}]{\setlength{\rightskip}{0pt plus 5cm}Shoulder\+::\+Shoulder (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_shoulder_a82e8026dd1fbec038d20d50f094918c9}
+
+
+Definition at line 3 of file root\+\_\+shoulder.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_shoulder_a9192e90365e74d81fd26612a8538808f}{\index{Shoulder@{Shoulder}!bone@{bone}}
+\index{bone@{bone}!Shoulder@{Shoulder}}
+\subsubsection[{bone}]{\setlength{\rightskip}{0pt plus 5cm}void Shoulder\+::bone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shoulder_a9192e90365e74d81fd26612a8538808f}
+
+
+Definition at line 52 of file root\+\_\+shoulder.\+cpp.
+
+\hypertarget{class_shoulder_a50b0698dc9e1fc894c06da6ce51643c2}{\index{Shoulder@{Shoulder}!first\+\_\+search@{first\+\_\+search}}
+\index{first\+\_\+search@{first\+\_\+search}!Shoulder@{Shoulder}}
+\subsubsection[{first\+\_\+search}]{\setlength{\rightskip}{0pt plus 5cm}void Shoulder\+::first\+\_\+search (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{vect\+\_\+neck\+\_\+, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{vect\+\_\+hips\+\_\+, }
+\item[{bool}]{l\+\_\+r\+\_\+}
+\end{DoxyParamCaption}
+)}}\label{class_shoulder_a50b0698dc9e1fc894c06da6ce51643c2}
+
+
+Definition at line 6 of file root\+\_\+shoulder.\+cpp.
+
+\hypertarget{class_shoulder_a3c90ae16e078e0633cdb970dbd416458}{\index{Shoulder@{Shoulder}!new\+\_\+rot@{new\+\_\+rot}}
+\index{new\+\_\+rot@{new\+\_\+rot}!Shoulder@{Shoulder}}
+\subsubsection[{new\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}void Shoulder\+::new\+\_\+rot (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{hips, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{neck}
+\end{DoxyParamCaption}
+)}}\label{class_shoulder_a3c90ae16e078e0633cdb970dbd416458}
+
+
+Definition at line 73 of file root\+\_\+shoulder.\+cpp.
+
+\hypertarget{class_shoulder_ae1b8830114437b4caa5eef357abcf4a7}{\index{Shoulder@{Shoulder}!search@{search}}
+\index{search@{search}!Shoulder@{Shoulder}}
+\subsubsection[{search}]{\setlength{\rightskip}{0pt plus 5cm}void Shoulder\+::search (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+, }
+\item[{float const \&}]{radius, }
+\item[{int const \&}]{black\+\_\+arc, }
+\item[{{\bf Vect}$<$ float $>$}]{vec\+\_\+black\+\_\+arc, }
+\item[{{\bf Vect}$<$ float $>$}]{neck, }
+\item[{{\bf Vect}$<$ float $>$}]{hips}
+\end{DoxyParamCaption}
+)}}\label{class_shoulder_ae1b8830114437b4caa5eef357abcf4a7}
+
+
+Definition at line 63 of file root\+\_\+shoulder.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_shoulder_a9d8a5bcf46efc7fcd8323410bfdb0646}{\index{Shoulder@{Shoulder}!vect\+\_\+rot@{vect\+\_\+rot}}
+\index{vect\+\_\+rot@{vect\+\_\+rot}!Shoulder@{Shoulder}}
+\subsubsection[{vect\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Vect} $<$float$>$ $>$ Shoulder\+::vect\+\_\+rot}}\label{class_shoulder_a9d8a5bcf46efc7fcd8323410bfdb0646}
+
+
+Definition at line 14 of file root\+\_\+shoulder.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{root__shoulder_8h}{root\+\_\+shoulder.\+h}\item 
+/home/lydia/tron/src/\hyperlink{root__shoulder_8cpp}{root\+\_\+shoulder.\+cpp}\end{DoxyCompactItemize}

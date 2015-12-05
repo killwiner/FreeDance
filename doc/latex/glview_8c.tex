@@ -1,0 +1,398 @@
+\hypertarget{glview_8c}{\section{/home/lydia/tron/src/glview.c File Reference}
+\label{glview_8c}\index{/home/lydia/tron/src/glview.\+c@{/home/lydia/tron/src/glview.\+c}}
+}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}libfreenect.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$pthread.\+h$>$}\\*
+{\ttfamily \#include $<$G\+L/glut.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{glview_8c_a525335710b53cb064ca56b936120431e}{\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{glview_8c_a3f50a3778a5799e1dd9cf4547cf73ad3}{Draw\+G\+L\+Scene} ()
+\item 
+void \hyperlink{glview_8c_ae49b22892a1276b5e664963496a34177}{key\+Pressed} (unsigned char key, int x, int y)
+\item 
+void \hyperlink{glview_8c_aaeedc5c1c90eff3a2950f1a2dbbdac6c}{Re\+Size\+G\+L\+Scene} (int Width, int Height)
+\item 
+void \hyperlink{glview_8c_ac8d2055368b431f82f03449410409ad0}{Init\+G\+L} (int Width, int Height)
+\item 
+void $\ast$ \hyperlink{glview_8c_ad7e70d8a1c82dca1f62ae0e67842ebe7}{gl\+\_\+threadfunc} (void $\ast$arg)
+\item 
+void \hyperlink{glview_8c_a4e09935f2c3e4fabbf680de25c7ad86b}{depth\+\_\+cb} (freenect\+\_\+device $\ast$dev, void $\ast$v\+\_\+depth, uint32\+\_\+t timestamp)
+\item 
+void \hyperlink{glview_8c_a19d9369cd84a1611ba6acb659bd85334}{rgb\+\_\+cb} (freenect\+\_\+device $\ast$dev, void $\ast$rgb, uint32\+\_\+t timestamp)
+\item 
+void $\ast$ \hyperlink{glview_8c_a7be14bfa2f7454146326c3f3c381e939}{freenect\+\_\+threadfunc} (void $\ast$arg)
+\item 
+int \hyperlink{glview_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+pthread\+\_\+t \hyperlink{glview_8c_ab7949f01a378016aff19bea9bb959ea7}{freenect\+\_\+thread}
+\item 
+volatile int \hyperlink{glview_8c_ae2fd0aea48846a13f893a7795fb82737}{die} = 0
+\item 
+int \hyperlink{glview_8c_a56a0ec58e8a4c0f144ab10e9eabc8934}{g\+\_\+argc}
+\item 
+char $\ast$$\ast$ \hyperlink{glview_8c_a42cc1f3030bc4fced497d4a33ac59959}{g\+\_\+argv}
+\item 
+int \hyperlink{glview_8c_a65ba7a0b8164c01b33d92b9ab0f2af03}{window}
+\item 
+pthread\+\_\+mutex\+\_\+t \hyperlink{glview_8c_a55500d3312b6801c2f58262cd114ee86}{gl\+\_\+backbuf\+\_\+mutex} = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{glview_8c_aabe1ad59e3a00f62fda680ff2370e47e}{depth\+\_\+mid}
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{glview_8c_a05a185d96bcf4b97fbbb3f4f128efe15}{depth\+\_\+front}
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{glview_8c_aa6cb56eda81d1530c93a4c518dac4337}{rgb\+\_\+back}
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{glview_8c_a9c9579ecda53a47beeb2a474418da17f}{rgb\+\_\+mid}
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{glview_8c_a884dfff48fd06d8342bab559ecd65cac}{rgb\+\_\+front}
+\item 
+G\+Luint \hyperlink{glview_8c_a39cd14b3fbc028177b84f0fae676e6bb}{gl\+\_\+depth\+\_\+tex}
+\item 
+G\+Luint \hyperlink{glview_8c_ab6916d676a3a07a7cb18f3c5ca8fb2d5}{gl\+\_\+rgb\+\_\+tex}
+\item 
+G\+Lfloat \hyperlink{glview_8c_a49dfe21f8878fca3c7707002d6cf132d}{camera\+\_\+angle} = 0.\+0
+\item 
+int \hyperlink{glview_8c_a697a668892e76ad2e927f6f03f897e5f}{camera\+\_\+rotate} = 0
+\item 
+int \hyperlink{glview_8c_ab6334088f36571fa101b6063181ac91e}{tilt\+\_\+changed} = 0
+\item 
+freenect\+\_\+context $\ast$ \hyperlink{glview_8c_a53067e4299305a2561e9620e600e1daa}{f\+\_\+ctx}
+\item 
+freenect\+\_\+device $\ast$ \hyperlink{glview_8c_a0138d8ca8668ea007a29f8ef480be911}{f\+\_\+dev}
+\item 
+int \hyperlink{glview_8c_a51f02887fba86bc66ed78bbf76882c9f}{freenect\+\_\+angle} = 0
+\item 
+int \hyperlink{glview_8c_a808b47085d866e3ea4f09f0d027807da}{freenect\+\_\+led}
+\item 
+freenect\+\_\+video\+\_\+format \hyperlink{glview_8c_ab7b640153f29fbf922dcc6499f32d61a}{requested\+\_\+format} = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B
+\item 
+freenect\+\_\+video\+\_\+format \hyperlink{glview_8c_a96df8ccd7e3711f19aada741c194c6fa}{current\+\_\+format} = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B
+\item 
+pthread\+\_\+cond\+\_\+t \hyperlink{glview_8c_af488cfe102552da0f4645b28c40ccc0d}{gl\+\_\+frame\+\_\+cond} = P\+T\+H\+R\+E\+A\+D\+\_\+\+C\+O\+N\+D\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R
+\item 
+int \hyperlink{glview_8c_abd61232190efcf55f38e876216f176ec}{got\+\_\+rgb} = 0
+\item 
+int \hyperlink{glview_8c_a8afd68e0cc4740fe80348bc73e681ff2}{got\+\_\+depth} = 0
+\item 
+uint16\+\_\+t \hyperlink{glview_8c_a82a61ee157373421ca92dcbb2dd8ed8b}{t\+\_\+gamma} \mbox{[}2048\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{glview_8c_a525335710b53cb064ca56b936120431e}{\index{glview.\+c@{glview.\+c}!\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S@{\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S}}
+\index{\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S@{\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S}!glview.\+c@{glview.\+c}}
+\subsubsection[{\+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+U\+S\+E\+\_\+\+M\+A\+T\+H\+\_\+\+D\+E\+F\+I\+N\+E\+S}}\label{glview_8c_a525335710b53cb064ca56b936120431e}
+
+
+Definition at line 42 of file glview.\+c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{glview_8c_a4e09935f2c3e4fabbf680de25c7ad86b}{\index{glview.\+c@{glview.\+c}!depth\+\_\+cb@{depth\+\_\+cb}}
+\index{depth\+\_\+cb@{depth\+\_\+cb}!glview.\+c@{glview.\+c}}
+\subsubsection[{depth\+\_\+cb}]{\setlength{\rightskip}{0pt plus 5cm}void depth\+\_\+cb (
+\begin{DoxyParamCaption}
+\item[{freenect\+\_\+device $\ast$}]{dev, }
+\item[{void $\ast$}]{v\+\_\+depth, }
+\item[{uint32\+\_\+t}]{timestamp}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_a4e09935f2c3e4fabbf680de25c7ad86b}
+
+
+Definition at line 352 of file glview.\+c.
+
+\hypertarget{glview_8c_a3f50a3778a5799e1dd9cf4547cf73ad3}{\index{glview.\+c@{glview.\+c}!Draw\+G\+L\+Scene@{Draw\+G\+L\+Scene}}
+\index{Draw\+G\+L\+Scene@{Draw\+G\+L\+Scene}!glview.\+c@{glview.\+c}}
+\subsubsection[{Draw\+G\+L\+Scene}]{\setlength{\rightskip}{0pt plus 5cm}void Draw\+G\+L\+Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_a3f50a3778a5799e1dd9cf4547cf73ad3}
+
+
+Definition at line 79 of file glview.\+c.
+
+\hypertarget{glview_8c_a7be14bfa2f7454146326c3f3c381e939}{\index{glview.\+c@{glview.\+c}!freenect\+\_\+threadfunc@{freenect\+\_\+threadfunc}}
+\index{freenect\+\_\+threadfunc@{freenect\+\_\+threadfunc}!glview.\+c@{glview.\+c}}
+\subsubsection[{freenect\+\_\+threadfunc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ freenect\+\_\+threadfunc (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_a7be14bfa2f7454146326c3f3c381e939}
+
+
+Definition at line 419 of file glview.\+c.
+
+\hypertarget{glview_8c_ad7e70d8a1c82dca1f62ae0e67842ebe7}{\index{glview.\+c@{glview.\+c}!gl\+\_\+threadfunc@{gl\+\_\+threadfunc}}
+\index{gl\+\_\+threadfunc@{gl\+\_\+threadfunc}!glview.\+c@{glview.\+c}}
+\subsubsection[{gl\+\_\+threadfunc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ gl\+\_\+threadfunc (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_ad7e70d8a1c82dca1f62ae0e67842ebe7}
+
+
+Definition at line 326 of file glview.\+c.
+
+\hypertarget{glview_8c_ac8d2055368b431f82f03449410409ad0}{\index{glview.\+c@{glview.\+c}!Init\+G\+L@{Init\+G\+L}}
+\index{Init\+G\+L@{Init\+G\+L}!glview.\+c@{glview.\+c}}
+\subsubsection[{Init\+G\+L}]{\setlength{\rightskip}{0pt plus 5cm}void Init\+G\+L (
+\begin{DoxyParamCaption}
+\item[{int}]{Width, }
+\item[{int}]{Height}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_ac8d2055368b431f82f03449410409ad0}
+
+
+Definition at line 300 of file glview.\+c.
+
+\hypertarget{glview_8c_ae49b22892a1276b5e664963496a34177}{\index{glview.\+c@{glview.\+c}!key\+Pressed@{key\+Pressed}}
+\index{key\+Pressed@{key\+Pressed}!glview.\+c@{glview.\+c}}
+\subsubsection[{key\+Pressed}]{\setlength{\rightskip}{0pt plus 5cm}void key\+Pressed (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{key, }
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_ae49b22892a1276b5e664963496a34177}
+
+
+Definition at line 174 of file glview.\+c.
+
+\hypertarget{glview_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{glview.\+c@{glview.\+c}!main@{main}}
+\index{main@{main}!glview.\+c@{glview.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Definition at line 472 of file glview.\+c.
+
+\hypertarget{glview_8c_aaeedc5c1c90eff3a2950f1a2dbbdac6c}{\index{glview.\+c@{glview.\+c}!Re\+Size\+G\+L\+Scene@{Re\+Size\+G\+L\+Scene}}
+\index{Re\+Size\+G\+L\+Scene@{Re\+Size\+G\+L\+Scene}!glview.\+c@{glview.\+c}}
+\subsubsection[{Re\+Size\+G\+L\+Scene}]{\setlength{\rightskip}{0pt plus 5cm}void Re\+Size\+G\+L\+Scene (
+\begin{DoxyParamCaption}
+\item[{int}]{Width, }
+\item[{int}]{Height}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_aaeedc5c1c90eff3a2950f1a2dbbdac6c}
+
+
+Definition at line 289 of file glview.\+c.
+
+\hypertarget{glview_8c_a19d9369cd84a1611ba6acb659bd85334}{\index{glview.\+c@{glview.\+c}!rgb\+\_\+cb@{rgb\+\_\+cb}}
+\index{rgb\+\_\+cb@{rgb\+\_\+cb}!glview.\+c@{glview.\+c}}
+\subsubsection[{rgb\+\_\+cb}]{\setlength{\rightskip}{0pt plus 5cm}void rgb\+\_\+cb (
+\begin{DoxyParamCaption}
+\item[{freenect\+\_\+device $\ast$}]{dev, }
+\item[{void $\ast$}]{rgb, }
+\item[{uint32\+\_\+t}]{timestamp}
+\end{DoxyParamCaption}
+)}}\label{glview_8c_a19d9369cd84a1611ba6acb659bd85334}
+
+
+Definition at line 404 of file glview.\+c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{glview_8c_a49dfe21f8878fca3c7707002d6cf132d}{\index{glview.\+c@{glview.\+c}!camera\+\_\+angle@{camera\+\_\+angle}}
+\index{camera\+\_\+angle@{camera\+\_\+angle}!glview.\+c@{glview.\+c}}
+\subsubsection[{camera\+\_\+angle}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat camera\+\_\+angle = 0.\+0}}\label{glview_8c_a49dfe21f8878fca3c7707002d6cf132d}
+
+
+Definition at line 63 of file glview.\+c.
+
+\hypertarget{glview_8c_a697a668892e76ad2e927f6f03f897e5f}{\index{glview.\+c@{glview.\+c}!camera\+\_\+rotate@{camera\+\_\+rotate}}
+\index{camera\+\_\+rotate@{camera\+\_\+rotate}!glview.\+c@{glview.\+c}}
+\subsubsection[{camera\+\_\+rotate}]{\setlength{\rightskip}{0pt plus 5cm}int camera\+\_\+rotate = 0}}\label{glview_8c_a697a668892e76ad2e927f6f03f897e5f}
+
+
+Definition at line 64 of file glview.\+c.
+
+\hypertarget{glview_8c_a96df8ccd7e3711f19aada741c194c6fa}{\index{glview.\+c@{glview.\+c}!current\+\_\+format@{current\+\_\+format}}
+\index{current\+\_\+format@{current\+\_\+format}!glview.\+c@{glview.\+c}}
+\subsubsection[{current\+\_\+format}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+video\+\_\+format current\+\_\+format = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B}}\label{glview_8c_a96df8ccd7e3711f19aada741c194c6fa}
+
+
+Definition at line 73 of file glview.\+c.
+
+\hypertarget{glview_8c_a05a185d96bcf4b97fbbb3f4f128efe15}{\index{glview.\+c@{glview.\+c}!depth\+\_\+front@{depth\+\_\+front}}
+\index{depth\+\_\+front@{depth\+\_\+front}!glview.\+c@{glview.\+c}}
+\subsubsection[{depth\+\_\+front}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ depth\+\_\+front}}\label{glview_8c_a05a185d96bcf4b97fbbb3f4f128efe15}
+
+
+Definition at line 58 of file glview.\+c.
+
+\hypertarget{glview_8c_aabe1ad59e3a00f62fda680ff2370e47e}{\index{glview.\+c@{glview.\+c}!depth\+\_\+mid@{depth\+\_\+mid}}
+\index{depth\+\_\+mid@{depth\+\_\+mid}!glview.\+c@{glview.\+c}}
+\subsubsection[{depth\+\_\+mid}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t$\ast$ depth\+\_\+mid}}\label{glview_8c_aabe1ad59e3a00f62fda680ff2370e47e}
+
+
+Definition at line 58 of file glview.\+c.
+
+\hypertarget{glview_8c_ae2fd0aea48846a13f893a7795fb82737}{\index{glview.\+c@{glview.\+c}!die@{die}}
+\index{die@{die}!glview.\+c@{glview.\+c}}
+\subsubsection[{die}]{\setlength{\rightskip}{0pt plus 5cm}volatile int die = 0}}\label{glview_8c_ae2fd0aea48846a13f893a7795fb82737}
+
+
+Definition at line 46 of file glview.\+c.
+
+\hypertarget{glview_8c_a53067e4299305a2561e9620e600e1daa}{\index{glview.\+c@{glview.\+c}!f\+\_\+ctx@{f\+\_\+ctx}}
+\index{f\+\_\+ctx@{f\+\_\+ctx}!glview.\+c@{glview.\+c}}
+\subsubsection[{f\+\_\+ctx}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+context$\ast$ f\+\_\+ctx}}\label{glview_8c_a53067e4299305a2561e9620e600e1daa}
+
+
+Definition at line 67 of file glview.\+c.
+
+\hypertarget{glview_8c_a0138d8ca8668ea007a29f8ef480be911}{\index{glview.\+c@{glview.\+c}!f\+\_\+dev@{f\+\_\+dev}}
+\index{f\+\_\+dev@{f\+\_\+dev}!glview.\+c@{glview.\+c}}
+\subsubsection[{f\+\_\+dev}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+device$\ast$ f\+\_\+dev}}\label{glview_8c_a0138d8ca8668ea007a29f8ef480be911}
+
+
+Definition at line 68 of file glview.\+c.
+
+\hypertarget{glview_8c_a51f02887fba86bc66ed78bbf76882c9f}{\index{glview.\+c@{glview.\+c}!freenect\+\_\+angle@{freenect\+\_\+angle}}
+\index{freenect\+\_\+angle@{freenect\+\_\+angle}!glview.\+c@{glview.\+c}}
+\subsubsection[{freenect\+\_\+angle}]{\setlength{\rightskip}{0pt plus 5cm}int freenect\+\_\+angle = 0}}\label{glview_8c_a51f02887fba86bc66ed78bbf76882c9f}
+
+
+Definition at line 69 of file glview.\+c.
+
+\hypertarget{glview_8c_a808b47085d866e3ea4f09f0d027807da}{\index{glview.\+c@{glview.\+c}!freenect\+\_\+led@{freenect\+\_\+led}}
+\index{freenect\+\_\+led@{freenect\+\_\+led}!glview.\+c@{glview.\+c}}
+\subsubsection[{freenect\+\_\+led}]{\setlength{\rightskip}{0pt plus 5cm}int freenect\+\_\+led}}\label{glview_8c_a808b47085d866e3ea4f09f0d027807da}
+
+
+Definition at line 70 of file glview.\+c.
+
+\hypertarget{glview_8c_ab7949f01a378016aff19bea9bb959ea7}{\index{glview.\+c@{glview.\+c}!freenect\+\_\+thread@{freenect\+\_\+thread}}
+\index{freenect\+\_\+thread@{freenect\+\_\+thread}!glview.\+c@{glview.\+c}}
+\subsubsection[{freenect\+\_\+thread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\+\_\+t freenect\+\_\+thread}}\label{glview_8c_ab7949f01a378016aff19bea9bb959ea7}
+
+
+Definition at line 45 of file glview.\+c.
+
+\hypertarget{glview_8c_a56a0ec58e8a4c0f144ab10e9eabc8934}{\index{glview.\+c@{glview.\+c}!g\+\_\+argc@{g\+\_\+argc}}
+\index{g\+\_\+argc@{g\+\_\+argc}!glview.\+c@{glview.\+c}}
+\subsubsection[{g\+\_\+argc}]{\setlength{\rightskip}{0pt plus 5cm}int g\+\_\+argc}}\label{glview_8c_a56a0ec58e8a4c0f144ab10e9eabc8934}
+
+
+Definition at line 48 of file glview.\+c.
+
+\hypertarget{glview_8c_a42cc1f3030bc4fced497d4a33ac59959}{\index{glview.\+c@{glview.\+c}!g\+\_\+argv@{g\+\_\+argv}}
+\index{g\+\_\+argv@{g\+\_\+argv}!glview.\+c@{glview.\+c}}
+\subsubsection[{g\+\_\+argv}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ g\+\_\+argv}}\label{glview_8c_a42cc1f3030bc4fced497d4a33ac59959}
+
+
+Definition at line 49 of file glview.\+c.
+
+\hypertarget{glview_8c_a55500d3312b6801c2f58262cd114ee86}{\index{glview.\+c@{glview.\+c}!gl\+\_\+backbuf\+\_\+mutex@{gl\+\_\+backbuf\+\_\+mutex}}
+\index{gl\+\_\+backbuf\+\_\+mutex@{gl\+\_\+backbuf\+\_\+mutex}!glview.\+c@{glview.\+c}}
+\subsubsection[{gl\+\_\+backbuf\+\_\+mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\+\_\+mutex\+\_\+t gl\+\_\+backbuf\+\_\+mutex = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R}}\label{glview_8c_a55500d3312b6801c2f58262cd114ee86}
+
+
+Definition at line 53 of file glview.\+c.
+
+\hypertarget{glview_8c_a39cd14b3fbc028177b84f0fae676e6bb}{\index{glview.\+c@{glview.\+c}!gl\+\_\+depth\+\_\+tex@{gl\+\_\+depth\+\_\+tex}}
+\index{gl\+\_\+depth\+\_\+tex@{gl\+\_\+depth\+\_\+tex}!glview.\+c@{glview.\+c}}
+\subsubsection[{gl\+\_\+depth\+\_\+tex}]{\setlength{\rightskip}{0pt plus 5cm}G\+Luint gl\+\_\+depth\+\_\+tex}}\label{glview_8c_a39cd14b3fbc028177b84f0fae676e6bb}
+
+
+Definition at line 61 of file glview.\+c.
+
+\hypertarget{glview_8c_af488cfe102552da0f4645b28c40ccc0d}{\index{glview.\+c@{glview.\+c}!gl\+\_\+frame\+\_\+cond@{gl\+\_\+frame\+\_\+cond}}
+\index{gl\+\_\+frame\+\_\+cond@{gl\+\_\+frame\+\_\+cond}!glview.\+c@{glview.\+c}}
+\subsubsection[{gl\+\_\+frame\+\_\+cond}]{\setlength{\rightskip}{0pt plus 5cm}pthread\+\_\+cond\+\_\+t gl\+\_\+frame\+\_\+cond = P\+T\+H\+R\+E\+A\+D\+\_\+\+C\+O\+N\+D\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+E\+R}}\label{glview_8c_af488cfe102552da0f4645b28c40ccc0d}
+
+
+Definition at line 75 of file glview.\+c.
+
+\hypertarget{glview_8c_ab6916d676a3a07a7cb18f3c5ca8fb2d5}{\index{glview.\+c@{glview.\+c}!gl\+\_\+rgb\+\_\+tex@{gl\+\_\+rgb\+\_\+tex}}
+\index{gl\+\_\+rgb\+\_\+tex@{gl\+\_\+rgb\+\_\+tex}!glview.\+c@{glview.\+c}}
+\subsubsection[{gl\+\_\+rgb\+\_\+tex}]{\setlength{\rightskip}{0pt plus 5cm}G\+Luint gl\+\_\+rgb\+\_\+tex}}\label{glview_8c_ab6916d676a3a07a7cb18f3c5ca8fb2d5}
+
+
+Definition at line 62 of file glview.\+c.
+
+\hypertarget{glview_8c_a8afd68e0cc4740fe80348bc73e681ff2}{\index{glview.\+c@{glview.\+c}!got\+\_\+depth@{got\+\_\+depth}}
+\index{got\+\_\+depth@{got\+\_\+depth}!glview.\+c@{glview.\+c}}
+\subsubsection[{got\+\_\+depth}]{\setlength{\rightskip}{0pt plus 5cm}int got\+\_\+depth = 0}}\label{glview_8c_a8afd68e0cc4740fe80348bc73e681ff2}
+
+
+Definition at line 77 of file glview.\+c.
+
+\hypertarget{glview_8c_abd61232190efcf55f38e876216f176ec}{\index{glview.\+c@{glview.\+c}!got\+\_\+rgb@{got\+\_\+rgb}}
+\index{got\+\_\+rgb@{got\+\_\+rgb}!glview.\+c@{glview.\+c}}
+\subsubsection[{got\+\_\+rgb}]{\setlength{\rightskip}{0pt plus 5cm}int got\+\_\+rgb = 0}}\label{glview_8c_abd61232190efcf55f38e876216f176ec}
+
+
+Definition at line 76 of file glview.\+c.
+
+\hypertarget{glview_8c_ab7b640153f29fbf922dcc6499f32d61a}{\index{glview.\+c@{glview.\+c}!requested\+\_\+format@{requested\+\_\+format}}
+\index{requested\+\_\+format@{requested\+\_\+format}!glview.\+c@{glview.\+c}}
+\subsubsection[{requested\+\_\+format}]{\setlength{\rightskip}{0pt plus 5cm}freenect\+\_\+video\+\_\+format requested\+\_\+format = F\+R\+E\+E\+N\+E\+C\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+R\+G\+B}}\label{glview_8c_ab7b640153f29fbf922dcc6499f32d61a}
+
+
+Definition at line 72 of file glview.\+c.
+
+\hypertarget{glview_8c_aa6cb56eda81d1530c93a4c518dac4337}{\index{glview.\+c@{glview.\+c}!rgb\+\_\+back@{rgb\+\_\+back}}
+\index{rgb\+\_\+back@{rgb\+\_\+back}!glview.\+c@{glview.\+c}}
+\subsubsection[{rgb\+\_\+back}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t$\ast$ rgb\+\_\+back}}\label{glview_8c_aa6cb56eda81d1530c93a4c518dac4337}
+
+
+Definition at line 59 of file glview.\+c.
+
+\hypertarget{glview_8c_a884dfff48fd06d8342bab559ecd65cac}{\index{glview.\+c@{glview.\+c}!rgb\+\_\+front@{rgb\+\_\+front}}
+\index{rgb\+\_\+front@{rgb\+\_\+front}!glview.\+c@{glview.\+c}}
+\subsubsection[{rgb\+\_\+front}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ rgb\+\_\+front}}\label{glview_8c_a884dfff48fd06d8342bab559ecd65cac}
+
+
+Definition at line 59 of file glview.\+c.
+
+\hypertarget{glview_8c_a9c9579ecda53a47beeb2a474418da17f}{\index{glview.\+c@{glview.\+c}!rgb\+\_\+mid@{rgb\+\_\+mid}}
+\index{rgb\+\_\+mid@{rgb\+\_\+mid}!glview.\+c@{glview.\+c}}
+\subsubsection[{rgb\+\_\+mid}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ rgb\+\_\+mid}}\label{glview_8c_a9c9579ecda53a47beeb2a474418da17f}
+
+
+Definition at line 59 of file glview.\+c.
+
+\hypertarget{glview_8c_a82a61ee157373421ca92dcbb2dd8ed8b}{\index{glview.\+c@{glview.\+c}!t\+\_\+gamma@{t\+\_\+gamma}}
+\index{t\+\_\+gamma@{t\+\_\+gamma}!glview.\+c@{glview.\+c}}
+\subsubsection[{t\+\_\+gamma}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t t\+\_\+gamma\mbox{[}2048\mbox{]}}}\label{glview_8c_a82a61ee157373421ca92dcbb2dd8ed8b}
+
+
+Definition at line 350 of file glview.\+c.
+
+\hypertarget{glview_8c_ab6334088f36571fa101b6063181ac91e}{\index{glview.\+c@{glview.\+c}!tilt\+\_\+changed@{tilt\+\_\+changed}}
+\index{tilt\+\_\+changed@{tilt\+\_\+changed}!glview.\+c@{glview.\+c}}
+\subsubsection[{tilt\+\_\+changed}]{\setlength{\rightskip}{0pt plus 5cm}int tilt\+\_\+changed = 0}}\label{glview_8c_ab6334088f36571fa101b6063181ac91e}
+
+
+Definition at line 65 of file glview.\+c.
+
+\hypertarget{glview_8c_a65ba7a0b8164c01b33d92b9ab0f2af03}{\index{glview.\+c@{glview.\+c}!window@{window}}
+\index{window@{window}!glview.\+c@{glview.\+c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}int window}}\label{glview_8c_a65ba7a0b8164c01b33d92b9ab0f2af03}
+
+
+Definition at line 51 of file glview.\+c.
+

@@ -1,0 +1,108 @@
+\hypertarget{class_elbow}{\section{Elbow Class Reference}
+\label{class_elbow}\index{Elbow@{Elbow}}
+}
+
+
+{\ttfamily \#include $<$root\+\_\+elbow.\+h$>$}
+
+
+
+Inherits \hyperlink{class_root}{Root}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_elbow_a59df398e7e27037ea04e2aef590b6c73}{Elbow} (Ipl\+Image $\ast$)
+\item 
+void \hyperlink{class_elbow_a3be1d6ee905cedcc9f0ec78d8380d581}{first\+\_\+search} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&vect\+\_\+shoulder, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&vect\+\_\+hand, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&vect\+\_\+neck, bool l\+\_\+r\+\_\+)
+\item 
+void \hyperlink{class_elbow_a9baba4296500a9ad0e801193c08e721c}{search} (Ipl\+Image $\ast$frame\+\_\+, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&shoulder, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&hand, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&hips)
+\item 
+void \hyperlink{class_elbow_ae0d447979226a109eb964a9c65681f2e}{new\+\_\+rot} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{class_vect}{Vect}$<$ float $>$ $>$ \hyperlink{class_elbow_ad543686abb59461934cdf1a0b052bcfc}{vect\+\_\+rot}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file root\+\_\+elbow.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_elbow_a59df398e7e27037ea04e2aef590b6c73}{\index{Elbow@{Elbow}!Elbow@{Elbow}}
+\index{Elbow@{Elbow}!Elbow@{Elbow}}
+\subsubsection[{Elbow}]{\setlength{\rightskip}{0pt plus 5cm}Elbow\+::\+Elbow (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_elbow_a59df398e7e27037ea04e2aef590b6c73}
+
+
+Definition at line 4 of file root\+\_\+elbow.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_elbow_a3be1d6ee905cedcc9f0ec78d8380d581}{\index{Elbow@{Elbow}!first\+\_\+search@{first\+\_\+search}}
+\index{first\+\_\+search@{first\+\_\+search}!Elbow@{Elbow}}
+\subsubsection[{first\+\_\+search}]{\setlength{\rightskip}{0pt plus 5cm}void Elbow\+::first\+\_\+search (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{vect\+\_\+shoulder, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{vect\+\_\+hand, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{vect\+\_\+neck, }
+\item[{bool}]{l\+\_\+r\+\_\+}
+\end{DoxyParamCaption}
+)}}\label{class_elbow_a3be1d6ee905cedcc9f0ec78d8380d581}
+
+
+Definition at line 7 of file root\+\_\+elbow.\+cpp.
+
+\hypertarget{class_elbow_ae0d447979226a109eb964a9c65681f2e}{\index{Elbow@{Elbow}!new\+\_\+rot@{new\+\_\+rot}}
+\index{new\+\_\+rot@{new\+\_\+rot}!Elbow@{Elbow}}
+\subsubsection[{new\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}void Elbow\+::new\+\_\+rot (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{neck, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{shoulder}
+\end{DoxyParamCaption}
+)}}\label{class_elbow_ae0d447979226a109eb964a9c65681f2e}
+
+
+Definition at line 171 of file root\+\_\+elbow.\+cpp.
+
+\hypertarget{class_elbow_a9baba4296500a9ad0e801193c08e721c}{\index{Elbow@{Elbow}!search@{search}}
+\index{search@{search}!Elbow@{Elbow}}
+\subsubsection[{search}]{\setlength{\rightskip}{0pt plus 5cm}void Elbow\+::search (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{shoulder, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{hand, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{hips}
+\end{DoxyParamCaption}
+)}}\label{class_elbow_a9baba4296500a9ad0e801193c08e721c}
+
+
+Definition at line 58 of file root\+\_\+elbow.\+cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_elbow_ad543686abb59461934cdf1a0b052bcfc}{\index{Elbow@{Elbow}!vect\+\_\+rot@{vect\+\_\+rot}}
+\index{vect\+\_\+rot@{vect\+\_\+rot}!Elbow@{Elbow}}
+\subsubsection[{vect\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Vect} $<$float$>$ $>$ Elbow\+::vect\+\_\+rot}}\label{class_elbow_ad543686abb59461934cdf1a0b052bcfc}
+
+
+Definition at line 13 of file root\+\_\+elbow.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{root__elbow_8h}{root\+\_\+elbow.\+h}\item 
+/home/lydia/tron/src/\hyperlink{root__elbow_8cpp}{root\+\_\+elbow.\+cpp}\end{DoxyCompactItemize}

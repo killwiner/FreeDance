@@ -1,0 +1,130 @@
+\hypertarget{class_hand}{\section{Hand Class Reference}
+\label{class_hand}\index{Hand@{Hand}}
+}
+
+
+{\ttfamily \#include $<$root\+\_\+hand.\+h$>$}
+
+
+
+Inherits \hyperlink{class_root}{Root}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_hand_a59407f12d34f8e084cd97487e8987495}{Hand} (Ipl\+Image $\ast$)
+\item 
+void \hyperlink{class_hand_a06cfdc73d7408e9e7789d689f04ceb4f}{first\+\_\+search} (bool l\+\_\+r, \hyperlink{class_vect}{Vect}$<$ float $>$, \hyperlink{class_vect}{Vect}$<$ float $>$)
+\item 
+void \hyperlink{class_hand_a1cefbe10b5e368ee180186f609054a07}{z\+\_\+axis} (float const \&)
+\item 
+void \hyperlink{class_hand_a327a5da7f91483bea155a517825e7b2d}{search} (Ipl\+Image $\ast$, float const \&, int const \&, \hyperlink{class_vect}{Vect}$<$ float $>$, \hyperlink{class_vect}{Vect}$<$ float $>$ elbow)
+\item 
+void \hyperlink{class_hand_ab42830e09db098ac05caa2516ddbd271}{new\+\_\+rot} (\hyperlink{class_vect}{Vect}$<$ float $>$ const \&, \hyperlink{class_vect}{Vect}$<$ float $>$ const \&)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{class_vect}{Vect}$<$ float $>$ $>$ \hyperlink{class_hand_aee89f8228c4b91d6b945cfd0ac06a1f4}{vect\+\_\+rot}
+\item 
+\hyperlink{class_vect}{Vect}$<$ float $>$ \hyperlink{class_hand_adff0a0b12313a9c91d199fe1f254d7af}{s}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file root\+\_\+hand.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_hand_a59407f12d34f8e084cd97487e8987495}{\index{Hand@{Hand}!Hand@{Hand}}
+\index{Hand@{Hand}!Hand@{Hand}}
+\subsubsection[{Hand}]{\setlength{\rightskip}{0pt plus 5cm}Hand\+::\+Hand (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_hand_a59407f12d34f8e084cd97487e8987495}
+
+
+Definition at line 3 of file root\+\_\+hand.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_hand_a06cfdc73d7408e9e7789d689f04ceb4f}{\index{Hand@{Hand}!first\+\_\+search@{first\+\_\+search}}
+\index{first\+\_\+search@{first\+\_\+search}!Hand@{Hand}}
+\subsubsection[{first\+\_\+search}]{\setlength{\rightskip}{0pt plus 5cm}void Hand\+::first\+\_\+search (
+\begin{DoxyParamCaption}
+\item[{bool}]{l\+\_\+r, }
+\item[{{\bf Vect}$<$ float $>$}]{elbow, }
+\item[{{\bf Vect}$<$ float $>$}]{shoulder}
+\end{DoxyParamCaption}
+)}}\label{class_hand_a06cfdc73d7408e9e7789d689f04ceb4f}
+
+
+Definition at line 9 of file root\+\_\+hand.\+cpp.
+
+\hypertarget{class_hand_ab42830e09db098ac05caa2516ddbd271}{\index{Hand@{Hand}!new\+\_\+rot@{new\+\_\+rot}}
+\index{new\+\_\+rot@{new\+\_\+rot}!Hand@{Hand}}
+\subsubsection[{new\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}void Hand\+::new\+\_\+rot (
+\begin{DoxyParamCaption}
+\item[{{\bf Vect}$<$ float $>$ const \&}]{shoulder, }
+\item[{{\bf Vect}$<$ float $>$ const \&}]{elbow}
+\end{DoxyParamCaption}
+)}}\label{class_hand_ab42830e09db098ac05caa2516ddbd271}
+
+
+Definition at line 112 of file root\+\_\+hand.\+cpp.
+
+\hypertarget{class_hand_a327a5da7f91483bea155a517825e7b2d}{\index{Hand@{Hand}!search@{search}}
+\index{search@{search}!Hand@{Hand}}
+\subsubsection[{search}]{\setlength{\rightskip}{0pt plus 5cm}void Hand\+::search (
+\begin{DoxyParamCaption}
+\item[{Ipl\+Image $\ast$}]{frame\+\_\+, }
+\item[{float const \&}]{radius, }
+\item[{int const \&}]{black\+\_\+arc, }
+\item[{{\bf Vect}$<$ float $>$}]{vec\+\_\+black\+\_\+arc, }
+\item[{{\bf Vect}$<$ float $>$}]{elbow}
+\end{DoxyParamCaption}
+)}}\label{class_hand_a327a5da7f91483bea155a517825e7b2d}
+
+
+Definition at line 84 of file root\+\_\+hand.\+cpp.
+
+\hypertarget{class_hand_a1cefbe10b5e368ee180186f609054a07}{\index{Hand@{Hand}!z\+\_\+axis@{z\+\_\+axis}}
+\index{z\+\_\+axis@{z\+\_\+axis}!Hand@{Hand}}
+\subsubsection[{z\+\_\+axis}]{\setlength{\rightskip}{0pt plus 5cm}void Hand\+::z\+\_\+axis (
+\begin{DoxyParamCaption}
+\item[{float const \&}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hand_a1cefbe10b5e368ee180186f609054a07}
+
+
+Definition at line 22 of file root\+\_\+hand.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_hand_adff0a0b12313a9c91d199fe1f254d7af}{\index{Hand@{Hand}!s@{s}}
+\index{s@{s}!Hand@{Hand}}
+\subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Vect}$<$float$>$ Hand\+::s}}\label{class_hand_adff0a0b12313a9c91d199fe1f254d7af}
+
+
+Definition at line 16 of file root\+\_\+hand.\+h.
+
+\hypertarget{class_hand_aee89f8228c4b91d6b945cfd0ac06a1f4}{\index{Hand@{Hand}!vect\+\_\+rot@{vect\+\_\+rot}}
+\index{vect\+\_\+rot@{vect\+\_\+rot}!Hand@{Hand}}
+\subsubsection[{vect\+\_\+rot}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Vect} $<$float$>$ $>$ Hand\+::vect\+\_\+rot}}\label{class_hand_aee89f8228c4b91d6b945cfd0ac06a1f4}
+
+
+Definition at line 14 of file root\+\_\+hand.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/lydia/tron/src/\hyperlink{root__hand_8h}{root\+\_\+hand.\+h}\item 
+/home/lydia/tron/src/\hyperlink{root__hand_8cpp}{root\+\_\+hand.\+cpp}\end{DoxyCompactItemize}
