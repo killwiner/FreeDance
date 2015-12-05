@@ -12,7 +12,7 @@ class Render : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit Render(int framesPerSecond = 0, QWidget *parent = 0, TheDevice *thedevice = 0, SaveLoad *saveload = 0, Skeleton *skeleton = 0, char *name = 0);
+    explicit Render(int framesPerSecond = 0, QWidget *parent = 0, TheDevice *thedevice = 0, SaveLoad *saveload = 0, Skeleton *skeleton = 0, const char *name = "");
     virtual void initializeGL() = 0;
     virtual void resizeGL(int width, int height) = 0;
     virtual void paintGL() = 0;
@@ -27,9 +27,9 @@ private:
     int interval_time = 1000; // interval time between each image
 
 protected:
-    TheDevice *thedevice;
     SaveLoad *saveload = NULL;
     Skeleton *skeleton = NULL;
+    TheDevice *thedevice;
     int width, height;
     int status; // can be STATUS_KINECT, STATUS_MOTION, STATUS_RECORD, STATUS_SKELETON
 };

@@ -160,6 +160,7 @@ void *TheDevice::loop(void *arg) {
              current_format = requested_format;
          }
      }
+     return NULL;
 }
 
 // start the device

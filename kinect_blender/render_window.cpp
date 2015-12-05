@@ -234,8 +234,8 @@ void RenderWindow::memory_info() {
 
     ++timer;
 
-    FILE *in;
-    if(in = popen("cat /proc/meminfo", "r")) {
+    FILE *in = popen("cat /proc/meminfo", "r");
+    if(in) {
         char buffer[128], mem_total_s[128], mem_free_s[128];
         int mem_total, mem_free;
 

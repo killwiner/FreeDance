@@ -10,6 +10,9 @@
 class SaveLoad
 {
 
+private:
+    CvCapture* capture;
+
 public:
     explicit SaveLoad();
     void load(const QString &fileName);
@@ -19,8 +22,6 @@ public:
     IplImage *frame;
     std::vector<IplImage> vect_imgs;
 
-private:
-    CvCapture* capture;
 };
 
 #endif // SAVE_LOAD_H
