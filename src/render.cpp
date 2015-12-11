@@ -1,8 +1,8 @@
 #include "render.h"
 #include <stdio.h>
 
-Render::Render(int framesPerSecond, QWidget *parent, TheDevice *thedevice_, SaveLoad *saveload_, Skeleton *skeleton_, const char *name)
-    : QGLWidget(parent), saveload(saveload_), skeleton(skeleton_), thedevice(thedevice_)
+Render::Render(int framesPerSecond, QWidget *parent, TheDevice *thedevice_, SaveLoad *saveload_, QSharedPointer<Skeleton> SP_skeleton_, const char *name)
+    : QGLWidget(parent), saveload(saveload_), SP_skeleton(SP_skeleton_), thedevice(thedevice_)
 {
 
     setWindowTitle(QString::fromUtf8(name));

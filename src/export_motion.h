@@ -16,7 +16,7 @@ class ExportMotion
 
 public:
     explicit ExportMotion();
-    void save(const QString &, const Skeleton &, const int &);
+    void save(const QString &, const QSharedPointer<Skeleton> &, const int &);
 
 private:
     // write a new root in the file

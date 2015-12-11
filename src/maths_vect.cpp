@@ -1,6 +1,5 @@
 #include "maths_vect.h"
 
-// return the intersection point between two vectors (v1, v2) and (w&, w2)
 Vect<float> cross_2D(Vect<float> const &v1, Vect<float> const &w1, Vect<float> const &v2, Vect<float> const &w2) {
 
     float a1 = (v1.y - w1.y) / (v1.x - w1.x);

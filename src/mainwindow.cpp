@@ -13,10 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     try {
         thedevice = new TheDevice();
+        SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
     }
     catch ( const exception &e )
     {
-        cerr << "Exception caught !!" << endl;
+        cerr << "(mainwindow) Exception caught !!" << endl;
         cerr << e.what() << endl;
     }
     ui->setupUi(this);    
@@ -31,6 +32,7 @@ MainWindow::~MainWindow()
         thedevice->stop();
         delete thedevice;
         SP_renderwindow.clear();
+        SP_skeleton.clear();
     }
     catch ( const exception &e )
     {
@@ -80,7 +82,7 @@ void MainWindow::on_actionRun_triggered()
     if (SP_renderwindow.isNull()) {
         thedevice->start();
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_KINECT));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_KINECT));
 
         //Sets the given widget to be the main window's central widget.
         // win devient la widget central
@@ -116,7 +118,7 @@ void MainWindow::on_actionLoad_Motion_triggered()
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_MOTION));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -149,7 +151,7 @@ void MainWindow::on_actionRun_Motion_triggered()
 {
 
     if(SP_renderwindow.isNull()) {
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_MOTION));
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
         this->adjustSize();
@@ -175,7 +177,7 @@ void MainWindow::on_actionRecord_triggered()
 
     if (!thedevice->is_running()) {
         message.setText("Kinect is not running");
-        message.show();
+        message.exec();
         return;
     }
 
@@ -207,7 +209,7 @@ void MainWindow::on_actionCreate_triggered()
 
     // create the skeleton
     // crée l'armature
-    skeleton.start(prog, blue_p, red_p);
+    SP_skeleton->start(prog, blue_p, red_p);
 
     prog->close();
 
@@ -215,7 +217,7 @@ void MainWindow::on_actionCreate_triggered()
     // affichage de l'animation de l'armature
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, &skeleton, STATUS_SKELETON));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_SKELETON));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -239,8 +241,16 @@ void MainWindow::on_actionPause_triggered()
 // enregistre dans un fichier, une armature pour blender
 void MainWindow::on_actionExport_to_blender_2_triggered()
 {
+
+    if (SP_skeleton.isNull()) {
+        QMessageBox message;
+        message.setText("Please, build a skeleton first.");
+        message.exec();
+        return;
+    }
+
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "skeleton.bvh", "Motions (*.bvh)");
     ExportMotion exportmotion;
 
-    exportmotion.save(fileName, skeleton, skeleton.nbr_imgs);
+    exportmotion.save(fileName, SP_skeleton, SP_skeleton->nbr_imgs);
 }

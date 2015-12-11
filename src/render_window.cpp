@@ -1,7 +1,7 @@
 #include "render_window.h"
 
-RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *saveload_, Skeleton *skeleton_, int const &status_)
-    : Render(20, parent, thedevice, saveload_, skeleton_, "Kinect Render")
+RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *saveload_, QSharedPointer<Skeleton> SP_skeleton_, int const &status_)
+    : Render(20, parent, thedevice, saveload_, SP_skeleton_, "Kinect Render")
 {
 
     status = status_;
@@ -10,7 +10,7 @@ RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *save
 
     // vectors with motion movie or the skeleton movie
     vect_motion_kinect=saveload->vect_imgs.begin();
-    vect_motion_skeleton=skeleton->vect_imgs.begin();
+    vect_motion_skeleton=SP_skeleton->vect_imgs.begin();
 
 }
 
@@ -18,7 +18,7 @@ RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *save
 void RenderWindow::change_status(int s) {
     status = s;
     vect_motion_kinect=saveload->vect_imgs.begin();
-    vect_motion_skeleton=skeleton->vect_imgs.begin();
+    vect_motion_skeleton=SP_skeleton->vect_imgs.begin();
 
 }
 
@@ -175,10 +175,10 @@ void RenderWindow::paintGL()
         glEnd();
 
         // loop the movie
-        if (vect_motion_skeleton + 1 != skeleton->vect_imgs.end())
+        if (vect_motion_skeleton + 1 != SP_skeleton->vect_imgs.end())
             ++vect_motion_skeleton;
         else
-            vect_motion_skeleton = skeleton->vect_imgs.begin();
+            vect_motion_skeleton = SP_skeleton->vect_imgs.begin();
     }
 }
 
