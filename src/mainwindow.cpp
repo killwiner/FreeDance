@@ -242,8 +242,9 @@ void MainWindow::on_actionPause_triggered()
 void MainWindow::on_actionExport_to_blender_2_triggered()
 {
 
+    QMessageBox message;
+
     if (SP_skeleton.isNull()) {
-        QMessageBox message;
         message.setText("Please, build a skeleton first.");
         message.exec();
         return;
@@ -253,4 +254,8 @@ void MainWindow::on_actionExport_to_blender_2_triggered()
     ExportMotion exportmotion;
 
     exportmotion.save(fileName, SP_skeleton, SP_skeleton->nbr_imgs);
+
+    message.setText("The file was saved.");
+    message.exec();
+
 }

@@ -23,7 +23,7 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
     // we turn the vector on PI/2
     v = quick_rot(shoulder_to_hand, 0);
 
-    Vect<float> h = v / normal(v);
+    Vect<float> h = v / vectors_maths::normal(v);
     Vect<float> u = vect_shoulder;
 
     u += shoulder_to_hand / 2.0f;
@@ -38,15 +38,15 @@ void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &ve
 
         if (frame->PIXEL_COLOR_RED_VECT(u - w) || frame->PIXEL_COLOR_RED_VECT(u + w)) {
 
-            lenght_elbow_hand = lenght(p, vect_hand);
+            lenght_elbow_hand = vectors_maths::lenght(p, vect_hand);
 
             Vect<float> p_x_y = p;
             Vect<float> p_y_z = p;
             p_x_y.z = .0f;
             p_y_z.x = .0f;
 
-            init_angle_x_y = angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
-            init_angle_y_z = -angle_vects(Vect<float>(.0f, 1.0f, .0f), p_y_z - Vect<float>(.0f, vect_shoulder.y, .0f));
+            init_angle_x_y = vectors_maths::angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
+            init_angle_y_z = -vectors_maths::angle_vects(Vect<float>(.0f, 1.0f, .0f), p_y_z - Vect<float>(.0f, vect_shoulder.y, .0f));
 
             return;
         }
@@ -60,7 +60,7 @@ void Elbow::search(IplImage *frame_, Vect<float> const &shoulder, Vect<float> co
 
 
     Vect<float> ca = shoulder - hand;
-    Vect<float> w = ca / normal(ca);
+    Vect<float> w = ca / vectors_maths::normal(ca);
     Vect<float> u(0, 0, 0);
     float epsilone = .001f;
 
@@ -76,7 +76,7 @@ void Elbow::search(IplImage *frame_, Vect<float> const &shoulder, Vect<float> co
 
     u.x = -w.y * u.y / w.x;
     u.z = .0f;
-    Vect<float> v = cross_product(u, w);
+    Vect<float> v = vectors_maths::cross_product(u, w);
 
     if(u.x == .0f)
         return;
@@ -134,9 +134,9 @@ void Elbow::search(IplImage *frame_, Vect<float> const &shoulder, Vect<float> co
         return;
     ray = sqrt(ray);
 
-    Vect<float> n = cross_product(p - shoulder, hips - shoulder);
-    n = n / normal(n);
-    n = matrix_3_3_product_1_3(p1, n);
+    Vect<float> n = vectors_maths::cross_product(p - shoulder, hips - shoulder);
+    n = n / vectors_maths::normal(n);
+    n = vectors_maths::matrix_3_3_product_1_3(p1, n);
 
     float t, at;
 
@@ -185,6 +185,6 @@ void Elbow::new_rot(Vect<float> const &neck, Vect<float> const &shoulder) {
     init_angle_cor_y_z = init_angle_y_z - PI - PI / 8;
     init_angle_cor_x_y = init_angle_x_y - PI / 2 - PI / 8;
 
-    vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - angle_vects(Vect<float>(.0f, 1.0f, .0f), elbow_to_shoulder_y_z)) / PI,
-                                   180.0f * (init_angle_cor_x_y + angle_vects(neck_to_shoulder, elbow_to_shoulder_x_y)) / PI, .0f));
+    vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - vectors_maths::angle_vects(Vect<float>(.0f, 1.0f, .0f), elbow_to_shoulder_y_z)) / PI,
+                                   180.0f * (init_angle_cor_x_y + vectors_maths::angle_vects(neck_to_shoulder, elbow_to_shoulder_x_y)) / PI, .0f));
 }

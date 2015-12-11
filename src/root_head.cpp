@@ -56,9 +56,9 @@ Vect<float> Head::first_search() {
                     neck.y = y;
                     neck.x = bottom.x;
                     right.y = left.y = top.y + (bottom.y - top.y) / 2;
-                    p = cross_2D(left, right, bottom, top);
+                    p = vectors_maths::cross_2D(left, right, bottom, top);
 
-                    lenght_head_neck = lenght(p, neck);
+                    lenght_head_neck = vectors_maths::lenght(p, neck);
                     return neck;
                 }
 
@@ -122,7 +122,7 @@ Vect<float> Head::first_search() {
         ++web_width;
     }
 
-    lenght_head_neck = lenght(p, neck);
+    lenght_head_neck = vectors_maths::lenght(p, neck);
     return neck;
 }
 
@@ -130,7 +130,7 @@ Vect<float> Head::first_search() {
 void Head::bone(Vect<float> const& vect_neck) {
 
     Vect<float> u(p.x - vect_neck.x, p.y - vect_neck.y, 0);
-    float k = lenght_head_neck / normal(u);
+    float k = lenght_head_neck / vectors_maths::normal(u);
     p.x = k * u.x + vect_neck.x;
     p.y = k * u.y + vect_neck.y;
 }
@@ -138,5 +138,5 @@ void Head::bone(Vect<float> const& vect_neck) {
 void Head::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
     Vect<float> hips_to_neck = neck - hips;
     Vect<float> neck_to_head = p - neck;
-    vect_rot.push_back(Vect<float>(.0f, 180.0f * angle_vects(hips_to_neck, neck_to_head) / PI, .0f));
+    vect_rot.push_back(Vect<float>(.0f, 180.0f * vectors_maths::angle_vects(hips_to_neck, neck_to_head) / PI, .0f));
 }

@@ -21,7 +21,7 @@ private:
 
 inline void Elbow::get_circle(Vect<float> shoulder, float ray, float t, Vect< Vect <float> > p2, Vect<float> ca, bool &start_r, Vect<float> &r) {
     Vect<float> circle(ray * cosf(t), ray * sinf(t), .0f);
-    circle = matrix_3_3_product_1_3(p2, circle);
+    circle = vectors_maths::matrix_3_3_product_1_3(p2, circle);
     circle += shoulder;
     circle.x -= ca.x / 2;
     circle.y -= ca.y / 2;

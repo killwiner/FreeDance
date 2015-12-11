@@ -31,7 +31,7 @@ SOURCES += main.cpp\
     root_head.cpp \
     root_shoulder.cpp \
     root_elbow.cpp \
-    maths_vect.cpp \
+    vectors_maths/maths_vect.cpp \
     root_hips.cpp \
     vect.cpp \
     root_hand.cpp \
@@ -53,7 +53,7 @@ HEADERS  += mainwindow.h \
     root_head.h \
     root_shoulder.h \
     root_elbow.h \
-    maths_vect.h \
+    vectors_maths/maths_vect.h \
     root_hips.h \
     root_hand.h \
     root_neck.h \

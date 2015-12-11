@@ -29,7 +29,7 @@ void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &ve
     else
         v = quick_rot(neck_to_hips, 1);
 
-    Vect<float> i = v / normal(v);
+    Vect<float> i = v / vectors_maths::normal(v);
     Vect<float> u = vect_neck;
 
     u += neck_to_hips / (float)14.0;
@@ -44,8 +44,8 @@ void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &ve
 
     p = u;
 
-    lenght_neck_shoulder = lenght(p, vect_neck);
-    init_angle = angle_vects(vect_hips_ - vect_neck_, p - vect_neck_);
+    lenght_neck_shoulder = vectors_maths::lenght(p, vect_neck);
+    init_angle = vectors_maths::angle_vects(vect_hips_ - vect_neck_, p - vect_neck_);
 
 }
 
@@ -53,7 +53,7 @@ void Shoulder::bone() {
     Vect<float>t = vect_neck;
     t += neck_to_hips / (float)14.0;
     Vect<float> u(p.x - t.x, p.y - t.y, 0.0f);
-    float k = lenght_neck_shoulder / normal(u);
+    float k = lenght_neck_shoulder / vectors_maths::normal(u);
     if(k < 1.0f) {
         p.x = k * u.x + t.x;
         p.y = k * u.y + t.y;
@@ -66,7 +66,7 @@ void Shoulder::search(IplImage* frame_, float const &radius, int const &black_ar
 
     Root::search(frame_, radius, black_arc, vec_black_arc);
 
-    if(init_angle - angle_vects(hips - neck, p - neck) > .3f || init_angle - angle_vects(hips - neck, p - neck) < -.3f)
+    if(init_angle - vectors_maths::angle_vects(hips - neck, p - neck) > .3f || init_angle - vectors_maths::angle_vects(hips - neck, p - neck) < -.3f)
         p = last_p;
 }
 
@@ -78,5 +78,5 @@ void Shoulder::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
         init_angle_cor = init_angle + PI / 4;
     else
         init_angle_cor = init_angle - PI / 4;
-    vect_rot.push_back(Vect<float>(.0f, 180.0f * (init_angle_cor + angle_vects(neck_to_hips, shoulder_to_neck)) / PI, .0f));
+    vect_rot.push_back(Vect<float>(.0f, 180.0f * (init_angle_cor + vectors_maths::angle_vects(neck_to_hips, shoulder_to_neck)) / PI, .0f));
 }

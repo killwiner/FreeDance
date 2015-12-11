@@ -38,8 +38,8 @@ void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
                     Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
                     Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
 
-                    init_angle_y_z = angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
-                    init_angle_x_y = angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
+                    init_angle_y_z = vectors_maths::angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
+                    init_angle_x_y = vectors_maths::angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
 
                     return;
                 }
@@ -71,8 +71,8 @@ void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
                     Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
                     Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
 
-                    init_angle_y_z = angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
-                    init_angle_x_y = angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
+                    init_angle_y_z = vectors_maths::angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
+                    init_angle_x_y = vectors_maths::angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
 
                     return;
                 }
@@ -85,10 +85,10 @@ void Hand::search(IplImage* frame_, float const &radius, int const &black_arc, V
 
     Vect<float> unit_dep = p - elbow;
     unit_dep.z = 0;
-    unit_dep = unit_dep / normal(unit_dep);
+    unit_dep = unit_dep / vectors_maths::normal(unit_dep);
     Vect<float> ray = unit_dep * radius;
 
-    if(normal(unit_dep) == .0f)
+    if(vectors_maths::normal(unit_dep) == .0f)
         return;
 
     while(true) {
@@ -132,6 +132,6 @@ void Hand::new_rot(Vect<float> const &shoulder, Vect<float> const &elbow) {
     init_angle_cor_y_z = init_angle_y_z;
     init_angle_cor_x_y = init_angle_x_y - PI / 2;
 
-    vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - angle_vects(hand_to_elbow_y_z, shoulder_to_elbow_y_z)) / PI,
-                                   180.0f * (init_angle_cor_x_y + angle_vects(hand_to_elbow_x_y, shoulder_to_elbow_x_y)) / PI, .0f));
+    vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - vectors_maths::angle_vects(hand_to_elbow_y_z, shoulder_to_elbow_y_z)) / PI,
+                                   180.0f * (init_angle_cor_x_y + vectors_maths::angle_vects(hand_to_elbow_x_y, shoulder_to_elbow_x_y)) / PI, .0f));
 }

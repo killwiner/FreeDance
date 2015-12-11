@@ -206,9 +206,9 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             shoulder_l->search(frame, 25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
             shoulder_l->bone();
 
-            hand_r->search(frame, 25, 24, (hand_r->p - elbow_r->p) / lenght(hand_r->p, elbow_r->p), elbow_r->p);
+            hand_r->search(frame, 25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
             //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-            hand_l->search(frame, 25, 24, (hand_l->p - elbow_l->p) / lenght(hand_l->p, elbow_l->p), elbow_l->p);
+            hand_l->search(frame, 25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
             //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
             elbow_r->search(frame, shoulder_r->p, hand_r->p, hips->p);

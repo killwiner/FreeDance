@@ -130,6 +130,6 @@ void Hips::new_rot(Vect<float> const &neck) {
 
     Vect<float> hips_to_neck_x_y = neck_x_y - p_x_y;
 
-    vect_rot.push_back(Vect<float>(.0f, .0f, 180.0f * angle_vects(Vect<float>(.0f, -1.0f, .0f), hips_to_neck_x_y) / PI));
+    vect_rot.push_back(Vect<float>(.0f, .0f, 180.0f * vectors_maths::angle_vects(Vect<float>(.0f, -1.0f, .0f), hips_to_neck_x_y) / PI));
     vect_offset.push_back(Vect<float>((p.x - init_offset.x)/10.0f, (p.z - init_offset.z)/10.0f, (p.y - init_offset.y)/10.0f));
 }
