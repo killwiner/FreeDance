@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     try {
-        thedevice = new TheDevice();
+        thedevice = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
     }
     catch ( const exception &e )
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
         cerr << "(mainwindow) Exception caught !!" << endl;
         cerr << e.what() << endl;
     }
-    ui->setupUi(this);    
+    ui->setupUi(this);
 }
 
 // destroy all
@@ -57,12 +57,18 @@ void MainWindow::on_actionConnect_triggered()
 
     QMessageBox message;
 
-    if (thedevice->connect())
+    try {
+        thedevice->connect();
         message.setText("Kinect connected");
-    else
+        message.exec();
+    }
+    catch (const char* strException) {
         message.setText("Can't connect to the Kinect");
-    message.show();
+        message.exec();
 
+        cerr << "Exception caught !!" << endl;
+        cerr << strException << endl;
+    }
 }
 
 // show images from the kinect
@@ -70,17 +76,19 @@ void MainWindow::on_actionConnect_triggered()
 void MainWindow::on_actionRun_triggered()
 {
 
-    if (!thedevice->is_connected()) {
-        QMessageBox message;
-        message.setText("Kinect not connected");
-        message.show();
-        return;
-    }
-
     // first time, we create the opengl window and reajust the win size
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
     if (SP_renderwindow.isNull()) {
-        thedevice->start();
+
+        try {
+            thedevice->start();
+        }
+        catch (const char* strException) {
+            QMessageBox message;
+            message.setText("Kinect can't start");
+            message.exec();
+            return;
+        }
 
         SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_KINECT));
 

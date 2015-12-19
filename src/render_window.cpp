@@ -1,6 +1,6 @@
 #include "render_window.h"
 
-RenderWindow::RenderWindow(QWidget *parent, TheDevice *thedevice, SaveLoad *saveload_, QSharedPointer<Skeleton> SP_skeleton_, int const &status_)
+RenderWindow::RenderWindow(QWidget *parent, Kinect *thedevice, SaveLoad *saveload_, QSharedPointer<Skeleton> SP_skeleton_, int const &status_)
     : Render(20, parent, thedevice, saveload_, SP_skeleton_, "Kinect Render")
 {
 

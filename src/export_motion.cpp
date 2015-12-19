@@ -182,6 +182,7 @@ void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
     {
         cerr << "Exception caught !!" << endl;
         cerr << strException << endl;
+        throw;
     }
 
 

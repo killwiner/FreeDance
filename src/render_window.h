@@ -7,7 +7,7 @@ class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent = 0, TheDevice *thedevice = 0, SaveLoad *saveload = 0, QSharedPointer<Skeleton> SP_skeleton_ = QSharedPointer<Skeleton>(new Skeleton()), int const &status_ = 0);
+    explicit RenderWindow(QWidget *parent = 0, Kinect *thedevice = 0, SaveLoad *saveload = 0, QSharedPointer<Skeleton> SP_skeleton_ = QSharedPointer<Skeleton>(new Skeleton()), int const &status_ = 0);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();

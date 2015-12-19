@@ -19,7 +19,6 @@ INCLUDEPATH += /usr/include/libusb-1.0
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    opkinect.cpp \
     render.cpp \
     render_window.cpp \
     save_load.cpp \
@@ -37,10 +36,10 @@ SOURCES += main.cpp\
     root_hand.cpp \
     root_neck.cpp \
     search_partitions.cpp \
-    export_motion.cpp
+    export_motion.cpp \
+    kinect.cpp
 
 HEADERS  += mainwindow.h \
-    opkinect.h \
     render.h \
     render_window.h \
     save_load.h \
@@ -57,6 +56,7 @@ HEADERS  += mainwindow.h \
     root_hips.h \
     root_hand.h \
     root_neck.h \
-    export_motion.h
+    export_motion.h \
+    kinect.h
 
 FORMS    += mainwindow.ui
