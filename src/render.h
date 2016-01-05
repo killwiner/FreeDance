@@ -12,7 +12,7 @@ class Render : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit Render(int framesPerSecond = 0, QWidget *parent = 0, Kinect *thedevice = 0, SaveLoad *saveload = 0, QSharedPointer<Skeleton> SP_skeleton_ = QSharedPointer<Skeleton>(new Skeleton()), const char *name = "");
+    explicit Render(int framesPerSecond, QWidget *parent, Kinect *kinect, SaveLoad &saveload, QSharedPointer<Skeleton> &SP_skeleton_, const char *name);
     virtual void initializeGL() = 0;
     virtual void resizeGL(int width, int height) = 0;
     virtual void paintGL() = 0;
@@ -27,9 +27,9 @@ private:
     int interval_time = 1000; // interval time between each image
 
 protected:
-    SaveLoad *saveload = NULL;
+    SaveLoad saveload;
     QSharedPointer<Skeleton> SP_skeleton;
-    Kinect *thedevice;
+    Kinect *kinect;
     int width, height;
     int status; // can be STATUS_KINECT, STATUS_MOTION, STATUS_RECORD, STATUS_SKELETON
 };

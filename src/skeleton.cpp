@@ -83,8 +83,8 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         //frame  = cvCloneImage(buffer_img);
 
         // Here only black
-        frame = cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3);
-        cvZero(frame);
+        SP_frame = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+        cvZero(SP_frame.data());
 
         if(i == 0) {
             // recherche les partitions avec les surfaces
@@ -138,7 +138,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
                         // the human area is colored
                         // La partition représentant l'humain est colorisé
-                        frame->PIXEL_COLOR_RED(x, y) = 255;
+                        SP_frame->PIXEL_COLOR_RED(x, y) = 255;
 
                         ++s;
 
@@ -162,15 +162,15 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         if(i == 0) {
 
             // Create all roots objects
-            head = new Head(frame);
-            neck = new Neck(frame);
-            hips = new Hips(frame);
-            shoulder_r = new Shoulder(frame);
-            shoulder_l = new Shoulder(frame);
-            hand_r = new Hand(frame);
-            hand_l = new Hand(frame);
-            elbow_r = new Elbow(frame);
-            elbow_l = new Elbow(frame);
+            head = new root::Head();
+            neck = new root::Neck();
+            hips = new root::Hips();
+            shoulder_r = new root::Shoulder();
+            shoulder_l = new root::Shoulder();
+            hand_r = new root::Hand();
+            hand_l = new root::Hand();
+            elbow_r = new root::Elbow();
+            elbow_l = new root::Elbow();
 
             // search for the first time roots
             // recherche les noeuds pour la première fois
@@ -194,25 +194,25 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
             // search new positions for roots
             // recherche les nouvelles coordonnées des noeuds
-            hips->search(frame, 25, 1, Vect<float>(0, 1, 0));
-            head->search(frame, 200, 16, Vect<float>(0, -1, 0));
+            hips->search(SP_frame, 25, 1, Vect<float>(0, 1, 0));
+            head->search(SP_frame, 200, 16, Vect<float>(0, -1, 0));
 
-            neck->search(frame, 40, 16, Vect<float>(0, 0, 0));
+            neck->search(SP_frame, 40, 16, Vect<float>(0, 0, 0));
             neck->bone();
             head->bone(neck->p);
 
-            shoulder_r->search(frame, 25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
+            shoulder_r->search(SP_frame, 25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
             shoulder_r->bone();
-            shoulder_l->search(frame, 25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
+            shoulder_l->search(SP_frame, 25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
             shoulder_l->bone();
 
-            hand_r->search(frame, 25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
+            hand_r->search(SP_frame, 25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
             //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-            hand_l->search(frame, 25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
+            hand_l->search(SP_frame, 25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
             //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
-            elbow_r->search(frame, shoulder_r->p, hand_r->p, hips->p);
-            elbow_l->search(frame, shoulder_l->p, hand_l->p, hips->p);
+            elbow_r->search(SP_frame, shoulder_r->p, hand_r->p, hips->p);
+            elbow_l->search(SP_frame, shoulder_l->p, hand_l->p, hips->p);
 
         }
 
@@ -255,7 +255,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
-        vect_imgs.push_back(*frame);
+        vect_imgs.push_back(*SP_frame);
 
         // plante le programme :-(
         // don't work :-(
@@ -273,8 +273,8 @@ void Skeleton::draw_square(int ray, int x_, int y_) {
     for (int x = x_ - ray; x < x_ + ray; ++x)
         for (int y = y_ - ray; y < y_ + ray; ++y)
             if (!control<int>(Vect<int>(x, y, 0))) {
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
-                frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
+                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
+                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
+                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
             }
 }

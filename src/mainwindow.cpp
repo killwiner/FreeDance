@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     try {
-        thedevice = new Kinect();
+        kinect = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
     }
     catch ( const exception &e )
@@ -29,8 +29,8 @@ MainWindow::~MainWindow()
 {
 
     try {
-        thedevice->stop();
-        delete thedevice;
+        kinect->stop();
+        delete kinect;
         SP_renderwindow.clear();
         SP_skeleton.clear();
     }
@@ -58,7 +58,7 @@ void MainWindow::on_actionConnect_triggered()
     QMessageBox message;
 
     try {
-        thedevice->connect();
+        kinect->connect();
         message.setText("Kinect connected");
         message.exec();
     }
@@ -81,7 +81,7 @@ void MainWindow::on_actionRun_triggered()
     if (SP_renderwindow.isNull()) {
 
         try {
-            thedevice->start();
+            kinect->start();
         }
         catch (const char* strException) {
             QMessageBox message;
@@ -90,7 +90,7 @@ void MainWindow::on_actionRun_triggered()
             return;
         }
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_KINECT));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_KINECT));
 
         //Sets the given widget to be the main window's central widget.
         // win devient la widget central
@@ -126,7 +126,7 @@ void MainWindow::on_actionLoad_Motion_triggered()
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_MOTION));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -159,7 +159,7 @@ void MainWindow::on_actionRun_Motion_triggered()
 {
 
     if(SP_renderwindow.isNull()) {
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_MOTION));
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
         this->adjustSize();
@@ -183,7 +183,7 @@ void MainWindow::on_actionRecord_triggered()
 {
     QMessageBox message;
 
-    if (!thedevice->is_running()) {
+    if (!kinect->is_running()) {
         message.setText("Kinect is not running");
         message.exec();
         return;
@@ -225,7 +225,7 @@ void MainWindow::on_actionCreate_triggered()
     // affichage de l'animation de l'armature
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, thedevice, &saveload, SP_skeleton, STATUS_SKELETON));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_SKELETON));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -241,7 +241,7 @@ void MainWindow::on_actionCreate_triggered()
 // met le film en pause
 void MainWindow::on_actionPause_triggered()
 {
-    if(thedevice->is_running())
+    if(kinect->is_running())
         SP_renderwindow->change_pause(true);
 }
 

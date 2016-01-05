@@ -28,6 +28,21 @@ public:
     bool is_running();
     // the kinect is recording ?
     bool is_recording();
+    // lock the mutex
+    void lock();
+    //unlock the mutex
+    void unlock();
+    // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
+    // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
+    void lockstep();
+    // if requested frame is the same of the current frame then return
+    bool requested_current();
+    // swap depths
+    void swap();
+    // get depth font
+    const uint8_t *get_depth_front();
+
+private:
 
     // depth call back
     static void depth_cb(freenect_device *dev, void *v_depth, uint32_t timestamp);
@@ -52,8 +67,6 @@ public:
     static freenect_device *f_dev;
 
     static volatile bool die;
-
-private:
 
     pthread_t freenect_thread;
     bool connected, running, recording;

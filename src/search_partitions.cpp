@@ -110,7 +110,7 @@ int Skeleton::scan_pixel(Vect<int> v) {
 
             // the human area is colored
             // La partition représentant l'humain est colorisé
-            frame->PIXEL_COLOR_RED(v.x, v.y) = 255;
+            SP_frame->PIXEL_COLOR_RED(v.x, v.y) = 255;
         }
         else
             partition->at(coord_gray<int>(v)) = -1;

@@ -26,15 +26,15 @@ SOURCES += main.cpp\
     win_param.cpp \
     progress.cpp \
     vect.tpp \
-    root.cpp \
-    root_head.cpp \
-    root_shoulder.cpp \
-    root_elbow.cpp \
+    root/root.cpp \
+    root/root_head.cpp \
+    root/root_shoulder.cpp \
+    root/root_elbow.cpp \
     vectors_maths/maths_vect.cpp \
-    root_hips.cpp \
+    root/root_hips.cpp \
     vect.cpp \
-    root_hand.cpp \
-    root_neck.cpp \
+    root/root_hand.cpp \
+    root/root_neck.cpp \
     search_partitions.cpp \
     export_motion.cpp \
     kinect.cpp
@@ -48,14 +48,14 @@ HEADERS  += mainwindow.h \
     win_param.h \
     progress.h \
     win_size.h \
-    root.h \
-    root_head.h \
-    root_shoulder.h \
-    root_elbow.h \
+    root/root.h \
+    root/root_head.h \
+    root/root_shoulder.h \
+    root/root_elbow.h \
     vectors_maths/maths_vect.h \
-    root_hips.h \
-    root_hand.h \
-    root_neck.h \
+    root/root_hips.h \
+    root/root_hand.h \
+    root/root_neck.h \
     export_motion.h \
     kinect.h
 

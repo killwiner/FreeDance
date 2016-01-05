@@ -1,7 +1,9 @@
 #include "render_window.h"
 
-RenderWindow::RenderWindow(QWidget *parent, Kinect *thedevice, SaveLoad *saveload_, QSharedPointer<Skeleton> SP_skeleton_, int const &status_)
-    : Render(20, parent, thedevice, saveload_, SP_skeleton_, "Kinect Render")
+using namespace std;
+
+RenderWindow::RenderWindow(QWidget *parent, Kinect *kinect, SaveLoad &saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
+    : Render(20, parent, kinect, saveload_, SP_skeleton_, "Kinect Render")
 {
 
     status = status_;
@@ -9,15 +11,17 @@ RenderWindow::RenderWindow(QWidget *parent, Kinect *thedevice, SaveLoad *saveloa
     height = HEIGHT;
 
     // vectors with motion movie or the skeleton movie
-    vect_motion_kinect=saveload->vect_imgs.begin();
+    vect_motion_kinect=saveload.vect_imgs.begin();
     vect_motion_skeleton=SP_skeleton->vect_imgs.begin();
+
+    SP_message = QSharedPointer<QMessageBox>(new QMessageBox());
 
 }
 
 // change to show the kinect motion, the record ...
 void RenderWindow::change_status(int s) {
     status = s;
-    vect_motion_kinect=saveload->vect_imgs.begin();
+    vect_motion_kinect=saveload.vect_imgs.begin();
     vect_motion_skeleton=SP_skeleton->vect_imgs.begin();
 
 }
@@ -53,149 +57,147 @@ void RenderWindow::resizeGL(int width, int height)
 
 }
 
+void RenderWindow::run_kinect() {
+
+    // lock the mutex
+    kinect->lock();
+
+    // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
+    // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
+    kinect->lockstep();
+
+    // // if requested frame is the same of the current frame then return
+    if(kinect->requested_current())
+        return;
+
+    // swap depths
+    kinect->swap();
+
+    // unlock the mutex
+    kinect->unlock();
+
+}
+
+void RenderWindow::render(const GLvoid *data) {
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
+    glTexCoord2f(0, 0); glVertex3f(0,0,0);
+    glTexCoord2f(1, 0); glVertex3f(width,0,0);
+    glTexCoord2f(1, 1); glVertex3f(width,height,0);
+    glTexCoord2f(0, 1); glVertex3f(0,height,0);
+    glEnd();
+
+}
+
+void RenderWindow::loop_the_movie(vector<IplImage> &vect_imgs, vector<IplImage>::const_iterator &it) {
+
+    it + 1 != vect_imgs.end() ? ++it : it = vect_imgs.begin();
+
+}
+
+void RenderWindow::init_record() {
+
+    // reset the vector
+    std::vector<IplImage>().swap(saveload.vect_imgs);
+    saveload.vect_imgs.resize(0);
+
+    kinect->record(true);
+
+}
+
+void RenderWindow::make_list() {
+    saveload.make_list((char*)kinect->get_depth_front());
+}
+
 void RenderWindow::paintGL()
 {
 
     if (status == STATUS_KINECT || status == STATUS_RECORD) {
 
-        pthread_mutex_lock(&thedevice->gl_backbuf_mutex);
+        run_kinect();
+        render(kinect->get_depth_front());
 
-        // When using YUV_RGB mode, RGB frames only arrive at 15Hz, so we shouldn't force them to draw in lock-step.
-        // However, this is CPU/GPU intensive when we are receiving frames in lockstep.
-        if (thedevice->current_format == FREENECT_VIDEO_YUV_RGB) {
-         while (!thedevice->got_depth) {
-              pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
-          }
-      } else {
-          while ((!thedevice->got_depth) && thedevice->requested_format != thedevice->current_format) {
-              pthread_cond_wait(&thedevice->gl_frame_cond, &thedevice->gl_backbuf_mutex);
-          }
-      }
+        if (status == STATUS_RECORD) {
 
-      if (thedevice->requested_format != thedevice->current_format) {
-          pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
-          return;
-      }
+            // wait until to start to render the record
+            if(!count_down())
+                return;
 
-     uint8_t *tmp;
-
-      if (thedevice->got_depth) {
-          tmp = thedevice->depth_front;
-          thedevice->depth_front = thedevice->depth_mid;
-          thedevice->depth_mid = tmp;
-          thedevice->got_depth = 0;
-      }
-
-      pthread_mutex_unlock(&thedevice->gl_backbuf_mutex);
-
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      glLoadIdentity();
-
-      glEnable(GL_TEXTURE_2D);
-
-      glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-      glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, thedevice->depth_front);
-
-      glBegin(GL_TRIANGLE_FAN);
-      glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
-      glTexCoord2f(0, 0); glVertex3f(0,0,0);
-      glTexCoord2f(1, 0); glVertex3f(width,0,0);
-      glTexCoord2f(1, 1); glVertex3f(width,height,0);
-      glTexCoord2f(0, 1); glVertex3f(0,height,0);
-      glEnd();
-
-      if (status == STATUS_RECORD) {
-
-          if(!count_down())
-              return;
-
-          if (!thedevice->is_recording()) {
-
-              // reset the vector
-              std::vector<IplImage>().swap(saveload->vect_imgs);
-              saveload->vect_imgs.resize(0);
-
-              thedevice->record(true);
-          }
+            // we init_the vector vect_imgs before to record
+            if (!kinect->is_recording())
+                init_record();
 
           // make the list from the kinect's images
-          saveload->make_list((char*)thedevice->depth_front);
+          make_list();
+
           // show the free space memory
           memory_info();
       }
-
     }
 
     if (status == STATUS_MOTION) {
 
-        if(saveload->vect_imgs.empty())
+        // if the vector of images is empty, we can't show the motions
+        if(saveload.vect_imgs.empty())
             return;
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
+        // render the current motion image
+        render(vect_motion_kinect->imageData);
 
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_motion_kinect).width, (*vect_motion_kinect).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_motion_kinect).imageData);
-
-        glBegin(GL_TRIANGLE_FAN);
-        glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
-        glTexCoord2f(0, 0); glVertex3f(0,0,0);
-        glTexCoord2f(1, 0); glVertex3f(width,0,0);
-        glTexCoord2f(1, 1); glVertex3f(width,height,0);
-        glTexCoord2f(0, 1); glVertex3f(0,height,0);
-        glEnd();
-
-        // loop the movie
-        if (vect_motion_kinect + 1 != saveload->vect_imgs.end()) {
-            ++vect_motion_kinect;
-        }
-        else {
-            vect_motion_kinect = saveload->vect_imgs.begin();
-        }
+        // loop the movie with increment
+        // boucle le film en incrémentant
+        loop_the_movie(saveload.vect_imgs, vect_motion_kinect);
 
     }
 
     if (status == STATUS_SKELETON) {
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
+        render(vect_motion_skeleton->imageData);
 
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (*vect_motion_skeleton).width, (*vect_motion_skeleton).height, 0, GL_BGR, GL_UNSIGNED_BYTE, (*vect_motion_skeleton).imageData);
-        glBegin(GL_TRIANGLE_FAN);
-        glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
-        glTexCoord2f(0, 0); glVertex3f(0,0,0);
-        glTexCoord2f(1, 0); glVertex3f(width,0,0);
-        glTexCoord2f(1, 1); glVertex3f(width,height,0);
-        glTexCoord2f(0, 1); glVertex3f(0,height,0);
-        glEnd();
-
-        // loop the movie
-        if (vect_motion_skeleton + 1 != SP_skeleton->vect_imgs.end())
-            ++vect_motion_skeleton;
-        else
-            vect_motion_skeleton = SP_skeleton->vect_imgs.begin();
+        // loop the movie with increment
+        // boucle le film en incrémentant
+        loop_the_movie(SP_skeleton->vect_imgs, vect_motion_skeleton);
     }
+}
+
+void RenderWindow::record_message() {
+    std::string str("Will record in : ");
+    std::stringstream ss;
+    ss << count_d;
+    str.append(ss.str());
+    SP_message->setText(str.c_str());
+    SP_message->update();
 }
 
 // return false when the count_down finish
 bool RenderWindow::count_down() {
 
+    // count down
+    // fin du chronomètre
     if(!count_d)
         return true;
 
-    if (!message) {
-        message = new QMessageBox;
-        message->show();
-    }
+    // we create the message box
+    // création de la fenêtre de message
+    if (SP_message.isNull())
+        SP_message->show();
 
-    if (timer == 40)
+    // internal clock to refresh the message box message
+    // horloge internet pour raffraichir le message
+    if (timer == TIMER)
         timer = 0;
 
+    // too early to refresh the message
+    // trop tôt pour rafraichir le essage
     if (timer) {
         ++timer;
         return false;
@@ -203,12 +205,9 @@ bool RenderWindow::count_down() {
 
     ++timer;
 
-    std::string str("Will record in : ");
-    std::stringstream ss;
-    ss << count_d;
-    str.append(ss.str());
-    message->setText(str.c_str());
-    message->update();
+    // new message
+    // nouveau message
+    record_message();
 
     --count_d;
     return false;
@@ -218,13 +217,13 @@ bool RenderWindow::count_down() {
 void RenderWindow::memory_info() {
 
     // save capture in the file
-    if(message->clickedButton()) {
-        saveload->save(saveload->vect_imgs);
+    if(SP_message->clickedButton()) {
+        saveload.save(saveload.vect_imgs);
         status = STATUS_KINECT;
-        thedevice->record(false);
+        kinect->record(false);
     }
 
-    if (timer == 80)
+    if (timer == 2 * TIMER)
         timer = 0;
 
     if (timer) {
@@ -234,8 +233,12 @@ void RenderWindow::memory_info() {
 
     ++timer;
 
-    FILE *in = popen("cat /proc/meminfo", "r");
-    if(in) {
+    try {
+
+        FILE *in = popen("cat /proc/meminfo", "r");
+        if(!in)
+            throw "(render_window) error, can't open /proc/meminfo";
+
         char buffer[128], mem_total_s[128], mem_free_s[128];
         int mem_total, mem_free;
 
@@ -247,16 +250,16 @@ void RenderWindow::memory_info() {
 
         pclose(in);
 
-        std::istringstream smt(mem_total_s);
-        std::istringstream smf(mem_free_s);
+        istringstream smt(mem_total_s);
+        istringstream smf(mem_free_s);
 
         smt >> mem_total;
         smf >> mem_free;
 
-        std::stringstream ss;
+        stringstream ss;
         ss << int(mem_free * 100 / mem_total);
 
-        std::string str("Mem total : ");
+        string str("Mem total : ");
         str.append(mem_total_s);
         str.append(" Kb<br />Mem free : ");
         str.append(mem_free_s);
@@ -264,7 +267,14 @@ void RenderWindow::memory_info() {
         str.append(ss.str());
         str.append(" %");
 
-        message->setText(str.c_str());
-        message->update();
+        SP_message->setText(str.c_str());
+        SP_message->update();
+
     }
+    catch (const char& strException) {
+        cerr << "Exception caught !!" << endl;
+        cerr << strException << endl;
+        throw;
+    }
+
 }

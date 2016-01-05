@@ -2,12 +2,13 @@
 #define RENDER_WINDOW_H
 
 #include "render.h"
+#define TIMER 40
 
 class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent = 0, Kinect *thedevice = 0, SaveLoad *saveload = 0, QSharedPointer<Skeleton> SP_skeleton_ = QSharedPointer<Skeleton>(new Skeleton()), int const &status_ = 0);
+    explicit RenderWindow(QWidget *parent, Kinect *kinect, SaveLoad &saveload, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
@@ -15,9 +16,20 @@ public:
     void change_status(int s); // change the render to skeleton view, kinect view, motion view
 
 private:
+    // run kinect in real time
+    void run_kinect();
+    // render the texture from the kinect
+    void render(const GLvoid *data);
+    // we init_the vector vect_imgs before to record
+    void init_record();
+    // make the list from the kinect's images
+    void make_list();
+    void loop_the_movie(std::vector<IplImage> &, std::vector<IplImage>::const_iterator &);
+    // new message
+    void record_message();
     void memory_info();
     bool count_down();
-    QMessageBox *message = NULL;
+    QSharedPointer<QMessageBox> SP_message;
     int timer = 0, count_d = 10;
 
     GLuint gl_depth_tex;

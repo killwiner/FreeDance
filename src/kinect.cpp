@@ -7,8 +7,8 @@ pthread_cond_t Kinect::gl_frame_cond = PTHREAD_COND_INITIALIZER;
 uint8_t *Kinect::rgb_back = (uint8_t*)malloc(WIDTH*HEIGHT*3);
 uint8_t *Kinect::rgb_front = (uint8_t*)malloc(WIDTH*HEIGHT*3);
 uint8_t *Kinect::rgb_mid = (uint8_t*)malloc(WIDTH*HEIGHT*3);
-uint8_t *Kinect::depth_front = (uint8_t*)malloc(WIDTH*HEIGHT*3);
 uint8_t *Kinect::depth_mid = (uint8_t*)malloc(WIDTH*HEIGHT*3);
+uint8_t *Kinect::depth_front = (uint8_t*)malloc(WIDTH*HEIGHT*3);
 int Kinect::got_depth = 0;
 uint16_t *Kinect::t_gamma = (uint16_t*)malloc(2048 * 2);
 
@@ -21,6 +21,48 @@ bool volatile Kinect::die = false;
 
 Kinect::Kinect() {
     connected = running = recording = false;
+}
+
+const uint8_t *Kinect::get_depth_front() {
+    return (const uint8_t*)depth_front;
+}
+
+void Kinect::lock() {
+    pthread_mutex_lock(&gl_backbuf_mutex);
+}
+
+void Kinect::unlock() {
+    pthread_mutex_unlock(&gl_backbuf_mutex);
+}
+
+bool Kinect::requested_current() {
+    if (requested_format != current_format) {
+        unlock();
+        return true;
+    }
+    return false;
+}
+
+void Kinect::lockstep() {
+    if (current_format == FREENECT_VIDEO_YUV_RGB) {
+        while (!got_depth)
+            pthread_cond_wait(&gl_frame_cond, &gl_backbuf_mutex);
+    } else {
+        while ((!got_depth) && requested_format != current_format)
+            pthread_cond_wait(&gl_frame_cond, &gl_backbuf_mutex);
+    }
+}
+
+void Kinect::swap() {
+
+    uint8_t *tmp;
+
+    if (got_depth) {
+        tmp = depth_front;
+        depth_front = depth_mid;
+        depth_mid = tmp;
+        got_depth = 0;
+    }
 }
 
 // init the gamma table

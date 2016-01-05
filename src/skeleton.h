@@ -1,12 +1,12 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-#include "root_head.h"
-#include "root_neck.h"
-#include "root_hips.h"
-#include "root_shoulder.h"
-#include "root_hand.h"
-#include "root_elbow.h"
+#include "root/root_head.h"
+#include "root/root_neck.h"
+#include "root/root_hips.h"
+#include "root/root_shoulder.h"
+#include "root/root_hand.h"
+#include "root/root_elbow.h"
 #include "progress.h"
 #include <vector>
 #include "win_size.h"
@@ -18,12 +18,12 @@ public:
 
     std::vector<IplImage> vect_imgs;
 
-    Neck *neck;
-    Head *head;
-    Hips *hips;
-    Shoulder *shoulder_r, *shoulder_l;
-    Hand *hand_r, *hand_l;
-    Elbow *elbow_r, *elbow_l;
+    root::Neck *neck;
+    root::Head *head;
+    root::Hips *hips;
+    root::Shoulder *shoulder_r, *shoulder_l;
+    root::Hand *hand_r, *hand_l;
+    root::Elbow *elbow_r, *elbow_l;
 
     int nbr_imgs;
 
@@ -32,7 +32,7 @@ private:
     std::vector<int> *partition;
     std::vector<int> id_area;
     IplImage *buffer_img;
-    IplImage *frame;
+    QSharedPointer<IplImage> SP_frame;
     int blue_color, green_color;
     float offset_z;
     Vect<long int> centroid;
