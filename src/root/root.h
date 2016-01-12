@@ -17,17 +17,17 @@
 namespace root {
     class Root {
     public:
-        explicit Root();
+        explicit Root(QSharedPointer<IplImage> const &SP_frame_);
         ~Root();
-        virtual void search(QSharedPointer<IplImage> const &, float const &, int const &, Vect<float> const &);
-        void frame(IplImage *);
+        virtual void search(float const &, int const &, Vect<float> const &);
 
         Vect<float> p;
 
-    protected:
         // the frame with draw of roots
         // l'image avec les dessins des noeuds
-        QSharedPointer<IplImage> SP_frame_draw;
+        static QSharedPointer<IplImage> SP_frame_draw;
+
+    protected:
         // frame to stude
         // référence à l'image qu'on étudie
         QSharedPointer<IplImage> SP_frame;

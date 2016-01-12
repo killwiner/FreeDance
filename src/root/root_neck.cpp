@@ -1,7 +1,7 @@
 #include "root_neck.h"
 
 namespace root {
-    Neck::Neck() : Root() {
+    Neck::Neck(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
     }
 
     void Neck::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_) {

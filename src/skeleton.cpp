@@ -4,7 +4,7 @@
 Skeleton::Skeleton() {
     // Les images seront enregistrées dans la liste vect_imgs. On initialise toute la liste à 0
     // Images will saved in a list vect_imgs, this list is initialized.
-    std::vector<IplImage>().swap(vect_imgs);
+    std::vector< QSharedPointer<IplImage> >().swap(vect_imgs);
     vect_imgs.resize(0);
     surface = 0;
 }
@@ -162,15 +162,15 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         if(i == 0) {
 
             // Create all roots objects
-            head = new root::Head();
-            neck = new root::Neck();
-            hips = new root::Hips();
-            shoulder_r = new root::Shoulder();
-            shoulder_l = new root::Shoulder();
-            hand_r = new root::Hand();
-            hand_l = new root::Hand();
-            elbow_r = new root::Elbow();
-            elbow_l = new root::Elbow();
+            head = new root::Head(SP_frame);
+            neck = new root::Neck(SP_frame);
+            hips = new root::Hips(SP_frame);
+            shoulder_r = new root::Shoulder(SP_frame);
+            shoulder_l = new root::Shoulder(SP_frame);
+            hand_r = new root::Hand(SP_frame);
+            hand_l = new root::Hand(SP_frame);
+            elbow_r = new root::Elbow(SP_frame);
+            elbow_l = new root::Elbow(SP_frame);
 
             // search for the first time roots
             // recherche les noeuds pour la première fois
@@ -190,29 +190,29 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         }
 
-        for(int i = 0; i < nbr_pass; ++i) {
+        for(int j = 0; j < nbr_pass; ++j) {
 
             // search new positions for roots
             // recherche les nouvelles coordonnées des noeuds
-            hips->search(SP_frame, 25, 1, Vect<float>(0, 1, 0));
-            head->search(SP_frame, 200, 16, Vect<float>(0, -1, 0));
+            hips->search(25, 1, Vect<float>(0, 1, 0));
+            head->search(200, 16, Vect<float>(0, -1, 0));
 
-            neck->search(SP_frame, 40, 16, Vect<float>(0, 0, 0));
+            neck->search(40, 16, Vect<float>(0, 0, 0));
             neck->bone();
             head->bone(neck->p);
 
-            shoulder_r->search(SP_frame, 25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
+            shoulder_r->search(25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
             shoulder_r->bone();
-            shoulder_l->search(SP_frame, 25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
+            shoulder_l->search(25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
             shoulder_l->bone();
 
-            hand_r->search(SP_frame, 25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
+            hand_r->search(25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
             //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-            hand_l->search(SP_frame, 25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
+            hand_l->search(25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
             //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
-            elbow_r->search(SP_frame, shoulder_r->p, hand_r->p, hips->p);
-            elbow_l->search(SP_frame, shoulder_l->p, hand_l->p, hips->p);
+            elbow_r->search(shoulder_r->p, hand_r->p, hips->p);
+            elbow_l->search(shoulder_l->p, hand_l->p, hips->p);
 
         }
 
@@ -255,7 +255,10 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
-        vect_imgs.push_back(*SP_frame);
+        IplImage *img_buff = NULL;
+        img_buff = cvCloneImage(hips->SP_frame_draw.data());
+        //vect_imgs.push_back(QSharedPointer<IplImage>(cvCloneImage(hips->SP_frame_draw.data())));
+        vect_imgs.push_back(QSharedPointer<IplImage>(img_buff));
 
         // plante le programme :-(
         // don't work :-(

@@ -1,7 +1,7 @@
 #include "root_hips.h"
 
 namespace root {
-    Hips::Hips() : Root() {
+    Hips::Hips(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
     }
 
     void Hips::first_search() {
@@ -83,9 +83,9 @@ namespace root {
 
     }
 
-    void Hips::search(QSharedPointer<IplImage> const &frame_, float const &radius, int const &black_arc, Vect<float> vec_black_arc) {
+    void Hips::search(float const &radius, int const &black_arc, Vect<float> vec_black_arc) {
 
-        Root::search(frame_, radius, black_arc, vec_black_arc);
+        Root::search(radius, black_arc, vec_black_arc);
 
         // number of rays, the root is the center
         // nombre de rayons, le noeud étant le centre

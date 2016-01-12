@@ -1,7 +1,7 @@
 #include "root_shoulder.h"
 
 namespace root {
-    Shoulder::Shoulder() : Root() {
+    Shoulder::Shoulder(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
     }
 
     void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_, bool l_r_) {
@@ -61,11 +61,11 @@ namespace root {
         }
     }
 
-    void Shoulder::search(QSharedPointer<IplImage> const &frame_, float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> neck, Vect<float> hips) {
+    void Shoulder::search(float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> neck, Vect<float> hips) {
 
         Vect<float> last_p = p;
 
-        Root::search(frame_, radius, black_arc, vec_black_arc);
+        Root::search(radius, black_arc, vec_black_arc);
 
         if(init_angle - vectors_maths::angle_vects(hips - neck, p - neck) > .3f || init_angle - vectors_maths::angle_vects(hips - neck, p - neck) < -.3f)
             p = last_p;

@@ -8,7 +8,7 @@ class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent, Kinect *kinect, SaveLoad &saveload, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
+    explicit RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<SaveLoad> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
@@ -24,7 +24,7 @@ private:
     void init_record();
     // make the list from the kinect's images
     void make_list();
-    void loop_the_movie(std::vector<IplImage> &, std::vector<IplImage>::const_iterator &);
+    void loop_the_movie(std::vector< QSharedPointer<IplImage> > &, std::vector< QSharedPointer<IplImage> >::const_iterator &);
     // new message
     void record_message();
     void memory_info();
@@ -34,7 +34,7 @@ private:
 
     GLuint gl_depth_tex;
 
-    std::vector<IplImage>::const_iterator vect_motion_kinect, vect_motion_skeleton;
+    std::vector< QSharedPointer<IplImage> >::const_iterator vect_motion_kinect, vect_motion_skeleton;
 };
 
 

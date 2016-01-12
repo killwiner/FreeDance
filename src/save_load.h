@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include "win_size.h"
 #include <QString>
+#include <QSharedPointer>
 
 class SaveLoad
 {
@@ -16,11 +17,11 @@ private:
 public:
     explicit SaveLoad();
     void load(const QString &fileName);
-    void save(std::vector<IplImage>&);
+    void save(std::vector< QSharedPointer<IplImage> > &);
     void make_list(char*); // make a vector from data
 
-    IplImage *frame;
-    std::vector<IplImage> vect_imgs;
+    QSharedPointer<IplImage> SP_frame;
+    std::vector< QSharedPointer<IplImage> > vect_imgs;
 
 };
 

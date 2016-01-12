@@ -2,11 +2,15 @@
 
 namespace root {
 
+    QSharedPointer<IplImage> Root::SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+
     // constructor
-    Root::Root() {
+    Root::Root(QSharedPointer<IplImage> const &SP_frame_) : SP_frame(SP_frame_) {
         // Here only black
-        SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
         cvZero(SP_frame_draw.data());
+        // copy the image
+        // on copie l'image
+        cvCopy(SP_frame.data(), SP_frame_draw.data());
     }
 
     Root::~Root() {
@@ -21,24 +25,13 @@ namespace root {
         SP_frame_draw.clear();
     }
 
-    // return the frame with draw of roots
-    // retourne l'image avec le dessin des noeuds
-    void Root::frame(IplImage *dest) {
-        dest = cvCloneImage(SP_frame_draw.data());
-    }
-
     // The root will move to stay inside the right zone
     // Le noeud se déplace pour rester dans la bonne partition
     // black_arc, lenght of the arc that is out from the right area
     // black_arc, détermine la longueur de l'arc de cercle en dehors de la partition
     // radius, the man lenght for the rays
     // radius, longueur maximale des rayons
-    void Root::search(QSharedPointer<IplImage> const &SP_frame_, float const &radius, int const &black_arc, Vect<float> const &vec_black_arc) {
-
-        // copy the image
-        // on copie l'image
-        cvCopy(SP_frame_.data(), SP_frame_draw.data());
-        SP_frame = SP_frame_;
+    void Root::search(float const &radius, int const &black_arc, Vect<float> const &vec_black_arc) {
 
         // number of rays, the root is the center
         // nombre de rayons, le noeud étant le centre

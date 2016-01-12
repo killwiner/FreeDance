@@ -6,10 +6,10 @@
 namespace root {
     class Hand : public Root {
     public:
-        explicit Hand();
+        explicit Hand(QSharedPointer<IplImage> const &);
         void first_search(bool l_r, Vect<float>, Vect<float>);
         void z_axis(float const&);
-        void search(QSharedPointer<IplImage> const &, float const &, int const &, Vect<float>, Vect<float> elbow);
+        void search(float const &, int const &, Vect<float>, Vect<float> elbow);
         void new_rot(Vect<float> const&, Vect<float> const&);
 
         std::vector< Vect <float> > vect_rot;

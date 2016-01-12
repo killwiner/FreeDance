@@ -48,7 +48,7 @@ private:
     QSharedPointer<Skeleton> SP_skeleton; // pointer on the skeleton with roots
     Ui::MainWindow *ui;
     Kinect *kinect; // the device for the kinect
-    SaveLoad saveload; // to save or load a motion
+    QSharedPointer<SaveLoad> SP_saveload; // to save or load a motion
     Progress *prog; // the progress bar when it's building the skeleton
 };
 

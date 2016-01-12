@@ -1,8 +1,8 @@
 #include "render.h"
 #include <stdio.h>
 
-Render::Render(int framesPerSecond, QWidget *parent, Kinect *kinect_, SaveLoad &saveload_, QSharedPointer<Skeleton> &SP_skeleton_, const char *name)
-    : QGLWidget(parent), saveload(saveload_), SP_skeleton(SP_skeleton_), kinect(kinect_)
+Render::Render(int framesPerSecond, QWidget *parent, Kinect *kinect_, QSharedPointer<SaveLoad> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, const char *name)
+    : QGLWidget(parent), SP_saveload(SP_saveload_), SP_skeleton(SP_skeleton_), kinect(kinect_)
 {
 
     setWindowTitle(QString::fromUtf8(name));

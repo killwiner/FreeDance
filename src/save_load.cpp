@@ -1,7 +1,7 @@
 #include "save_load.h"
 #include <stdio.h>
 
-SaveLoad::SaveLoad() : capture(0), frame(0){
+SaveLoad::SaveLoad() : capture(0) {
 }
 
 void SaveLoad::load(const QString &fileName) {
@@ -14,7 +14,7 @@ void SaveLoad::load(const QString &fileName) {
 
     int nbr_imgs = (int) cvGetCaptureProperty( capture , CV_CAP_PROP_FRAME_COUNT );
 
-    std::vector<IplImage>().swap(vect_imgs);
+    std::vector<QSharedPointer<IplImage> >().swap(vect_imgs);
     vect_imgs.resize(0);
 
     for(int i = 0; i < nbr_imgs; ++i) {
@@ -24,10 +24,10 @@ void SaveLoad::load(const QString &fileName) {
         if(!buffer_img)
             break;
 
-        frame  = cvCloneImage(buffer_img);
-        cvCvtColor(frame, frame, CV_RGB2BGR);
+        SP_frame = QSharedPointer<IplImage>(cvCloneImage(buffer_img));
+        cvCvtColor(SP_frame.data(), SP_frame.data(), CV_RGB2BGR);
 
-        vect_imgs.push_back(*frame);
+        vect_imgs.push_back(SP_frame);
     }
 
     cvReleaseCapture(&capture);
@@ -40,13 +40,13 @@ void SaveLoad::make_list(char* data) {
     IplImage *buffer_img = cvCreateImageHeader(cvSize(WIDTH, HEIGHT), 8, 3);
     cvSetData(buffer_img, data, buffer_img->widthStep);
 
-    frame  = cvCloneImage(buffer_img);
-    vect_imgs.push_back(*frame);
+    SP_frame = QSharedPointer<IplImage>(cvCloneImage(buffer_img));
+    vect_imgs.push_back(SP_frame);
 
     cvReleaseImageHeader(&buffer_img);
 }
 
-void SaveLoad::save(std::vector<IplImage> &vect_motion) {
+void SaveLoad::save(std::vector< QSharedPointer<IplImage> > &vect_motion) {
 
     if(vect_motion.empty()) {
         std::cerr << "Can't save the file, empty video.\n";
@@ -65,10 +65,10 @@ void SaveLoad::save(std::vector<IplImage> &vect_motion) {
         return;
     }
 
-    for (std::vector<IplImage>::iterator i = vect_motion.begin() ; i != vect_motion.end(); ++i)
+    for (std::vector< QSharedPointer<IplImage> >::iterator i = vect_motion.begin() ; i != vect_motion.end(); ++i)
     {
-        frame = &(*i);
-        cvWriteFrame(writer, &(*i));
+        SP_frame = QSharedPointer<IplImage>(*i);
+        cvWriteFrame(writer, SP_frame.data());
     }
 
     cvReleaseVideoWriter(&writer);

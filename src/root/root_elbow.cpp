@@ -3,7 +3,7 @@
 
 namespace root {
 
-    Elbow::Elbow() : Root() {
+    Elbow::Elbow(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
     }
 
     void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_) {
@@ -57,14 +57,12 @@ namespace root {
         }
     }
 
-    void Elbow::search(QSharedPointer<IplImage> const &frame_, Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips) {
+    void Elbow::search(Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips) {
 
         Vect<float> ca = shoulder - hand;
         Vect<float> w = ca / vectors_maths::normal(ca);
         Vect<float> u(0, 0, 0);
         float epsilone = .001f;
-
-        SP_frame = frame_;
 
         if(w.x == .0f && w.y == .0f)
             return;

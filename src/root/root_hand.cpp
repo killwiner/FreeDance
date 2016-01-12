@@ -1,7 +1,7 @@
 #include "root_hand.h"
 
 namespace root {
-    Hand::Hand() : Root() {
+    Hand::Hand(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
     }
 
     // Recherche les mains gauche et droite en partant du côté droit et gauche de l'image
@@ -79,9 +79,9 @@ namespace root {
         }
     }
 
-    void Hand::search(QSharedPointer<IplImage> const &frame_, float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> elbow) {
+    void Hand::search(float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> elbow) {
 
-        Root::search(frame_, radius, black_arc, vec_black_arc);
+        Root::search(radius, black_arc, vec_black_arc);
 
         Vect<float> unit_dep = p - elbow;
         unit_dep.z = 0;

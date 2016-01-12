@@ -6,9 +6,9 @@
 namespace root {
     class Hips : public Root {
     public:
-        explicit Hips();
+        explicit Hips(QSharedPointer<IplImage> const &);
         void first_search();
-        void search(QSharedPointer<IplImage> const &, float const &, int const &, Vect<float>);
+        void search(float const &, int const &, Vect<float>);
         void new_rot(Vect<float> const &);
 
         Vect<float> s;

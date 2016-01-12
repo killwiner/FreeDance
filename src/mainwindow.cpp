@@ -90,7 +90,7 @@ void MainWindow::on_actionRun_triggered()
             return;
         }
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_KINECT));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_KINECT));
 
         //Sets the given widget to be the main window's central widget.
         // win devient la widget central
@@ -120,13 +120,13 @@ void MainWindow::on_actionLoad_Motion_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, "Open Video", "", "Video Files (*.avi)");
 
     // we load the motion
-    saveload.load(fileName);
+    SP_saveload->load(fileName);
 
     // first time, we create the opengl window and reajust the win size
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_MOTION));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -148,7 +148,7 @@ void MainWindow::on_actionSave_Motion_triggered()
 
     if (!SP_renderwindow.isNull()) {
         SP_renderwindow->change_pause(true);
-        saveload.save(saveload.vect_imgs);
+        SP_saveload->save(SP_saveload->vect_imgs);
     }
 
 }
@@ -159,7 +159,7 @@ void MainWindow::on_actionRun_Motion_triggered()
 {
 
     if(SP_renderwindow.isNull()) {
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_MOTION));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_MOTION));
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
         this->adjustSize();
@@ -225,7 +225,7 @@ void MainWindow::on_actionCreate_triggered()
     // affichage de l'animation de l'armature
     if (SP_renderwindow.isNull()) {
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, saveload, SP_skeleton, STATUS_SKELETON));
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_SKELETON));
 
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);

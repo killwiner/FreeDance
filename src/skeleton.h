@@ -16,7 +16,7 @@ public:
     explicit Skeleton();
     void start(Progress*, int, int);
 
-    std::vector<IplImage> vect_imgs;
+    std::vector< QSharedPointer<IplImage> > vect_imgs;
 
     root::Neck *neck;
     root::Head *head;
