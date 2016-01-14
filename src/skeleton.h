@@ -14,6 +14,7 @@
 class Skeleton {
 public:
     explicit Skeleton();
+    ~Skeleton();
     void start(Progress*, int, int);
 
     std::vector< QSharedPointer<IplImage> > vect_imgs;
@@ -32,7 +33,7 @@ private:
     std::vector<int> *partition;
     std::vector<int> id_area;
     IplImage *buffer_img;
-    QSharedPointer<IplImage> SP_frame;
+    QSharedPointer<IplImage> SP_frame, SP_frame_draw;
     int blue_color, green_color;
     float offset_z;
     Vect<long int> centroid;

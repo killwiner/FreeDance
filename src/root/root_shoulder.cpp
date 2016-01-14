@@ -1,7 +1,7 @@
 #include "root_shoulder.h"
 
 namespace root {
-    Shoulder::Shoulder(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
+    Shoulder::Shoulder(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
     void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_, bool l_r_) {

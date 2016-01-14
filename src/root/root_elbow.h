@@ -6,7 +6,7 @@
 namespace root {
     class Elbow : public Root {
     public:
-        explicit Elbow(QSharedPointer<IplImage> const &);
+        explicit Elbow(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
         void first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_);
         void search(Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips);
         void new_rot(Vect<float> const&, Vect<float> const&);

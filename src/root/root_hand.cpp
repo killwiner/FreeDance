@@ -1,7 +1,7 @@
 #include "root_hand.h"
 
 namespace root {
-    Hand::Hand(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
+    Hand::Hand(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
     // Recherche les mains gauche et droite en partant du côté droit et gauche de l'image

@@ -6,7 +6,7 @@
 namespace root {
     class Hand : public Root {
     public:
-        explicit Hand(QSharedPointer<IplImage> const &);
+        explicit Hand(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
         void first_search(bool l_r, Vect<float>, Vect<float>);
         void z_axis(float const&);
         void search(float const &, int const &, Vect<float>, Vect<float> elbow);

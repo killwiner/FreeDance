@@ -2,27 +2,13 @@
 
 namespace root {
 
-    QSharedPointer<IplImage> Root::SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+    //QSharedPointer<IplImage> Root::SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
 
     // constructor
-    Root::Root(QSharedPointer<IplImage> const &SP_frame_) : SP_frame(SP_frame_) {
-        // Here only black
-        cvZero(SP_frame_draw.data());
-        // copy the image
-        // on copie l'image
-        cvCopy(SP_frame.data(), SP_frame_draw.data());
+    Root::Root(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : SP_frame(SP_frame_), SP_frame_draw(SP_frame_draw_) {
     }
 
     Root::~Root() {
-        IplImage *frame_delete, *frame_draw_delete;
-
-        frame_delete = SP_frame.data();
-        frame_draw_delete = SP_frame_draw.data();
-
-        cvReleaseImage(&frame_delete);
-        cvReleaseImage(&frame_draw_delete);
-        SP_frame.clear();
-        SP_frame_draw.clear();
     }
 
     // The root will move to stay inside the right zone

@@ -3,7 +3,7 @@
 
 namespace root {
 
-    Elbow::Elbow(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
+    Elbow::Elbow(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
     void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_) {

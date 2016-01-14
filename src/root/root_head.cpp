@@ -1,7 +1,7 @@
 #include "root_head.h"
 
 namespace root {
-    Head::Head(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
+    Head::Head(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
     Vect<float> Head::first_search() {

@@ -6,7 +6,7 @@
 namespace root {
     class Neck : public Root {
     public:
-        explicit Neck(QSharedPointer<IplImage> const &);
+        explicit Neck(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
         void first_search(Vect<float> const&, Vect<float> const&);
         void bone();
 

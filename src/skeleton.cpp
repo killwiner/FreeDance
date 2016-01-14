@@ -2,11 +2,27 @@
 #include <stdio.h>
 
 Skeleton::Skeleton() {
+
+    SP_frame = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+    SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+
     // Les images seront enregistrées dans la liste vect_imgs. On initialise toute la liste à 0
     // Images will saved in a list vect_imgs, this list is initialized.
     std::vector< QSharedPointer<IplImage> >().swap(vect_imgs);
     vect_imgs.resize(0);
     surface = 0;
+}
+
+Skeleton::~Skeleton() {
+    IplImage *frame_delete, *frame_draw_delete;
+
+    frame_delete = SP_frame.data();
+    frame_draw_delete = SP_frame_draw.data();
+
+    cvReleaseImage(&frame_delete);
+    cvReleaseImage(&frame_draw_delete);
+    SP_frame.clear();
+    SP_frame_draw.clear();
 }
 
 void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
@@ -83,8 +99,8 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         //frame  = cvCloneImage(buffer_img);
 
         // Here only black
-        SP_frame = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
         cvZero(SP_frame.data());
+
 
         if(i == 0) {
             // recherche les partitions avec les surfaces
@@ -159,18 +175,20 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         }
 
+        cvCopy(SP_frame.data(), SP_frame_draw.data(), NULL);
+
         if(i == 0) {
 
             // Create all roots objects
-            head = new root::Head(SP_frame);
-            neck = new root::Neck(SP_frame);
-            hips = new root::Hips(SP_frame);
-            shoulder_r = new root::Shoulder(SP_frame);
-            shoulder_l = new root::Shoulder(SP_frame);
-            hand_r = new root::Hand(SP_frame);
-            hand_l = new root::Hand(SP_frame);
-            elbow_r = new root::Elbow(SP_frame);
-            elbow_l = new root::Elbow(SP_frame);
+            head = new root::Head(SP_frame, SP_frame_draw);
+            neck = new root::Neck(SP_frame, SP_frame_draw);
+            hips = new root::Hips(SP_frame, SP_frame_draw);
+            shoulder_r = new root::Shoulder(SP_frame, SP_frame_draw);
+            shoulder_l = new root::Shoulder(SP_frame, SP_frame_draw);
+            hand_r = new root::Hand(SP_frame, SP_frame_draw);
+            hand_l = new root::Hand(SP_frame, SP_frame_draw);
+            elbow_r = new root::Elbow(SP_frame, SP_frame_draw);
+            elbow_l = new root::Elbow(SP_frame, SP_frame_draw);
 
             // search for the first time roots
             // recherche les noeuds pour la première fois
@@ -256,7 +274,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
         IplImage *img_buff = NULL;
-        img_buff = cvCloneImage(hips->SP_frame_draw.data());
+        img_buff = cvCloneImage(SP_frame_draw.data());
         //vect_imgs.push_back(QSharedPointer<IplImage>(cvCloneImage(hips->SP_frame_draw.data())));
         vect_imgs.push_back(QSharedPointer<IplImage>(img_buff));
 

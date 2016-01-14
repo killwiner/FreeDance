@@ -6,7 +6,7 @@
 namespace root {
     class Shoulder : public Root {
     public:
-        explicit Shoulder(QSharedPointer<IplImage> const &);
+        explicit Shoulder(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
         void first_search(Vect<float> const &, Vect<float> const &, bool);
         void bone();
         void search(float const &, int const &, Vect<float>, Vect<float>, Vect<float>);

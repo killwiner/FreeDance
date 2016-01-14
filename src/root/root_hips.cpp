@@ -1,7 +1,7 @@
 #include "root_hips.h"
 
 namespace root {
-    Hips::Hips(QSharedPointer<IplImage> const &SP_frame_) : Root(SP_frame_) {
+    Hips::Hips(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
     void Hips::first_search() {
