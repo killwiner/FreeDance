@@ -22,7 +22,8 @@ Skeleton::~Skeleton() {
     cvReleaseImage(&frame_delete);
     cvReleaseImage(&frame_draw_delete);
     SP_frame.clear();
-    SP_frame_draw.clear();
+    // core dump with this clear, why ? :-(
+    //SP_frame_draw.clear();
 }
 
 void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
@@ -193,14 +194,14 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
             // search for the first time roots
             // recherche les noeuds pour la première fois
             hips->first_search();
-            neck->first_search(head->first_search(), hips->p);
-            shoulder_r->first_search(neck->p, hips->p, true);
-            shoulder_l->first_search(neck->p, hips->p, false);
-            hand_r->first_search(true, elbow_r->p, shoulder_r->p);
-            hand_l->first_search(false, elbow_l->p, shoulder_r->p);
+            neck->first_search(head->first_search(), hips->get_coord());
+            shoulder_r->first_search(neck->get_coord(), hips->get_coord(), true);
+            shoulder_l->first_search(neck->get_coord(), hips->get_coord(), false);
+            hand_r->first_search(true, elbow_r->get_coord(), shoulder_r->get_coord());
+            hand_l->first_search(false, elbow_l->get_coord(), shoulder_r->get_coord());
 
-            elbow_r->first_search(shoulder_r->p, hand_r->p, neck->p, true);
-            elbow_l->first_search(shoulder_l->p, hand_l->p, neck->p, false);
+            elbow_r->first_search(shoulder_r->get_coord(), hand_r->get_coord(), neck->get_coord(), true);
+            elbow_l->first_search(shoulder_l->get_coord(), hand_l->get_coord(), neck->get_coord(), false);
 
             // on considère le bassin comme le référentiel 0 pour la profondeur
             // hips are the reference for the deep as 0
@@ -217,59 +218,59 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
             neck->search(40, 16, Vect<float>(0, 0, 0));
             neck->bone();
-            head->bone(neck->p);
+            head->bone(neck->get_coord());
 
-            shoulder_r->search(25, 16, Vect<float>(-1, -1, 0), neck->p, hips->p);
+            shoulder_r->search(25, 16, Vect<float>(-1, -1, 0), neck->get_coord(), hips->get_coord());
             shoulder_r->bone();
-            shoulder_l->search(25, 16, Vect<float>(1, -1, 0), neck->p, hips->p);
+            shoulder_l->search(25, 16, Vect<float>(1, -1, 0), neck->get_coord(), hips->get_coord());
             shoulder_l->bone();
 
-            hand_r->search(25, 24, (hand_r->p - elbow_r->p) / vectors_maths::lenght(hand_r->p, elbow_r->p), elbow_r->p);
+            hand_r->search(25, 24, (hand_r->get_coord() - elbow_r->get_coord()) / vectors_maths::lenght(hand_r->get_coord(), elbow_r->get_coord()), elbow_r->get_coord());
             //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-            hand_l->search(25, 24, (hand_l->p - elbow_l->p) / vectors_maths::lenght(hand_l->p, elbow_l->p), elbow_l->p);
+            hand_l->search(25, 24, (hand_l->get_coord() - elbow_l->get_coord()) / vectors_maths::lenght(hand_l->get_coord(), elbow_l->get_coord()), elbow_l->get_coord());
             //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
-            elbow_r->search(shoulder_r->p, hand_r->p, hips->p);
-            elbow_l->search(shoulder_l->p, hand_l->p, hips->p);
+            elbow_r->search(shoulder_r->get_coord(), hand_r->get_coord(), hips->get_coord());
+            elbow_l->search(shoulder_l->get_coord(), hand_l->get_coord(), hips->get_coord());
 
         }
 
-        head->new_rot(hips->p, neck->p);
-        shoulder_l->new_rot(hips->p, neck->p);
-        shoulder_r->new_rot(hips->p, neck->p);
-        elbow_l->new_rot(neck->p, shoulder_r->p);
-        elbow_r->new_rot(neck->p, shoulder_r->p);
-        hand_r->new_rot(shoulder_r->p, elbow_r->p);
-        hand_l->new_rot(shoulder_l->p, elbow_l->p);
-        hips->new_rot(neck->p);
+        head->new_rot(hips->get_coord(), neck->get_coord());
+        shoulder_l->new_rot(hips->get_coord(), neck->get_coord());
+        shoulder_r->new_rot(hips->get_coord(), neck->get_coord());
+        elbow_l->new_rot(neck->get_coord(), shoulder_r->get_coord());
+        elbow_r->new_rot(neck->get_coord(), shoulder_r->get_coord());
+        hand_r->new_rot(shoulder_r->get_coord(), elbow_r->get_coord());
+        hand_l->new_rot(shoulder_l->get_coord(), elbow_l->get_coord());
+        hips->new_rot(neck->get_coord());
 
         // draw roots
-        if(!control<float>(hips->p))
-            draw_square(10, (int)hips->p.x, (int)hips->p.y);
+        if(!control<float>(hips->get_coord()))
+            draw_square(10, (int)hips->get_coord().x, (int)hips->get_coord().y);
 
-        if(!control<float>(head->p))
-            draw_square(10, (int)head->p.x, (int)head->p.y);
+        if(!control<float>(head->get_coord()))
+            draw_square(10, (int)head->get_coord().x, (int)head->get_coord().y);
 
-        if(!control<float>(neck->p))
-            draw_square(10, (int)neck->p.x, (int)neck->p.y);
+        if(!control<float>(neck->get_coord()))
+            draw_square(10, (int)neck->get_coord().x, (int)neck->get_coord().y);
 
-        if(!control<float>(shoulder_r->p))
-            draw_square(10, (int)shoulder_r->p.x, (int)shoulder_r->p.y);
+        if(!control<float>(shoulder_r->get_coord()))
+            draw_square(10, (int)shoulder_r->get_coord().x, (int)shoulder_r->get_coord().y);
 
-        if(!control<float>(shoulder_l->p))
-            draw_square(10, (int)shoulder_l->p.x, (int)shoulder_l->p.y);
+        if(!control<float>(shoulder_l->get_coord()))
+            draw_square(10, (int)shoulder_l->get_coord().x, (int)shoulder_l->get_coord().y);
 
-        if(!control<float>(hand_r->p))
-            draw_square(10, (int)hand_r->p.x, (int)hand_r->p.y);
+        if(!control<float>(hand_r->get_coord()))
+            draw_square(10, (int)hand_r->get_coord().x, (int)hand_r->get_coord().y);
 
-        if(!control<float>(hand_l->p))
-            draw_square(10, (int)hand_l->p.x, (int)hand_l->p.y);
+        if(!control<float>(hand_l->get_coord()))
+            draw_square(10, (int)hand_l->get_coord().x, (int)hand_l->get_coord().y);
 
-        if(!control<float>(elbow_r->p))
-            draw_square(10, (int)elbow_r->p.x, (int)elbow_r->p.y);
+        if(!control<float>(elbow_r->get_coord()))
+            draw_square(10, (int)elbow_r->get_coord().x, (int)elbow_r->get_coord().y);
 
-        if(!control<float>(elbow_l->p))
-            draw_square(10, (int)elbow_l->p.x, (int)elbow_l->p.y);
+        if(!control<float>(elbow_l->get_coord()))
+            draw_square(10, (int)elbow_l->get_coord().x, (int)elbow_l->get_coord().y);
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images

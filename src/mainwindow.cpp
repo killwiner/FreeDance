@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     try {
         kinect = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
+        SP_saveload = QSharedPointer<SaveLoad>(new SaveLoad());
     }
     catch ( const exception &e )
     {
