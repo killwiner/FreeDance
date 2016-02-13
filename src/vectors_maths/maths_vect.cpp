@@ -56,4 +56,13 @@ namespace vectors_maths {
         return angle;
     }
 
+    Vect<float> _3D_to_2D_xy(Vect<float> u) {
+        u.z = .0f;
+        return u;
+    }
+
+    Vect<float> _3D_to_2D_yz(Vect<float> u) {
+        u.x = .0f;
+        return u;
+    }
 }

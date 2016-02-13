@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
         kinect = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
         SP_saveload = QSharedPointer<SaveLoad>(new SaveLoad());
+        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_NONE));
     }
     catch ( const exception &e )
     {
@@ -33,7 +34,9 @@ MainWindow::~MainWindow()
         kinect->stop();
         delete kinect;
         SP_renderwindow.clear();
+        SP_saveload.clear();
         SP_skeleton.clear();
+
     }
     catch ( const exception &e )
     {
@@ -79,7 +82,7 @@ void MainWindow::on_actionRun_triggered()
 
     // first time, we create the opengl window and reajust the win size
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
-    if (SP_renderwindow.isNull()) {
+    if (SP_renderwindow->get_status() == STATUS_NONE) {
 
         try {
             kinect->start();
@@ -90,8 +93,6 @@ void MainWindow::on_actionRun_triggered()
             message.exec();
             return;
         }
-
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_KINECT));
 
         //Sets the given widget to be the main window's central widget.
         // win devient la widget central
@@ -115,7 +116,7 @@ void MainWindow::on_actionLoad_Motion_triggered()
 
     // movie on pause when it's loading
     // le filme est mis sur pause pendant le chargement
-    if (!SP_renderwindow.isNull())
+    if (SP_renderwindow->get_status() != STATUS_NONE)
         SP_renderwindow->change_pause(true);
 
     QString fileName = QFileDialog::getOpenFileName(this, "Open Video", "", "Video Files (*.avi)");
@@ -125,7 +126,7 @@ void MainWindow::on_actionLoad_Motion_triggered()
 
     // first time, we create the opengl window and reajust the win size
     // Premier rendu, on redimensionne la fenettre et nous créons la fenêtre opengl
-    if (SP_renderwindow.isNull()) {
+    if (SP_renderwindow->get_status() == STATUS_NONE) {
 
         SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_MOTION));
 
@@ -147,7 +148,7 @@ void MainWindow::on_actionLoad_Motion_triggered()
 void MainWindow::on_actionSave_Motion_triggered()
 {
 
-    if (!SP_renderwindow.isNull()) {
+    if (SP_renderwindow->get_status() != STATUS_NONE) {
         SP_renderwindow->change_pause(true);
         SP_saveload->save(SP_saveload->vect_imgs);
     }
@@ -159,7 +160,7 @@ void MainWindow::on_actionSave_Motion_triggered()
 void MainWindow::on_actionRun_Motion_triggered()
 {
 
-    if(SP_renderwindow.isNull()) {
+    if(SP_renderwindow->get_status() == STATUS_NONE) {
         SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_MOTION));
         this->setCentralWidget(SP_renderwindow.data());
         SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
@@ -224,7 +225,7 @@ void MainWindow::on_actionCreate_triggered()
 
     // show the skeleton moving
     // affichage de l'animation de l'armature
-    if (SP_renderwindow.isNull()) {
+    if (SP_renderwindow->get_status() == STATUS_NONE) {
 
         SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_SKELETON));
 

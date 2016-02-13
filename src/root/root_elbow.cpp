@@ -1,26 +1,56 @@
 #include "root_elbow.h"
 #include <stdio.h>
 
+using namespace std;
+
 namespace root {
 
     Elbow::Elbow(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
+    void Elbow::find_elbow(Vect<float> const &u, Vect<float> &w,Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, Vect<float> const &h) {
+
+        while(!control<float>(u + w)) {
+
+        if (SP_frame->PIXEL_COLOR_RED_VECT(u + w))
+            p = u + w;
+
+        if (SP_frame->PIXEL_COLOR_RED_VECT(u - w))
+            p = u - w;
+
+        if (SP_frame->PIXEL_COLOR_RED_VECT(u - w) || SP_frame->PIXEL_COLOR_RED_VECT(u + w)) {
+
+            lenght_elbow_hand = vectors_maths::lenght(p, vect_hand);
+
+            Vect<float> p_x_y = vectors_maths::_3D_to_2D_xy(p);
+            Vect<float> p_y_z = vectors_maths::_3D_to_2D_yz(p);
+
+            init_angle_x_y = vectors_maths::angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
+            init_angle_y_z = -vectors_maths::angle_vects(Vect<float>(.0f, 1.0f, .0f), p_y_z - Vect<float>(.0f, vect_shoulder.y, .0f));
+
+            return;
+        }
+
+        w += h;
+    }
+}
+
     void Elbow::first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_) {
+
         l_r = l_r_;
         Vect<float> shoulder_to_hand = vect_hand - vect_shoulder;
 
         if(vect_hand.x == vect_shoulder.x || vect_hand.y == vect_shoulder.y)
             try {
-                throw std::string("Division by 0 in root_elbow.");
+                throw string("Division by 0 in root_elbow. T0");
             }
-            catch(std::string const& str) {
-                std::cerr << str << std::endl;
+            catch(string const& str) {
+                cerr << str << endl;
                 return;
             }
 
-        Vect<float> v(0, 0, 0);
-        Vect<float> w(0, 0, 0);
+        Vect<float> v;
+        Vect<float> w;
 
         // we turn the vector on PI/2
         v = quick_rot(shoulder_to_hand, 0);
@@ -30,76 +60,15 @@ namespace root {
 
         u += shoulder_to_hand / 2.0f;
 
-        while(!control<float>(u + w)) {
+        find_elbow(u, w, vect_shoulder, vect_hand, vect_neck, h);
 
-            if (SP_frame->PIXEL_COLOR_RED_VECT(u + w))
-                p = u + w;
-
-            if (SP_frame->PIXEL_COLOR_RED_VECT(u - w))
-                p = u - w;
-
-            if (SP_frame->PIXEL_COLOR_RED_VECT(u - w) || SP_frame->PIXEL_COLOR_RED_VECT(u + w)) {
-
-                lenght_elbow_hand = vectors_maths::lenght(p, vect_hand);
-
-                Vect<float> p_x_y = p;
-                Vect<float> p_y_z = p;
-                p_x_y.z = .0f;
-                p_y_z.x = .0f;
-
-                init_angle_x_y = vectors_maths::angle_vects(vect_shoulder - vect_neck, p_x_y - vect_shoulder);
-                init_angle_y_z = -vectors_maths::angle_vects(Vect<float>(.0f, 1.0f, .0f), p_y_z - Vect<float>(.0f, vect_shoulder.y, .0f));
-
-                return;
-            }
-
-            w += h;
-        }
     }
 
-    void Elbow::search(Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips) {
+    Vect < Vect < float > > Elbow::make_matrix(Vect<float> const &u,Vect<float> const &v, Vect<float> const &w,float const &gamma_v,float const &gamma_w,float const &lambda) {
 
-        Vect<float> ca = shoulder - hand;
-        Vect<float> w = ca / vectors_maths::normal(ca);
-        Vect<float> u(0, 0, 0);
-        float epsilone = .001f;
+        Vect < Vect < float > > p2(V_NULL, V_NULL, V_NULL);
 
-        if(w.x == .0f && w.y == .0f)
-            return;
-
-        u.y = -w.x / (sqrt(w.x * w.x + w.y * w.y));
-
-        if(w.x == .0f)
-            return;
-
-        u.x = -w.y * u.y / w.x;
-        u.z = .0f;
-        Vect<float> v = vectors_maths::cross_product(u, w);
-
-        if(u.x == .0f)
-            return;
-
-        float gamma_v = u.x / (u.x * v.y - v.x * u.y);
-        float gamma_w = u.x / (u.x * w.y - w.x * u.y);
-        float lambda = gamma_w * w.z - gamma_v * v.z;
-
-        Vect < Vect < float > > p1(Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f));
-        Vect < Vect < float > > p2(Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f), Vect<float>(0.0f, 0.0f, 0.0f));
-
-        p1.x.x = u.x;
-        p1.x.y = u.y;
-        p1.x.z = u.z;
-        p1.y.x = v.x;
-        p1.y.y = v.y;
-        p1.y.z = v.z;
-        p1.z.x = w.x;
-        p1.z.y = w.y;
-        p1.z.z = w.z;
-
-        if(lambda == .0f)
-            return;
-
-        if(v.x * v.x > epsilone || v.y * v.y > epsilone) {
+        if(v.x * v.x > EPSILONE || v.y * v.y > EPSILONE) {
 
             p2.x.x = 1/u.x + (v.x * gamma_v * u.y / (u.x * u.x) + (gamma_v * v.z * u.y) * (gamma_v * v.x - gamma_w * w.x) / ((u.x * u.x) * lambda));
             p2.x.y = -gamma_v * gamma_v * u.y * v.z / (lambda * u.x) - gamma_v * u.y / u.x;
@@ -123,18 +92,25 @@ namespace root {
             p2.z.z = .0f;
         }
 
-    //    printf("%f %f %f\n", p.x.x * u.x + p.x.y * v.x + p.x.z * w.x, p.y.x * u.x + p.y.y * v.x + p.y.z * w.x, p.z.x * u.x + p.z.y * v.x + p.z.z * w.x);
-    //    printf("%f %f %f\n", p.x.x * u.y + p.x.y * v.y + p.x.z * w.y, p.y.x * u.y + p.y.y * v.y + p.y.z * w.y, p.z.x * u.y + p.z.y * v.y + p.z.z * w.y);
-    //    printf("%f %f %f\n", p.x.x * u.z + p.x.y * v.z + p.x.z * w.z, p.y.x * u.z + p.y.y * v.z + p.y.z * w.z, p.z.x * u.z + p.z.y * v.z + p.z.z * w.z);
+        return p2;
+    }
 
-        float ray = lenght_elbow_hand * lenght_elbow_hand - (ca.x * ca.x + ca.y * ca.y) / 4;
-        if (ray <= .0f)
-            return;
-        ray = sqrt(ray);
+    Vect<float> Elbow::make_vector_n(Vect<float>const &p, Vect<float> const &shoulder, Vect<float> const &hips, Vect < Vect < float > > const &p1) {
 
         Vect<float> n = vectors_maths::cross_product(p - shoulder, hips - shoulder);
         n = n / vectors_maths::normal(n);
         n = vectors_maths::matrix_3_3_product_1_3(p1, n);
+
+        return n;
+
+    }
+
+    void Elbow::n_x_cases(Vect<float> const &shoulder, Vect < Vect < float > > const &p2, Vect<float> const &ca, Vect<float> const &n) {
+
+        float ray = lenght_elbow_hand * lenght_elbow_hand - (ca.x * ca.x + ca.y * ca.y) / 4;
+        if (ray <= .0f)
+            throw string("Division by 0 in root_elbow. T5");
+        ray = sqrt(ray);
 
         float t, at;
 
@@ -166,13 +142,60 @@ namespace root {
         }
     }
 
+    void Elbow::search(Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips) {
+
+        Vect<float> ca = shoulder - hand;
+        Vect<float> w = ca / vectors_maths::normal(ca);
+        Vect<float> u;
+
+        try {
+
+            // to escape division by zero
+            // on échappe à la division par zéro
+            if(w.x == .0f && w.y == .0f)
+                throw string("Division by 0 in root_elbow. T1");
+
+            u.y = -w.x / (sqrt(w.x * w.x + w.y * w.y));
+
+            // to escape division by zero
+            // on échappe à la division par zéro
+            if(w.x == .0f)
+                throw string("Division by 0 in root_elbow. T2");
+
+            u.x = -w.y * u.y / w.x;
+            u.z = .0f;
+            Vect<float> v = vectors_maths::cross_product(u, w);
+
+            if(u.x == .0f)
+                throw string("Division by 0 in root_elbow. T3");
+
+            float gamma_v = u.x / (u.x * v.y - v.x * u.y);
+            float gamma_w = u.x / (u.x * w.y - w.x * u.y);
+            float lambda = gamma_w * w.z - gamma_v * v.z;
+
+            Vect < Vect < float > > p1(u, v, w);
+            Vect < Vect < float > > p2(V_NULL, V_NULL, V_NULL);
+
+            if(lambda == .0f)
+                throw string("Division by 0 in root_elbow. T4");
+
+            p2 = make_matrix(u, v, w, gamma_v, gamma_w, lambda);
+
+            Vect<float> n = make_vector_n(p, shoulder, hips, p1);
+
+            n_x_cases(shoulder, p2, ca, n);
+
+        }
+        catch(string const& str) {
+            cerr << str << endl;
+            return;
+        }
+    }
+
     void Elbow::new_rot(Vect<float> const &neck, Vect<float> const &shoulder) {
 
-        Vect<float> p_x_y = p;
-        p_x_y.z = .0f;
-
-        Vect<float> p_y_z = p;
-        p_y_z.x = .0f;
+        Vect<float> p_x_y = vectors_maths::_3D_to_2D_xy(p);
+        Vect<float> p_y_z = vectors_maths::_3D_to_2D_yz(p);
         p_y_z.z *= 2.0f;
 
         Vect<float> neck_to_shoulder = shoulder - neck;

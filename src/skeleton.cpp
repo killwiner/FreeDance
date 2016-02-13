@@ -283,7 +283,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         // don't work :-(
         // cvReleaseImage(&buffer_img);
 
-        //if(i == 300) break;
+        if(i == 400) break;
 
     }
 
@@ -295,8 +295,8 @@ void Skeleton::draw_square(int ray, int x_, int y_) {
     for (int x = x_ - ray; x < x_ + ray; ++x)
         for (int y = y_ - ray; y < y_ + ray; ++y)
             if (!control<int>(Vect<int>(x, y, 0))) {
-                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
-                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
-                SP_frame->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
+                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
+                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
+                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
             }
 }

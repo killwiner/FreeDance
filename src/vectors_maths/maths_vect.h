@@ -4,7 +4,9 @@
 #include "vect.h"
 #include <cmath>
 
-#define PI 3.141592654
+#define PI 3.141592654f
+#define EPSILONE .001f
+#define V_NULL (Vect<float>(0, 0, 0))
 
 namespace vectors_maths {
 
@@ -31,6 +33,11 @@ namespace vectors_maths {
     // angle between two vectors
     // angle entre deux vecteurs
     float angle_vects(Vect<float> const &, Vect<float> const &);
+
+    // convert a vector from 3D to 2D, eraze one of axis
+    // convertit un vecteur 3D en 2D en supprimant l'un des axes
+    Vect<float> _3D_to_2D_xy(Vect<float>);
+    Vect<float> _3D_to_2D_yz(Vect<float>);
 
 }
 

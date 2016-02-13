@@ -14,6 +14,7 @@ public:
     void paintGL();
 
     void change_status(int s); // change the render to skeleton view, kinect view, motion view
+    int get_status();
 
 private:
     // run kinect in real time

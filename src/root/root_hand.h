@@ -17,6 +17,8 @@ namespace root {
         Vect<float> s;
 
     private:
+        bool get_hand(int const &, int const &, Vect<float> const &, Vect<float> const &);
+        void values_2D(Vect<float> const &, Vect<float> const &, Vect<float> &, Vect<float> &, Vect<float> &, Vect<float> &);
         float init_angle_x_y, init_angle_y_z;
     };
 

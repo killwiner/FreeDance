@@ -1,6 +1,41 @@
 #include "root_hand.h"
 
 namespace root {
+
+    void Hand::values_2D(Vect<float> const &elbow, Vect<float> const &shoulder, Vect<float> &shoulder_to_elbow_y_z, Vect<float> &shoulder_to_elbow_x_y, Vect<float> &hand_to_elbow_y_z, Vect<float> &hand_to_elbow_x_y) {
+        Vect<float> p_x_y = vectors_maths::_3D_to_2D_xy(p);
+        Vect<float> p_y_z = vectors_maths::_3D_to_2D_yz(p);
+        p_y_z.z *= 2.0f;
+
+        Vect<float> elbow_x_y = vectors_maths::_3D_to_2D_xy(elbow);
+        Vect<float> elbow_y_z = vectors_maths::_3D_to_2D_yz(elbow);
+        elbow_y_z.z *= 2.0f;
+
+        shoulder_to_elbow_y_z = elbow_y_z - shoulder;
+        shoulder_to_elbow_x_y = elbow_x_y - shoulder;
+        hand_to_elbow_y_z = elbow_y_z - p_y_z;
+        hand_to_elbow_x_y = elbow_x_y - p_x_y;
+    }
+
+    bool Hand::get_hand(int const &x, int const &y, Vect<float> const &elbow, Vect<float> const &shoulder) {
+
+        if (SP_frame->PIXEL_COLOR_RED(x, y)) {
+
+            p.x = (float)x;
+            p.y = (float)y;
+
+            Vect<float> shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y;
+
+            values_2D(elbow, shoulder, shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y);
+
+            init_angle_y_z = vectors_maths::angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
+            init_angle_x_y = vectors_maths::angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
+
+            return true;
+        }
+        return false;
+    }
+
     Hand::Hand(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
     }
 
@@ -8,74 +43,24 @@ namespace root {
     // Search hands from the sides of the picture
     void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
 
-        // right hand
-        // main droite
+        // right hand or left hand
+        // main droite ou main gauche
+        s = Vect<float>(.0f, 0.069508f, -2.310122f);
+        l_r ? s.x = 1.345896 : -1.345896;
+
+
         if (!l_r == false) {
-            s = Vect<float>(-1.345896, 0.069508, -2.310122);
 
             for (int x = 0; x < WIDTH; ++x)
                 for (int y = 0; y < HEIGHT; ++y)
-                    if (SP_frame->PIXEL_COLOR_RED(x, y)) {
-                        p.x = (float)x;
-                        p.y = (float)y;
-
-                        Vect<float> p_x_y = p;
-                        p_x_y.z = .0f;
-
-                        Vect<float> p_y_z = p;
-                        p_y_z.x = .0f;
-                        p_y_z.z *= 2.0f;
-
-                        Vect<float> elbow_x_y = elbow;
-                        elbow_x_y.z = .0f;
-
-                        Vect<float> elbow_y_z = elbow;
-                        elbow_y_z.x = .0f;
-                        elbow_y_z.z *= 2.0f;
-
-                        Vect<float> shoulder_to_elbow_y_z = elbow_y_z - shoulder;
-                        Vect<float> shoulder_to_elbow_x_y = elbow_x_y - shoulder;
-                        Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
-                        Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
-
-                        init_angle_y_z = vectors_maths::angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
-                        init_angle_x_y = vectors_maths::angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
-
+                    if(get_hand(x, y, elbow, shoulder))
                         return;
-                    }
         }
         else {
-            s = Vect<float>(1.345896, 0.069508, -2.310122);
             for (int x = WIDTH - 1; x >= 0; --x)
                 for (int y = 0; y < HEIGHT; ++y)
-                    if (SP_frame->PIXEL_COLOR_RED(x, y)) {
-                        p.x = (float)x;
-                        p.y = (float)y;
-
-                        Vect<float> p_x_y = p;
-                        p_x_y.z = .0f;
-
-                        Vect<float> p_y_z = p;
-                        p_y_z.x = .0f;
-                        p_y_z.z *= 2.0f;
-
-                        Vect<float> elbow_x_y = elbow;
-                        elbow_x_y.z = .0f;
-
-                        Vect<float> elbow_y_z = elbow;
-                        elbow_y_z.x = .0f;
-                        elbow_y_z.z *= 2.0f;
-
-                        Vect<float> shoulder_to_elbow_y_z = elbow_y_z - shoulder;
-                        Vect<float> shoulder_to_elbow_x_y = elbow_x_y - shoulder;
-                        Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
-                        Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
-
-                        init_angle_y_z = vectors_maths::angle_vects(shoulder_to_elbow_y_z, hand_to_elbow_y_z);
-                        init_angle_x_y = vectors_maths::angle_vects(shoulder_to_elbow_x_y, hand_to_elbow_x_y);
-
+                    if(get_hand(x, y, elbow, shoulder))
                         return;
-                    }
         }
     }
 
@@ -109,24 +94,8 @@ namespace root {
 
     void Hand::new_rot(Vect<float> const &shoulder, Vect<float> const &elbow) {
 
-        Vect<float> p_x_y = p;
-        p_x_y.z = .0f;
-
-        Vect<float> p_y_z = p;
-        p_y_z.x = .0f;
-        p_y_z.z *= 2.0f;
-
-        Vect<float> elbow_x_y = elbow;
-        elbow_x_y.z = .0f;
-
-        Vect<float> elbow_y_z = elbow;
-        elbow_y_z.x = .0f;
-        elbow_y_z.z *= 2.0f;
-
-        Vect<float> shoulder_to_elbow_y_z = elbow_y_z - shoulder;
-        Vect<float> shoulder_to_elbow_x_y = elbow_x_y - shoulder;
-        Vect<float> hand_to_elbow_y_z = elbow_y_z - p_y_z;
-        Vect<float> hand_to_elbow_x_y = elbow_x_y - p_x_y;
+        Vect<float> shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y;
+        values_2D(elbow, shoulder, shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y);
 
         float init_angle_cor_y_z, init_angle_cor_x_y;
         init_angle_cor_y_z = init_angle_y_z;

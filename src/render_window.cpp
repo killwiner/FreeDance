@@ -26,6 +26,10 @@ void RenderWindow::change_status(int s) {
 
 }
 
+int RenderWindow::get_status() {
+    return status;
+}
+
 void RenderWindow::initializeGL()
 {
 

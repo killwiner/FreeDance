@@ -35,6 +35,7 @@ protected:
 };
 
 enum {
+    STATUS_NONE,
     STATUS_KINECT,
     STATUS_MOTION,
     STATUS_RECORD,

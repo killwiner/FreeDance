@@ -7,14 +7,18 @@ namespace root {
     class Elbow : public Root {
     public:
         explicit Elbow(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
-        void first_search(Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, bool l_r_);
-        void search(Vect<float> const &shoulder, Vect<float> const &hand, Vect<float> const &hips);
+        void first_search(Vect<float> const &, Vect<float> const &, Vect<float> const &, bool);
+        void search(Vect<float> const &, Vect<float> const &, Vect<float> const &);
         void new_rot(Vect<float> const&, Vect<float> const&);
 
         std::vector< Vect <float> > vect_rot;
 
     private:
-        void get_circle(Vect<float> shoulder, float ray, float t, Vect< Vect <float> > p2, Vect<float> ca, bool &start_r, Vect<float> &r);
+        void find_elbow(Vect<float> const &, Vect<float> &,Vect<float> const &, Vect<float> const &, Vect<float> const &, Vect<float> const &);
+        void get_circle(Vect<float>, float, float, Vect< Vect <float> >, Vect<float>, bool &, Vect<float> &);
+        Vect < Vect < float > > make_matrix(Vect<float> const &, Vect<float> const &, Vect<float>const &, float const &, float const &, float const &);
+        Vect<float> make_vector_n(Vect<float> const &, Vect<float> const &, Vect<float> const &, Vect < Vect < float > > const &);
+        void n_x_cases(Vect<float> const &, Vect < Vect < float > > const &, Vect<float> const &, Vect<float> const &);
         float lenght_elbow_hand;
         float init_angle_x_y, init_angle_y_z;
         bool l_r;
