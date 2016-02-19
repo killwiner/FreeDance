@@ -16,6 +16,12 @@ namespace root {
         std::vector< Vect <float> > vect_rot;
 
     private:
+        void first_pixel_l2r(int &);
+        void first_pixel_r2l(int &);
+        bool x_l_move_to_x_r(int const &, int &, int const &);
+        bool x_r_move_to_x_l(int const &, int &, int const &);
+        int along_lenght(int &, int &);
+        void all_rays(int const &, float &, float &, float const &);
         Vect<float> init_offset;
     };
 }
