@@ -6,20 +6,20 @@
 #include "win_size.h"
 #include <opencv2/opencv.hpp>
 
-#define PIXEL_COLOR_BLUE(X, Y) imageData[coord_gbr(Vect<int>(X, Y, 0))]
-#define PIXEL_COLOR_GREEN(X, Y) imageData[coord_gbr(Vect<int>(X, Y, 0)) + 1]
-#define PIXEL_COLOR_RED(X, Y) imageData[coord_gbr(Vect<int>(X, Y, 0)) + 2]
+#define PIXEL_COLOR_BLUE(X, Y) data[coord_gbr(Vect<int>(X, Y, 0))]
+#define PIXEL_COLOR_GREEN(X, Y) data[coord_gbr(Vect<int>(X, Y, 0)) + 1]
+#define PIXEL_COLOR_RED(X, Y) data[coord_gbr(Vect<int>(X, Y, 0)) + 2]
 
-#define PIXEL_COLOR_BLUE_VECT(V) imageData[coord_gbr(V)]
-#define PIXEL_COLOR_GREEN_VECT(V) imageData[coord_gbr(V) + 1]
-#define PIXEL_COLOR_RED_VECT(V) imageData[coord_gbr(V) + 2]
+#define PIXEL_COLOR_BLUE_VECT(V) data[coord_gbr(V)]
+#define PIXEL_COLOR_GREEN_VECT(V) data[coord_gbr(V) + 1]
+#define PIXEL_COLOR_RED_VECT(V) data[coord_gbr(V) + 2]
 
 #define NBR_RAYS 32
 
 namespace root {
     class Root {
     public:
-        explicit Root(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_);
+        explicit Root(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_);
         ~Root();
         virtual void search(float const &, int const &, Vect<float> const &);
 
@@ -33,10 +33,10 @@ namespace root {
 
         // frame to stude
         // référence à l'image qu'on étudie
-        QSharedPointer<IplImage> SP_frame;
+        cv::Mat mat_frame;
         // the frame with draw of roots
         // l'image avec les dessins des noeuds
-        QSharedPointer<IplImage> SP_frame_draw;
+        cv::Mat mat_frame_draw;
 
     private:
         void move_the_circle(bool const &,  Vect<float> const &, float const &, int const &nbr_ray, int &);

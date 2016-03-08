@@ -3,27 +3,19 @@
 
 Skeleton::Skeleton() {
 
-    SP_frame = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
-    SP_frame_draw = QSharedPointer<IplImage>(cvCreateImage(cvSize(WIDTH, HEIGHT), 8, 3));
+    mat_frame = cv::Mat(HEIGHT, WIDTH, CV_8UC3);
+    mat_frame_draw = cv::Mat(HEIGHT, WIDTH, CV_8UC3);
 
     // Les images seront enregistrées dans la liste vect_imgs. On initialise toute la liste à 0
     // Images will saved in a list vect_imgs, this list is initialized.
-    std::vector< QSharedPointer<IplImage> >().swap(vect_imgs);
+    std::vector<cv::Mat>().swap(vect_imgs);
     vect_imgs.resize(0);
     surface = 0;
 }
 
 Skeleton::~Skeleton() {
-    IplImage *frame_delete, *frame_draw_delete;
-
-    frame_delete = SP_frame.data();
-    frame_draw_delete = SP_frame_draw.data();
-
-    cvReleaseImage(&frame_delete);
-    cvReleaseImage(&frame_draw_delete);
-    SP_frame.clear();
-    // core dump with this clear, why ? :-(
-    //SP_frame_draw.clear();
+    mat_frame.release();
+    mat_frame_draw.release();
 }
 
 void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
@@ -40,10 +32,10 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
     partition = new std::vector<int>(WIDTH*HEIGHT, 0);
 
     // open the video
-    CvCapture* capture = cvCaptureFromAVI("tmp/kinect_video_2.avi"); // read AVI video
+    cv::VideoCapture capturevideo("tmp/kinect_video_2.avi"); // read AVI video
 
     try {
-        if( !capture )
+        if(!capturevideo.isOpened())
             throw std::string("Can't open the file tmp/kinect_video_2.avi with cvCaptureFromAVI.");
     }
     catch(std::string const& str) {
@@ -51,9 +43,9 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         return;
     }
 
-    // We take the number of images in the video
-    // Nous capturons le nombre d'images de la vidéo
-    nbr_imgs = (int) cvGetCaptureProperty( capture , CV_CAP_PROP_FRAME_COUNT );
+    // capture number of images from the video file
+    // capture le nombre d'images dans le fichier video
+    nbr_imgs = (int) capturevideo.get(CV_CAP_PROP_FRAME_COUNT);
 
     std::vector<int>::iterator max;
 
@@ -67,23 +59,12 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         // We show the progress in %
         prog->value(i * 100 / nbr_imgs);
 
-        try {
-
         // we catch the next image
-        buffer_img = cvQueryFrame( capture );
-
-        if(!buffer_img)
-            throw std::string("Can't open the file tmp/kinect_video_2.avi with cvCaptureFromAVI.");
-        }
-        catch(std::string const& str) {
-            std::cerr << str << std::endl;
-            cvReleaseCapture(&capture);
-            return;
-        }
+        capturevideo >> buffer_img;
 
         // To turn images in the right order colors
         // Remet les couleurs dans le bon ordre
-        cvCvtColor(buffer_img, buffer_img, CV_RGB2BGR);
+        cv::cvtColor(buffer_img, buffer_img, CV_RGB2BGR);
 
         // id_area contains all partition surfaces
         // id_area contient les surfaces des partitions
@@ -100,8 +81,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
         //frame  = cvCloneImage(buffer_img);
 
         // Here only black
-        cvZero(SP_frame.data());
-
+        mat_frame.setTo(cv::Scalar::all(0));
 
         if(i == 0) {
             // recherche les partitions avec les surfaces
@@ -155,7 +135,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
                         // the human area is colored
                         // La partition représentant l'humain est colorisé
-                        SP_frame->PIXEL_COLOR_RED(x, y) = 255;
+                        mat_frame.PIXEL_COLOR_RED(x, y) = 255;
 
                         ++s;
 
@@ -176,20 +156,20 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         }
 
-        cvCopy(SP_frame.data(), SP_frame_draw.data(), NULL);
+        mat_frame_draw = mat_frame.clone();
 
         if(i == 0) {
 
             // Create all roots objects
-            head = new root::Head(SP_frame, SP_frame_draw);
-            neck = new root::Neck(SP_frame, SP_frame_draw);
-            hips = new root::Hips(SP_frame, SP_frame_draw);
-            shoulder_r = new root::Shoulder(SP_frame, SP_frame_draw);
-            shoulder_l = new root::Shoulder(SP_frame, SP_frame_draw);
-            hand_r = new root::Hand(SP_frame, SP_frame_draw);
-            hand_l = new root::Hand(SP_frame, SP_frame_draw);
-            elbow_r = new root::Elbow(SP_frame, SP_frame_draw);
-            elbow_l = new root::Elbow(SP_frame, SP_frame_draw);
+            head = new root::Head(mat_frame, mat_frame_draw);
+            neck = new root::Neck(mat_frame, mat_frame_draw);
+            hips = new root::Hips(mat_frame, mat_frame_draw);
+            shoulder_r = new root::Shoulder(mat_frame, mat_frame_draw);
+            shoulder_l = new root::Shoulder(mat_frame, mat_frame_draw);
+            hand_r = new root::Hand(mat_frame, mat_frame_draw);
+            hand_l = new root::Hand(mat_frame, mat_frame_draw);
+            elbow_r = new root::Elbow(mat_frame, mat_frame_draw);
+            elbow_l = new root::Elbow(mat_frame, mat_frame_draw);
 
             // search for the first time roots
             // recherche les noeuds pour la première fois
@@ -274,20 +254,13 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_) {
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
-        IplImage *img_buff = NULL;
-        img_buff = cvCloneImage(SP_frame_draw.data());
-        //vect_imgs.push_back(QSharedPointer<IplImage>(cvCloneImage(hips->SP_frame_draw.data())));
-        vect_imgs.push_back(QSharedPointer<IplImage>(img_buff));
+        vect_imgs.push_back(mat_frame_draw);
 
-        // plante le programme :-(
-        // don't work :-(
-        // cvReleaseImage(&buffer_img);
-
-        if(i == 400) break;
+        if(i == 40) break;
 
     }
 
-    cvReleaseCapture(&capture);
+    capturevideo.release();
 
 }
 
@@ -295,8 +268,8 @@ void Skeleton::draw_square(int ray, int x_, int y_) {
     for (int x = x_ - ray; x < x_ + ray; ++x)
         for (int y = y_ - ray; y < y_ + ray; ++y)
             if (!control<int>(Vect<int>(x, y, 0))) {
-                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
-                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
-                SP_frame_draw->imageData[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
+                mat_frame_draw.data[coord_gbr<int>(Vect<int>(x, y, 0))] = 255;
+                mat_frame_draw.data[coord_gbr<int>(Vect<int>(x, y, 0)) + 1] = 255;
+                mat_frame_draw.data[coord_gbr<int>(Vect<int>(x, y, 0)) + 2] = 255;
             }
 }

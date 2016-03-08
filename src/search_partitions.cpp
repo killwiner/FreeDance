@@ -21,8 +21,8 @@ void Skeleton::search_partitions() {
 
             // si la couleur du point se situe en dehors de la zone de filtrage
             // after the filter, the color is out
-            if (((uint8_t)buffer_img->imageData[coord_gbr<int>(v)] > green_color)
-             || ((uint8_t)buffer_img->imageData[coord_gbr<int>(v) + 1] < 255 - blue_color)) {
+            if (((uint8_t)buffer_img.data[coord_gbr<int>(v)] > green_color)
+             || ((uint8_t)buffer_img.data[coord_gbr<int>(v) + 1] < 255 - blue_color)) {
                 // l'identifiant de la partition est donc 0
                 partition->at(coord_gray<int>(v)) = 0;
                 // la surface de la zone noire augmente de 1
@@ -94,14 +94,14 @@ int Skeleton::scan_pixel(Vect<int> v) {
 
 
     if(partition->at(coord_gray<int>(v)) == 1)
-        if (((uint8_t)buffer_img->imageData[coord_gbr<int>(v)] <= green_color)
-        && ((uint8_t)buffer_img->imageData[coord_gbr<int>(v) + 1] >= 255 - blue_color))
+        if (((uint8_t)buffer_img.data[coord_gbr<int>(v)] <= green_color)
+        && ((uint8_t)buffer_img.data[coord_gbr<int>(v) + 1] >= 255 - blue_color))
             return -1;
 
     if(partition->at(coord_gray<int>(v)) == 0) {
 
-        if (((uint8_t)buffer_img->imageData[coord_gbr<int>(v)] <= green_color)
-        && ((uint8_t)buffer_img->imageData[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
+        if (((uint8_t)buffer_img.data[coord_gbr<int>(v)] <= green_color)
+        && ((uint8_t)buffer_img.data[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
 
             partition->at(coord_gray<int>(v)) = 1;
             centroid.x += (long int)v.x;
@@ -110,7 +110,7 @@ int Skeleton::scan_pixel(Vect<int> v) {
 
             // the human area is colored
             // La partition représentant l'humain est colorisé
-            SP_frame->PIXEL_COLOR_RED(v.x, v.y) = 255;
+            mat_frame.PIXEL_COLOR_RED(v.x, v.y) = 255;
         }
         else
             partition->at(coord_gray<int>(v)) = -1;

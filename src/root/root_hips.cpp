@@ -2,7 +2,7 @@
 
 namespace root {
 
-    Hips::Hips(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
+    Hips::Hips(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
     void Hips::first_pixel_l2r(int &x_l) {
@@ -12,12 +12,12 @@ namespace root {
         // nous cherchons à partir de la ligne la plus basse le premier pixel rouge en partant de la gauche vers la droite
         // We seek from the lowest line the first red pixel from left to right
         for(x = 0; x < WIDTH; ++x)
-            if (SP_frame->PIXEL_COLOR_RED(x, HEIGHT - 1))
+            if (mat_frame.PIXEL_COLOR_RED(x, HEIGHT - 1))
 
                 // nous continuons dans la zone rouge jusqu'à la zone noire. x_l prend alors la valeur des coordonnées horizontales du dernier point
                 // We continue in the red zone until the black area. x_l then takes the value of the horizontal coordinates of the last point
                 for(;x < WIDTH;++x)
-                    if (SP_frame->PIXEL_COLOR_RED(x, HEIGHT - 1)) {
+                    if (mat_frame.PIXEL_COLOR_RED(x, HEIGHT - 1)) {
                         x_l = x;
                         // sortie de boulce
                         // exit the loop
@@ -32,12 +32,12 @@ namespace root {
         // nous cherchons à partir de la ligne la plus basse le premier pixel rouge en partant de la droite vers la gauche
         // We seek from the lowest line the first red pixel from right to left
         for(x = WIDTH - 1; x >= 0; --x)
-            if (SP_frame->PIXEL_COLOR_RED(x, HEIGHT - 1))
+            if (mat_frame.PIXEL_COLOR_RED(x, HEIGHT - 1))
 
                 // nous continuons dans la zone rouge jusqu'à la zone noire. x_l prend alors la valeur des coordonnées horizontales du dernier point
                 // We continue in the red zone until the black area. x_l then takes the value of the horizontal coordinates of the last point
                 for(; x > 0; --x)
-                    if (SP_frame->PIXEL_COLOR_RED(x, HEIGHT - 1)) {
+                    if (mat_frame.PIXEL_COLOR_RED(x, HEIGHT - 1)) {
                         x_r = x;
                         // sortie de boulce
                         // exit the loop
@@ -49,7 +49,7 @@ namespace root {
         // nous approchons d'avantage x_l vers x_r tant que l'on est dans la zone rouge
         // we are approaching x_l to x_r as it is in the red zone
         for(int cursor = x_l; cursor <= x_r; ++cursor) {
-            if (!SP_frame->PIXEL_COLOR_RED(cursor, y)) {
+            if (!mat_frame.PIXEL_COLOR_RED(cursor, y)) {
 
                 x_l = cursor;
                 return true;
@@ -63,7 +63,7 @@ namespace root {
         // nous approchons d'avantage x_r vers x_l tant que l'on est dans la zone rouge
         // we are approaching x_r to x_l as it is in the red zone
         for(int cursor = x_r; cursor >= x_l; --cursor) {
-            if (!SP_frame->PIXEL_COLOR_RED(cursor, y)) {
+            if (!mat_frame.PIXEL_COLOR_RED(cursor, y)) {
 
                 x_r = cursor;
                 return true;
@@ -105,7 +105,7 @@ namespace root {
             Vect<float> v(p.x + radius * cosf(teta), p.y + radius * sinf(teta), 0);
 
             if(!control<float>(v))
-                if(!SP_frame->PIXEL_COLOR_RED_VECT(v)) {
+                if(!mat_frame.PIXEL_COLOR_RED_VECT(v)) {
                     if(x1 > v.x)
                         x1 = v.x;
                     if(x2 < v.x)

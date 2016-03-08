@@ -23,6 +23,15 @@ Kinect::Kinect() {
     connected = running = recording = false;
 }
 
+Kinect::~Kinect() {
+    free(Kinect::rgb_back);
+    free(Kinect::rgb_front);
+    free(Kinect::rgb_mid);
+    free(Kinect::depth_mid);
+    free(Kinect::depth_front);
+    free(Kinect::t_gamma);
+}
+
 const uint8_t *Kinect::get_depth_front() {
     return (const uint8_t*)depth_front;
 }

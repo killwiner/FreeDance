@@ -1,7 +1,7 @@
 #include "root_shoulder.h"
 
 namespace root {
-    Shoulder::Shoulder(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
+    Shoulder::Shoulder(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
     void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_, bool l_r_) {
@@ -38,7 +38,7 @@ namespace root {
         // A partir du point u, nous cherchons à sortir de la zone rouge, une fois la zone noire trouvée, nous sommes alors sur l'épaule
         // From the point u, we try to exit from the red area, once found the black area, then we are on the shoulder
         while(!control<float>(u)) {
-            if (!(SP_frame->PIXEL_COLOR_RED_VECT(u)))
+            if (!(mat_frame.PIXEL_COLOR_RED_VECT(u)))
                 break;
             u += i;
         }

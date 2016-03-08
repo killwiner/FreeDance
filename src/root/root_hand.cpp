@@ -19,7 +19,7 @@ namespace root {
 
     bool Hand::get_hand(int const &x, int const &y, Vect<float> const &elbow, Vect<float> const &shoulder) {
 
-        if (SP_frame->PIXEL_COLOR_RED(x, y)) {
+        if (mat_frame.PIXEL_COLOR_RED(x, y)) {
 
             p.x = (float)x;
             p.y = (float)y;
@@ -36,7 +36,7 @@ namespace root {
         return false;
     }
 
-    Hand::Hand(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
+    Hand::Hand(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
     // Recherche les mains gauche et droite en partant du côté droit et gauche de l'image
@@ -81,7 +81,7 @@ namespace root {
             Vect<float> v = p + ray;
 
             if(!control<float>(v)) {
-                if(!SP_frame->PIXEL_COLOR_RED_VECT(v))
+                if(!mat_frame.PIXEL_COLOR_RED_VECT(v))
                     break;
             }
             else

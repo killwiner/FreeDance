@@ -7,7 +7,7 @@
 namespace root {
     class Head : public Root {
     public:
-        explicit Head(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
+        explicit Head(cv::Mat const &, cv::Mat &);
         Vect<float> first_search();
         void bone(Vect<float> const&);
         void new_rot(Vect<float> const&, Vect<float> const&);

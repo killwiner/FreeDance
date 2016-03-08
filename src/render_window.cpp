@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RenderWindow::RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<SaveLoad> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
+RenderWindow::RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
     : Render(20, parent, kinect, SP_saveload_, SP_skeleton_, "Kinect Render")
 {
 
@@ -82,6 +82,16 @@ void RenderWindow::run_kinect() {
 
 }
 
+void RenderWindow::init_record() {
+
+    // reset the vector
+    std::vector<cv::Mat>().swap(SP_saveload->vect_imgs);
+    SP_saveload->vect_imgs.resize(0);
+
+    kinect->record(true);
+
+}
+
 void RenderWindow::render(const GLvoid *data) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -102,24 +112,14 @@ void RenderWindow::render(const GLvoid *data) {
 
 }
 
-void RenderWindow::loop_the_movie(vector< QSharedPointer<IplImage> > &vect_imgs, vector< QSharedPointer<IplImage> >::const_iterator &it) {
+void RenderWindow::loop_the_movie(vector<cv::Mat> &vect_imgs, vector<cv::Mat>::const_iterator &it) {
 
     it + 1 != vect_imgs.end() ? ++it : it = vect_imgs.begin();
 
 }
 
-void RenderWindow::init_record() {
-
-    // reset the vector
-    std::vector< QSharedPointer<IplImage> >().swap(SP_saveload->vect_imgs);
-    SP_saveload->vect_imgs.resize(0);
-
-    kinect->record(true);
-
-}
-
 void RenderWindow::make_list() {
-    SP_saveload->make_list((char*)kinect->get_depth_front());
+    SP_saveload->push_data((char*)kinect->get_depth_front());
 }
 
 void RenderWindow::paintGL()
@@ -155,7 +155,7 @@ void RenderWindow::paintGL()
             return;
 
         // render the current motion image
-        render((vect_motion_kinect->data())->imageData);
+        render(vect_motion_kinect->data);
 
         // loop the movie with increment
         // boucle le film en incrémentant
@@ -165,7 +165,7 @@ void RenderWindow::paintGL()
 
     if (status == STATUS_SKELETON) {
 
-        render((vect_motion_skeleton->data())->imageData);
+        render(vect_motion_skeleton->data);
         // loop the movie with increment
         // boucle le film en incrémentant
         loop_the_movie(SP_skeleton->vect_imgs, vect_motion_skeleton);
@@ -221,7 +221,7 @@ void RenderWindow::memory_info() {
 
     // save capture in the file
     if(SP_message->clickedButton()) {
-        SP_saveload->save(SP_saveload->vect_imgs);
+        SP_saveload->save(SP_saveload->vect_imgs, fileName);
         status = STATUS_KINECT;
         kinect->record(false);
     }

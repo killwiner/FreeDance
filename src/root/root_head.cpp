@@ -2,7 +2,7 @@
 
 namespace root {
 
-    Head::Head(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_), m_lines(8) {
+    Head::Head(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_), m_lines(8) {
     }
 
     bool Head::web(Vect<float> &top, float &n_top_x, float const &y, float const &web_surface, float &web_surface_last, float &num_webs,
@@ -75,7 +75,7 @@ namespace root {
 
             // Si le pixel est sur la partition recherchée
             // If the point is on the right area
-            if (SP_frame->PIXEL_COLOR_RED(x, y)) {
+            if (mat_frame.PIXEL_COLOR_RED(x, y)) {
 
                 if (start == false)
                     web_width = 0;

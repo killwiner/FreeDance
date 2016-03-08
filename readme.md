@@ -3,7 +3,7 @@ To build tron on Debian system (and Ubuntu)
     git clone https://github.com/killwiner/tron.git tron
 
     adduser $USER plugdev
-    apt-get install git qt5-qmake qt5-default libboost-filesystem-dev \
+    apt-get install git qt5-qmake qt5-default \
             libav-tools freenect freeglut3-dev libusb-1.0-0-dev libopencv-dev
 
 in ~/tron/kinect_blender :

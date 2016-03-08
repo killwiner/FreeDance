@@ -6,7 +6,7 @@
 namespace root {
     class Elbow : public Root {
     public:
-        explicit Elbow(QSharedPointer<IplImage> const &, QSharedPointer<IplImage> &);
+        explicit Elbow(cv::Mat const &, cv::Mat &);
         void first_search(Vect<float> const &, Vect<float> const &, Vect<float> const &, bool);
         void search(Vect<float> const &, Vect<float> const &, Vect<float> const &);
         void new_rot(Vect<float> const&, Vect<float> const&);
@@ -33,7 +33,7 @@ namespace root {
 
         if(control(circle))
             return;
-        if(!SP_frame->PIXEL_COLOR_RED_VECT(circle))
+        if(!mat_frame.PIXEL_COLOR_RED_VECT(circle))
             return;
 
         if(!start_r) {

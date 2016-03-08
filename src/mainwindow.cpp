@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     try {
         kinect = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
-        SP_saveload = QSharedPointer<SaveLoad>(new SaveLoad());
+        SP_saveload = QSharedPointer<IO_frames>(new IO_frames());
         SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_NONE));
     }
     catch ( const exception &e )
@@ -149,8 +149,10 @@ void MainWindow::on_actionSave_Motion_triggered()
 {
 
     if (SP_renderwindow->get_status() != STATUS_NONE) {
+
+        QString fileName = QFileDialog::getSaveFileName(this, "Save Video", "", "Video Files (*.avi)");
         SP_renderwindow->change_pause(true);
-        SP_saveload->save(SP_saveload->vect_imgs);
+        SP_saveload->save(SP_saveload->vect_imgs, fileName);
     }
 
 }

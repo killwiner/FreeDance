@@ -14,6 +14,7 @@
 class Kinect {
 public:
     explicit Kinect();
+    ~Kinect();
     // connect the device
     void connect();
     //stop the device

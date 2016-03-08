@@ -5,7 +5,7 @@ using namespace std;
 namespace root {
 
     // constructor
-    Root::Root(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : SP_frame(SP_frame_), SP_frame_draw(SP_frame_draw_) {
+    Root::Root(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : mat_frame(mat_frame_), mat_frame_draw(mat_frame_draw_) {
     }
 
     Root::~Root() {
@@ -18,7 +18,7 @@ namespace root {
     void Root::move_the_circle(bool const &black_arc_flag, Vect<float> const &vec_black_arc, float const &radius, int const &nbr_rays, int &total_black_ray) {
 
         if(!control<float>(p))
-            if(SP_frame->PIXEL_COLOR_RED_VECT(p)) {
+            if(mat_frame.PIXEL_COLOR_RED_VECT(p)) {
                 if(!black_arc_flag) {
 
                     p.x += vec_black_arc.x * (radius * nbr_rays - total_black_ray) / (nbr_rays * radius);
@@ -57,7 +57,7 @@ namespace root {
     void Root::reverse(int const &nbr_rays, vector<int> &vect_rays, vector<int> const &vect_rays_op) {
 
         if(!control<float>(p))
-            if(!SP_frame->PIXEL_COLOR_RED_VECT(p))
+            if(!mat_frame.PIXEL_COLOR_RED_VECT(p))
                 for (std::vector<int>::iterator it = vect_rays.begin(); it != vect_rays.end(); ++it) {
                     if(vect_rays_op.at(it - vect_rays.begin())) {
                         if(it - vect_rays.begin() < nbr_rays / 2)
@@ -91,16 +91,16 @@ namespace root {
 
         vect_rays_op.at(p_ray) += 1;
         black_ray_buff = true;
-        SP_frame_draw->PIXEL_COLOR_BLUE_VECT(v) = 255;
-        SP_frame_draw->PIXEL_COLOR_GREEN_VECT(v) = 255;
+        mat_frame_draw.PIXEL_COLOR_BLUE_VECT(v) = 255;
+        mat_frame_draw.PIXEL_COLOR_GREEN_VECT(v) = 255;
 
     }
 
     // We are out of the right zone
     // Nous sommes en dehors de la partition
     void Root::out_of_the_zone(int const & p_ray, int &black_ray, bool &black_ray_buff, vector<int> &vect_rays, vector<int> &vect_rays_op, Vect<float> &v) {
-        if (!SP_frame->PIXEL_COLOR_RED_VECT(v)) {
-            SP_frame_draw->PIXEL_COLOR_GREEN_VECT(v) = 255;
+        if (!mat_frame.PIXEL_COLOR_RED_VECT(v)) {
+            mat_frame_draw.PIXEL_COLOR_GREEN_VECT(v) = 255;
 
             ++black_ray;
 
@@ -145,7 +145,7 @@ namespace root {
             out_of_the_zone(j, black_ray, black_ray_buff, vect_rays, vect_rays_op, v);
 
             if(!control<float>(p))
-                if(!SP_frame->PIXEL_COLOR_RED_VECT(p))
+                if(!mat_frame.PIXEL_COLOR_RED_VECT(p))
                     continue;
 
             if(ray_vs_arc(black_arc_flag, black_arc, black_ray, black_ray_buff, ray, radius))

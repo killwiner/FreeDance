@@ -5,20 +5,20 @@ using namespace std;
 
 namespace root {
 
-    Elbow::Elbow(QSharedPointer<IplImage> const &SP_frame_, QSharedPointer<IplImage> &SP_frame_draw_) : Root(SP_frame_, SP_frame_draw_) {
+    Elbow::Elbow(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
     void Elbow::find_elbow(Vect<float> const &u, Vect<float> &w,Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, Vect<float> const &h) {
 
         while(!control<float>(u + w)) {
 
-        if (SP_frame->PIXEL_COLOR_RED_VECT(u + w))
+        if (mat_frame.PIXEL_COLOR_RED_VECT(u + w))
             p = u + w;
 
-        if (SP_frame->PIXEL_COLOR_RED_VECT(u - w))
+        if (mat_frame.PIXEL_COLOR_RED_VECT(u - w))
             p = u - w;
 
-        if (SP_frame->PIXEL_COLOR_RED_VECT(u - w) || SP_frame->PIXEL_COLOR_RED_VECT(u + w)) {
+        if (mat_frame.PIXEL_COLOR_RED_VECT(u - w) || mat_frame.PIXEL_COLOR_RED_VECT(u + w)) {
 
             lenght_elbow_hand = vectors_maths::lenght(p, vect_hand);
 

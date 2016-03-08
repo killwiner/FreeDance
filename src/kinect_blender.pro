@@ -21,7 +21,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     render.cpp \
     render_window.cpp \
-    save_load.cpp \
     skeleton.cpp \
     win_param.cpp \
     progress.cpp \
@@ -37,12 +36,12 @@ SOURCES += main.cpp\
     root/root_neck.cpp \
     search_partitions.cpp \
     export_motion.cpp \
-    kinect.cpp
+    kinect.cpp \
+    io_frames.cpp
 
 HEADERS  += mainwindow.h \
     render.h \
     render_window.h \
-    save_load.h \
     vect.h \
     skeleton.h \
     win_param.h \
@@ -57,6 +56,7 @@ HEADERS  += mainwindow.h \
     root/root_hand.h \
     root/root_neck.h \
     export_motion.h \
-    kinect.h
+    kinect.h \
+    io_frames.h
 
 FORMS    += mainwindow.ui

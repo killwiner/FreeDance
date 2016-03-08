@@ -1,7 +1,7 @@
 #include "render.h"
 #include <stdio.h>
 
-Render::Render(int framesPerSecond, QWidget *parent, Kinect *kinect_, QSharedPointer<SaveLoad> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, const char *name)
+Render::Render(int framesPerSecond, QWidget *parent, Kinect *kinect_, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, const char *name)
     : QGLWidget(parent), SP_saveload(SP_saveload_), SP_skeleton(SP_skeleton_), kinect(kinect_)
 {
 

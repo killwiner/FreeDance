@@ -8,7 +8,7 @@ class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<SaveLoad> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
+    explicit RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
@@ -19,25 +19,24 @@ public:
 private:
     // run kinect in real time
     void run_kinect();
-    // render the texture from the kinect
-    void render(const GLvoid *data);
     // we init_the vector vect_imgs before to record
     void init_record();
+    // render the texture from the kinect
+    void render(const GLvoid *data);
     // make the list from the kinect's images
     void make_list();
-    void loop_the_movie(std::vector< QSharedPointer<IplImage> > &, std::vector< QSharedPointer<IplImage> >::const_iterator &);
+    void loop_the_movie(std::vector<cv::Mat> &, std::vector<cv::Mat>::const_iterator &);
     // new message
     void record_message();
     void memory_info();
     bool count_down();
     QSharedPointer<QMessageBox> SP_message;
+    QString fileName;
     int timer = 0, count_d = 10;
 
     GLuint gl_depth_tex;
 
-    std::vector< QSharedPointer<IplImage> >::const_iterator vect_motion_kinect, vect_motion_skeleton;
+    std::vector<cv::Mat>::const_iterator vect_motion_kinect, vect_motion_skeleton;
 };
-
-
 
 #endif // RENDER_WINDOW_H
