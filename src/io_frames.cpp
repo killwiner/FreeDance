@@ -3,7 +3,11 @@
 
 using namespace std;
 
-IO_frames::IO_frames() {
+IO_frames::IO_frames() : video_loaded(false) {
+}
+
+bool IO_frames::loaded() {
+    return video_loaded;
 }
 
 bool IO_frames::make_vector(int const &nbr_imgs, cv::VideoCapture &capture) {
@@ -35,20 +39,48 @@ bool IO_frames::make_vector(int const &nbr_imgs, cv::VideoCapture &capture) {
     return true;
 }
 
-void IO_frames::load(const QString &fileName) {
+// return nbr_imgs
+// retourne le nombre d'images
+int IO_frames::get_nbr_imgs() {
+    return nbr_imgs;
+}
+
+// open only the video file and get the number of frames
+// ouvre seulement la video et capture le nombre d'images
+cv::VideoCapture IO_frames::open_input(const QString &fileName) {
+
+    // read AVI video
+    // capture la video à partir du fichier
+    cv::VideoCapture capturevideo(fileName.toStdString().c_str());
 
     try {
 
-        // read AVI video
-        // capture la video à partir du fichier
-        cv::VideoCapture capturevideo(fileName.toStdString().c_str());
         if (!capturevideo.isOpened())
             throw "(io_frames) error while opening file AVI.";
 
         // capture number of images from the video file
         // capture le nombre d'images dans le fichier video
-        int nbr_imgs = (int) capturevideo.get(CV_CAP_PROP_FRAME_COUNT);
+        nbr_imgs = (int) capturevideo.get(CV_CAP_PROP_FRAME_COUNT);
 
+        video_loaded = true;
+    }
+    catch (const char& strException)
+    {
+        cerr << "Exception caught !!" << endl;
+        cerr << strException << endl;
+        throw;
+    }
+
+    return capturevideo;
+}
+
+void IO_frames::load(const QString &fileName) {
+
+    try {
+        // open the video file
+        // ouvre le fichier video
+        cv::VideoCapture capturevideo = open_input(fileName);
+        
         // reset vect_imgs
         vector<cv::Mat>().swap(vect_imgs);
         vect_imgs.resize(0);
@@ -66,8 +98,6 @@ void IO_frames::load(const QString &fileName) {
         cerr << strException << endl;
         throw;
     }
-
-
 }
 
 // create an image from data and put this in the vector

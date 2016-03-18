@@ -19,7 +19,7 @@
 namespace root {
     class Root {
     public:
-        explicit Root(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_);
+        explicit Root(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &SP_frame_draw_);
         ~Root();
         virtual void search(float const &, int const &, Vect<float> const &);
 
@@ -36,8 +36,7 @@ namespace root {
         cv::Mat mat_frame;
         // the frame with draw of roots
         // l'image avec les dessins des noeuds
-        cv::Mat mat_frame_draw;
-
+        QSharedPointer<cv::Mat> mat_frame_draw;
     private:
         void move_the_circle(bool const &,  Vect<float> const &, float const &, int const &nbr_ray, int &);
         void weight(int const &, std::vector<int> &);

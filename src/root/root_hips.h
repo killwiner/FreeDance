@@ -6,7 +6,7 @@
 namespace root {
     class Hips : public Root {
     public:
-        explicit Hips(cv::Mat const &, cv::Mat &);
+        explicit Hips(cv::Mat const &, QSharedPointer<cv::Mat> &);
         void first_search();
         void search(float const &, int const &, Vect<float>);
         void new_rot(Vect<float> const &);

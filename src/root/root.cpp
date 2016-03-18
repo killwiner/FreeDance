@@ -5,7 +5,8 @@ using namespace std;
 namespace root {
 
     // constructor
-    Root::Root(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : mat_frame(mat_frame_), mat_frame_draw(mat_frame_draw_) {
+    Root::Root(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : mat_frame(mat_frame_), mat_frame_draw(mat_frame_draw_) {
+
     }
 
     Root::~Root() {
@@ -91,8 +92,8 @@ namespace root {
 
         vect_rays_op.at(p_ray) += 1;
         black_ray_buff = true;
-        mat_frame_draw.PIXEL_COLOR_BLUE_VECT(v) = 255;
-        mat_frame_draw.PIXEL_COLOR_GREEN_VECT(v) = 255;
+        mat_frame_draw->PIXEL_COLOR_BLUE_VECT(v) = 255;
+        mat_frame_draw->PIXEL_COLOR_GREEN_VECT(v) = 255;
 
     }
 
@@ -100,7 +101,7 @@ namespace root {
     // Nous sommes en dehors de la partition
     void Root::out_of_the_zone(int const & p_ray, int &black_ray, bool &black_ray_buff, vector<int> &vect_rays, vector<int> &vect_rays_op, Vect<float> &v) {
         if (!mat_frame.PIXEL_COLOR_RED_VECT(v)) {
-            mat_frame_draw.PIXEL_COLOR_GREEN_VECT(v) = 255;
+            mat_frame_draw->PIXEL_COLOR_GREEN_VECT(v) = 255;
 
             ++black_ray;
 

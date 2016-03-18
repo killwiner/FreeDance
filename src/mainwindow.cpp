@@ -203,11 +203,18 @@ void MainWindow::on_actionRecord_triggered()
 // crée l'armature à partir du film enregistré
 void MainWindow::on_actionCreate_triggered()
 {
+    if(!SP_saveload->loaded()) {
+        QString fileName = QFileDialog::getOpenFileName(this, "Open Video", "", "Video Files (*.avi)");
+
+        // we load the motion
+        SP_saveload->load(fileName);
+    }
 
     // default filters parameters
     // paramètres par défaut
     int blue_p = 128;
     int red_p = 32;
+    int nbr_pass = 8;
 
     // show the progress bar
     // affiche la barre de progression
@@ -216,12 +223,12 @@ void MainWindow::on_actionCreate_triggered()
 
     // to set filters parameters values
     // pour changer les paramètres de filtrage
-    WinParam wp(NULL, &blue_p, &red_p);
+    WinParam wp(NULL, blue_p, red_p, nbr_pass);
     wp.exec();
 
     // create the skeleton
     // crée l'armature
-    SP_skeleton->start(prog, blue_p, red_p);
+    SP_skeleton->start(prog, blue_p, red_p, nbr_pass, SP_saveload);
 
     prog->close();
 
@@ -265,7 +272,7 @@ void MainWindow::on_actionExport_to_blender_2_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "skeleton.bvh", "Motions (*.bvh)");
     ExportMotion exportmotion;
 
-    exportmotion.save(fileName, SP_skeleton, SP_skeleton->nbr_imgs);
+    exportmotion.save(fileName, SP_skeleton, SP_skeleton->get_nbr_imgs());
 
     message.setText("The file was saved.");
     message.exec();

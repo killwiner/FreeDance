@@ -14,15 +14,11 @@ class WinParam : public QDialog
  {
 
 public:
-    explicit WinParam(QWidget *parent = 0, int *p0_ = 0, int *p1_ = 0);
+    explicit WinParam(QWidget *parent, int const &, int const &, int const &);
     void closeEvent(QCloseEvent *event);
 private:
-     QPushButton *button;
-     QSlider *slider0;
-     QSlider *slider1;
-
-     int *p0, *p1;
-
+    int p0, p1, p2;
+    QSlider *slider0, *slider1, *slider2;
  };
 
 #endif // WIN_PARAM_H

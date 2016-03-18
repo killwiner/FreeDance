@@ -2,7 +2,7 @@
 
 namespace root {
 
-    Hips::Hips(cv::Mat const &mat_frame_, cv::Mat &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
+    Hips::Hips(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
     void Hips::first_pixel_l2r(int &x_l) {

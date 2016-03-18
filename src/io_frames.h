@@ -17,13 +17,17 @@ public:
     void load(const QString &fileName);
     void save(std::vector< cv::Mat > &, QString &);
     void push_data(char*); // make a vector from data
+    cv::VideoCapture open_input(const QString &);
+    int get_nbr_imgs();
+    bool loaded();
 
-    cv::Mat mat_frame;
     std::vector< cv::Mat > vect_imgs;
 
 private:
+    int nbr_imgs;
+    cv::Mat mat_frame;
     bool make_vector(int const &, cv::VideoCapture &);
-
+    bool video_loaded;
 };
 
 #endif // IO_FRAMES_H
