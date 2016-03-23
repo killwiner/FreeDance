@@ -8,6 +8,13 @@ using namespace std;
 ExportMotion::ExportMotion() : imbricate(0) {
 }
 
+void ExportMotion::write_0_chan(ofstream &f, int const &channels) {
+    if(channels)
+        f << "0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 ";
+    else
+        f << "0.000000 0.000000 0.000000 ";
+}
+
 void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &SP_skeleton, const int &nbr_frames) {
 
     try {
@@ -20,85 +27,90 @@ void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
 
         file << "HIERARCHY\n";
 
-        write_new_root(file, string("ROOT hips"), SP_skeleton->hips->s, false, true);
-        write_new_root(file, string("JOINT thigh_L"), Vect<float>(1.084882, 0.106374, -0.050324), false, true);
-        write_new_root(file, string("JOINT shin_L"), Vect<float>(0.428269, -0.345176, -4.139606), false, false);
-        write_new_root(file, string("JOINT foot_L"), Vect<float>(0.464369, 0.117003, -4.335488), false, false);
-        write_new_root(file, string("JOINT toe_L"), Vect<float>(0.040781, -1.254992, -0.632071), false, false);
-        write_new_root(file, string("End Site"), Vect<float>(-0.003283, -0.414396, -0.000014), true, false);
+        //write_new_root(file, string("ROOT hips"), SP_skeleton->hips->s, false, true);
+        write_new_root(file, string("ROOT hips"), Vect<float>(hips_offset), false, hips_channels);
+        write_new_root(file, string("JOINT thigh_L"), Vect<float>(thigh_L_offset), false, thigh_L_channels);
+        write_new_root(file, string("JOINT shin_L"), Vect<float>(shin_L_offset), false, shin_L_channels);
+        write_new_root(file, string("JOINT foot_L"), Vect<float>(foot_L_offset), false, foot_L_channels);
+        write_new_root(file, string("JOINT toe_L"), Vect<float>(toe_L_offset), false, toe_L_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_toe_L_offset), true, false);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT thigh_R"), Vect<float>(-1.084882, 0.106374, -0.050324), false, true);
-        write_new_root(file, string("JOINT shin_R"), Vect<float>(-0.428269, -0.345176, -4.139606), false, false);
-        write_new_root(file, string("JOINT foot_R"), Vect<float>(-0.464369, 0.117003, -4.335488), false, false);
-        write_new_root(file, string("JOINT toe_R"), Vect<float>(-0.040781, -1.254992, -0.632071), false, false);
-        write_new_root(file, string("End Site"), Vect<float>(-0.003283, -0.414396, -0.000014), true, false);
+        write_new_root(file, string("JOINT thigh_R"), Vect<float>(thigh_R_offset), false, thigh_R_channels);
+        write_new_root(file, string("JOINT shin_R"), Vect<float>(shin_R_offset), false, shin_R_channels);
+        write_new_root(file, string("JOINT foot_R"), Vect<float>(foot_R_offset), false, foot_R_channels);
+        write_new_root(file, string("JOINT toe_R"), Vect<float>(toe_R_offset), false, toe_R_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_toe_R_offset), true, false);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT spine"), Vect<float>(0.000000, 0.228833, 1.572143), false, true); // 9
-        write_new_root(file, string("JOINT chest"), Vect<float>(0.000000, 0.087254, 0.599468), false, true); // 10
-        write_new_root(file, string("JOINT clavicle_R"), Vect<float>(-0.227391, -0.803817, 2.683225), false, true); // 11
-        write_new_root(file, string("JOINT upper_arm_R"), Vect<float>(-1.637361, 0.340290, -0.300515), false, true); // 12
-        write_new_root(file, string("JOINT forearm_R"), Vect<float>(-1.657613, 0.021382, -1.898825), false, true); // 13
-        write_new_root(file, string("JOINT hand_R"), SP_skeleton->hand_r->s, false, true); // 14
-        write_new_root(file, string("JOINT thumb_02_R"), Vect<float>(0.206955, -0.234199, -0.708880), false, true); // 15
-        write_new_root(file, string("JOINT thumb_03_R"), Vect<float>(0.127764, -0.047279, -0.391377), false, true); // 16
-        write_new_root(file, string("End Site"), Vect<float>(0.119884, -0.018095, -0.396276), true, false);
+        write_new_root(file, string("JOINT spine"), Vect<float>(spine_offset), false, spine_channels);
+        write_new_root(file, string("JOINT chest"), Vect<float>(chest_offset), false, chest_channels);
+        write_new_root(file, string("JOINT clavicle_R"), Vect<float>(clavicle_R_offset), false, clavicle_R_channels);
+        write_new_root(file, string("JOINT upper_arm_R"), Vect<float>(upper_arm_R_offset), false, upper_arm_R_channels);
+        write_new_root(file, string("JOINT forearm_R"), Vect<float>(forearm_R_offset), false, forearm_R_channels);
+        //write_new_root(file, string("JOINT hand_R"), SP_skeleton->hand_r->s, false, true);
+        write_new_root(file, string("JOINT hand_R"), Vect<float>(hand_R_offset), false, hand_R_channels);
+        write_new_root(file, string("JOINT thumb_02_R"), Vect<float>(thumb_02_R_offset), false, thumb_02_R_channels);
+        write_new_root(file, string("JOINT thumb_03_R"), Vect<float>(thumb_03_R_offset), false, thumb_03_R_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_thumb_03_R_offset), true, false);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT f_ring_01_R"), Vect<float>(-0.487513, 0.225084, -0.910926), false, true); // 17
-        write_new_root(file, string("End Site"), Vect<float>(-0.169222, 0.140269, -0.351316), true, false);
+        write_new_root(file, string("JOINT f_ring_01_R"), Vect<float>(f_ring_01_R_offset), false, f_ring_01_R_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_f_ring_01_R_offset), true, false);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT f_index_01_R"), Vect<float>(-0.254855, -0.180597, -1.111484), false, true); // 18
-        write_new_root(file, string("End Site"), Vect<float>(-0.059301, 0.005064, -0.410113), true, false);
-        write_close_root(file);
-        write_close_root(file);
-        write_close_root(file);
-        write_close_root(file);
-        write_close_root(file);
-        write_close_root(file);
-        write_new_root(file, string("JOINT clavicle_L"), Vect<float>(0.227391, -0.803817, 2.683225), false, true); // 19
-        write_new_root(file, string("JOINT upper_arm_L"), Vect<float>(1.637361, 0.340290, -0.300515), false, true); // 20
-        write_new_root(file, string("JOINT forearm_L"), Vect<float>(1.657613, 0.021382, -1.898825), false, true); // 21
-        write_new_root(file, string("JOINT hand_L"), SP_skeleton->hand_l->s, false, true); // 22
-        write_new_root(file, string("JOINT thumb_02_L"), Vect<float>(-0.207201, -0.236211, -0.708153), false, true); // 23
-        write_new_root(file, string("JOINT thumb_03_L"), Vect<float>(-0.127731, -0.048245, -0.391277), false, true); // 24
-        write_new_root(file, string("End Site"), Vect<float>(-0.119884, -0.019162, -0.396226), true, false);
-        write_close_root(file);
-        write_close_root(file);
-        write_close_root(file);
-        write_new_root(file, string("JOINT f_ring_01_L"), Vect<float>(0.487513, 0.222631, -0.911529), false, true); // 24
-        write_new_root(file, string("End Site"), Vect<float>(0.169222, 0.139323, -0.351693), true, false);
-        write_close_root(file);
-        write_close_root(file);
-        write_new_root(file, string("JOINT f_index_01_L"), Vect<float>(0.254856, -0.183589, -1.110993), false, true); // 25
-        write_new_root(file, string("End Site"), Vect<float>(0.059301, 0.003960, -0.410126), true, false);
+        write_new_root(file, string("JOINT f_index_01_R"), Vect<float>(f_index_01_R_offset), false, f_index_01_R_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_f_ring_01_R_offset), true, false);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT neck"), SP_skeleton->neck->s, false, true); // 26
-        write_new_root(file, string("JOINT head"), SP_skeleton->head->s, false, false); // 27
-        write_new_root(file, string("JOINT jaw"), Vect<float>(0.000000, -0.556994, -0.046074), false, true);
-        write_new_root(file, string("End Site"), Vect<float>(0.000000, -0.295137, -0.290915), true, false);
+        write_new_root(file, string("JOINT clavicle_L"), Vect<float>(clavicle_L_offset), false, clavicle_L_channels);
+        write_new_root(file, string("JOINT upper_arm_L"), Vect<float>(upper_arm_L_offset), false, upper_arm_L_channels);
+        write_new_root(file, string("JOINT forearm_L"), Vect<float>(forearm_L_offset), false, forearm_L_channels);
+        //write_new_root(file, string("JOINT hand_L"), SP_skeleton->hand_l->s, false, true);
+        write_new_root(file, string("JOINT hand_L"), Vect<float>(hand_L_offset), false, hand_L_channels);
+        write_new_root(file, string("JOINT thumb_02_L"), Vect<float>(thumb_02_L_offset), false, thumb_02_L_channels);
+        write_new_root(file, string("JOINT thumb_03_L"), Vect<float>(thumb_03_L_offset), false, thumb_03_L_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_thumb_03_L_offset), true, false);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT eye_R"), Vect<float>(-0.293725, -1.232862, 0.285738), false, true);
-        write_new_root(file, string("End Site"), Vect<float>(-0.039113, -0.411569, -0.028574), true, false);
+        write_close_root(file);
+        write_new_root(file, string("JOINT f_ring_01_L"), Vect<float>(f_ring_01_L_offset), false, f_ring_01_L_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_f_ring_01_L_offset), true, false);
         write_close_root(file);
         write_close_root(file);
-        write_new_root(file, string("JOINT eye_L"), Vect<float>(0.293725, -1.232862, 0.285738), false, true);
-        write_new_root(file, string("End Site"), Vect<float>(0.039113, -0.411569, -0.028574), true, false);
+        write_new_root(file, string("JOINT f_index_01_L"), Vect<float>(f_index_01_L_offset), false, f_index_01_L_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_f_index_01_L_offset), true, false);
+        write_close_root(file);
+        write_close_root(file);
+        write_close_root(file);
+        write_close_root(file);
+        write_close_root(file);
+        write_close_root(file);
+        //write_new_root(file, string("JOINT neck"), SP_skeleton->neck->s, false, true);
+        write_new_root(file, string("JOINT neck"), Vect<float>(neck_offset), false, neck_channels);
+        //write_new_root(file, string("JOINT head"), SP_skeleton->head->s, false, false);
+        write_new_root(file, string("JOINT head"), Vect<float>(head_offset), false, head_channels);
+        write_new_root(file, string("JOINT jaw"), Vect<float>(jaw_offset), false, jaw_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_jaw_offset), true, false);
+        write_close_root(file);
+        write_close_root(file);
+        write_new_root(file, string("JOINT eye_R"), Vect<float>(eye_R_offset), false, eye_R_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_eye_R_offset), true, false);
+        write_close_root(file);
+        write_close_root(file);
+        write_new_root(file, string("JOINT eye_L"), Vect<float>(eye_L_offset), false, eye_L_channels);
+        write_new_root(file, string("End Site"), Vect<float>(Site_eye_L_offset), true, false);
         write_close_root(file);
         write_close_root(file);
         write_close_root(file);
@@ -117,64 +129,89 @@ void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
 
             // write the hips offset and rotation
             // on écrit le déplacement des hanches et la rotation
-            file << SP_skeleton->hips->vect_offset.at(i).x << " " << SP_skeleton->hips->vect_offset.at(i).y << " " << SP_skeleton->hips->vect_offset.at(i).z << " ";
+            //file << SP_skeleton->hips->vect_offset.at(i).x << " " << SP_skeleton->hips->vect_offset.at(i).y << " " << SP_skeleton->hips->vect_offset.at(i).z << " ";
+            file << Vect<float>(hips_offset).x << " " << Vect<float>(hips_offset).y << " " << Vect<float>(hips_offset).z << " ";
             file << "0.000000 0.000000 0.000000 ";
 
-            // for others roots
-            // pour les autres noeuds
-            for(vector< Vect< float > >::iterator it = vect_offset.begin() + 1; it != vect_offset.end(); ++it) {
+            file << Vect<float>(thigh_L_offset).x << " " << Vect<float>(thigh_L_offset).y << " " << Vect<float>(thigh_L_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // shin_L rotation
+            write_0_chan(file, shin_L_channels);
+            // foot_L rotation
+            write_0_chan(file, foot_L_channels);
+            // toe_L rotation
+            write_0_chan(file, toe_L_channels);
 
-                // offsets and rotations in first case, only offset in other case
-                // déplacements et rotations dans le premier cas, uniquement les déplacements dans le second cas
-                if(vect_channel.at(it - vect_offset.begin()))
-                    file << it->x << " " << it->y << " " << it->z << " ";
-                else
-                    file << "0.000000 0.000000 0.000000 ";
+            file << Vect<float>(thigh_R_offset).x << " " << Vect<float>(thigh_R_offset).y << " " << Vect<float>(thigh_R_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // shin_R rotation
+            write_0_chan(file, shin_R_channels);
+            // foot_R rotation
+            write_0_chan(file, foot_R_channels);
+            // toe_R rotation
+            write_0_chan(file, toe_R_channels);
 
-                // write the roots rotations for each frame
-                // écrit les rotations pour chaque frame
-                switch(it - vect_offset.begin()) {
+            file << Vect<float>(spine_offset).x << " " << Vect<float>(spine_offset).y << " " << Vect<float>(spine_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // chest rotation
+            write_0_chan(file, chest_channels);
 
-                    case 9:
-                        file << SP_skeleton->hips->vect_rot.at(i).x << " " << SP_skeleton->hips->vect_rot.at(i).y << " " << SP_skeleton->hips->vect_rot.at(i).z << " ";
-                        break;
+            file << Vect<float>(clavicle_R_offset).x << " " << Vect<float>(clavicle_R_offset).y << " " << Vect<float>(clavicle_R_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // upper_arm_R rotation
+            write_0_chan(file, upper_arm_R_channels);
+            // forearm_R rotation
+            write_0_chan(file, forearm_R_channels);
+            // hand_R rotation
+            write_0_chan(file, hand_R_channels);
+            // thumb_02_R rotation
+            write_0_chan(file, thumb_02_R_channels);
+            // thumb_03_R rotation
+            write_0_chan(file, thumb_03_R_channels);
+            // f_ring_01_R rotation
+            write_0_chan(file, f_ring_01_R_channels);
+            // f_index_01_R rotation
+            write_0_chan(file, f_index_01_R_channels);
 
-                    case 11:
-                        file << SP_skeleton->shoulder_r->vect_rot.at(i).x << " " << SP_skeleton->shoulder_r->vect_rot.at(i).y << " " << SP_skeleton->shoulder_r->vect_rot.at(i).z << " ";
-                        break;
+            file << Vect<float>(clavicle_L_offset).x << " " << Vect<float>(clavicle_L_offset).y << " " << Vect<float>(clavicle_L_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // upper_arm_L rotation
+            write_0_chan(file, upper_arm_L_channels);
+            // forearm L rotation
+            write_0_chan(file, forearm_L_channels);
+            // hand_L rotation
+            write_0_chan(file, hand_L_channels);
+            // thumb_02_L rotation
+            write_0_chan(file, thumb_02_L_channels);
+            // thumb_03_L rotation
+            write_0_chan(file, thumb_03_L_channels);
+            // f_ring_01_L rotation
+            write_0_chan(file, f_ring_01_L_channels);
+            // f_index_01_L rotation
+            write_0_chan(file, f_index_01_L_channels);
 
-                    case 12:
-                        file << SP_skeleton->elbow_r->vect_rot.at(i).x << " " << SP_skeleton->elbow_r->vect_rot.at(i).y << " " << SP_skeleton->elbow_r->vect_rot.at(i).z << " ";
-                        break;
+            file << Vect<float>(neck_offset).x << " " << Vect<float>(neck_offset).y << " " << Vect<float>(neck_offset).z << " ";
+            file << "0.000000 0.000000 0.000000 ";
+            // head rotation
+            write_0_chan(file, head_channels);
+            // jaw rotation
+            write_0_chan(file, jaw_channels);
+            // eye_R rotation
+            write_0_chan(file, eye_R_channels);
+            // eye_L rotation
+            write_0_chan(file, eye_L_channels);
 
-                    case 13:
-                        file << SP_skeleton->hand_r->vect_rot.at(i).x << " " << SP_skeleton->hand_r->vect_rot.at(i).y << " " << SP_skeleton->hand_r->vect_rot.at(i).z << " ";
-                    break;
+            //file << SP_skeleton->hips->vect_rot.at(i).x << " " << SP_skeleton->hips->vect_rot.at(i).y << " " << SP_skeleton->hips->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->shoulder_r->vect_rot.at(i).x << " " << SP_skeleton->shoulder_r->vect_rot.at(i).y << " " << SP_skeleton->shoulder_r->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->elbow_r->vect_rot.at(i).x << " " << SP_skeleton->elbow_r->vect_rot.at(i).y << " " << SP_skeleton->elbow_r->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->hand_r->vect_rot.at(i).x << " " << SP_skeleton->hand_r->vect_rot.at(i).y << " " << SP_skeleton->hand_r->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->shoulder_l->vect_rot.at(i).x << " " << SP_skeleton->shoulder_l->vect_rot.at(i).y << " " << SP_skeleton->shoulder_l->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->elbow_l->vect_rot.at(i).x << " " << SP_skeleton->elbow_l->vect_rot.at(i).y << " " << SP_skeleton->elbow_l->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->hand_l->vect_rot.at(i).x << " " << SP_skeleton->hand_l->vect_rot.at(i).y << " " << SP_skeleton->hand_l->vect_rot.at(i).z << " ";
+            //file << SP_skeleton->head->vect_rot.at(i).x << " " << SP_skeleton->head->vect_rot.at(i).y << " " << SP_skeleton->head->vect_rot.at(i).z << " ";
 
-                    case 19:
-                        file << SP_skeleton->shoulder_l->vect_rot.at(i).x << " " << SP_skeleton->shoulder_l->vect_rot.at(i).y << " " << SP_skeleton->shoulder_l->vect_rot.at(i).z << " ";
-                        break;
-
-                    case 20:
-                        file << SP_skeleton->elbow_l->vect_rot.at(i).x << " " << SP_skeleton->elbow_l->vect_rot.at(i).y << " " << SP_skeleton->elbow_l->vect_rot.at(i).z << " ";
-                        break;
-
-                    case 21:
-                        file << SP_skeleton->elbow_r->vect_rot.at(i).x << " " << SP_skeleton->elbow_r->vect_rot.at(i).y << " " << SP_skeleton->elbow_r->vect_rot.at(i).z << " ";
-                    break;
-
-                    case 27:
-                        file << SP_skeleton->head->vect_rot.at(i).x << " " << SP_skeleton->head->vect_rot.at(i).y << " " << SP_skeleton->head->vect_rot.at(i).z << " ";
-                        break;
-
-                    default:
-                        // we write the rotation only if channel is for offsets and rotations
-                        // nous écrivons la rotation seulement si le channel concerne les déplacements et les rotations
-                        if(vect_channel.at(it - vect_offset.begin()))
-                            file << "0.000000 0.000000 0.000000 ";
-                }
-            }
             file << endl;
+            break;
         }
         file.close();
     }

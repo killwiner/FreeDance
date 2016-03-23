@@ -8,6 +8,7 @@
 #include <vector>
 #include "vect.h"
 #include "skeleton.h"
+#include "bvh.h"
 
 // write the motion in the file
 
@@ -19,6 +20,7 @@ public:
     void save(const QString &, const QSharedPointer<Skeleton> &, const int &);
 
 private:
+    void write_0_chan(std::ofstream &, int const &);
     // write a new root in the file
     // écrit une nouvelle articulation dans le fichier
     void write_new_root(std::ofstream &, const std::string &, const Vect<float> &, bool const &, bool const &);

@@ -41,6 +41,7 @@ SOURCES += main.cpp\
     draw.cpp
 
 HEADERS  += mainwindow.h \
+    bvh.h \
     render.h \
     render_window.h \
     vect.h \
