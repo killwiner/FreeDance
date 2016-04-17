@@ -5,7 +5,7 @@ Render::Render(int framesPerSecond, QWidget *parent, Kinect *kinect_, QSharedPoi
     : QGLWidget(parent), SP_saveload(SP_saveload_), SP_skeleton(SP_skeleton_), kinect(kinect_)
 {
 
-    setWindowTitle(QString::fromUtf8(name));
+    //setWindowTitle(QString::fromUtf8(name));
     if(framesPerSecond == 0)
         t_Timer = NULL;
     else

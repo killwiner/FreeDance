@@ -80,7 +80,7 @@ void IO_frames::load(const QString &fileName) {
         // open the video file
         // ouvre le fichier video
         cv::VideoCapture capturevideo = open_input(fileName);
-        
+
         // reset vect_imgs
         vector<cv::Mat>().swap(vect_imgs);
         vect_imgs.resize(0);

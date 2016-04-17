@@ -1,3 +1,8 @@
+qt : pour QML installer qtdeclarative5-dev avec le module qtquick
+     qml-module-qtquick-dialogs
+
+__________________________
+
 git config --global user.name "killwiner"
 git config --global user.email "alex.arranhado@gmail.com"
 

@@ -17,6 +17,17 @@ Vect<float> operator/(Vect<float> const& a, float const& s) {
     return c;
 }
 
+Vect<float> operator*(float const& s, Vect<float> const& a) {
+
+    Vect<float> c = a;
+
+    c.x = a.x * s;
+    c.y = a.y * s;
+    c.z = a.z * s;
+
+    return c;
+}
+
 Vect<float> operator*(Vect<float> const& a, float const& s) {
 
     Vect<float> c = a;

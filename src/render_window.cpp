@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RenderWindow::RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
+RenderWindow::RenderWindow(QGLWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
     : Render(20, parent, kinect, SP_saveload_, SP_skeleton_, "Kinect Render")
 {
 

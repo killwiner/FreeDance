@@ -8,7 +8,7 @@ class RenderWindow : public Render
 {
     Q_OBJECT
 public:
-    explicit RenderWindow(QWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
+    explicit RenderWindow(QGLWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_);
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();

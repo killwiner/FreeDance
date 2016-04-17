@@ -129,8 +129,7 @@ void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
 
             // write the hips offset and rotation
             // on écrit le déplacement des hanches et la rotation
-            //file << SP_skeleton->hips->vect_offset.at(i).x << " " << SP_skeleton->hips->vect_offset.at(i).y << " " << SP_skeleton->hips->vect_offset.at(i).z << " ";
-            file << Vect<float>(hips_offset).x << " " << Vect<float>(hips_offset).y << " " << Vect<float>(hips_offset).z << " ";
+            file << SP_skeleton->hips->vect_offset.at(i).x << " " << SP_skeleton->hips->vect_offset.at(i).y << " " << SP_skeleton->hips->vect_offset.at(i).z << " ";
             file << "0.000000 0.000000 0.000000 ";
 
             file << Vect<float>(thigh_L_offset).x << " " << Vect<float>(thigh_L_offset).y << " " << Vect<float>(thigh_L_offset).z << " ";
@@ -211,7 +210,7 @@ void ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
             //file << SP_skeleton->head->vect_rot.at(i).x << " " << SP_skeleton->head->vect_rot.at(i).y << " " << SP_skeleton->head->vect_rot.at(i).z << " ";
 
             file << endl;
-            break;
+            //break;
         }
         file.close();
     }

@@ -185,7 +185,7 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_, int nbr_
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
         vect_imgs.push_back(SP_mat_frame_draw->clone());
 
-        if(i == 10) break;
+        // if(i == 10) break;
 
     }
 }

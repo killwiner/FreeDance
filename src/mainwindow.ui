@@ -6,122 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>131</height>
+    <width>1310</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>260</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionLoad_Motion"/>
-    <addaction name="actionSave_Motion"/>
-    <addaction name="actionRun_Motion"/>
-    <addaction name="actionStop_Motion"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuKinect">
-    <property name="title">
-     <string>Kinect</string>
-    </property>
-    <addaction name="actionConnect"/>
-    <addaction name="actionRun"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="actionPause"/>
-    <addaction name="actionRecord"/>
-   </widget>
-   <widget class="QMenu" name="menuSkeleton">
-    <property name="title">
-     <string>Skeleton</string>
-    </property>
-    <addaction name="actionCreate"/>
-    <addaction name="actionExport_to_blender_2"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuKinect"/>
-   <addaction name="menuSkeleton"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionCapture">
-   <property name="text">
-    <string>Capture</string>
-   </property>
-  </action>
-  <action name="actionLoad_Motion">
-   <property name="text">
-    <string>Load Motion</string>
-   </property>
-  </action>
-  <action name="actionSave_Motion">
-   <property name="text">
-    <string>Save Motion</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionRun">
-   <property name="text">
-    <string>Run</string>
-   </property>
-  </action>
-  <action name="actionCreate">
-   <property name="text">
-    <string>Create</string>
-   </property>
-  </action>
-  <action name="actionExport_to_blender">
-   <property name="text">
-    <string>Export to blender</string>
-   </property>
-  </action>
-  <action name="actionRecord">
-   <property name="text">
-    <string>Record</string>
-   </property>
-  </action>
-  <action name="actionExport_to_blender_2">
-   <property name="text">
-    <string>Export to blender</string>
-   </property>
-  </action>
-  <action name="actionConnect">
-   <property name="text">
-    <string>Connect</string>
-   </property>
-  </action>
-  <action name="actionRun_Motion">
-   <property name="text">
-    <string>Run Motion</string>
-   </property>
-  </action>
-  <action name="actionStop_Motion">
-   <property name="text">
-    <string>Stop Motion</string>
-   </property>
-  </action>
-  <action name="actionPause">
-   <property name="text">
-    <string>Pause</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
