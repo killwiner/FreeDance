@@ -6,5 +6,15 @@
         <file>imgs/preview.png</file>
         <file>imgs/stop.png</file>
         <file>imgs/pause.png</file>
+        <file>imgs/kinect.png</file>
+        <file>Qml/QmlOpenFiles.qml</file>
+        <file>Qml/QmlSaveFiles.qml</file>
+        <file>Qml/QmlFilterGreen.qml</file>
+        <file>Qml/QmlFilterBlue.qml</file>
+        <file>Qml/QmlMenu/QmlMenu.qml</file>
+        <file>Qml/QmlMenu/QmlMenuFile/QmlMenuFile.qml</file>
+        <file>Qml/QmlMenu/QmlButton.qml</file>
+        <file>Qml/QmlMenu/QmlMenuKinect/QmlMenuKinect.qml</file>
+        <file>Qml/QmlMessage.qml</file>
     </qresource>
 </RCC>

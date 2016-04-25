@@ -10,6 +10,7 @@
 class SearchHuman {
 public:
     SearchHuman(std::vector< cv::Mat > &, cv::Mat &, int &, int &);
+    SearchHuman(cv::Mat &, cv::Mat &, int &, int &);
     ~SearchHuman();
     void first_search();
     void search();
@@ -36,6 +37,7 @@ private:
     long int surface;
     cv::Mat mat_frame;
     std::vector< cv::Mat > vect_imgs;
+    cv::Mat img;
     std::vector<int>::iterator max;
     long int s;
     long int id_img;

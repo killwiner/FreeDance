@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     search_human.cpp \
     draw.cpp \
     run.cpp \
-    export_motion.cpp
+    export_motion.cpp \
+    thread.cpp
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -61,6 +62,7 @@ HEADERS += \
     draw.h \
     run.h \
     export_motion.h \
-    bvh.h
+    bvh.h \
+    thread.h
 
 FORMS    += mainwindow.ui

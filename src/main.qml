@@ -1,15 +1,23 @@
-import QtQuick 2.2
+import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+
+import "Qml"
+import "Qml/QmlMenu"
 
 Item {
     id: qml_zone
     x: 0
     y: 0
-    width: 1310
+    width: 1284
     height: 250
+
+    property var stringMessage: "message"
+
+    QmlOpenFiles {id: openDialog}
+    QmlSaveFiles {id: saveDialog}
 
     MouseArea {
 
@@ -21,7 +29,29 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
 
-            onClicked: { item_file_menu.visible = false }
+        onClicked: {
+            qmlMenu.menuFile.visible = false
+            qmlMenu.menuKinect.visible = false
+        }
+    }
+
+    // action to open the file
+    Action {
+
+        id: openFile
+        onTriggered: {
+            openDialog.nameFilters = ["Video File (*.avi)"]
+            openDialog.visible = true
+        }
+
+    }
+
+    // action to save the file
+    Action {
+        id: saveFile
+        onTriggered: {
+            saveDialog.visible = true
+        }
     }
 
     Rectangle {
@@ -30,141 +60,93 @@ Item {
         width: 1310
         height: 250
         color: "#333333"
-/*
-        Interf {
-            id: interf;
-          }
-*/
-/*
+
+        BusyIndicator {
+            id: busy
+            x : 623
+            y: 97
+            width: 64
+            height: 64
+            running: false
+        }
+
         Connections {
             target: interf
-*/
-            /*
-            onSendToQml_fbt: {
-                textField1.text = val
+
+            onSendToQml_play_pause: {
+                play_pause ? button_play_pause.iconSource = "imgs/pause.png" : button_play_pause.iconSource = "imgs/play.png"
             }
+
+            onSendToQml_loaded_saved: {
+                busy.running = false;
+            }
+
             onSendToQml_fbs: {
-                sliderHorizontal1.value = val
-            }
-            */
-//        }
-
-        FileDialog {
-            id: fileDialog
-            title: "Please choose a file"
-            onAccepted: {
-                console.log("You chose: " + fileDialog.fileUrls)
-                onTriggered: interf.receiveFromQml_menuBar(0, fileDialog.fileUrl);
-                button_play_pause.iconSource = "imgs/pause.png"
-            }
-            onRejected: {
-                console.log("Canceled")
-            }
-            Component.onCompleted: visible = false
-        }
-
-        Action {
-            id : openFile
-            onTriggered: {
-                fileDialog.title = "Load the motion"
-                fileDialog.nameFilters = ["Video File (*.avi)"]
-                fileDialog.visible = true
-            }
-        }
-
-        Slider {
-
-            id: sliderHorizontal_fb
-            x: 92
-            y: 118
-            minimumValue : 0
-            maximumValue : 255
-
-            style: SliderStyle {
-                groove: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 8
-                    color: "#555"
-                    radius: 4
-                }
-                handle: Rectangle {
-                    anchors.centerIn: parent
-                    color: control.pressed ? "white" : "red"
-                    border.color: "gray"
-                    border.width: 2
-                    implicitWidth: 12
-                    implicitHeight: 12
-                    radius: 6
-                }
+                filterBlue.sliderBlue.value = val;
             }
 
-            onValueChanged: {
-                interf.receiveFromQml_fbs(sliderHorizontal_fb.value);
-                textField_fb.text = sliderHorizontal_fb.value;
+            onSendToQml_fgs: {
+                filterGreen.sliderGreen.value = val;
+            }
+
+            onSendToQml_kinectOn: {
+                img_kinect.visible = true;
+            }
+
+            onSendToQml_message: {
+                stringMessage = val;
+                message.visible = true;
+                qmlMenu.menuFile.visible = false
+                qmlMenu.menuKinect.visible = false
             }
         }
 
         ProgressBar {
             id: progressBar
-            x: 1100
+            x: 1067
             y: 114
 
             style: ProgressBarStyle {
-                    background: Rectangle {
-                        radius: 2
-                        color: "#faa"
-                        border.color: "gray"
-                        border.width: 1
-                        implicitWidth: 200
-                        implicitHeight: 24
-                    }
-                    progress: Rectangle {
-                        color: "#faa"
-                        border.color: "steelblue"
-                    }
+                background: Rectangle {
+                    radius: 2
+                    color: "#faffaa"
+                    border.color: "gray"
+                    border.width: 1
+                    implicitWidth: 200
+                    implicitHeight: 24
                 }
+                progress: Rectangle {
+                    color: "#faffaa"
+                    border.color: "steelblue"
+                }
+            }
         }
 
         Label {
             id: label_progress
-            x: 989
-            y: 122
+            x: 983
+            y: 118
             color: "#ffffff"
             text: qsTr("Progress :")
             font.pointSize: 10
             styleColor: "#000000"
         }
 
-        Label {
-            id: label_fb
+        QmlFilterBlue {
+            id: filterBlue
             x: 22
-            y: 118
-            width: 70
-            height: 14
-            color: "#ffffff"
-            text: qsTr("Blue filter :")
-            font.pointSize: 10
+            y: 114
         }
 
-        TextField {
-            id: textField_fb
-            x: 305
-            y: 114
-            width: 66
-            height: 22
-            placeholderText: "0"
-
-            validator: IntValidator { bottom:0; top: 255}
-
-            onTextChanged: {
-                interf.receiveFromQml_fbt(textField_fb.getText(0, 3));
-                sliderHorizontal_fb.value = textField_fb.getText(0, 3);
-            }
+        QmlFilterGreen {
+            id: filterGreen
+            x: 22
+            y: 140
         }
 
         Button {
             id: button_go
-            x: 1200
+            x: 1167
             y: 211
             text: qsTr("Go")
             enabled: true
@@ -184,91 +166,10 @@ Item {
             }
         }
 
-        Item {
-            id: item_menu
-            x: 11
-            y: 8
-            width: 823
-            height: 20
-            //groupBox2.visible = true
-
-            Rectangle {
-                id: a
-                x: 0
-                y: 0
-                width: 90
-                height: 20
-
-                MouseArea {
-
-                    id: mouseArea_file
-                    anchors.rightMargin: 0
-                    anchors.bottomMargin: 0
-                    anchors.leftMargin: 0
-                    anchors.topMargin: 0
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onClicked: { item_file_menu.visible = true }
-                }
-
-                color: mouseArea_file.containsMouse ? "#bbbbff" : "#aaaaaa"
-
-                Text {
-                    id: text_file
-                    x: 35
-                    y: 3
-                    text: qsTr("File")
-                    verticalAlignment: Text.AlignTop
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 12
-                }
-
-                Item {
-                    id: item_file_menu
-                    x: 0
-                    y: 20
-                    width: 176
-                    height: 208
-                    visible: false
-
-                    Rectangle {
-                        id: rectangle_load_motion
-                        x: 0
-                        y: 0
-                        width: 176
-                        height: 20
-
-                        MouseArea {
-
-                            id: mouseArea_file_menu
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 0
-                            anchors.leftMargin: 0
-                            anchors.topMargin: 0
-                            anchors.fill: parent
-                            hoverEnabled: true
-
-                            onClicked: {
-                                openFile.trigger()
-                                item_file_menu.visible = false
-                            }
-                        }
-
-                        color: mouseArea_file_menu.containsMouse ? "#bb77ff" : "#aa55aa"
-
-                        Text {
-                            id: text_load_motion
-                            x: 35
-                            y: 3
-                            text: qsTr("Load Motion")
-                            verticalAlignment: Text.AlignTop
-                            horizontalAlignment: Text.AlignLeft
-                            font.pixelSize: 12
-                        }
-                    }
-                }
-            }
+        QmlMenu {
+            id: qmlMenu
+            x: 4
+            y: 4
         }
 
         Rectangle {
@@ -279,32 +180,48 @@ Item {
             color: "#333333"
             RowLayout {
                 height: 32
-                    //anchors.fill: parent
+                //anchors.fill: parent
                 ToolButton {
                     id: button_play_pause
                     width: 32
                     height: 32
-                        iconSource: "imgs/play.png"
-                    }
+                    iconSource: "imgs/play.png"
+                    onClicked: interf.receiveFromQml_play_pause();
+                }
                 ToolButton {
                     id: button_record
                     width: 32
                     height: 32
-                        iconSource: "imgs/record.png"
-                    }
+                    iconSource: "imgs/record.png"
+                }
                 ToolButton {
                     id: button_stop
                     width: 32
                     height: 32
-                        iconSource: "imgs/stop.png"
-                    }
+                    iconSource: "imgs/stop.png"
+                }
                 ToolButton {
                     id: button_preview
                     width: 32
                     height: 32
-                        iconSource: "imgs/preview.png"
-                    }
+                    iconSource: "imgs/preview.png"
+                    onClicked: interf.receiveFromQml_preview();
                 }
             }
+        }
+
+        Image {
+            id: img_kinect
+            x: 1238
+            y: 8
+            width: 64
+            height: 64
+            source: "imgs/kinect.png"
+            visible: false
+        }
+
+        QmlMessage {id: message}
+
     }
 }
+

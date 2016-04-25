@@ -2,12 +2,12 @@
 
 using namespace std;
 
-RenderWindow::RenderWindow(QGLWidget *parent, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
-    : Render(20, parent, kinect, SP_saveload_, SP_skeleton_, "Kinect Render")
+RenderWindow::RenderWindow(QGLWidget *parent, cv::Mat &mat_preview_after_, Kinect *kinect, QSharedPointer<IO_frames> &SP_saveload_, QSharedPointer<Skeleton> &SP_skeleton_, int const &status_)
+    : Render(20, parent, mat_preview_after_, kinect, SP_saveload_, SP_skeleton_, "Kinect Render")
 {
 
     status = status_;
-    width = WIDTH;
+    width = WIDTH * 2 + 4;
     height = HEIGHT;
 
     // vectors with motion movie or the skeleton movie
@@ -41,10 +41,8 @@ void RenderWindow::initializeGL()
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glShadeModel(GL_FLAT);
 
-    glGenTextures(1, &gl_depth_tex);
-    glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    gl_depth_tex = new GLuint[2];
+    glGenTextures(2, gl_depth_tex);
 
     resizeGL(width, height);
 
@@ -56,7 +54,7 @@ void RenderWindow::resizeGL(int width, int height)
     glViewport(0,0,width,height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho (0, 640, 480, 0, -1.0f, 1.0f);
+    glOrtho (0, width, height, 0, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
 
 }
@@ -92,22 +90,41 @@ void RenderWindow::init_record() {
 
 }
 
-void RenderWindow::render(const GLvoid *data) {
+void RenderWindow::render(const GLvoid *data_0, const GLvoid *data_1) {
+
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, data_0);
+
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex[1]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, data_1);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
     glEnable(GL_TEXTURE_2D);
 
-    glBindTexture(GL_TEXTURE_2D, gl_depth_tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, 640, 480, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex[0]);
 
     glBegin(GL_TRIANGLE_FAN);
     glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
     glTexCoord2f(0, 0); glVertex3f(0,0,0);
+    glTexCoord2f(1, 0); glVertex3f(WIDTH,0,0);
+    glTexCoord2f(1, 1); glVertex3f(WIDTH,HEIGHT,0);
+    glTexCoord2f(0, 1); glVertex3f(0,HEIGHT,0);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, gl_depth_tex[1]);
+
+    glBegin(GL_TRIANGLE_FAN);
+    glColor4f(255.0f, 255.0f, 255.0f, 255.0f);
+    glTexCoord2f(0, 0); glVertex3f(WIDTH + 4,0,0);
     glTexCoord2f(1, 0); glVertex3f(width,0,0);
-    glTexCoord2f(1, 1); glVertex3f(width,height,0);
-    glTexCoord2f(0, 1); glVertex3f(0,height,0);
+    glTexCoord2f(1, 1); glVertex3f(width,HEIGHT,0);
+    glTexCoord2f(0, 1); glVertex3f(WIDTH + 4,HEIGHT,0);
     glEnd();
 
 }
@@ -128,7 +145,7 @@ void RenderWindow::paintGL()
     if (status == STATUS_KINECT || status == STATUS_RECORD) {
 
         run_kinect();
-        render(kinect->get_depth_front());
+        render(kinect->get_depth_front(), mat_preview_after.data);
 
         if (status == STATUS_RECORD) {
 
@@ -155,7 +172,7 @@ void RenderWindow::paintGL()
             return;
 
         // render the current motion image
-        render(vect_motion_kinect->data);
+        render(vect_motion_kinect->data, mat_preview_after.data);
 
         // loop the movie with increment
         // boucle le film en incrémentant
@@ -165,11 +182,15 @@ void RenderWindow::paintGL()
 
     if (status == STATUS_SKELETON) {
 
-        render(vect_motion_skeleton->data);
+        render(vect_motion_skeleton->data, mat_preview_after.data);
         // loop the movie with increment
         // boucle le film en incrémentant
         loop_the_movie(SP_skeleton->vect_imgs, vect_motion_skeleton);
     }
+}
+
+int RenderWindow::get_position() {
+   return vect_motion_kinect - SP_saveload->vect_imgs.begin();
 }
 
 void RenderWindow::record_message() {

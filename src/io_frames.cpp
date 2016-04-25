@@ -134,16 +134,20 @@ void IO_frames::save(std::vector< cv::Mat> &vect_motion, QString &fileName) {
 
         for (std::vector<cv::Mat>::iterator i = vect_motion.begin() ; i != vect_motion.end(); ++i) {
             mat_frame = *i;
+
+            // turn colors from BGR to RGB
+            // change les couleurs de BVR vers RVB
+            cv::cvtColor(mat_frame, mat_frame, CV_BGR2RGB);
+
             outputvideo << mat_frame;
+
+            // turn colors from RGB to BGR
+            // change les couleurs de RVB vers BVR
+            cv::cvtColor(mat_frame, mat_frame, CV_RGB2BGR);
         }
 
         outputvideo.release();
 
-        // without avconv we got a core dump when we load the motion
-        QString st0("avconv -y -i ");
-        QString st1(" -vcodec mpeg4 -b 20000k -pass 1 ");
-        QString st2(st0 + fileName + st1 + fileName);
-        system(st2.toStdString().c_str());
     }
     catch (const char& strException)
     {
@@ -151,5 +155,4 @@ void IO_frames::save(std::vector< cv::Mat> &vect_motion, QString &fileName) {
         cerr << strException << endl;
         throw;
     }
-
 }

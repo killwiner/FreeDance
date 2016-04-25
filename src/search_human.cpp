@@ -10,6 +10,14 @@ SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_
     partition = new std::vector<int>(WIDTH*HEIGHT, 0);
 }
 
+SearchHuman::SearchHuman(cv::Mat &img_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_) :
+                         green_color(green_color_), blue_color(blue_color_), s(0), surface(0), img(img_),
+                         mat_frame(mat_frame_), id_img(0) {
+    // Les partitions sont représentées dans une matrice 2D par des identifiants
+    // We find areas in a 2D matrix with identities
+    partition = new std::vector<int>(WIDTH*HEIGHT, 0);
+}
+
 SearchHuman::~SearchHuman() {
     vector<int>().swap(*partition);
     delete partition;
@@ -32,8 +40,7 @@ void SearchHuman::clear_partition() {
     // id_area contient les surfaces des partitions
     std::vector<int>().swap(id_area);
     id_area.resize(0);
-    //delete partition;
-    //partition = new std::vector<int>(WIDTH*HEIGHT, 0);
+
     for(int ii = 0; ii < WIDTH*HEIGHT; ++ii)
         partition->at(ii) = 0;
 }
@@ -86,8 +93,8 @@ void SearchHuman::first_search() {
 // after the filter, the color is out
 bool SearchHuman::out_zone(Vect<int> const &v) {
 
-    if (((uint8_t)vect_imgs[id_img].PIXEL_COLOR_BLUE_VECT(v) > green_color)
-     || ((uint8_t)vect_imgs[id_img].PIXEL_COLOR_GREEN_VECT(v) < 255 - blue_color)) {
+    if (((uint8_t)img.PIXEL_COLOR_BLUE_VECT(v) > green_color)
+     || ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) < 255 - blue_color)) {
         // l'identifiant de la partition est donc 0
         // the id of the area si 0
         partition->at(coord_gray<int>(v)) = 0;
@@ -116,6 +123,7 @@ void SearchHuman::search() {
     else
         centroid.x = centroid.y = 0;
 
+    img.copyTo(vect_imgs[id_img]);
     ++id_img;
 }
 
@@ -214,16 +222,16 @@ int SearchHuman::scan_pixel(Vect<int> v) {
     // the pixel was already scanned,  we stop
     // le pixel a déjà été scanné, nous arrêtons
     if(partition->at(coord_gray<int>(v)) == 1)
-        if (((uint8_t)vect_imgs[id_img].PIXEL_COLOR_BLUE_VECT(v) <= green_color)
-        && ((uint8_t)vect_imgs[id_img].PIXEL_COLOR_GREEN_VECT(v) >= 255 - blue_color))
+        if (((uint8_t)img.PIXEL_COLOR_BLUE_VECT(v) <= green_color)
+        && ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) >= 255 - blue_color))
             return -1;
 
     // we found a new pixel to attach to the human area
     // nous avons trouvé un nouveau pixel à ajouter à la partition intéressée
     if(partition->at(coord_gray<int>(v)) == 0) {
 
-        if (((uint8_t)vect_imgs[id_img].data[coord_gbr<int>(v)] <= green_color)
-        && ((uint8_t)vect_imgs[id_img].data[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
+        if (((uint8_t)img.data[coord_gbr<int>(v)] <= green_color)
+        && ((uint8_t)img.data[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
 
             partition->at(coord_gray<int>(v)) = 1;
             centroid.x += (long int)v.x;

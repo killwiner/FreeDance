@@ -189,5 +189,3 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_, int nbr_
 
     }
 }
-
-
