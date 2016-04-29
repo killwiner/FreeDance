@@ -12,9 +12,13 @@
         <file>Qml/QmlFilterGreen.qml</file>
         <file>Qml/QmlFilterBlue.qml</file>
         <file>Qml/QmlMenu/QmlMenu.qml</file>
-        <file>Qml/QmlMenu/QmlMenuFile/QmlMenuFile.qml</file>
         <file>Qml/QmlMenu/QmlButton.qml</file>
-        <file>Qml/QmlMenu/QmlMenuKinect/QmlMenuKinect.qml</file>
         <file>Qml/QmlMessage.qml</file>
+        <file>Qml/QmlStopWatch.qml</file>
+        <file>Qml/QmlMemoryInfo.qml</file>
+        <file>Qml/QmlWaitTime.qml</file>
+        <file>Qml/QmlMenu/QmlMenuFile.qml</file>
+        <file>Qml/QmlMenu/QmlMenuKinect.qml</file>
+        <file>Qml/QmlMenu/QmlMenuSkeleton.qml</file>
     </qresource>
 </RCC>

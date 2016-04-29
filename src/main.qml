@@ -15,6 +15,9 @@ Item {
     height: 250
 
     property var stringMessage: "message"
+    property var stringMemTotal: "------"
+    property var stringMemFree: "------"
+    property var stringMemRatio: "------"
 
     QmlOpenFiles {id: openDialog}
     QmlSaveFiles {id: saveDialog}
@@ -89,6 +92,10 @@ Item {
                 filterGreen.sliderGreen.value = val;
             }
 
+            onSendToQml_wt: {
+                waitTime.sliderWaitTime.value = val;
+            }
+
             onSendToQml_kinectOn: {
                 img_kinect.visible = true;
             }
@@ -98,6 +105,22 @@ Item {
                 message.visible = true;
                 qmlMenu.menuFile.visible = false
                 qmlMenu.menuKinect.visible = false
+            }
+
+            onSendToQml_stopWatch: {
+                stopWatch.visible = true;
+                stopWatch.timer.running = true;
+                qmlMenu.menuKinect.visible = false
+            }
+
+            onSendToQml_memInfo: {
+                stringMemTotal = mem_total;
+                stringMemFree = mem_free;
+                stringMemRatio = mem_ratio;
+            }
+
+            onSendToQml_loadFile: {
+                openFile.trigger();
             }
         }
 
@@ -142,6 +165,12 @@ Item {
             id: filterGreen
             x: 22
             y: 140
+        }
+
+        QmlWaitTime {
+            id: waitTime
+            x: 22
+            y: 166
         }
 
         Button {
@@ -199,6 +228,7 @@ Item {
                     width: 32
                     height: 32
                     iconSource: "imgs/stop.png"
+                    onClicked: interf.receiveFromQml_stop();
                 }
                 ToolButton {
                     id: button_preview
@@ -212,7 +242,7 @@ Item {
 
         Image {
             id: img_kinect
-            x: 1238
+            x: 1203
             y: 8
             width: 64
             height: 64
@@ -220,7 +250,25 @@ Item {
             visible: false
         }
 
-        QmlMessage {id: message}
+        QmlMessage {
+            id: message
+        }
+
+        QmlStopWatch {
+            id: stopWatch
+            x: 575
+            y: 101
+        }
+        QmlMemoryInfo {
+            id:memInfo
+            x: 500
+            y: 60
+            buttonStop.onClicked: {
+                timer.running = false
+                visible = false
+                interf.receiveFromQml_play();
+            }
+        }
 
     }
 }

@@ -79,13 +79,63 @@ void Interf::receiveFromQml_connectKinect() {
     }
 }
 
+void Interf::receiveFromQml_startCapture() {
+    try {
+        SP_run->run_kinect();
+        sendToQml_stopWatch();
+    }
+    catch (const char* strException) {
+        cerr << "Exception caught !!" << endl;
+        cerr << strException << endl;
+        sendToQml_message(QString("Kinect is not connected"));
+    }
+}
+
+void Interf::receiveFromQml_recordCapture() {
+    try {
+        SP_run->recordCapture();
+    }
+    catch (const char* strException) {
+        cerr << "Exception caught !!" << endl;
+        cerr << strException << endl;
+        throw;
+    }
+}
+
+void Interf::receiveFromQml_runKinect() {
+    if(SP_run->run_kinect())
+        sendToQml_message(QString("Kinect is not connected"));
+}
+
+void Interf::receiveFromQml_getMemInfo() {
+    QString mem_total, mem_free, mem_ratio;
+    SP_run->memory_info(mem_total, mem_free, mem_ratio);
+    sendToQml_memInfo(mem_total, mem_free, mem_ratio);
+}
+
+void Interf::receiveFromQml_play() {
+    SP_run->play();
+}
+
+void Interf::receiveFromQml_stop() {
+    SP_run->stop();
+}
+
+void Interf::receiveFromQml_createSkeleton() {
+    if(!SP_run->createSkeleton())
+        sendToQml_loadFile();
+    SP_run->createSkeleton();
+}
+
 void Interf::SLOT_loaded_saved() {
     sendToQml_loaded_saved();
 }
 
-void Interf::init_filters_values(int fb, int fg) {
+void Interf::init_values(int fb, int fg, int wt) {
     sendToQml_fbs(fb);
     sendToQml_fgs(fg);
+    sendToQml_wt(wt);
     filter_blue = fb;
     filter_green = fg;
 }
+

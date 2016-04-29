@@ -1,6 +1,4 @@
 import QtQuick 2.3
-import "QmlMenuFile"
-import "QmlMenuKinect"
 
 Item {
     width: 240
@@ -8,6 +6,7 @@ Item {
 
     property alias menuFile: menuFile
     property alias menuKinect: menuKinect
+    property alias menuSkeleton: menuSkeleton
 
     QmlMenuFile {
         id: menuFile
@@ -21,14 +20,21 @@ Item {
         y: 30
     }
 
+    QmlMenuSkeleton {
+        id: menuSkeleton
+        x: 160
+        y: 30
+    }
+
     QmlButton {
         id: file
         width: 80
         x: 0
         y: 0
-        menuArea.onClicked: {
+        menuArea.onEntered: {
             menuFile.visible = true
             menuKinect.visible = false
+            menuSkeleton.visible = false
         }
         menuText: qsTr("File")
     }
@@ -38,9 +44,10 @@ Item {
         width: 80
         x: 80
         y: 0
-        menuArea.onClicked: {
+        menuArea.onEntered: {
             menuFile.visible = false
             menuKinect.visible = true
+            menuSkeleton.visible = false
         }
         menuText: qsTr("Kinect")
     }
@@ -50,7 +57,11 @@ Item {
         width: 80
         x: 160
         y: 0
-        //menuArea.onClicked: {  }
+        menuArea.onEntered: {
+            menuFile.visible = false
+            menuKinect.visible = false
+            menuSkeleton.visible = true
+        }
         menuText: qsTr("Skeleton")
     }
 }

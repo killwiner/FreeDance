@@ -7,7 +7,7 @@ FileDialog {
         busy.running = true
         console.log("You chose: " + openDialog.fileUrls)
         interf.receiveFromQml_loadFile(openDialog.fileUrl);
-        button_play_pause.iconSource = "imgs/pause.png"
+        //button_play_pause.iconSource = "imgs/pause.png"
     }
     onRejected: {
         console.log("Canceled")

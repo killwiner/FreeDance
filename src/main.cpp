@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     layout->addWidget(interf.getwidget());
     win->setLayout(layout);
 
-    interf.init_filters_values(128, 32);
+    interf.init_values(128, 32, 10);
 
     win->setGeometry(100,100,1284,600);
     QPalette Pal;

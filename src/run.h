@@ -15,12 +15,18 @@ class Run
 public:
     explicit Run();
     ~Run();
-    void load(QString fileName);
+    void load(QString const &fileName);
     bool save(QString fileName);
+    void play();
+    void stop();
     QWidget *getwidget();
     bool change_play_pause();
     void preview(int &, int &);
     void connect_kinect();
+    bool run_kinect();
+    void recordCapture();
+    void memory_info(QString &, QString &, QString &);
+    bool createSkeleton();
 
 private:
     QSharedPointer<RenderWindow> SP_renderwindow; // pointer on the OpenGL window

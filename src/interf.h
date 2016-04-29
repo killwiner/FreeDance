@@ -16,6 +16,7 @@ public:
     QWidget *getwidget();
 
 signals:
+    void sendToQml_wt(int val);
     void sendToQml_fbt(QString val);
     void sendToQml_fbs(int val);
     void sendToQml_fgt(QString val);
@@ -24,6 +25,9 @@ signals:
     void sendToQml_loaded_saved();
     void sendToQml_kinectOn();
     void sendToQml_message(QString val);
+    void sendToQml_stopWatch();
+    void sendToQml_memInfo(QString mem_total, QString mem_free, QString mem_ratio);
+    void sendToQml_loadFile();
 
 public:
     Q_INVOKABLE void receiveFromQml_fbt(QString val);
@@ -35,9 +39,16 @@ public:
     Q_INVOKABLE void receiveFromQml_play_pause();
     Q_INVOKABLE void receiveFromQml_preview();
     Q_INVOKABLE void receiveFromQml_connectKinect();
+    Q_INVOKABLE void receiveFromQml_runKinect();
+    Q_INVOKABLE void receiveFromQml_startCapture();
+    Q_INVOKABLE void receiveFromQml_recordCapture();
+    Q_INVOKABLE void receiveFromQml_getMemInfo();
+    Q_INVOKABLE void receiveFromQml_play();
+    Q_INVOKABLE void receiveFromQml_stop();
+    Q_INVOKABLE void receiveFromQml_createSkeleton();
 
     void getrun(QSharedPointer<Run> &);
-    void init_filters_values(int, int);
+    void init_values(int, int, int);
 
 private:
     QSharedPointer<Run> SP_run;

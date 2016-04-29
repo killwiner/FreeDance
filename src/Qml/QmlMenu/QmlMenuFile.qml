@@ -1,7 +1,5 @@
 import QtQuick 2.3
 
-import "../"
-
 Item {
     width: 120
     height: 60

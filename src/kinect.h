@@ -17,8 +17,8 @@ public:
     ~Kinect();
     // connect the device
     void connect();
-    //stop the device
-    void stop();
+    //detach the device
+    void detach();
     // start the device
     void start();
     // record the device

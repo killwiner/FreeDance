@@ -6,41 +6,40 @@ Item {
     width: 393
     height: 35
 
-    property alias sliderBlue: sliderHorizontal_fb
+    property alias sliderWaitTime: sliderHorizontal_wt
 
     Label {
-        id: label_fb
+        id: label_wt
         x: 8
         y: 8
         width: 70
         height: 14
         color: "#ffffff"
-        text: qsTr("Green filter :")
+        text: qsTr("Wait time :")
         font.pointSize: 10
     }
 
     TextField {
-        id: textField_fb
+        id: textField_wt
         x: 314
         y: 4
         width: 66
         height: 22
 
-        validator: IntValidator { bottom:0; top: 255}
+        validator: IntValidator { bottom:0; top: 30}
 
         onTextChanged: {
-            interf.receiveFromQml_fbt(textField_fb.getText(0, 3));
-            sliderHorizontal_fb.value = textField_fb.getText(0, 3);
+            sliderHorizontal_wt.value = textField_wt.getText(0, 3);
         }
     }
 
     Slider {
 
-        id: sliderHorizontal_fb
+        id: sliderHorizontal_wt
         x: 97
         y: 9
         minimumValue : 0
-        maximumValue : 255
+        maximumValue : 30
 
         style: SliderStyle {
             groove: Rectangle {
@@ -61,8 +60,8 @@ Item {
         }
 
         onValueChanged: {
-            interf.receiveFromQml_fgs(sliderHorizontal_fb.value);
-            textField_fb.text = sliderHorizontal_fb.value;
+            textField_wt.text = sliderHorizontal_wt.value;
         }
     }
 }
+

@@ -135,6 +135,11 @@ void RenderWindow::loop_the_movie(vector<cv::Mat> &vect_imgs, vector<cv::Mat>::c
 
 }
 
+void RenderWindow::first_frame() {
+    vect_motion_kinect = SP_saveload->vect_imgs.begin();
+    vect_motion_skeleton = SP_skeleton->vect_imgs.begin();
+}
+
 void RenderWindow::make_list() {
     SP_saveload->push_data((char*)kinect->get_depth_front());
 }
@@ -149,10 +154,6 @@ void RenderWindow::paintGL()
 
         if (status == STATUS_RECORD) {
 
-            // wait until to start to render the record
-            if(!count_down())
-                return;
-
             // we init_the vector vect_imgs before to record
             if (!kinect->is_recording())
                 init_record();
@@ -161,7 +162,7 @@ void RenderWindow::paintGL()
           make_list();
 
           // show the free space memory
-          memory_info();
+          //memory_info();
       }
     }
 
@@ -193,112 +194,4 @@ int RenderWindow::get_position() {
    return vect_motion_kinect - SP_saveload->vect_imgs.begin();
 }
 
-void RenderWindow::record_message() {
-    std::string str("Will record in : ");
-    std::stringstream ss;
-    ss << count_d;
-    str.append(ss.str());
-    SP_message->setText(str.c_str());
-    SP_message->update();
-}
 
-// return false when the count_down finish
-bool RenderWindow::count_down() {
-
-    // count down
-    // fin du chronomètre
-    if(!count_d)
-        return true;
-
-    // we create the message box
-    // création de la fenêtre de message
-    if (SP_message.isNull())
-        SP_message->show();
-
-    // internal clock to refresh the message box message
-    // horloge internet pour raffraichir le message
-    if (timer == TIMER)
-        timer = 0;
-
-    // too early to refresh the message
-    // trop tôt pour rafraichir le essage
-    if (timer) {
-        ++timer;
-        return false;
-    }
-
-    ++timer;
-
-    // new message
-    // nouveau message
-    record_message();
-
-    --count_d;
-    return false;
-}
-
-// show in a window the free memory
-void RenderWindow::memory_info() {
-
-    // save capture in the file
-    if(SP_message->clickedButton()) {
-        SP_saveload->save(SP_saveload->vect_imgs, fileName);
-        status = STATUS_KINECT;
-        kinect->record(false);
-    }
-
-    if (timer == 2 * TIMER)
-        timer = 0;
-
-    if (timer) {
-        ++timer;
-        return;
-    }
-
-    ++timer;
-
-    try {
-
-        FILE *in = popen("cat /proc/meminfo", "r");
-        if(!in)
-            throw "(render_window) error, can't open /proc/meminfo";
-
-        char buffer[128], mem_total_s[128], mem_free_s[128];
-        int mem_total, mem_free;
-
-        fscanf(in, "%s", buffer);
-        fscanf(in, "%s", mem_total_s);
-        fscanf(in, "%s", buffer);
-        fscanf(in, "%s", buffer);
-        fscanf(in, "%s", mem_free_s);
-
-        pclose(in);
-
-        istringstream smt(mem_total_s);
-        istringstream smf(mem_free_s);
-
-        smt >> mem_total;
-        smf >> mem_free;
-
-        stringstream ss;
-        ss << int(mem_free * 100 / mem_total);
-
-        string str("Mem total : ");
-        str.append(mem_total_s);
-        str.append(" Kb<br />Mem free : ");
-        str.append(mem_free_s);
-        str.append(" Kb<br />Mem free : ");
-        str.append(ss.str());
-        str.append(" %");
-
-        SP_message->setText(str.c_str());
-        SP_message->update();
-
-    }
-    catch (const char& strException) {
-        cerr << "Exception caught !!" << endl;
-        cerr << strException << endl;
-        throw;
-    }
-
-}

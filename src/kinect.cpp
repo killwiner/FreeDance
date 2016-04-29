@@ -161,7 +161,7 @@ void Kinect::connect() {
 
 // stop the device
 // arrêt du périphérique
-void Kinect::stop() {
+void Kinect::detach() {
 
     if (connected) {
 
@@ -266,6 +266,9 @@ void *Kinect::loop(void *arg) {
 
 // start the device
 void Kinect::start() {
+
+    if(running)
+        return;
 
     try {
 
