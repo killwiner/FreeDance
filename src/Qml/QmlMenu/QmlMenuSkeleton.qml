@@ -10,9 +10,22 @@ Item {
         x: 0
         y: 0
         menuArea.onClicked: {
-
-            menuFile.visible = false
+            busy.running = true
+            menuSkeleton.visible = false
+            progressBar.timer.running = true
+            interf.receiveFromQml_createSkeleton();
         }
         menuText: qsTr("Create Skeleton")
+    }
+
+    QmlButton {
+        id: menuButtonExportSkeleton
+        x: 0
+        y: 20
+        menuArea.onClicked: {
+            menuSkeleton.visible = false
+            interf.receiveFromQml_exportSkeleton();
+        }
+        menuText: qsTr("Export Skeleton")
     }
 }

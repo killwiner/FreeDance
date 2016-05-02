@@ -2,7 +2,7 @@
 #define ROOT_H
 
 #include <QSharedPointer>
-#include "vectors_maths/maths_vect.h"
+#include "../vectors_maths/maths_vect.h"
 #include "win_size.h"
 #include <opencv2/opencv.hpp>
 
@@ -22,8 +22,12 @@ namespace root {
         explicit Root(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &SP_frame_draw_);
         ~Root();
         virtual void search(float const &, int const &, Vect<float> const &);
+        bool smoth(const float&);
 
         Vect<float> get_coord();
+
+        std::vector< Vect <float> > vect_offset;
+        std::vector< Vect <float> > vect_rot;
 
     protected:
 

@@ -22,6 +22,7 @@ Vect<float> operator/(Vect<float> const& a, float const& s);
 Vect<float> operator*(float const& s, Vect<float> const& a);
 Vect<float> operator*(Vect<float> const& a, float const& s);
 Vect<int> operator+(Vect<int> const& a, Vect<int> const& b);
+Vect<double> operator+(Vect<double> const& a, Vect<double> const& b);
 Vect<float> operator+(Vect<float> const& a, Vect<float> const& b);
 Vect<int> operator-(Vect<int> const& a, Vect<int> const& b);
 Vect<float> operator-(Vect<float> const& a, Vect<float> const& b);

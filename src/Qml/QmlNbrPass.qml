@@ -6,41 +6,41 @@ Item {
     width: 393
     height: 35
 
-    property alias sliderBlue: sliderHorizontal_fb
+    property alias sliderNbrPass: sliderHorizontal_np
 
     Label {
-        id: label_fb
+        id: label_np
         x: 8
         y: 8
         width: 70
         height: 14
         color: "#ffffff"
-        text: qsTr("Blue filter :")
+        text: qsTr("Nbr of pass :")
         font.pointSize: 10
     }
 
     TextField {
-        id: textField_fb
+        id: textField_np
         x: 314
         y: 4
         width: 66
         height: 22
 
-        validator: IntValidator { bottom:0; top: 255}
+        validator: IntValidator { bottom:0; top: 30}
 
         onTextChanged: {
-            interf.receiveFromQml_fbt(textField_fb.getText(0, 3));
-            sliderHorizontal_fb.value = textField_fb.getText(0, 3);
+            interf.receiveFromQml_npt(textField_np.getText(0, 3));
+            sliderHorizontal_np.value = textField_np.getText(0, 3);
         }
     }
 
     Slider {
 
-        id: sliderHorizontal_fb
+        id: sliderHorizontal_np
         x: 97
         y: 9
         minimumValue : 0
-        maximumValue : 255
+        maximumValue : 30
 
         style: SliderStyle {
             groove: Rectangle {
@@ -61,8 +61,9 @@ Item {
         }
 
         onValueChanged: {
-            interf.receiveFromQml_fgs(sliderHorizontal_fb.value);
-            textField_fb.text = sliderHorizontal_fb.value;
+            interf.receiveFromQml_nps(sliderHorizontal_np.value);
+            textField_np.text = sliderHorizontal_np.value;
         }
     }
 }
+

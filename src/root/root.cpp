@@ -1,4 +1,5 @@
 #include "root.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -6,7 +7,6 @@ namespace root {
 
     // constructor
     Root::Root(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : mat_frame(mat_frame_), mat_frame_draw(mat_frame_draw_) {
-
     }
 
     Root::~Root() {
@@ -207,5 +207,39 @@ namespace root {
         weight(nbr_rays, vect_rays);
         move_the_circle(black_arc_flag, vec_black_arc, radius, nbr_rays, total_black_ray);
 
+    }
+
+    //smoth all coordinates
+    bool Root::smoth(const float &epsi) {
+
+        vector< Vect<double> > sum_points;
+        vector<int> nbr_points;
+
+        if(vect_offset.empty())
+            return true;
+
+        sum_points.push_back(Vect<double>((double)vect_offset.at(0).x,(double)vect_offset.at(0).y,(double)vect_offset.at(0).z));
+        nbr_points.push_back(1);
+
+        Vect<float> bary = vect_offset.at(0);
+
+        for (vector< Vect <float> >::iterator it = vect_offset.begin() + 1; it != vect_offset.end(); ++it) {
+            if(vectors_maths::lenght(*it, bary) < epsi) {
+                sum_points.back() += Vect<double>((double)(*it).x,(double)(*it).y,(double)(*it).z);
+                ++nbr_points.back();
+            }
+            else {
+                for(vector< Vect <float> >::iterator iw = it - 1; iw != it - nbr_points.back() - 1; --iw) {
+                    *iw = bary;
+                }
+                sum_points.push_back(Vect<double>((double)(*it).x,(double)(*it).y,(double)(*it).z));
+                nbr_points.push_back(1);
+            }
+            bary.x = (float)(sum_points.back().x / (float)nbr_points.back());
+            bary.y = (float)(sum_points.back().y / (float)nbr_points.back());
+            bary.z = (float)(sum_points.back().z / (float)nbr_points.back());
+        }
+
+        return false;
     }
 }

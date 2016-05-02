@@ -20,5 +20,6 @@
         <file>Qml/QmlMenu/QmlMenuFile.qml</file>
         <file>Qml/QmlMenu/QmlMenuKinect.qml</file>
         <file>Qml/QmlMenu/QmlMenuSkeleton.qml</file>
+        <file>Qml/QmlNbrPass.qml</file>
     </qresource>
 </RCC>

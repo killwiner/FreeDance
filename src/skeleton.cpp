@@ -1,6 +1,7 @@
 #include "skeleton.h"
+#include <QtDebug>
 
-Skeleton::Skeleton() {
+Skeleton::Skeleton() : created(false) {
 
     // image with the human area
     // image avec la partition humaine
@@ -21,17 +22,6 @@ Skeleton::Skeleton() {
 // destructeur
 Skeleton::~Skeleton() {
     mat_frame.release();
-    SP_mat_frame_draw.clear();
-    SP_human_area.clear();
-    delete head;
-    delete neck;
-    delete hips;
-    delete shoulder_r;
-    delete shoulder_l;
-    delete hand_r;
-    delete hand_l;
-    delete elbow_r;
-    delete elbow_l;
 }
 
 // return nbr_imgs
@@ -42,97 +32,97 @@ int Skeleton::get_nbr_imgs() {
 
 // Create all roots objects
 void Skeleton::create_all_roots() {
-    head = new root::Head(mat_frame, SP_mat_frame_draw);
-    neck = new root::Neck(mat_frame, SP_mat_frame_draw);
-    hips = new root::Hips(mat_frame, SP_mat_frame_draw);
-    shoulder_r = new root::Shoulder(mat_frame, SP_mat_frame_draw);
-    shoulder_l = new root::Shoulder(mat_frame, SP_mat_frame_draw);
-    hand_r = new root::Hand(mat_frame, SP_mat_frame_draw);
-    hand_l = new root::Hand(mat_frame, SP_mat_frame_draw);
-    elbow_r = new root::Elbow(mat_frame, SP_mat_frame_draw);
-    elbow_l = new root::Elbow(mat_frame, SP_mat_frame_draw);
+    SP_head = QSharedPointer<root::Head>(new root::Head(mat_frame, SP_mat_frame_draw));
+    SP_neck = QSharedPointer<root::Neck>(new root::Neck(mat_frame, SP_mat_frame_draw));
+    SP_hips = QSharedPointer<root::Hips>(new root::Hips(mat_frame, SP_mat_frame_draw));
+    SP_shoulder_r = QSharedPointer<root::Shoulder>(new root::Shoulder(mat_frame, SP_mat_frame_draw));
+    SP_shoulder_l = QSharedPointer<root::Shoulder>(new root::Shoulder(mat_frame, SP_mat_frame_draw));
+    SP_hand_r = QSharedPointer<root::Hand>(new root::Hand(mat_frame, SP_mat_frame_draw));
+    SP_hand_l = QSharedPointer<root::Hand>(new root::Hand(mat_frame, SP_mat_frame_draw));
+    SP_elbow_r = QSharedPointer<root::Elbow>(new root::Elbow(mat_frame, SP_mat_frame_draw));
+    SP_elbow_l = QSharedPointer<root::Elbow>(new root::Elbow(mat_frame, SP_mat_frame_draw));
 }
 
 // search for the first time roots
 // recherche les noeuds pour la première fois
 void Skeleton::search_fT_roots() {
-    hips->first_search();
-    neck->first_search(head->first_search(), hips->get_coord());
-    shoulder_r->first_search(neck->get_coord(), hips->get_coord(), true);
-    shoulder_l->first_search(neck->get_coord(), hips->get_coord(), false);
-    hand_r->first_search(true, elbow_r->get_coord(), shoulder_r->get_coord());
-    hand_l->first_search(false, elbow_l->get_coord(), shoulder_r->get_coord());
-    elbow_r->first_search(shoulder_r->get_coord(), hand_r->get_coord(), neck->get_coord(), true);
-    elbow_l->first_search(shoulder_l->get_coord(), hand_l->get_coord(), neck->get_coord(), false);
+    SP_hips->first_search();
+    SP_neck->first_search(SP_head->first_search(), SP_hips->get_coord());
+    SP_shoulder_r->first_search(SP_neck->get_coord(), SP_hips->get_coord(), true);
+    SP_shoulder_l->first_search(SP_neck->get_coord(), SP_hips->get_coord(), false);
+    SP_hand_r->first_search(true, SP_elbow_r->get_coord(), SP_shoulder_r->get_coord());
+    SP_hand_l->first_search(false, SP_elbow_l->get_coord(), SP_shoulder_r->get_coord());
+    SP_elbow_r->first_search(SP_shoulder_r->get_coord(), SP_hand_r->get_coord(), SP_neck->get_coord(), true);
+    SP_elbow_l->first_search(SP_shoulder_l->get_coord(), SP_hand_l->get_coord(), SP_neck->get_coord(), false);
 }
 
 // search new positions for roots
 // recherche les nouvelles coordonnées des noeuds
 void Skeleton::search_new_positions() {
-    hips->search(25, 1, Vect<float>(0, 1, 0));
-    head->search(200, 16, Vect<float>(0, -1, 0));
+    SP_hips->search(25, 1, Vect<float>(0, 1, 0));
+    SP_head->search(200, 16, Vect<float>(0, -1, 0));
 
-    neck->search(40, 16, Vect<float>(0, 0, 0));
-    neck->bone();
-    head->bone(neck->get_coord());
+    SP_neck->search(40, 16, Vect<float>(0, 0, 0));
+    SP_neck->bone();
+    SP_head->bone(SP_neck->get_coord());
 
-    shoulder_r->search(25, 16, Vect<float>(-1, -1, 0), neck->get_coord(), hips->get_coord());
-    shoulder_r->bone();
-    shoulder_l->search(25, 16, Vect<float>(1, -1, 0), neck->get_coord(), hips->get_coord());
-    shoulder_l->bone();
+    SP_shoulder_r->search(25, 16, Vect<float>(-1, -1, 0), SP_neck->get_coord(), SP_hips->get_coord());
+    SP_shoulder_r->bone();
+    SP_shoulder_l->search(25, 16, Vect<float>(1, -1, 0), SP_neck->get_coord(), SP_hips->get_coord());
+    SP_shoulder_l->bone();
 
-    hand_r->search(25, 24, (hand_r->get_coord() - elbow_r->get_coord()) / vectors_maths::lenght(hand_r->get_coord(), elbow_r->get_coord()), elbow_r->get_coord());
+    SP_hand_r->search(25, 24, (SP_hand_r->get_coord() - SP_elbow_r->get_coord()) / vectors_maths::lenght(SP_hand_r->get_coord(), SP_elbow_r->get_coord()), SP_elbow_r->get_coord());
     //hand_r->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_r->p.x, hand_r->p.y, 0))] - offset_z);
-    hand_l->search(25, 24, (hand_l->get_coord() - elbow_l->get_coord()) / vectors_maths::lenght(hand_l->get_coord(), elbow_l->get_coord()), elbow_l->get_coord());
+    SP_hand_l->search(25, 24, (SP_hand_l->get_coord() - SP_elbow_l->get_coord()) / vectors_maths::lenght(SP_hand_l->get_coord(), SP_elbow_l->get_coord()), SP_elbow_l->get_coord());
     //hand_l->z_axis(buffer_img->imageData[coord_gbr(Vect<int>(hand_l->p.x, hand_l->p.y, 0))] - offset_z);
 
-    elbow_r->search(shoulder_r->get_coord(), hand_r->get_coord(), hips->get_coord());
-    elbow_l->search(shoulder_l->get_coord(), hand_l->get_coord(), hips->get_coord());
+    SP_elbow_r->search(SP_shoulder_r->get_coord(), SP_hand_r->get_coord(), SP_hips->get_coord());
+    SP_elbow_l->search(SP_shoulder_l->get_coord(), SP_hand_l->get_coord(), SP_hips->get_coord());
 }
 
 // new rotations for the exportation
 // nouvelles rotation destinées à l'exportation
 void Skeleton::new_rot() {
-    head->new_rot(hips->get_coord(), neck->get_coord());
-    shoulder_l->new_rot(hips->get_coord(), neck->get_coord());
-    shoulder_r->new_rot(hips->get_coord(), neck->get_coord());
-    elbow_l->new_rot(neck->get_coord(), shoulder_r->get_coord());
-    elbow_r->new_rot(neck->get_coord(), shoulder_r->get_coord());
-    hand_r->new_rot(shoulder_r->get_coord(), elbow_r->get_coord());
-    hand_l->new_rot(shoulder_l->get_coord(), elbow_l->get_coord());
-    hips->new_rot(neck->get_coord());
+    SP_head->new_rot(SP_hips->get_coord(), SP_neck->get_coord());
+    SP_shoulder_l->new_rot(SP_hips->get_coord(), SP_neck->get_coord());
+    SP_shoulder_r->new_rot(SP_hips->get_coord(), SP_neck->get_coord());
+    SP_elbow_l->new_rot(SP_neck->get_coord(), SP_shoulder_r->get_coord());
+    SP_elbow_r->new_rot(SP_neck->get_coord(), SP_shoulder_r->get_coord());
+    SP_hand_r->new_rot(SP_shoulder_r->get_coord(), SP_elbow_r->get_coord());
+    SP_hand_l->new_rot(SP_shoulder_l->get_coord(), SP_elbow_l->get_coord());
+    SP_hips->new_rot(SP_neck->get_coord());
 }
 
 void Skeleton::draw_roots() {
-    if(!control<float>(hips->get_coord()))
-        draw_square(10, (int)hips->get_coord().x, (int)hips->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_hips->get_coord()))
+        draw_square(10, (int)SP_hips->get_coord().x, (int)SP_hips->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(head->get_coord()))
-        draw_square(10, (int)head->get_coord().x, (int)head->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_head->get_coord()))
+        draw_square(10, (int)SP_head->get_coord().x, (int)SP_head->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(neck->get_coord()))
-        draw_square(10, (int)neck->get_coord().x, (int)neck->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_neck->get_coord()))
+        draw_square(10, (int)SP_neck->get_coord().x, (int)SP_neck->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(shoulder_r->get_coord()))
-        draw_square(10, (int)shoulder_r->get_coord().x, (int)shoulder_r->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_shoulder_r->get_coord()))
+        draw_square(10, (int)SP_shoulder_r->get_coord().x, (int)SP_shoulder_r->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(shoulder_l->get_coord()))
-        draw_square(10, (int)shoulder_l->get_coord().x, (int)shoulder_l->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_shoulder_l->get_coord()))
+        draw_square(10, (int)SP_shoulder_l->get_coord().x, (int)SP_shoulder_l->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(hand_r->get_coord()))
-        draw_square(10, (int)hand_r->get_coord().x, (int)hand_r->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_hand_r->get_coord()))
+        draw_square(10, (int)SP_hand_r->get_coord().x, (int)SP_hand_r->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(hand_l->get_coord()))
-        draw_square(10, (int)hand_l->get_coord().x, (int)hand_l->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_hand_l->get_coord()))
+        draw_square(10, (int)SP_hand_l->get_coord().x, (int)SP_hand_l->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(elbow_r->get_coord()))
-        draw_square(10, (int)elbow_r->get_coord().x, (int)elbow_r->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_elbow_r->get_coord()))
+        draw_square(10, (int)SP_elbow_r->get_coord().x, (int)SP_elbow_r->get_coord().y, SP_mat_frame_draw);
 
-    if(!control<float>(elbow_l->get_coord()))
-        draw_square(10, (int)elbow_l->get_coord().x, (int)elbow_l->get_coord().y, SP_mat_frame_draw);
+    if(!control<float>(SP_elbow_l->get_coord()))
+        draw_square(10, (int)SP_elbow_l->get_coord().x, (int)SP_elbow_l->get_coord().y, SP_mat_frame_draw);
 }
 
-void Skeleton::start(Progress *prog, int green_color_, int blue_color_, int nbr_pass_, QSharedPointer<IO_frames> &SP_saveload) {
+void Skeleton::start(float *progValue, int green_color_, int blue_color_, int nbr_pass_, QSharedPointer<IO_frames> &SP_saveload) {
 
     // couleurs de filtrage des images
     // colors to filter images
@@ -165,7 +155,9 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_, int nbr_
     for(int i = 1; i < nbr_imgs; ++i) {
 
         // We show the progress in %
-        prog->value(i * 100 / nbr_imgs);
+        mutex.lock();
+        *progValue = (float)i / (float)nbr_imgs;
+        mutex.unlock();
 
         // Here only black
         mat_frame.setTo(cv::Scalar::all(0));
@@ -179,13 +171,21 @@ void Skeleton::start(Progress *prog, int green_color_, int blue_color_, int nbr_
             search_new_positions();
 
         new_rot();
-        draw_roots();
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
         vect_imgs.push_back(SP_mat_frame_draw->clone());
 
-        // if(i == 10) break;
-
     }
+
+    SP_hips->smoth(32.0f);
+
+    for(int i = 1; i < nbr_imgs; ++i)
+        draw_roots();
+
+    created = true;
+}
+
+bool Skeleton::isCreated() {
+    return created;
 }

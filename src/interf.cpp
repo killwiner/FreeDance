@@ -4,6 +4,7 @@
 using namespace std;
 
 Interf::Interf() {
+    progValue = new float(.0f);
     SP_run = QSharedPointer<Run>(new Run());
     th = new TThread(SP_run);
     QObject::connect(th, SIGNAL(finished()), this, SLOT(SLOT_loaded_saved()));
@@ -11,6 +12,7 @@ Interf::Interf() {
 
 Interf::~Interf() {
     delete th;
+    delete progValue;
 }
 
 QWidget *Interf::getwidget() {
@@ -35,6 +37,15 @@ void Interf::receiveFromQml_fgt(QString val) {
     filter_green = val_i;
 }
 
+void Interf::receiveFromQml_npt(QString val) {
+
+    std::istringstream v_l(val.toStdString().c_str());
+    int val_i;
+    v_l >> val_i;
+    sendToQml_nps(val_i);
+    nbr_pass = val_i;
+}
+
 void Interf::getrun(QSharedPointer<Run> &r) {
         SP_run = r;
 }
@@ -48,6 +59,12 @@ void Interf::receiveFromQml_fgs(int val) {
     sendToQml_fgt(QString::number(val));
     filter_green = val;
 }
+
+void Interf::receiveFromQml_nps(int val) {
+    sendToQml_npt(QString::number(val));
+    nbr_pass = val;
+}
+
 
 void Interf::receiveFromQml_loadFile(QString file_name) {
     th->load(file_name);
@@ -98,7 +115,6 @@ void Interf::receiveFromQml_recordCapture() {
     catch (const char* strException) {
         cerr << "Exception caught !!" << endl;
         cerr << strException << endl;
-        throw;
     }
 }
 
@@ -122,19 +138,45 @@ void Interf::receiveFromQml_stop() {
 }
 
 void Interf::receiveFromQml_createSkeleton() {
-    if(!SP_run->createSkeleton())
-        sendToQml_loadFile();
-    SP_run->createSkeleton();
+
+    SP_run->stop();
+    if(!SP_run->frames_present())
+        sendToQml_message(QString("Load or get a motion first"));
+    else {
+        th->createSkeleton(progValue, filter_blue, filter_green, nbr_pass);
+        th->start();
+    }
+}
+
+void Interf::receiveFromQml_exportSkeleton() {
+    if (!SP_run->isCreated()) {
+        sendToQml_message(QString("Create the skeleton first"));
+        return;
+    }
+    th->exportBVH();
+    sendToQml_exportBVH();
+
+}
+
+void Interf::receiveFromQml_getProgress() {
+    mutex.lock();
+    sendToQml_progress(*progValue);
+    mutex.unlock();
+
+    if(th->isFinished())
+        sendToQml_loaded_saved();
+
 }
 
 void Interf::SLOT_loaded_saved() {
     sendToQml_loaded_saved();
 }
 
-void Interf::init_values(int fb, int fg, int wt) {
+void Interf::init_values(int fb, int fg, int wt, int np) {
     sendToQml_fbs(fb);
     sendToQml_fgs(fg);
-    sendToQml_wt(wt);
+    sendToQml_wts(wt);
+    sendToQml_nps(np);
     filter_blue = fb;
     filter_green = fg;
 }

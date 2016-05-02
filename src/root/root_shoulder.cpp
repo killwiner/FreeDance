@@ -4,6 +4,9 @@ namespace root {
     Shoulder::Shoulder(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
+    Shoulder::~Shoulder() {
+    }
+
     void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_, bool l_r_) {
 
         l_r = l_r_;

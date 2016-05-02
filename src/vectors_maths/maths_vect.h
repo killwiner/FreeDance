@@ -1,7 +1,7 @@
 #ifndef MATHS_VECT_H
 #define MATHS_VECT_H
 
-#include "vect.h"
+#include "../vect.h"
 #include <cmath>
 
 #define PI 3.141592654f

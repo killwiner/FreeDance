@@ -183,10 +183,12 @@ void RenderWindow::paintGL()
 
     if (status == STATUS_SKELETON) {
 
-        render(vect_motion_skeleton->data, mat_preview_after.data);
+        render(vect_motion_kinect->data, vect_motion_skeleton->data);
         // loop the movie with increment
         // boucle le film en incrémentant
         loop_the_movie(SP_skeleton->vect_imgs, vect_motion_skeleton);
+        loop_the_movie(SP_saveload->vect_imgs, vect_motion_kinect);
+
     }
 }
 

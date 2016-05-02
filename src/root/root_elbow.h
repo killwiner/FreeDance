@@ -7,6 +7,7 @@ namespace root {
     class Elbow : public Root {
     public:
         explicit Elbow(cv::Mat const &, QSharedPointer<cv::Mat> &);
+        ~Elbow();
         void first_search(Vect<float> const &, Vect<float> const &, Vect<float> const &, bool);
         void search(Vect<float> const &, Vect<float> const &, Vect<float> const &);
         void new_rot(Vect<float> const&, Vect<float> const&);

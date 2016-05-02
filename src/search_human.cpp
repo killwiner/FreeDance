@@ -8,6 +8,7 @@ SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_
     // Les partitions sont représentées dans une matrice 2D par des identifiants
     // We find areas in a 2D matrix with identities
     partition = new std::vector<int>(WIDTH*HEIGHT, 0);
+    img = vect_imgs.at(1);
 }
 
 SearchHuman::SearchHuman(cv::Mat &img_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_) :
@@ -123,7 +124,8 @@ void SearchHuman::search() {
     else
         centroid.x = centroid.y = 0;
 
-    img.copyTo(vect_imgs[id_img]);
+    //img.copyTo(vect_imgs[id_img]);
+    img = vect_imgs[id_img];
     ++id_img;
 }
 

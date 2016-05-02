@@ -4,6 +4,9 @@ namespace root {
     Neck::Neck(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
+    Neck::~Neck() {
+    }
+
     void Neck::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_) {
         s = Vect<float>(0.000000, -0.401210, 3.427901);
         p = vect_neck_;

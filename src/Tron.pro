@@ -25,12 +25,12 @@ SOURCES += main.cpp \
     vectors_maths/bezier.cpp \
     vect.tpp \
     vect.cpp \
-    progress.cpp \
     search_human.cpp \
     draw.cpp \
     run.cpp \
     export_motion.cpp \
-    thread.cpp
+    thread.cpp \
+    win.cpp
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -57,12 +57,12 @@ HEADERS += \
     vectors_maths/maths_vect.h \
     vectors_maths/bezier.h \
     vect.h \
-    progress.h \
     search_human.h \
     draw.h \
     run.h \
     export_motion.h \
     bvh.h \
-    thread.h
+    thread.h \
+    win.h
 
 FORMS    += mainwindow.ui

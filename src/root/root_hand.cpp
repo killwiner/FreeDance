@@ -39,6 +39,9 @@ namespace root {
     Hand::Hand(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
+    Hand::~Hand() {
+    }
+
     // Recherche les mains gauche et droite en partant du côté droit et gauche de l'image
     // Search hands from the sides of the picture
     void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {

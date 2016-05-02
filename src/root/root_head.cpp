@@ -1,8 +1,13 @@
 #include "root_head.h"
+#include <QDebug>
 
 namespace root {
 
     Head::Head(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_), m_lines(8) {
+    }
+
+    Head::~Head() {
+        qDebug() << "ST2";
     }
 
     bool Head::web(Vect<float> &top, float &n_top_x, float const &y, float const &web_surface, float &web_surface_last, float &num_webs,

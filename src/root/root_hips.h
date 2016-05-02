@@ -7,13 +7,12 @@ namespace root {
     class Hips : public Root {
     public:
         explicit Hips(cv::Mat const &, QSharedPointer<cv::Mat> &);
+        ~Hips();
         void first_search();
         void search(float const &, int const &, Vect<float>);
         void new_rot(Vect<float> const &);
 
         Vect<float> s;
-        std::vector< Vect <float> > vect_offset;
-        std::vector< Vect <float> > vect_rot;
 
     private:
         void first_pixel_l2r(int &);

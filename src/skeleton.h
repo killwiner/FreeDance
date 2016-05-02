@@ -7,36 +7,39 @@
 #include "root/root_shoulder.h"
 #include "root/root_hand.h"
 #include "root/root_elbow.h"
-#include "progress.h"
 #include "search_human.h"
 #include "io_frames.h"
 #include "draw.h"
 #include <vector>
+#include <QMutex>
 #include "win_size.h"
 
 class Skeleton {
 public:
     explicit Skeleton();
     ~Skeleton();
-    void start(Progress*, int, int, int, QSharedPointer<IO_frames> &);
+    void start(float *progValue, int, int, int, QSharedPointer<IO_frames> &);
+    bool isCreated();
     int get_nbr_imgs();
     std::vector< cv::Mat > vect_imgs;
 
-    root::Neck *neck;
-    root::Head *head;
-    root::Hips *hips;
-    root::Shoulder *shoulder_r, *shoulder_l;
-    root::Hand *hand_r, *hand_l;
-    root::Elbow *elbow_r, *elbow_l;
+    QSharedPointer<root::Neck> SP_neck;
+    QSharedPointer<root::Head> SP_head;
+    QSharedPointer<root::Hips> SP_hips;
+    QSharedPointer<root::Shoulder> SP_shoulder_r, SP_shoulder_l;
+    QSharedPointer<root::Hand> SP_hand_r, SP_hand_l;
+    QSharedPointer<root::Elbow> SP_elbow_r, SP_elbow_l;
 
 private:
 
+    bool created;
     int nbr_imgs;
     cv::Mat buffer_img;
     cv::Mat mat_frame;
     QSharedPointer<cv::Mat> SP_mat_frame_draw;
     int blue_color, green_color, nbr_pass;
     float offset_z;
+    QMutex mutex;
 
     QSharedPointer<SearchHuman> SP_human_area;
 

@@ -7,6 +7,7 @@ namespace root {
     class Neck : public Root {
     public:
         explicit Neck(cv::Mat const &, QSharedPointer<cv::Mat> &);
+        ~Neck();
         void first_search(Vect<float> const&, Vect<float> const&);
         void bone();
 

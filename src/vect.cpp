@@ -60,6 +60,13 @@ Vect<float> operator+(Vect<float> const& a, Vect<float> const& b) {
     return c;
 }
 
+Vect<double> operator+(Vect<double> const& a, Vect<double> const& b) {
+
+    Vect<double> c(a.x + b.x, a.y + b.y, a.z + b.z);
+
+    return c;
+}
+
 Vect<int> operator-(Vect<int> const& a, Vect<int> const& b) {
 
     Vect<int> n(a.width, a.height, 0);

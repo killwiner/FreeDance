@@ -82,6 +82,8 @@ Item {
 
             onSendToQml_loaded_saved: {
                 busy.running = false;
+                progressBar.timer.running = false;
+                progressBar.value = 0;
             }
 
             onSendToQml_fbs: {
@@ -92,7 +94,11 @@ Item {
                 filterGreen.sliderGreen.value = val;
             }
 
-            onSendToQml_wt: {
+            onSendToQml_nps: {
+                nbrPass.sliderNbrPass.value = val;
+            }
+
+            onSendToQml_wts: {
                 waitTime.sliderWaitTime.value = val;
             }
 
@@ -122,25 +128,44 @@ Item {
             onSendToQml_loadFile: {
                 openFile.trigger();
             }
+
+            onSendToQml_progress: {
+                progressBar.value = val;
+            }
+
+            onSendToQml_exportBVH: {
+                saveDialog.nameFilters = ["Video File (*.bvh)"]
+                saveFile.trigger()
+            }
         }
 
         ProgressBar {
             id: progressBar
             x: 1067
             y: 114
+            property alias timer: timer
 
             style: ProgressBarStyle {
                 background: Rectangle {
                     radius: 2
-                    color: "#faffaa"
-                    border.color: "gray"
+                    color: "#999999"
+                    border.color: "black"
                     border.width: 1
                     implicitWidth: 200
                     implicitHeight: 24
                 }
                 progress: Rectangle {
-                    color: "#faffaa"
-                    border.color: "steelblue"
+                    color: "#ff5555"
+                    border.color: "black"
+                }
+            }
+            Timer {
+                id: timer
+                interval: 1000
+                repeat: true
+                running: false
+                onTriggered: {
+                    interf.receiveFromQml_getProgress();
                 }
             }
         }
@@ -171,6 +196,12 @@ Item {
             id: waitTime
             x: 22
             y: 166
+        }
+
+        QmlNbrPass {
+            id: nbrPass
+            x: 22
+            y: 192
         }
 
         Button {

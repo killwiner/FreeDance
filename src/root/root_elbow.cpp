@@ -8,6 +8,9 @@ namespace root {
     Elbow::Elbow(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
     }
 
+    Elbow::~Elbow() {
+    }
+
     void Elbow::find_elbow(Vect<float> const &u, Vect<float> &w,Vect<float> const &vect_shoulder, Vect<float> const &vect_hand, Vect<float> const &vect_neck, Vect<float> const &h) {
 
         while(!control<float>(u + w)) {

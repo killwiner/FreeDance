@@ -26,14 +26,17 @@ public:
     bool run_kinect();
     void recordCapture();
     void memory_info(QString &, QString &, QString &);
-    bool createSkeleton();
+    void createSkeleton(float *, const int&, const int&, const int&);
+    bool isCreated();
+    bool export_bvh(QString);
+    bool frames_present();
 
 private:
     QSharedPointer<RenderWindow> SP_renderwindow; // pointer on the OpenGL window
     QSharedPointer<Skeleton> SP_skeleton; // pointer on the skeleton with roots
     Kinect *kinect; // the device for the kinect
     QSharedPointer<IO_frames> SP_saveload; // to save or load a motion
-
+    bool fram_present;
     cv::Mat mat_preview_after;
 };
 

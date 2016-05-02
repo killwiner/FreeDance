@@ -2,8 +2,9 @@
 
 using namespace std;
 
-Run::Run()
+Run::Run() : fram_present(false)
 {
+
     try {
         kinect = new Kinect();
         SP_skeleton = QSharedPointer<Skeleton>(new Skeleton());
@@ -14,28 +15,30 @@ Run::Run()
         mat_preview_after = cv::Mat(HEIGHT, WIDTH, CV_8UC3);
         // Here only black
         mat_preview_after.setTo(cv::Scalar::all(0));
+
     }
     catch ( const exception &e )
     {
-        cerr << "(mainwindow) Exception caught !!" << endl;
+        cerr << "(Run) Exception caught !!" << endl;
         cerr << e.what() << endl;
+        throw;
     }
+
 }
 
 Run::~Run() {
-    try {
+
+    try { 
         kinect->detach();
         delete kinect;
-        SP_renderwindow.clear();
-        SP_saveload.clear();
-        SP_skeleton.clear();
-
     }
     catch ( const exception &e )
     {
         cerr << "Exception caught !!" << endl;
         cerr << e.what() << endl;
+        throw;
     }
+
 }
 
 QWidget *Run::getwidget() {
@@ -51,6 +54,7 @@ void Run::load(QString const &fileName) {
     // la capture sur la fenêtre opengl existe déjà, il suffit de changer le status
     SP_renderwindow->change_status(STATUS_MOTION);
     SP_renderwindow->change_play_pause(true);
+    fram_present = true;
 
 }
 
@@ -66,6 +70,7 @@ void Run::play() {
     catch (const char* strException) {
         cerr << "Exception caught !!" << endl;
         cerr << strException << endl;
+        throw;
     }
 }
 
@@ -75,7 +80,7 @@ void Run::stop() {
     SP_renderwindow->updateGL();
 }
 
-// load the motion
+// save the motion
 bool Run::save(QString fileName) {
 
     if (SP_renderwindow->get_status() == STATUS_NONE)
@@ -145,6 +150,7 @@ bool Run::run_kinect() {
     catch (const char* strException) {
         cerr << "Exception caught !!" << endl;
         cerr << strException << endl;
+        throw;
     }
 
     return false;
@@ -159,10 +165,12 @@ void Run::recordCapture() {
 
         SP_renderwindow->change_status(STATUS_RECORD);
         SP_renderwindow->change_play_pause(true);
+        fram_present = true;
     }
     catch (const char* strException) {
         cerr << "Exception caught !!" << endl;
         cerr << strException << endl;
+        throw;
     }
 
 }
@@ -174,7 +182,7 @@ void Run::memory_info(QString &QSmem_total, QString &QSmem_free, QString &QSrati
 
         FILE *in = popen("cat /proc/meminfo", "r");
         if(!in)
-            throw "(render_window) error, can't open /proc/meminfo";
+            throw "(Run) error, can't open /proc/meminfo";
 
         char buffer[128], mem_total_s[128], mem_free_s[128];
         int mem_total, mem_free;
@@ -207,55 +215,29 @@ void Run::memory_info(QString &QSmem_total, QString &QSmem_free, QString &QSrati
     }
 }
 
+bool Run::frames_present() {
+    return fram_present;
+}
+
 // create a skeleton from the saved motion
 // crée l'armature à partir du film enregistré
-bool Run::createSkeleton()
+void Run::createSkeleton(float *progValue, const int &blue_p, const int &green_p, const int &nbr_pass)
 {
-    if(!SP_saveload->loaded())
-        return false;
-/*
-    if(!SP_saveload->loaded()) {
-        QString fileName = QFileDialog::getOpenFileName(this, "Open Video", "", "Video Files (*.avi)");
-
-        // we load the motion
-        SP_saveload->load(fileName);
-    }
-
-    // default filters parameters
-    // paramètres par défaut
-    int blue_p = 128;
-    int red_p = 32;
-    int nbr_pass = 8;
-
-    // show the progress bar
-    // affiche la barre de progression
-    prog = new Progress(NULL);
-    prog->show();
-
-    // to set filters parameters values
-    // pour changer les paramètres de filtrage
-    WinParam wp(NULL, blue_p, red_p, nbr_pass);
-    wp.exec();
 
     // create the skeleton
     // crée l'armature
-    SP_skeleton->start(prog, blue_p, red_p, nbr_pass, SP_saveload);
+    SP_skeleton->start(progValue, green_p, blue_p, nbr_pass, SP_saveload);
 
-    prog->close();
+    SP_renderwindow->change_status(STATUS_SKELETON);
+    SP_renderwindow->change_play_pause(true);
+}
 
-    // show the skeleton moving
-    // affichage de l'animation de l'armature
-    if (SP_renderwindow->get_status() == STATUS_NONE) {
+bool Run::export_bvh(QString fileName) {
+    ExportMotion exportmotion;
+    return exportmotion.save(fileName, SP_skeleton, SP_skeleton->get_nbr_imgs());
+}
 
-        SP_renderwindow = QSharedPointer<RenderWindow>(new RenderWindow(NULL, kinect, SP_saveload, SP_skeleton, STATUS_SKELETON));
-
-        this->setCentralWidget(SP_renderwindow.data());
-        SP_renderwindow->setFixedSize(WIDTH, HEIGHT);
-        this->adjustSize();
-
-    }
-    else
-        SP_renderwindow->change_status(STATUS_SKELETON);
-*/
-    return true;
+bool Run::isCreated()
+{
+    return SP_skeleton->isCreated();
 }

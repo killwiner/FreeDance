@@ -17,7 +17,7 @@ class ExportMotion
 
 public:
     explicit ExportMotion();
-    void save(const QString &, const QSharedPointer<Skeleton> &, const int &);
+    bool save(const QString &, const QSharedPointer<Skeleton> &, const int &);
 
 private:
     void write_0_chan(std::ofstream &, int const &);
