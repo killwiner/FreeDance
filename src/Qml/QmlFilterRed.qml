@@ -6,21 +6,21 @@ Item {
     width: 393
     height: 35
 
-    property alias sliderBlue: sliderHorizontal_fb
+    property alias sliderRed: sliderHorizontal_fr
 
     Label {
-        id: label_fb
+        id: label_fr
         x: 8
         y: 8
         width: 70
         height: 14
         color: "#ffffff"
-        text: qsTr("Blue filter :")
+        text: qsTr("Red filter :")
         font.pointSize: 10
     }
 
     TextField {
-        id: textField_fb
+        id: textField_fr
         x: 314
         y: 4
         width: 66
@@ -29,14 +29,14 @@ Item {
         validator: IntValidator { bottom:0; top: 255}
 
         onTextChanged: {
-            interf.receiveFromQml_fbt(textField_fb.getText(0, 3));
-            sliderHorizontal_fb.value = textField_fb.getText(0, 3);
+            interf.receiveFromQml_frt(textField_fr.getText(0, 3));
+            sliderHorizontal_fr.value = textField_fr.getText(0, 3);
         }
     }
 
     Slider {
 
-        id: sliderHorizontal_fb
+        id: sliderHorizontal_fr
         x: 97
         y: 9
         minimumValue : 0
@@ -61,8 +61,8 @@ Item {
         }
 
         onValueChanged: {
-            interf.receiveFromQml_fbs(sliderHorizontal_fb.value);
-            textField_fb.text = sliderHorizontal_fb.value;
+            interf.receiveFromQml_frs(sliderHorizontal_fr.value);
+            textField_fr.text = sliderHorizontal_fr.value;
         }
     }
 }

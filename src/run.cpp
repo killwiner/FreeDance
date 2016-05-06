@@ -96,7 +96,7 @@ bool Run::change_play_pause() {
         return SP_renderwindow->status_play_pause();
 }
 
-void Run::preview(int &filter_green, int &filter_blue) {
+void Run::preview(int &filter_green, int &filter_blue, int &filter_red) {
 
     // Here only black
     mat_preview_after.setTo(cv::Scalar::all(0));
@@ -107,10 +107,10 @@ void Run::preview(int &filter_green, int &filter_blue) {
         // create the image with the data
         // crée l'image avec les données
         cv::Mat buffer_img(HEIGHT, WIDTH, CV_8UC3, (char*)kinect->get_depth_front());
-        sh = new SearchHuman(buffer_img, mat_preview_after, filter_green, filter_blue);
+        sh = new SearchHuman(buffer_img, mat_preview_after, filter_green, filter_blue, filter_red);
     }
     else
-        sh = new SearchHuman(SP_saveload->vect_imgs.at(SP_renderwindow->get_position()), mat_preview_after, filter_green, filter_blue);
+        sh = new SearchHuman(SP_saveload->vect_imgs.at(SP_renderwindow->get_position()), mat_preview_after, filter_green, filter_blue, filter_red);
 
     sh->clear_partition();
     sh->first_search();
@@ -221,12 +221,12 @@ bool Run::frames_present() {
 
 // create a skeleton from the saved motion
 // crée l'armature à partir du film enregistré
-void Run::createSkeleton(float *progValue, const int &blue_p, const int &green_p, const int &nbr_pass)
+void Run::createSkeleton(float *progValue, const int &blue_p, const int &green_p, const int &red_p, const int &nbr_pass)
 {
 
     // create the skeleton
     // crée l'armature
-    SP_skeleton->start(progValue, green_p, blue_p, nbr_pass, SP_saveload);
+    SP_skeleton->start(progValue, green_p, blue_p, red_p, nbr_pass, SP_saveload);
 
     SP_renderwindow->change_status(STATUS_SKELETON);
     SP_renderwindow->change_play_pause(true);

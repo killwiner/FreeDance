@@ -37,6 +37,15 @@ void Interf::receiveFromQml_fgt(QString val) {
     filter_green = val_i;
 }
 
+void Interf::receiveFromQml_frt(QString val) {
+
+    std::istringstream v_l(val.toStdString().c_str());
+    int val_i;
+    v_l >> val_i;
+    sendToQml_frs(val_i);
+    filter_red = val_i;
+}
+
 void Interf::receiveFromQml_npt(QString val) {
 
     std::istringstream v_l(val.toStdString().c_str());
@@ -60,6 +69,11 @@ void Interf::receiveFromQml_fgs(int val) {
     filter_green = val;
 }
 
+void Interf::receiveFromQml_frs(int val) {
+    sendToQml_frt(QString::number(val));
+    filter_red = val;
+}
+
 void Interf::receiveFromQml_nps(int val) {
     sendToQml_npt(QString::number(val));
     nbr_pass = val;
@@ -81,7 +95,7 @@ void Interf::receiveFromQml_play_pause() {
 }
 
 void Interf::receiveFromQml_preview() {
-    SP_run->preview(filter_green, filter_blue);
+    SP_run->preview(filter_green, filter_blue, filter_red);
 }
 
 void Interf::receiveFromQml_connectKinect() {
@@ -143,7 +157,7 @@ void Interf::receiveFromQml_createSkeleton() {
     if(!SP_run->frames_present())
         sendToQml_message(QString("Load or get a motion first"));
     else {
-        th->createSkeleton(progValue, filter_blue, filter_green, nbr_pass);
+        th->createSkeleton(progValue, filter_blue, filter_green, filter_red, nbr_pass);
         th->start();
     }
 }
@@ -172,12 +186,14 @@ void Interf::SLOT_loaded_saved() {
     sendToQml_loaded_saved();
 }
 
-void Interf::init_values(int fb, int fg, int wt, int np) {
+void Interf::init_values(int fb, int fg, int fr, int wt, int np) {
     sendToQml_fbs(fb);
     sendToQml_fgs(fg);
+    sendToQml_frs(fr);
     sendToQml_wts(wt);
     sendToQml_nps(np);
     filter_blue = fb;
     filter_green = fg;
+    filter_red = fr;
 }
 

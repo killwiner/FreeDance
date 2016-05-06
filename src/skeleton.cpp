@@ -122,18 +122,19 @@ void Skeleton::draw_roots() {
         draw_square(10, (int)SP_elbow_l->get_coord().x, (int)SP_elbow_l->get_coord().y, SP_mat_frame_draw);
 }
 
-void Skeleton::start(float *progValue, int green_color_, int blue_color_, int nbr_pass_, QSharedPointer<IO_frames> &SP_saveload) {
+void Skeleton::start(float *progValue, int green_color_, int blue_color_, int red_color_, int nbr_pass_, QSharedPointer<IO_frames> &SP_saveload) {
 
     // couleurs de filtrage des images
     // colors to filter images
     blue_color = blue_color_;
     green_color = green_color_;
+    red_color = red_color_;
     nbr_pass = nbr_pass_;
 
     // Here only black
     mat_frame.setTo(cv::Scalar::all(0));
 
-    QSharedPointer<SearchHuman> sh(new SearchHuman(SP_saveload->vect_imgs, mat_frame, green_color, blue_color));
+    QSharedPointer<SearchHuman> sh(new SearchHuman(SP_saveload->vect_imgs, mat_frame, green_color, blue_color, red_color));
     SP_human_area = sh;
     SP_human_area->clear_partition();
     SP_human_area->first_search();
@@ -154,6 +155,8 @@ void Skeleton::start(float *progValue, int green_color_, int blue_color_, int nb
     nbr_imgs = SP_saveload->get_nbr_imgs();
     for(int i = 1; i < nbr_imgs; ++i) {
 
+        //qDebug() << i;
+
         // We show the progress in %
         mutex.lock();
         *progValue = (float)i / (float)nbr_imgs;
@@ -171,6 +174,7 @@ void Skeleton::start(float *progValue, int green_color_, int blue_color_, int nb
             search_new_positions();
 
         new_rot();
+        draw_roots();
 
         // We add the final image to the vector of images
         // Nous ajoutons l'image nouvellement crée au vecteur d'images
@@ -178,10 +182,9 @@ void Skeleton::start(float *progValue, int green_color_, int blue_color_, int nb
 
     }
 
-    SP_hips->smoth(32.0f);
-
-    for(int i = 1; i < nbr_imgs; ++i)
-        draw_roots();
+    SP_hips->smoth(3.0f);
+    SP_hips->bezier_curve(8);
+    nbr_imgs /= 8;
 
     created = true;
 }

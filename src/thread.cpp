@@ -13,7 +13,7 @@ void TThread::run() {
         SP_run->save(file_name);
         break;
     case TH_CREATESKEL:
-        SP_run->createSkeleton(progValue, filter_blue, filter_green, nbr_pass);
+        SP_run->createSkeleton(progValue, filter_blue, filter_green, filter_red, nbr_pass);
         break;
     case TH_EXPORTBVH:
         SP_run->export_bvh(file_name);
@@ -33,10 +33,11 @@ void TThread::save(QString file_name_) {
         l_s = TH_SAVE;
 }
 
-void TThread::createSkeleton(float *progValue_, const int &filter_blue_, const int &filter_green_, const int &nbr_pass_) {
+void TThread::createSkeleton(float *progValue_, const int &filter_blue_, const int &filter_green_, const int &filter_red_, const int &nbr_pass_) {
     progValue = progValue_;
     filter_blue = filter_blue_;
     filter_green = filter_green_;
+    filter_red = filter_red_;
     nbr_pass = nbr_pass_;
     l_s = TH_CREATESKEL;
 }

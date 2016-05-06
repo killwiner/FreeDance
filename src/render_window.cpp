@@ -130,9 +130,7 @@ void RenderWindow::render(const GLvoid *data_0, const GLvoid *data_1) {
 }
 
 void RenderWindow::loop_the_movie(vector<cv::Mat> &vect_imgs, vector<cv::Mat>::const_iterator &it) {
-
     it + 1 != vect_imgs.end() ? ++it : it = vect_imgs.begin();
-
 }
 
 void RenderWindow::first_frame() {

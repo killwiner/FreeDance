@@ -21,5 +21,6 @@
         <file>Qml/QmlMenu/QmlMenuKinect.qml</file>
         <file>Qml/QmlMenu/QmlMenuSkeleton.qml</file>
         <file>Qml/QmlNbrPass.qml</file>
+        <file>Qml/QmlFilterRed.qml</file>
     </qresource>
 </RCC>

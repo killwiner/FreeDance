@@ -242,4 +242,15 @@ namespace root {
 
         return false;
     }
+
+    void Root::bezier_curve(const int &every) {
+        int inc = 0;
+        for (vector< Vect<float> >::iterator it = vect_offset.begin(); it < vect_offset.end(); it += every) {
+            vect_offset.at(inc) = *it;
+            ++inc;
+        }
+        vect_offset.resize(inc);
+
+        bezier(vect_offset);
+    }
 }

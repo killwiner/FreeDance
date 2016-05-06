@@ -94,6 +94,10 @@ Item {
                 filterGreen.sliderGreen.value = val;
             }
 
+            onSendToQml_frs: {
+                filterRed.sliderRed.value = val;
+            }
+
             onSendToQml_nps: {
                 nbrPass.sliderNbrPass.value = val;
             }
@@ -183,25 +187,31 @@ Item {
         QmlFilterBlue {
             id: filterBlue
             x: 22
-            y: 114
+            y: 100
         }
 
         QmlFilterGreen {
             id: filterGreen
             x: 22
-            y: 140
+            y: 125
+        }
+
+        QmlFilterRed {
+            id: filterRed
+            x: 22
+            y: 150
         }
 
         QmlWaitTime {
             id: waitTime
             x: 22
-            y: 166
+            y: 175
         }
 
         QmlNbrPass {
             id: nbrPass
             x: 22
-            y: 192
+            y: 200
         }
 
         Button {
@@ -300,7 +310,6 @@ Item {
                 interf.receiveFromQml_play();
             }
         }
-
     }
 }
 

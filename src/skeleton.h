@@ -18,7 +18,7 @@ class Skeleton {
 public:
     explicit Skeleton();
     ~Skeleton();
-    void start(float *progValue, int, int, int, QSharedPointer<IO_frames> &);
+    void start(float *progValue, int, int, int, int, QSharedPointer<IO_frames> &);
     bool isCreated();
     int get_nbr_imgs();
     std::vector< cv::Mat > vect_imgs;
@@ -37,7 +37,7 @@ private:
     cv::Mat buffer_img;
     cv::Mat mat_frame;
     QSharedPointer<cv::Mat> SP_mat_frame_draw;
-    int blue_color, green_color, nbr_pass;
+    int blue_color, green_color, red_color, nbr_pass;
     float offset_z;
     QMutex mutex;
 

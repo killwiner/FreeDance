@@ -21,12 +21,12 @@ public:
     void stop();
     QWidget *getwidget();
     bool change_play_pause();
-    void preview(int &, int &);
+    void preview(int &, int &, int &);
     void connect_kinect();
     bool run_kinect();
     void recordCapture();
     void memory_info(QString &, QString &, QString &);
-    void createSkeleton(float *, const int&, const int&, const int&);
+    void createSkeleton(float *, const int&, const int&, const int&, const int&);
     bool isCreated();
     bool export_bvh(QString);
     bool frames_present();

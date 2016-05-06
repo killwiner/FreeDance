@@ -19,14 +19,14 @@ public:
     explicit TThread(QSharedPointer<Run> &);
     void load(QString);
     void save(QString);
-    void createSkeleton(float *, const int &, const int &, const int &);
+    void createSkeleton(float *, const int &, const int &, const int &, const int &);
     void exportBVH();
     void run();
 private:
     QString file_name;
     QSharedPointer<Run> SP_run;
     int l_s;
-    int filter_blue, filter_green, nbr_pass;
+    int filter_blue, filter_green, filter_red, nbr_pass;
     float *progValue;
 };
 

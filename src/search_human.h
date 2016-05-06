@@ -9,8 +9,8 @@
 
 class SearchHuman {
 public:
-    SearchHuman(std::vector< cv::Mat > &, cv::Mat &, int &, int &);
-    SearchHuman(cv::Mat &, cv::Mat &, int &, int &);
+    SearchHuman(std::vector< cv::Mat > &, cv::Mat &, int &, int &, int &);
+    SearchHuman(cv::Mat &, cv::Mat &, int &, int &, int &);
     ~SearchHuman();
     void first_search();
     void search();
@@ -32,15 +32,15 @@ private:
     bool fusion(Vect<int> const&);
     int id_non_null(Vect<int> const&);
 
-    int green_color, blue_color;
+    int green_color, blue_color, red_color;
     Vect<long int> centroid;
     long int surface;
     cv::Mat mat_frame;
     std::vector< cv::Mat > vect_imgs;
     cv::Mat img;
     std::vector<int>::iterator max;
-    long int s;
     long int id_img;
+    long int s;
 };
 
 // retoune l'identifiant de la partition d'un point, même si le point est en dehors de l'image

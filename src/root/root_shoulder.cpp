@@ -15,6 +15,9 @@ namespace root {
         vect_neck = vect_neck_;
         neck_to_hips = vect_hips_ - vect_neck;
 
+        if(vectors_maths::normal(neck_to_hips) == 0.0f)
+            return;
+
         if(vect_hips_.x == vect_neck.x || vect_hips_.y == vect_neck.y)
             try {
                 throw std::string("Division by 0 in root_shoulder.");
@@ -54,14 +57,18 @@ namespace root {
     }
 
     void Shoulder::bone() {
+
         Vect<float>t = vect_neck;
         t += neck_to_hips / (float)14.0;
         Vect<float> u(p.x - t.x, p.y - t.y, 0.0f);
+        if(p.x - t.x == 0.0f && p.y - t.y == 0.0f)
+            return;
         float k = lenght_neck_shoulder / vectors_maths::normal(u);
         if(k < 1.0f) {
             p.x = k * u.x + t.x;
             p.y = k * u.y + t.y;
         }
+
     }
 
     void Shoulder::search(float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> neck, Vect<float> hips) {
@@ -72,9 +79,11 @@ namespace root {
 
         if(init_angle - vectors_maths::angle_vects(hips - neck, p - neck) > .3f || init_angle - vectors_maths::angle_vects(hips - neck, p - neck) < -.3f)
             p = last_p;
+
     }
 
     void Shoulder::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
+
         Vect<float> neck_to_hips = hips - neck;
         Vect<float> shoulder_to_neck = neck - p;
         float init_angle_cor;
@@ -83,5 +92,7 @@ namespace root {
         else
             init_angle_cor = init_angle - PI / 4;
         vect_rot.push_back(Vect<float>(.0f, 180.0f * (init_angle_cor + vectors_maths::angle_vects(neck_to_hips, shoulder_to_neck)) / PI, .0f));
+
     }
+
 }

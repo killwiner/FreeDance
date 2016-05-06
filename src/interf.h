@@ -19,9 +19,11 @@ signals:
     void sendToQml_npt(QString val);
     void sendToQml_fbt(QString val);
     void sendToQml_fgt(QString val);
+    void sendToQml_frt(QString val);
     void sendToQml_nps(int val);
     void sendToQml_fbs(int val);
     void sendToQml_fgs(int val);
+    void sendToQml_frs(int val);
     void sendToQml_wts(int val);
     void sendToQml_play_pause(bool play_pause);
     void sendToQml_loaded_saved();
@@ -38,6 +40,8 @@ public:
     Q_INVOKABLE void receiveFromQml_fbs(int val);
     Q_INVOKABLE void receiveFromQml_fgt(QString val);
     Q_INVOKABLE void receiveFromQml_fgs(int val);
+    Q_INVOKABLE void receiveFromQml_frt(QString val);
+    Q_INVOKABLE void receiveFromQml_frs(int val);
     Q_INVOKABLE void receiveFromQml_npt(QString val);
     Q_INVOKABLE void receiveFromQml_nps(int val);
     Q_INVOKABLE void receiveFromQml_loadFile(QString file_name);
@@ -56,12 +60,12 @@ public:
     Q_INVOKABLE void receiveFromQml_getProgress();
 
     void getrun(QSharedPointer<Run> &);
-    void init_values(int, int, int, int);
+    void init_values(int, int, int, int, int);
 
 private:
     QSharedPointer<Run> SP_run;
     TThread *th;
-    int filter_blue, filter_green, nbr_pass;
+    int filter_blue, filter_green, filter_red, nbr_pass;
     float *progValue;
     QMutex mutex;
 

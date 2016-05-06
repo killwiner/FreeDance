@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     layout->addWidget(interf.getwidget());
     win->setLayout(layout);
 
-    interf.init_values(32, 128, 10, 4);
+    interf.init_values(32, 128, 62, 10, 4);
 
     win->setGeometry(100,100,1284,600);
     QPalette Pal;

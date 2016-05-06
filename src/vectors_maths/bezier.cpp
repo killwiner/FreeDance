@@ -20,14 +20,12 @@ void bezier_deg_3(Vect<float> &a, Vect<float> &b, Vect<float> &c, Vect<float> &d
 // crée une courbe de bézier à partir d'un vecteur de points
 void bezier(vector< Vect<float> > &points) {
 
-    for (vector< Vect<float> >::iterator it = points.begin(); ; it+=4) {
+    for (vector< Vect<float> >::iterator it = points.begin(); ; it+=3) {
         if(it+1 == points.end())
             break;
         if(it+2 == points.end())
             break;
         if(it+3 == points.end())
-            break;
-        if(it+4 == points.end())
             break;
 
         bezier_deg_3(it[0], it[1], it[2], it[3]);

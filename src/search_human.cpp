@@ -1,9 +1,10 @@
 #include "search_human.h"
+#include <QDebug>
 
 using namespace std;
 
-SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_) :
-                         green_color(green_color_), blue_color(blue_color_), s(0), surface(0), vect_imgs(vect_imgs_),
+SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_, int &red_color_) :
+                         s(0), green_color(green_color_), blue_color(blue_color_), red_color(red_color_), surface(0), vect_imgs(vect_imgs_),
                          mat_frame(mat_frame_), id_img(0) {
     // Les partitions sont représentées dans une matrice 2D par des identifiants
     // We find areas in a 2D matrix with identities
@@ -11,8 +12,8 @@ SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_
     img = vect_imgs.at(1);
 }
 
-SearchHuman::SearchHuman(cv::Mat &img_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_) :
-                         green_color(green_color_), blue_color(blue_color_), s(0), surface(0), img(img_),
+SearchHuman::SearchHuman(cv::Mat &img_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_, int &red_color_) :
+                         s(0), green_color(green_color_), blue_color(blue_color_), red_color(red_color_), surface(0), img(img_),
                          mat_frame(mat_frame_), id_img(0) {
     // Les partitions sont représentées dans une matrice 2D par des identifiants
     // We find areas in a 2D matrix with identities
@@ -47,6 +48,7 @@ void SearchHuman::clear_partition() {
 }
 
 void SearchHuman::unification() {
+
     for(int y = 0; y < HEIGHT; ++y)
         for(int x = 0; x < WIDTH; ++x) {
 
@@ -94,8 +96,11 @@ void SearchHuman::first_search() {
 // after the filter, the color is out
 bool SearchHuman::out_zone(Vect<int> const &v) {
 
-    if (((uint8_t)img.PIXEL_COLOR_BLUE_VECT(v) > green_color)
-     || ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) < 255 - blue_color)) {
+    if (
+            ((uint8_t)img.PIXEL_COLOR_BLUE_VECT(v) > green_color)
+         || ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) < 255 - blue_color)
+         || ((uint8_t)img.PIXEL_COLOR_RED_VECT(v) > red_color))
+    {
         // l'identifiant de la partition est donc 0
         // the id of the area si 0
         partition->at(coord_gray<int>(v)) = 0;
@@ -167,6 +172,8 @@ void SearchHuman::search_partitions() {
 
 void SearchHuman::search_human(Vect<int> v) {
 
+    //qDebug() << v.x << " - " << v.y;
+
     // we scan the pixel do add it or not at the human area
     // nous scannons le pixel pour l'ajouter ou non à la partition intéressée
     int a0 = scan_pixel(v);
@@ -180,6 +187,8 @@ void SearchHuman::search_human(Vect<int> v) {
     int a6 = scan_pixel(Vect<int> (v.x, v.y + 1, 0));
     int a7 = scan_pixel(Vect<int> (v.x - 1, v.y + 1, 0));
     int a8 = scan_pixel(Vect<int> (v.x - 1, v.y, 0));
+
+    //qDebug() << a0 << " " << a1 << " " << a2 << " " << a3 << " " << a4 << " " << a5 << " " << a6 << " " << a7 << " " << a8;
 
     // all points around v are not in the human area, then v is a bad pixel
     // tous les points autour de v ne font pas partie de la partition intéressée, nous excluons donc le pixel v 
@@ -225,7 +234,8 @@ int SearchHuman::scan_pixel(Vect<int> v) {
     // le pixel a déjà été scanné, nous arrêtons
     if(partition->at(coord_gray<int>(v)) == 1)
         if (((uint8_t)img.PIXEL_COLOR_BLUE_VECT(v) <= green_color)
-        && ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) >= 255 - blue_color))
+        && ((uint8_t)img.PIXEL_COLOR_GREEN_VECT(v) >= 255 - blue_color)
+        && ((uint8_t)img.PIXEL_COLOR_RED_VECT(v) <= red_color))
             return -1;
 
     // we found a new pixel to attach to the human area
@@ -233,7 +243,9 @@ int SearchHuman::scan_pixel(Vect<int> v) {
     if(partition->at(coord_gray<int>(v)) == 0) {
 
         if (((uint8_t)img.data[coord_gbr<int>(v)] <= green_color)
-        && ((uint8_t)img.data[coord_gbr<int>(v) + 1] >= 255 - blue_color)) {
+        && ((uint8_t)img.data[coord_gbr<int>(v) + 1] >= 255 - blue_color)
+        && ((uint8_t)img.data[coord_gbr<int>(v) + 2] <= red_color))
+        {
 
             partition->at(coord_gray<int>(v)) = 1;
             centroid.x += (long int)v.x;
