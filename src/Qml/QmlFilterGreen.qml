@@ -25,7 +25,20 @@ Item {
         y: 4
         width: 66
         height: 22
+        style: TextFieldStyle {
+            textColor: "#fff"
+            font.pointSize: 12
+            font.family: "Times New Roman"
 
+            background: Rectangle {
+                radius: 2
+                implicitWidth: 100
+                implicitHeight: 24
+                border.color: "#f99"
+                border.width: 1
+                color: "#555"
+            }
+        }
         validator: IntValidator { bottom:0; top: 255}
 
         onTextChanged: {

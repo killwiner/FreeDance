@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "run.h"
 
 using namespace std;
@@ -221,12 +238,12 @@ bool Run::frames_present() {
 
 // create a skeleton from the saved motion
 // crée l'armature à partir du film enregistré
-void Run::createSkeleton(float *progValue, const int &blue_p, const int &green_p, const int &red_p, const int &nbr_pass)
+void Run::createSkeleton(float *progValue, const int &blue_p, const int &green_p, const int &red_p, const int &nbr_pass, const int &smouth, const int &escapeFrames)
 {
 
     // create the skeleton
     // crée l'armature
-    SP_skeleton->start(progValue, green_p, blue_p, red_p, nbr_pass, SP_saveload);
+    SP_skeleton->start(progValue, green_p, blue_p, red_p, nbr_pass, smouth, escapeFrames, SP_saveload);
 
     SP_renderwindow->change_status(STATUS_SKELETON);
     SP_renderwindow->change_play_pause(true);

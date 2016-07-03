@@ -1,7 +1,25 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "search_human.h"
 #include <QDebug>
 
 using namespace std;
+unsigned long stacksize = 0;
 
 SearchHuman::SearchHuman(std::vector< cv::Mat > &vect_imgs_, cv::Mat &mat_frame_, int &green_color_, int &blue_color_, int &red_color_) :
                          s(0), green_color(green_color_), blue_color(blue_color_), red_color(red_color_), surface(0), vect_imgs(vect_imgs_),
@@ -120,6 +138,7 @@ void SearchHuman::search() {
     centroid.x = 0;
     centroid.y = 0;
 
+    stacksize = 0;
     search_human(v);
 
     if(surface) {
@@ -170,9 +189,17 @@ void SearchHuman::search_partitions() {
         }
 }
 
-void SearchHuman::search_human(Vect<int> v) {
+void SearchHuman::search_human(const Vect<int> &v) {
 
-    //qDebug() << v.x << " - " << v.y;
+    try {
+        if(stacksize > 100000)
+            throw "the partition is too big, stack size overflow";
+    }
+    catch ( const exception &e )
+    {
+        cerr << "(SearchHuman) Exception caught !!" << endl;
+        cerr << e.what() << endl;
+    }
 
     // we scan the pixel do add it or not at the human area
     // nous scannons le pixel pour l'ajouter ou non à la partition intéressée

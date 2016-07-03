@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef EXPORT_MOTION_CPP
 #define EXPORT_MOTION_CPP
 
@@ -54,7 +71,6 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
     write_new_root(file, string("JOINT clavicle_R"), Vect<float>(clavicle_R_offset), false, clavicle_R_channels);
     write_new_root(file, string("JOINT upper_arm_R"), Vect<float>(upper_arm_R_offset), false, upper_arm_R_channels);
     write_new_root(file, string("JOINT forearm_R"), Vect<float>(forearm_R_offset), false, forearm_R_channels);
-    //write_new_root(file, string("JOINT hand_R"), SP_skeleton->hand_r->s, false, true);
     write_new_root(file, string("JOINT hand_R"), Vect<float>(hand_R_offset), false, hand_R_channels);
     write_new_root(file, string("JOINT thumb_02_R"), Vect<float>(thumb_02_R_offset), false, thumb_02_R_channels);
     write_new_root(file, string("JOINT thumb_03_R"), Vect<float>(thumb_03_R_offset), false, thumb_03_R_channels);
@@ -77,7 +93,6 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
     write_new_root(file, string("JOINT clavicle_L"), Vect<float>(clavicle_L_offset), false, clavicle_L_channels);
     write_new_root(file, string("JOINT upper_arm_L"), Vect<float>(upper_arm_L_offset), false, upper_arm_L_channels);
     write_new_root(file, string("JOINT forearm_L"), Vect<float>(forearm_L_offset), false, forearm_L_channels);
-    //write_new_root(file, string("JOINT hand_L"), SP_skeleton->hand_l->s, false, true);
     write_new_root(file, string("JOINT hand_L"), Vect<float>(hand_L_offset), false, hand_L_channels);
     write_new_root(file, string("JOINT thumb_02_L"), Vect<float>(thumb_02_L_offset), false, thumb_02_L_channels);
     write_new_root(file, string("JOINT thumb_03_L"), Vect<float>(thumb_03_L_offset), false, thumb_03_L_channels);
@@ -97,9 +112,7 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
     write_close_root(file);
     write_close_root(file);
     write_close_root(file);
-    //write_new_root(file, string("JOINT neck"), SP_skeleton->neck->s, false, true);
     write_new_root(file, string("JOINT neck"), Vect<float>(neck_offset), false, neck_channels);
-    //write_new_root(file, string("JOINT head"), SP_skeleton->head->s, false, false);
     write_new_root(file, string("JOINT head"), Vect<float>(head_offset), false, head_channels);
     write_new_root(file, string("JOINT jaw"), Vect<float>(jaw_offset), false, jaw_channels);
     write_new_root(file, string("End Site"), Vect<float>(Site_jaw_offset), true, false);
@@ -151,16 +164,17 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
         write_0_chan(file, toe_R_channels);
 
         file << Vect<float>(spine_offset).x << " " << Vect<float>(spine_offset).y << " " << Vect<float>(spine_offset).z << " ";
-        file << "0.000000 0.000000 0.000000 ";
+        file << SP_skeleton->SP_hips->vect_rot.at(i).x << " " << SP_skeleton->SP_hips->vect_rot.at(i).y << " " << SP_skeleton->SP_hips->vect_rot.at(i).z << " ";
+
         // chest rotation
         write_0_chan(file, chest_channels);
 
         file << Vect<float>(clavicle_R_offset).x << " " << Vect<float>(clavicle_R_offset).y << " " << Vect<float>(clavicle_R_offset).z << " ";
-        file << "0.000000 0.000000 0.000000 ";
+        file << SP_skeleton->SP_shoulder_r->vect_rot.at(i).x << " " << SP_skeleton->SP_shoulder_r->vect_rot.at(i).y << " " << SP_skeleton->SP_shoulder_r->vect_rot.at(i).z << " ";
         // upper_arm_R rotation
-        write_0_chan(file, upper_arm_R_channels);
+        file << SP_skeleton->SP_elbow_r->vect_rot.at(i).x << " " << SP_skeleton->SP_elbow_r->vect_rot.at(i).y << " " << SP_skeleton->SP_elbow_r->vect_rot.at(i).z << " ";
         // forearm_R rotation
-        write_0_chan(file, forearm_R_channels);
+        file << SP_skeleton->SP_hand_r->vect_rot.at(i).x << " " << SP_skeleton->SP_hand_r->vect_rot.at(i).y << " " << SP_skeleton->SP_hand_r->vect_rot.at(i).z << " ";
         // hand_R rotation
         write_0_chan(file, hand_R_channels);
         // thumb_02_R rotation
@@ -173,11 +187,11 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
         write_0_chan(file, f_index_01_R_channels);
 
         file << Vect<float>(clavicle_L_offset).x << " " << Vect<float>(clavicle_L_offset).y << " " << Vect<float>(clavicle_L_offset).z << " ";
-        file << "0.000000 0.000000 0.000000 ";
+        file << SP_skeleton->SP_shoulder_l->vect_rot.at(i).x << " " << SP_skeleton->SP_shoulder_l->vect_rot.at(i).y << " " << SP_skeleton->SP_shoulder_l->vect_rot.at(i).z << " ";
         // upper_arm_L rotation
-        write_0_chan(file, upper_arm_L_channels);
+        file << SP_skeleton->SP_elbow_l->vect_rot.at(i).x << " " << SP_skeleton->SP_elbow_l->vect_rot.at(i).y << " " << SP_skeleton->SP_elbow_l->vect_rot.at(i).z << " ";
         // forearm L rotation
-        write_0_chan(file, forearm_L_channels);
+        file << SP_skeleton->SP_hand_l->vect_rot.at(i).x << " " << SP_skeleton->SP_hand_l->vect_rot.at(i).y << " " << SP_skeleton->SP_hand_l->vect_rot.at(i).z << " ";
         // hand_L rotation
         write_0_chan(file, hand_L_channels);
         // thumb_02_L rotation
@@ -190,7 +204,7 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
         write_0_chan(file, f_index_01_L_channels);
 
         file << Vect<float>(neck_offset).x << " " << Vect<float>(neck_offset).y << " " << Vect<float>(neck_offset).z << " ";
-        file << "0.000000 0.000000 0.000000 ";
+        file << SP_skeleton->SP_neck->vect_rot.at(i).x << " " << SP_skeleton->SP_neck->vect_rot.at(i).y << " " << SP_skeleton->SP_neck->vect_rot.at(i).z << " ";
         // head rotation
         write_0_chan(file, head_channels);
         // jaw rotation
@@ -200,17 +214,7 @@ bool ExportMotion::save(const QString &fileName,const QSharedPointer<Skeleton> &
         // eye_L rotation
         write_0_chan(file, eye_L_channels);
 
-        //file << SP_skeleton->hips->vect_rot.at(i).x << " " << SP_skeleton->hips->vect_rot.at(i).y << " " << SP_skeleton->hips->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->shoulder_r->vect_rot.at(i).x << " " << SP_skeleton->shoulder_r->vect_rot.at(i).y << " " << SP_skeleton->shoulder_r->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->elbow_r->vect_rot.at(i).x << " " << SP_skeleton->elbow_r->vect_rot.at(i).y << " " << SP_skeleton->elbow_r->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->hand_r->vect_rot.at(i).x << " " << SP_skeleton->hand_r->vect_rot.at(i).y << " " << SP_skeleton->hand_r->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->shoulder_l->vect_rot.at(i).x << " " << SP_skeleton->shoulder_l->vect_rot.at(i).y << " " << SP_skeleton->shoulder_l->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->elbow_l->vect_rot.at(i).x << " " << SP_skeleton->elbow_l->vect_rot.at(i).y << " " << SP_skeleton->elbow_l->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->hand_l->vect_rot.at(i).x << " " << SP_skeleton->hand_l->vect_rot.at(i).y << " " << SP_skeleton->hand_l->vect_rot.at(i).z << " ";
-        //file << SP_skeleton->head->vect_rot.at(i).x << " " << SP_skeleton->head->vect_rot.at(i).y << " " << SP_skeleton->head->vect_rot.at(i).z << " ";
-
         file << endl;
-        //break;
     }
     file.close();
     return false;

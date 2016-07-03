@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "vect.h"
 
 template <typename T>
@@ -93,10 +110,8 @@ Vect<T> quick_rot(Vect<T> v, int r) {
 }
 
 template <typename T>
-Vect<T> Vect<T>::clone() {
-    Vect<T> c;
-    c.x = this.x;
-    c.y = this.y;
-    c.z = this.z;
-    return c;
+void Vect<T>::clone(Vect<T> &a) {
+    a.x = this->x;
+    a.y = this->y;
+    a.z = this->z;
 }

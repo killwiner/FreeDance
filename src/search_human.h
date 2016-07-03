@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef SEARCH_HUMAN_H
 #define SEARCH_HUMAN_H
 
@@ -21,7 +38,7 @@ public:
 
 private:
 
-    void search_human(Vect<int> v);
+    void search_human(const Vect<int> &v);
     std::vector<int> *partition;
     std::vector<int> id_area;
     bool out_zone(Vect<int> const &);

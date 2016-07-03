@@ -1,4 +1,23 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "root_shoulder.h"
+
+using namespace std;
 
 namespace root {
     Shoulder::Shoulder(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : Root(mat_frame_, mat_frame_draw_) {
@@ -7,18 +26,17 @@ namespace root {
     Shoulder::~Shoulder() {
     }
 
-    void Shoulder::first_search(Vect<float> const &vect_neck_, Vect<float> const &vect_hips_, bool l_r_) {
+    void Shoulder::first_search(Vect<float> const &vect_neck, Vect<float> const &vect_hips, bool l_r_) {
 
         l_r = l_r_;
         Vect<float> v(0, 0, 0);
 
-        vect_neck = vect_neck_;
-        neck_to_hips = vect_hips_ - vect_neck;
+        Vect<float> neck_to_hips = vect_hips - vect_neck;
 
         if(vectors_maths::normal(neck_to_hips) == 0.0f)
             return;
 
-        if(vect_hips_.x == vect_neck.x || vect_hips_.y == vect_neck.y)
+        if(vect_hips.x == vect_neck.x || vect_hips.y == vect_neck.y)
             try {
                 throw std::string("Division by 0 in root_shoulder.");
             }
@@ -52,46 +70,47 @@ namespace root {
         p = u;
 
         lenght_neck_shoulder = vectors_maths::lenght(p, vect_neck);
-        init_angle = vectors_maths::angle_vects(vect_hips_ - vect_neck_, p - vect_neck_);
+        init_angle = vectors_maths::angle_vects(vect_hips - vect_neck, p - vect_neck);
 
     }
 
-    void Shoulder::bone() {
+    void Shoulder::bone(Vect<float> const &vect_neck) {
 
-        Vect<float>t = vect_neck;
-        t += neck_to_hips / (float)14.0;
-        Vect<float> u(p.x - t.x, p.y - t.y, 0.0f);
-        if(p.x - t.x == 0.0f && p.y - t.y == 0.0f)
-            return;
-        float k = lenght_neck_shoulder / vectors_maths::normal(u);
-        if(k < 1.0f) {
-            p.x = k * u.x + t.x;
-            p.y = k * u.y + t.y;
+        //Vect<float>t = vect_neck;
+        //t += neck_to_hips / (float)14.0;
+        Vect<float> u = p - vect_neck;
+        try {
+            if(p.x - vect_neck.x == 0.0f && p.y - vect_neck.y == 0.0f)
+                throw "division by 0";
+            float k = lenght_neck_shoulder / vectors_maths::normal(u);
+
+            p = k * u + vect_neck;
+
+        }
+        catch ( const exception &e )
+        {
+            cerr << "(Root Shoulder) Exception caught !!" << endl;
+            cerr << e.what() << endl;
         }
 
     }
 
     void Shoulder::search(float const &radius, int const &black_arc, Vect<float> vec_black_arc, Vect<float> neck, Vect<float> hips) {
 
-        Vect<float> last_p = p;
-
         Root::search(radius, black_arc, vec_black_arc);
-
-        if(init_angle - vectors_maths::angle_vects(hips - neck, p - neck) > .3f || init_angle - vectors_maths::angle_vects(hips - neck, p - neck) < -.3f)
-            p = last_p;
 
     }
 
     void Shoulder::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
 
         Vect<float> neck_to_hips = hips - neck;
-        Vect<float> shoulder_to_neck = neck - p;
-        float init_angle_cor;
+        Vect<float> neck_to_shoulder = p - neck;
+        float angle = vectors_maths::angle_vects(neck_to_hips, neck_to_shoulder) * 180.0f / PI;
+
         if(l_r)
-            init_angle_cor = init_angle + PI / 4;
+            vect_rot.push_back(Vect<float>(.0f, .0f, angle - 30.0f));
         else
-            init_angle_cor = init_angle - PI / 4;
-        vect_rot.push_back(Vect<float>(.0f, 180.0f * (init_angle_cor + vectors_maths::angle_vects(neck_to_hips, shoulder_to_neck)) / PI, .0f));
+            vect_rot.push_back(Vect<float>(.0f, .0f, angle + 30.0f));
 
     }
 

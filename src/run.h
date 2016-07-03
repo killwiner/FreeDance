@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef RUN_H
 #define RUN_H
 
@@ -26,7 +43,7 @@ public:
     bool run_kinect();
     void recordCapture();
     void memory_info(QString &, QString &, QString &);
-    void createSkeleton(float *, const int&, const int&, const int&, const int&);
+    void createSkeleton(float *, const int&, const int&, const int&, const int&, const int&, const int&);
     bool isCreated();
     bool export_bvh(QString);
     bool frames_present();

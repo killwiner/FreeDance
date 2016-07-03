@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef ROOT_H
 #define ROOT_H
 
@@ -5,6 +22,7 @@
 #include "../vectors_maths/maths_vect.h"
 #include "../vectors_maths/bezier.h"
 #include "win_size.h"
+#include "../bvh.h"
 #include <opencv2/opencv.hpp>
 
 #define PIXEL_COLOR_BLUE(X, Y) data[coord_gbr(Vect<int>(X, Y, 0))]
@@ -16,6 +34,7 @@
 #define PIXEL_COLOR_RED_VECT(V) data[coord_gbr(V) + 2]
 
 #define NBR_RAYS 32
+#define SCAL_BLENDER_KINECT 24.0f
 
 namespace root {
     class Root {
@@ -43,7 +62,11 @@ namespace root {
         // the frame with draw of roots
         // l'image avec les dessins des noeuds
         QSharedPointer<cv::Mat> mat_frame_draw;
+
+        float model_lenght_hips_spine;
+
     private:
+
         void move_the_circle(bool const &,  Vect<float> const &, float const &, int const &nbr_ray, int &);
         void weight(int const &, std::vector<int> &);
         void reverse(int const &, std::vector<int> &, std::vector<int> const &);

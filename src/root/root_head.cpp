@@ -1,5 +1,21 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "root_head.h"
-#include <QDebug>
 
 namespace root {
 
@@ -7,7 +23,6 @@ namespace root {
     }
 
     Head::~Head() {
-        qDebug() << "ST2";
     }
 
     bool Head::web(Vect<float> &top, float &n_top_x, float const &y, float const &web_surface, float &web_surface_last, float &num_webs,
@@ -32,7 +47,6 @@ namespace root {
                 right.y = left.y = top.y + (bottom.y - top.y) / 2;
                 p = vectors_maths::cross_2D(left, right, bottom, top);
 
-                lenght_head_neck = vectors_maths::lenght(p, neck);
                 return true;
             }
         return false;
@@ -152,30 +166,47 @@ namespace root {
 
         Vect<float> neck;
         s = Vect<float>(0.000000, 0.084560, 1.094051);
-        //s = Vect<float>(0.0f, 0.0f, 0.0f);
 
         // recherche verticale de haut vers le bas dans l'image
         // search from up to down in the picture
         if(search_from_up_to_down(neck))
             return neck;
 
-        lenght_head_neck = vectors_maths::lenght(p, neck);
+        lenght_neck_head = vectors_maths::lenght(p, neck);
         return neck;
     }
-
+/*
     // keep lenght between head and neck
     void Head::bone(Vect<float> const& vect_neck) {
 
         Vect<float> u(p.x - vect_neck.x, p.y - vect_neck.y, 0);
-        float k = lenght_head_neck / vectors_maths::normal(u);
+        float k = lenght_neck_head / vectors_maths::normal(u);
         p.x = k * u.x + vect_neck.x;
         p.y = k * u.y + vect_neck.y;
     }
-
+*/
+/*
     void Head::new_rot(Vect<float> const &hips, Vect<float> const &neck) {
         Vect<float> hips_to_neck = neck - hips;
         Vect<float> neck_to_head = p - neck;
         vect_rot.push_back(Vect<float>(.0f, 180.0f * vectors_maths::angle_vects(hips_to_neck, neck_to_head) / PI, .0f));
     }
+*/
+   void Head::search(float const &radius, int const &black_arc, Vect<float> const &vec_black_arc) {
 
+       float top_y;
+
+       // search the top of the human partition
+       for(float y = 0; y < HEIGHT; ++y)
+           for(float x = 0; x < WIDTH; ++x)
+               if(mat_frame.PIXEL_COLOR_RED(x, y)) {
+                   top_y = (float)y;
+                   y = HEIGHT;
+                   break;
+               }
+
+       if(p.y - radius > top_y)
+           p.y = top_y + radius;
+       Root::search(radius, black_arc, vec_black_arc);
+   }
 }

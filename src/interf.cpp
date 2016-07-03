@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "interf.h"
 #include <QDebug>
 
@@ -17,6 +34,24 @@ Interf::~Interf() {
 
 QWidget *Interf::getwidget() {
     return SP_run->getwidget();
+}
+
+void Interf::receiveFromQml_smoth_t(QString val) {
+
+    std::istringstream v_l(val.toStdString().c_str());
+    int val_i;
+    v_l >> val_i;
+    sendToQml_smoth_s(val_i);
+    smoth = val_i;
+}
+
+void Interf::receiveFromQml_escapeFt(QString val) {
+
+    std::istringstream v_l(val.toStdString().c_str());
+    int val_i;
+    v_l >> val_i;
+    sendToQml_escapeFs(val_i);
+    escapeFrames = val_i;
 }
 
 void Interf::receiveFromQml_fbt(QString val) {
@@ -57,6 +92,16 @@ void Interf::receiveFromQml_npt(QString val) {
 
 void Interf::getrun(QSharedPointer<Run> &r) {
         SP_run = r;
+}
+
+void Interf::receiveFromQml_smoth_s(int val) {
+    sendToQml_smoth_t(QString::number(val));
+    smoth = val;
+}
+
+void Interf::receiveFromQml_escapeFs(int val) {
+    sendToQml_escapeFt(QString::number(val));
+    escapeFrames = val;
 }
 
 void Interf::receiveFromQml_fbs(int val) {
@@ -157,7 +202,7 @@ void Interf::receiveFromQml_createSkeleton() {
     if(!SP_run->frames_present())
         sendToQml_message(QString("Load or get a motion first"));
     else {
-        th->createSkeleton(progValue, filter_blue, filter_green, filter_red, nbr_pass);
+        th->createSkeleton(progValue, filter_blue, filter_green, filter_red, nbr_pass, smoth, escapeFrames);
         th->start();
     }
 }
@@ -186,14 +231,18 @@ void Interf::SLOT_loaded_saved() {
     sendToQml_loaded_saved();
 }
 
-void Interf::init_values(int fb, int fg, int fr, int wt, int np) {
+void Interf::init_values(int fb, int fg, int fr, int wt, int np, int s, int ef) {
     sendToQml_fbs(fb);
     sendToQml_fgs(fg);
     sendToQml_frs(fr);
     sendToQml_wts(wt);
     sendToQml_nps(np);
+    sendToQml_smoth_s(s);
+    sendToQml_escapeFs(ef);
     filter_blue = fb;
     filter_green = fg;
     filter_red = fr;
+    smoth = s;
+    escapeFrames = ef;
 }
 

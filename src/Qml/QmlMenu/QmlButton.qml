@@ -27,6 +27,7 @@ Rectangle {
         y: 3
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignLeft
-        font.pixelSize: 12
+        font.pixelSize: 14
+        font.family: "Times New Roman"
     }
 }

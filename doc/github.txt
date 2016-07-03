@@ -1,3 +1,4 @@
+outils qt : installer qt-sdk
 qt : pour QML installer qtdeclarative5-dev avec le module qtquick
      qml-module-qtquick-dialogs
 

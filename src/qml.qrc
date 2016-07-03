@@ -22,5 +22,7 @@
         <file>Qml/QmlMenu/QmlMenuSkeleton.qml</file>
         <file>Qml/QmlNbrPass.qml</file>
         <file>Qml/QmlFilterRed.qml</file>
+        <file>Qml/QmlSmoth.qml</file>
+        <file>Qml/QmlEscapeFrames.qml</file>
     </qresource>
 </RCC>

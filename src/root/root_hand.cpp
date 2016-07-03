@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "root_hand.h"
 
 namespace root {
@@ -44,7 +61,9 @@ namespace root {
 
     // Recherche les mains gauche et droite en partant du côté droit et gauche de l'image
     // Search hands from the sides of the picture
-    void Hand::first_search(bool l_r, Vect<float> elbow, Vect<float> shoulder) {
+    void Hand::first_search(Vect<float> elbow, Vect<float> shoulder, bool const &l_r_) {
+
+        l_r = l_r_;
 
         // right hand or left hand
         // main droite ou main gauche
@@ -97,14 +116,13 @@ namespace root {
 
     void Hand::new_rot(Vect<float> const &shoulder, Vect<float> const &elbow) {
 
-        Vect<float> shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y;
-        values_2D(elbow, shoulder, shoulder_to_elbow_y_z, shoulder_to_elbow_x_y, hand_to_elbow_y_z, hand_to_elbow_x_y);
+        Vect<float> shoulder_to_elbow = elbow - shoulder;
+        Vect<float> elbow_to_hand = p - elbow;
+        float angle = vectors_maths::angle_vects(elbow_to_hand, shoulder_to_elbow) * 180.0f / PI;
 
-        float init_angle_cor_y_z, init_angle_cor_x_y;
-        init_angle_cor_y_z = init_angle_y_z;
-        init_angle_cor_x_y = init_angle_x_y - PI / 2;
-
-        vect_rot.push_back(Vect<float>(180.0f * (init_angle_cor_y_z - vectors_maths::angle_vects(hand_to_elbow_y_z, shoulder_to_elbow_y_z)) / PI,
-                                       180.0f * (init_angle_cor_x_y + vectors_maths::angle_vects(hand_to_elbow_x_y, shoulder_to_elbow_x_y)) / PI, .0f));
+        if(l_r)
+            vect_rot.push_back(Vect<float>(20, -20.0f, angle));
+        else
+            vect_rot.push_back(Vect<float>(20, 20.0f, angle));
     }
 }

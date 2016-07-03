@@ -1,4 +1,24 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "root_hips.h"
+#include <QDebug>
+
+using namespace std;
 
 namespace root {
 
@@ -154,18 +174,29 @@ namespace root {
 
     void Hips::new_rot(Vect<float> const &neck) {
 
-        Vect<float> neck_x_y, p_x_y;
-        neck_x_y = neck;
-        p_x_y = p;
-        neck_x_y.z = .0f;
-        p_x_y.z = .0f;
+        // export rotation
+        Vect<float> spin = p;
+        spin.y -= model_lenght_hips_spine;
+        Vect<float> s = spin - neck;
 
-        Vect<float> hips_to_neck_x_y = neck_x_y - p_x_y;
+        try {
+            if(vectors_maths::normal(s))
+                vect_rot.push_back(Vect<float>(.0f, .0f, 180.0f / PI * asin(s.x / vectors_maths::normal(s))));
+            else {
+                vect_rot.push_back(Vect<float>(.0f, .0f, .0f));
+                throw "(root_hips) division by 0";
+            }
+        }
+        catch ( const exception &e )
+        {
+            cerr << "(Run) Exception caught !!" << endl;
+            cerr << e.what() << endl;
+            throw;
+        }
 
-        //vect_rot.push_back(Vect<float>(.0f, .0f, 180.0f * vectors_maths::angle_vects(Vect<float>(.0f, -1.0f, .0f), hips_to_neck_x_y) / PI));
-
-        Vect<float> blend_loc = (p - init_offset) / 10.0f;
+        // export offset
+        Vect<float> blend_loc = (p - init_offset) / 24.0f;
+        blend_loc.y *= -1.0f;
         vect_offset.push_back(blend_loc);
     }
-
 }

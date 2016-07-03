@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "bezier.h"
 
 using namespace std;
@@ -21,6 +38,9 @@ void bezier_deg_3(Vect<float> &a, Vect<float> &b, Vect<float> &c, Vect<float> &d
 void bezier(vector< Vect<float> > &points) {
 
     for (vector< Vect<float> >::iterator it = points.begin(); ; it+=3) {
+
+        if(it == points.end())
+            break;
         if(it+1 == points.end())
             break;
         if(it+2 == points.end())

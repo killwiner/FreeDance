@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "root.h"
 #include <QDebug>
 
@@ -7,6 +24,7 @@ namespace root {
 
     // constructor
     Root::Root(cv::Mat const &mat_frame_, QSharedPointer<cv::Mat> &mat_frame_draw_) : mat_frame(mat_frame_), mat_frame_draw(mat_frame_draw_) {
+        model_lenght_hips_spine = vectors_maths::lenght(Vect<float>(hips_offset), Vect<float>(spine_offset)) / SCAL_BLENDER_KINECT;
     }
 
     Root::~Root() {
@@ -212,6 +230,8 @@ namespace root {
     //smoth all coordinates
     bool Root::smoth(const float &epsi) {
 
+        float epsi_scal = epsi / SCAL_BLENDER_KINECT;
+
         vector< Vect<double> > sum_points;
         vector<int> nbr_points;
 
@@ -224,7 +244,7 @@ namespace root {
         Vect<float> bary = vect_offset.at(0);
 
         for (vector< Vect <float> >::iterator it = vect_offset.begin() + 1; it != vect_offset.end(); ++it) {
-            if(vectors_maths::lenght(*it, bary) < epsi) {
+            if(vectors_maths::lenght(*it, bary) < epsi_scal) {
                 sum_points.back() += Vect<double>((double)(*it).x,(double)(*it).y,(double)(*it).z);
                 ++nbr_points.back();
             }
@@ -244,13 +264,24 @@ namespace root {
     }
 
     void Root::bezier_curve(const int &every) {
+
+        vector< Vect<float> >::iterator it;
         int inc = 0;
-        for (vector< Vect<float> >::iterator it = vect_offset.begin(); it < vect_offset.end(); it += every) {
+        for (it = vect_offset.begin(); it < vect_offset.end(); it += every) {
             vect_offset.at(inc) = *it;
             ++inc;
         }
+
+        inc = 0;
+        for (it = vect_rot.begin(); it < vect_rot.end(); it += every) {
+            vect_rot.at(inc) = *it;
+            ++inc;
+        }
+
         vect_offset.resize(inc);
+        vect_rot.resize(inc);
 
         bezier(vect_offset);
+        bezier(vect_rot);
     }
 }

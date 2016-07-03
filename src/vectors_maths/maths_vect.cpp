@@ -1,4 +1,23 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #include "maths_vect.h"
+
+using namespace std;
 
 namespace vectors_maths {
 
@@ -46,12 +65,23 @@ namespace vectors_maths {
 
     float angle_vects(Vect<float> const &u, Vect<float> const &v) {
 
-        if(normal(u) * normal(v) == .0f)
-            return .0f;
+        float angle;
 
-        float angle = acosf((u.x*v.x + u.y*v.y + u.z*v.z) / (normal(u) * normal(v)));
-        if(cross_product(u, v).z < 0)
-            angle *= -1.0f;
+        try {
+            if(normal(u) * normal(v) == .0f)
+                throw "(maths_vect) division by 0";
+
+            angle = acosf((u.x*v.x + u.y*v.y + u.z*v.z) / (normal(u) * normal(v)));
+            if(cross_product(u, v).z < 0)
+                angle *= -1.0f;
+
+        }
+        catch ( const exception &e )
+        {
+            cerr << "(angle_vects function) Exception caught !!" << endl;
+            cerr << e.what() << endl;
+            throw;
+        }
 
         return angle;
     }

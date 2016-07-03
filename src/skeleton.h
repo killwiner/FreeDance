@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef SKELETON_H
 #define SKELETON_H
 
@@ -18,7 +35,7 @@ class Skeleton {
 public:
     explicit Skeleton();
     ~Skeleton();
-    void start(float *progValue, int, int, int, int, QSharedPointer<IO_frames> &);
+    void start(float *progValue, int, int, int, int, int, int, QSharedPointer<IO_frames> &);
     bool isCreated();
     int get_nbr_imgs();
     std::vector< cv::Mat > vect_imgs;
@@ -37,7 +54,7 @@ private:
     cv::Mat buffer_img;
     cv::Mat mat_frame;
     QSharedPointer<cv::Mat> SP_mat_frame_draw;
-    int blue_color, green_color, red_color, nbr_pass;
+    int blue_color, green_color, red_color, nbr_pass, smoth, escapeFrames;
     float offset_z;
     QMutex mutex;
 

@@ -1,3 +1,20 @@
+/*************************************************************************/
+/* This file is part of Tron.                                            */
+/*                                                                       */
+/*  Tron is free software: you can redistribute it and/or modify         */
+/*  it under the terms of the GNU General Public License as published by */
+/*  the Free Software Foundation, either version 3 of the License, or    */
+/*  (at your option) any later version.                                  */
+/*                                                                       */
+/*  Tron is distributed in the hope that it will be useful,              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of       */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        */
+/*  GNU General Public License for more details.                         */
+/*                                                                       */
+/*  You should have received a copy of the GNU General Public License    */
+/*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
+/*************************************************************************/
+
 #ifndef INTERF_H
 #define INTERF_H
 
@@ -16,10 +33,14 @@ public:
     QWidget *getwidget();
 
 signals:
+    void sendToQml_smoth_t(QString val);
+    void sendToQml_escapeFt(QString val);
     void sendToQml_npt(QString val);
     void sendToQml_fbt(QString val);
     void sendToQml_fgt(QString val);
     void sendToQml_frt(QString val);
+    void sendToQml_smoth_s(int val);
+    void sendToQml_escapeFs(int val);
     void sendToQml_nps(int val);
     void sendToQml_fbs(int val);
     void sendToQml_fgs(int val);
@@ -36,6 +57,10 @@ signals:
     void sendToQml_exportBVH();
 
 public:
+    Q_INVOKABLE void receiveFromQml_smoth_t(QString val);
+    Q_INVOKABLE void receiveFromQml_smoth_s(int val);
+    Q_INVOKABLE void receiveFromQml_escapeFt(QString val);
+    Q_INVOKABLE void receiveFromQml_escapeFs(int val);
     Q_INVOKABLE void receiveFromQml_fbt(QString val);
     Q_INVOKABLE void receiveFromQml_fbs(int val);
     Q_INVOKABLE void receiveFromQml_fgt(QString val);
@@ -60,12 +85,12 @@ public:
     Q_INVOKABLE void receiveFromQml_getProgress();
 
     void getrun(QSharedPointer<Run> &);
-    void init_values(int, int, int, int, int);
+    void init_values(int, int, int, int, int, int, int);
 
 private:
     QSharedPointer<Run> SP_run;
     TThread *th;
-    int filter_blue, filter_green, filter_red, nbr_pass;
+    int filter_blue, filter_green, filter_red, nbr_pass, smoth, escapeFrames;
     float *progValue;
     QMutex mutex;
 
