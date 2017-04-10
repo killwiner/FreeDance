@@ -1,4 +1,4 @@
-src/kinect/kinect.cpp filter=git-crypt diff=git-crypt
+src/kinect/*.cpp filter=git-crypt diff=git-crypt
 src/humanShape/*.cpp filter=git-crypt diff=git-crypt
 src/joints/*.cpp filter=git-crypt diff=git-crypt
 src/kinect/*.h filter=git-crypt diff=git-crypt
