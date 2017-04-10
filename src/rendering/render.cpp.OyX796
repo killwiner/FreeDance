@@ -1,0 +1,88 @@
+#include "render.h"
+
+namespace rendering {
+
+Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : closing(false)
+{
+    setAttribute(Qt::WA_DeleteOnClose);
+
+    quint16 timerInterval = interval_time / framesPerSecond;
+    t_Timer = new QTimer(this);
+    connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
+    t_Timer->start( timerInterval );
+
+    // Permet d'automatiser le swap buffer d'opengl
+    setAutoBufferSwap(true);
+
+}
+
+Render::~Render() {
+
+   t_Timer->stop();
+   delete t_Timer;
+   t_Timer = nullptr;
+   glDeleteTextures(1, &texture);
+
+}
+
+void Render::setImages(const QSPVImage &PVImage) {
+    PVImage_ = PVImage;
+}
+
+bool Render::toClose() {
+    return closing;
+}
+
+void Render::closeEvent(QCloseEvent *event)
+{
+    closing = true;
+    emit close();
+    event->ignore();
+    hide();
+}
+
+// to make a pause or to play
+void Render::change_play_pause(const bool &play_pause) {
+}
+
+bool Render::status_play_pause() {
+    return play_pause;
+}
+
+void Render::timeOutSlot()
+{
+    updateGL();
+}
+
+void Render::initializeGL()
+{
+
+    // Les valeurs acceptées sont GL_MODELVIEW, GL_PROJECTION, et GL_TEXTURE
+    glMatrixMode(GL_PROJECTION);
+    // charge la matrice Identité
+    glLoadIdentity();
+    // Multiplie la matrice courante par la matrice perspective
+    // left, right, bottom, top distance near, distance far
+    glFrustum(-1, 1, -1, 1, 5, 7);
+
+    // Retour au mode par défaut
+    glMatrixMode(GL_MODELVIEW);
+
+    // generate texture names
+    glGenTextures(1, &texture);
+}
+
+void Render::resizeGL(int width, int height)
+{
+
+    // spécifie les dimensions de la fenêtre visible sous opengl
+    QSize viewport_size = size();
+    glViewport(0, 0, viewport_size.width(), viewport_size.height());
+
+}
+
+void Render::paintGL()
+{
+}
+
+}

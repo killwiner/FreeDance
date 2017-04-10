@@ -1,0 +1,1786 @@
+==2449== Memcheck, a memory error detector
+==2449== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==2449== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==2449== Command: ./tron
+==2449== Parent PID: 2056
+==2449== 
+--2449-- 
+--2449-- Valgrind options:
+--2449--    --memcheck:leak-check=full
+--2449--    --show-reachable=yes
+--2449--    --suppressions=/home/alex/tron/src/errors.supp
+--2449--    -v
+--2449--    --gen-suppressions=all
+--2449--    --log-file=logs
+--2449--    --error-limit=no
+--2449-- Contents of /proc/version:
+--2449--   Linux version 3.16.0-4-amd64 (debian-kernel@lists.debian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 SMP Debian 3.16.39-1+deb8u2 (2017-03-07)
+--2449-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3
+--2449-- Page sizes: currently 4096, max supported 4096
+--2449-- Valgrind library directory: /usr/lib/valgrind
+--2449-- Reading syms from /home/alex/tron/src/tron
+--2449-- Reading syms from /lib/x86_64-linux-gnu/ld-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/ld-2.19.so ..
+--2449--   .. CRC mismatch (computed 7344611e wanted f41c2786)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+--2449--   Considering /usr/lib/valgrind/memcheck-amd64-linux ..
+--2449--   .. CRC mismatch (computed 948bf0bc wanted d423983b)
+--2449--   Considering /usr/lib/debug/usr/lib/valgrind/memcheck-amd64-linux ..
+--2449--   .. CRC is valid
+--2449--    object doesn't have a dynamic symbol table
+--2449-- Scheduler: using generic scheduler lock implementation.
+--2449-- Reading suppressions file: /home/alex/tron/src/errors.supp
+--2449-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==2449== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-2449-by-alex-on-???
+==2449== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-2449-by-alex-on-???
+==2449== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-2449-by-alex-on-???
+==2449== 
+==2449== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==2449== don't want to do, unless you know exactly what you're doing,
+==2449== or are doing some strange experiment):
+==2449==   /usr/lib/valgrind/../../bin/vgdb --pid=2449 ...command...
+==2449== 
+==2449== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==2449==   /path/to/gdb ./tron
+==2449== and then give GDB the following command
+==2449==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=2449
+==2449== --pid is optional if only one valgrind process is running
+==2449== 
+--2449-- REDIR: 0x4017920 (ld-linux-x86-64.so.2:strlen) redirected to 0x380bd821 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--2449-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--2449--   Considering /usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--2449--   .. CRC mismatch (computed 9771ef88 wanted e8eb00cf)
+--2449--   Considering /usr/lib/debug/usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--2449--   Considering /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--2449--   .. CRC mismatch (computed c7f6cf2f wanted fb419f04)
+--2449--   Considering /usr/lib/debug/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--2449--   .. CRC is valid
+==2449== WARNING: new redirection conflicts with existing -- ignoring it
+--2449--     old: 0x04017920 (strlen              ) R-> (0000.0) 0x380bd821 vgPlain_amd64_linux_REDIR_FOR_strlen
+--2449--     new: 0x04017920 (strlen              ) R-> (2007.0) 0x04c2c260 strlen
+--2449-- REDIR: 0x40176d0 (ld-linux-x86-64.so.2:index) redirected to 0x4c2be10 (index)
+--2449-- REDIR: 0x40178f0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c2d310 (strcmp)
+--2449-- REDIR: 0x4018620 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c2fe60 (mempcpy)
+--2449-- Reading syms from /usr/local/lib/libopencv_core.so.3.2.0
+--2449-- Reading syms from /usr/local/lib/libopencv_imgproc.so.3.2.0
+--2449-- Reading syms from /usr/local/lib/libopencv_highgui.so.3.2.0
+--2449-- Reading syms from /usr/local/lib/libopencv_videoio.so.3.2.0
+--2449-- Reading syms from /usr/local/lib/libopencv_imgcodecs.so.3.2.0
+--2449-- Reading syms from /usr/local/lib/libfreenect.so.0.5.5
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5OpenGL.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5Widgets.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5Gui.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5Test.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libpthread-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/libpthread-2.19.so ..
+--2449--   .. CRC mismatch (computed 8e1fae0f wanted 27ac05c0)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libpthread-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20 ..
+--2449--   .. CRC mismatch (computed f6d204a2 wanted d62b96d7)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libm-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/libm-2.19.so ..
+--2449--   .. CRC mismatch (computed b34e2f42 wanted cd531c90)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libgcc_s.so.1
+--2449--   Considering /lib/x86_64-linux-gnu/libgcc_s.so.1 ..
+--2449--   .. CRC mismatch (computed e1528828 wanted 15fbad25)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libc-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/libc-2.19.so ..
+--2449--   .. CRC mismatch (computed cd8269aa wanted 8318c513)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libz.so.1.2.8
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libdl-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/libdl-2.19.so ..
+--2449--   .. CRC mismatch (computed b45adfc1 wanted 703c0b45)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libdl-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /lib/x86_64-linux-gnu/librt-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/librt-2.19.so ..
+--2449--   .. CRC mismatch (computed 0a845a34 wanted e9b549b6)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/librt-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.25
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.25 ..
+--2449--   .. CRC mismatch (computed 1aa202f5 wanted c0c4dfd0)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.25
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.25 ..
+--2449--   .. CRC mismatch (computed 0160f7bb wanted 166e02f1)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.8
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3600.8 ..
+--2449--   .. CRC mismatch (computed e37a351c wanted b311ccbe)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21409.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libcairo.so.2.11400.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3100.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4200.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.8
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3600.8 ..
+--2449--   .. CRC mismatch (computed 1215b701 wanted d120406d)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.8
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3600.8 ..
+--2449--   .. CRC mismatch (computed 5a4f300d wanted c414c4b6)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4200.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libglib-2.0.so.0.4200.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libfreetype.so.6.11.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.4200.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libdc1394.so.22.1.10
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libavcodec.so.56.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libavformat.so.56.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libavutil.so.54.3.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libswscale.so.3.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libavresample.so.2.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libjpeg.so.62.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libpng12.so.0.50.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libtiff.so.5.2.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libjasper.so.1.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libImath.so.6.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libIlmImf.so.6.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libIex.so.6.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libHalf.so.6.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libIlmThread.so.6.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libusb-1.0.so.0.1.0
+--2449--   Considering /lib/x86_64-linux-gnu/libusb-1.0.so.0.1.0 ..
+--2449--   .. CRC mismatch (computed f77f9c6f wanted 1c4c87b7)
+--2449--    object doesn't have a symbol table
+--2449-- REDIR: 0x4018770 (ld-linux-x86-64.so.2:stpcpy) redirected to 0x4c2f1f0 (stpcpy)
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libicui18n.so.56.1
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libicuuc.so.56.1
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0 ..
+--2449--   .. CRC mismatch (computed c41f0f1a wanted 62edb78a)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0 ..
+--2449--   .. CRC mismatch (computed dec66b14 wanted a72da950)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0 ..
+--2449--   .. CRC mismatch (computed d257bc8a wanted 5cae8970)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0 ..
+--2449--   .. CRC mismatch (computed 087c2072 wanted 380c360a)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4200.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0 ..
+--2449--   .. CRC mismatch (computed abccadf0 wanted 6bf9be42)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0 ..
+--2449--   .. CRC mismatch (computed d7eceda2 wanted 270f3312)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0 ..
+--2449--   .. CRC mismatch (computed ddd64c05 wanted 3ebc95ad)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0 ..
+--2449--   .. CRC mismatch (computed c8b100b4 wanted e9b8a168)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0 ..
+--2449--   .. CRC mismatch (computed 5f987a9e wanted 76c657f8)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2 ..
+--2449--   .. CRC mismatch (computed 0f19df2b wanted 776a0e67)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.32.6
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libselinux.so.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libresolv-2.19.so
+--2449--   Considering /lib/x86_64-linux-gnu/libresolv-2.19.so ..
+--2449--   .. CRC mismatch (computed 3c573fce wanted cb2a9b88)
+--2449--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libresolv-2.19.so ..
+--2449--   .. CRC is valid
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.935.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libthai.so.0.2.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libffi.so.6.0.2
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libffi.so.6.0.2 ..
+--2449--   .. CRC mismatch (computed 564337c0 wanted d22115ac)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libpcre.so.3.13.1
+--2449--   Considering /lib/x86_64-linux-gnu/libpcre.so.3.13.1 ..
+--2449--   .. CRC mismatch (computed ad6d2d6f wanted 3475d9d4)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libraw1394.so.11.1.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libxvidcore.so.4.3
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libx264.so.142
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libvpx.so.1.3.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libvpx.so.1.3.0 ..
+--2449--   .. CRC mismatch (computed ea187dd4 wanted 870333ed)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.10
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.7
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libtheoraenc.so.1.1.2
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libtheoradec.so.1.1.4
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libspeex.so.1.5.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libspeex.so.1.5.0 ..
+--2449--   .. CRC mismatch (computed 317c4dc4 wanted 4e063307)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libschroedinger-1.0.so.0.11.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libopus.so.0.5.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libopus.so.0.5.0 ..
+--2449--   .. CRC mismatch (computed 6244122f wanted 375ae946)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libopenjpeg.so.1.5.2
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libmp3lame.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgsm.so.1.0.12
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libva.so.1.3600.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/librtmp.so.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgnutls-deb0.so.28.41.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libbz2.so.1.0.4
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libjbig.so.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libudev.so.1.5.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0 ..
+--2449--   .. CRC mismatch (computed e6f65f93 wanted d18cd8e8)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0 ..
+--2449--   .. CRC mismatch (computed 080b6ce7 wanted 548bbf8f)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libogg.so.0.8.2
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libogg.so.0.8.2 ..
+--2449--   .. CRC mismatch (computed ac481d9c wanted 6c4c8029)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/liborc-0.4.so.0.22.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libhogweed.so.2.5
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libhogweed.so.2.5 ..
+--2449--   .. CRC mismatch (computed 09db6532 wanted 657b79f5)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libnettle.so.4.7
+--2449--   Considering /usr/lib/x86_64-linux-gnu/libnettle.so.4.7 ..
+--2449--   .. CRC mismatch (computed 60f70423 wanted 8a89c3a7)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libgmp.so.10.2.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libp11-kit.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libtasn1.so.6.3.2
+--2449--    object doesn't have a symbol table
+--2449-- REDIR: 0xa5c9dc0 (libc.so.6:strcasecmp) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5cc0b0 (libc.so.6:strncasecmp) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c9590 (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c8fb0 (libc.so.6:bcmp) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5ce790 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c6030 (libc.so.6:strncmp) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c3f70 (libc.so.6:index) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c41c0 (libc.so.6:strcmp) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c9720 (libc.so.6:mempcpy) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c8a20 (libc.so.6:strstr) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa639bc0 (libc.so.6:__memcpy_chk) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c5650 (libc.so.6:strcpy) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5e0c30 (libc.so.6:wcscpy) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c7910 (libc.so.6:rindex) redirected to 0x4c2baf0 (rindex)
+--2449-- REDIR: 0xa5c5c10 (libc.so.6:strlen) redirected to 0x4c2c1a0 (strlen)
+--2449-- REDIR: 0xa5bffc0 (libc.so.6:malloc) redirected to 0x4c28bb0 (malloc)
+--2449-- REDIR: 0xa5ce7e0 (libc.so.6:__GI_memcpy) redirected to 0x4c2dd10 (__GI_memcpy)
+--2449-- REDIR: 0xa5c4200 (libc.so.6:__GI_strcmp) redirected to 0x4c2d220 (__GI_strcmp)
+--2449-- REDIR: 0xa5c0930 (libc.so.6:calloc) redirected to 0x4c2ac90 (calloc)
+--2449-- REDIR: 0xa5d6020 (libc.so.6:__memcpy_sse2_unaligned) redirected to 0x4c2d6f0 (memcpy@@GLIBC_2.14)
+--2449-- REDIR: 0xa5c3fa0 (libc.so.6:__GI_strchr) redirected to 0x4c2bc50 (__GI_strchr)
+--2449-- REDIR: 0xa675ea0 (libc.so.6:__memcpy_chk_ssse3_back) redirected to 0x4c2ff50 (__memcpy_chk)
+--2449-- REDIR: 0xa5d5d70 (libc.so.6:__strcmp_sse2_unaligned) redirected to 0x4c2d1d0 (strcmp)
+--2449-- REDIR: 0xa5c0600 (libc.so.6:free) redirected to 0x4c29e20 (free)
+--2449-- REDIR: 0xa5c9620 (libc.so.6:memset) redirected to 0x4c2f3f0 (memset)
+--2449-- REDIR: 0xa5c0690 (libc.so.6:realloc) redirected to 0x4c2aeb0 (realloc)
+--2449-- REDIR: 0xa68b420 (libc.so.6:__memcmp_sse4_1) redirected to 0x4c2ed20 (__memcmp_sse4_1)
+--2449-- REDIR: 0xa5c8560 (libc.so.6:__GI_strstr) redirected to 0x4c300e0 (__strstr_sse2)
+--2449-- REDIR: 0xa5c8c60 (libc.so.6:memchr) redirected to 0x4c2d3b0 (memchr)
+--2449-- REDIR: 0xa5df280 (libc.so.6:__strstr_sse2_unaligned) redirected to 0x4c30050 (strstr)
+--2449-- REDIR: 0xa67b450 (libc.so.6:__memmove_ssse3_back) redirected to 0x4c2d470 (memcpy@GLIBC_2.2.5)
+--2449-- REDIR: 0x9d812d0 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4c29110 (operator new(unsigned long))
+--2449-- REDIR: 0xa5c8ff0 (libc.so.6:__GI_memcmp) redirected to 0x4c2eca0 (__GI_memcmp)
+--2449-- REDIR: 0xffffffffff600000 (???:???) redirected to 0x380bd803 (vgPlain_amd64_linux_REDIR_FOR_vgettimeofday)
+--2449-- REDIR: 0xa5c3d70 (libc.so.6:strcat) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5dda00 (libc.so.6:__strcat_sse2_unaligned) redirected to 0x4c2be50 (strcat)
+--2449-- REDIR: 0x9d7f5b0 (libstdc++.so.6:operator delete(void*)) redirected to 0x4c2a2f0 (operator delete(void*))
+--2449-- REDIR: 0xa5dabe0 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c2c280 (strcpy)
+--2449-- REDIR: 0xa5d0750 (libc.so.6:strchrnul) redirected to 0x4c2fa80 (strchrnul)
+--2449-- REDIR: 0xa5c93f0 (libc.so.6:__GI_memmove) redirected to 0x4c2f720 (__GI_memmove)
+--2449-- REDIR: 0xa5d0540 (libc.so.6:rawmemchr) redirected to 0x4c2fab0 (rawmemchr)
+--2449-- REDIR: 0xa678980 (libc.so.6:__mempcpy_ssse3_back) redirected to 0x4c2fb90 (mempcpy)
+--2449-- REDIR: 0xa5c1f80 (libc.so.6:posix_memalign) redirected to 0x4c2b2a0 (posix_memalign)
+--2449-- REDIR: 0xa5c6080 (libc.so.6:__GI_strncmp) redirected to 0x4c2c950 (__GI_strncmp)
+--2449-- REDIR: 0xa5c78d0 (libc.so.6:strncpy) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5db210 (libc.so.6:__strncpy_sse2_unaligned) redirected to 0x4c2c7b0 (__strncpy_sse2_unaligned)
+--2449-- REDIR: 0x9d81390 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c29830 (operator new[](unsigned long))
+--2449-- REDIR: 0x9d7f5d0 (libstdc++.so.6:operator delete[](void*)) redirected to 0x4c2a870 (operator delete[](void*))
+--2449-- REDIR: 0xa6636c0 (libc.so.6:__strncmp_sse42) redirected to 0x4c2ca30 (__strncmp_sse42)
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/plugins/platforms/libqxcb.so
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5XcbQpa.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libSM.so.6.0.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libICE.so.6.3.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+--2449--    object doesn't have a symbol table
+--2449-- REDIR: 0xa639e60 (libc.so.6:__strcpy_chk) redirected to 0x4c2faf0 (__strcpy_chk)
+--2449-- REDIR: 0xa5c5dd0 (libc.so.6:strnlen) redirected to 0x4c2c120 (strnlen)
+--2449-- REDIR: 0xa666250 (libc.so.6:__strncasecmp_sse42) redirected to 0x4c2cb80 (strncasecmp)
+--2449-- REDIR: 0xa6646a0 (libc.so.6:__strcasecmp_sse42) redirected to 0x4c2caa0 (strcasecmp)
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /home/alex/Qt/5.8/gcc_64/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libelf-0.159.so
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libLLVM-3.5.so.1
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libedit.so.2.0.51
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libtinfo.so.5.9
+--2449--   Considering /lib/x86_64-linux-gnu/libtinfo.so.5.9 ..
+--2449--   .. CRC mismatch (computed 913a1450 wanted 02bde845)
+--2449--    object doesn't have a symbol table
+--2449-- Reading syms from /lib/x86_64-linux-gnu/libbsd.so.0.7.0
+--2449--    object doesn't have a symbol table
+--2449-- REDIR: 0xa5c5ff0 (libc.so.6:strncat) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c7f80 (libc.so.6:strspn) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xa5c9c10 (libc.so.6:stpcpy) redirected to 0x4a23730 (_vgnU_ifunc_wrapper)
+--2449-- REDIR: 0xffffffffff600400 (???:???) redirected to 0x380bd80d (vgPlain_amd64_linux_REDIR_FOR_vtime)
+--2449-- Reading syms from /usr/lib/x86_64-linux-gnu/libtxc_dxtn_s2tc.so.0.0.0
+--2449--    object doesn't have a symbol table
+--2449-- REDIR: 0xa668480 (libc.so.6:__strspn_sse42) redirected to 0x4c302d0 (strspn)
+--2449-- REDIR: 0xa5c9c50 (libc.so.6:__GI_stpcpy) redirected to 0x4c2eeb0 (__GI_stpcpy)
+--2449-- REDIR: 0xa5c5690 (libc.so.6:__GI_strcpy) redirected to 0x4c2c350 (__GI_strcpy)
+--2449-- REDIR: 0xa5c9e30 (libc.so.6:__GI___strcasecmp_l) redirected to 0x4c2ce40 (__GI___strcasecmp_l)
+--2449-- memcheck GC: 1000 nodes, 88 survivors (  8.8%)
+--2449-- REDIR: 0xa57b730 (libc.so.6:setenv) redirected to 0x4c30700 (setenv)
+==2460== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-2460-by-alex-on-???
+==2460== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-2460-by-alex-on-???
+==2460== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-2460-by-alex-on-???
+==2460== 
+==2460== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==2460== don't want to do, unless you know exactly what you're doing,
+==2460== or are doing some strange experiment):
+==2460==   /usr/lib/valgrind/../../bin/vgdb --pid=2460 ...command...
+==2460== 
+==2460== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==2460==   /path/to/gdb ./tron
+==2460== and then give GDB the following command
+==2460==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=2460
+==2460== --pid is optional if only one valgrind process is running
+==2460== 
+==2460== Warning: invalid file descriptor 65526 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65527 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65528 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65529 in syscall close()
+==2460==    Use --log-fd=<number> to select an alternative log fd.
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65530 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65531 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460== Warning: invalid file descriptor 65532 in syscall close()
+==2460==    at 0x9B13AFD: ??? (syscall-template.S:81)
+==2460==    by 0x1D1ED099: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1ED670: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E25F4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2460==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2460==    by 0x93E8210: QObject::event(QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93BE442: QCoreApplication::notifyInternal2(QObject*, QEvent*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x93C0A4A: QCoreApplicationPrivate::sendPostedEvents(QObject*, int, QThreadData*) (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+==2460==    by 0x940E8B2: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5Core.so.5.8.0)
+--2449-- REDIR: 0xa5d5c60 (libc.so.6:__GI_strncpy) redirected to 0x4c2c550 (__GI_strncpy)
+--2449-- memcheck GC: 1000 nodes, 173 survivors ( 17.3%)
+--2449-- memcheck GC: 1014 new table size (driftup)
+==2449== Conditional jump or move depends on uninitialised value(s)
+==2449==    at 0x1E91DE7B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9F180A: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E91E19E: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E916AF9: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E917059: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35C5F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E829CAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7FE075: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7E522B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7FB0B3: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E81D9ED: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E845B9B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+--2449-- REDIR: 0x9d81340 (libstdc++.so.6:operator new(unsigned long, std::nothrow_t const&)) redirected to 0x4c293e0 (operator new(unsigned long, std::nothrow_t const&))
+--2449-- REDIR: 0x9d7f5c0 (libstdc++.so.6:operator delete(void*, std::nothrow_t const&)) redirected to 0x4c2a500 (operator delete(void*, std::nothrow_t const&))
+--2449-- memcheck GC: 1014 nodes, 273 survivors ( 26.9%)
+--2449-- memcheck GC: 1029 new table size (driftup)
+--2449-- memcheck GC: 1029 nodes, 425 survivors ( 41.3%)
+--2449-- memcheck GC: 1044 new table size (driftup)
+--2449-- memcheck GC: 1044 nodes, 472 survivors ( 45.2%)
+--2449-- memcheck GC: 1059 new table size (driftup)
+--2449-- memcheck GC: 1059 nodes, 706 survivors ( 66.6%)
+--2449-- memcheck GC: 1497 new table size (stepup)
+--2449-- memcheck GC: 1497 nodes, 399 survivors ( 26.6%)
+--2449-- memcheck GC: 1519 new table size (driftup)
+--2449-- memcheck GC: 1519 nodes, 851 survivors ( 56.0%)
+--2449-- memcheck GC: 2148 new table size (stepup)
+--2449-- memcheck GC: 2148 nodes, 355 survivors ( 16.5%)
+--2449-- memcheck GC: 2180 new table size (driftup)
+--2449-- memcheck GC: 2180 nodes, 296 survivors ( 13.5%)
+==2449== Conditional jump or move depends on uninitialised value(s)
+==2449==    at 0x1EB5920D: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB593F7: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB594C2: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB53601: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB47D5B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB47E04: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB5A6B3: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB33F8F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35029: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB401C2: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35C50: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E829CAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+--2449-- memcheck GC: 2180 nodes, 234 survivors ( 10.7%)
+--2449-- memcheck GC: 2180 nodes, 532 survivors ( 24.4%)
+--2449-- memcheck GC: 2212 new table size (driftup)
+--2449-- memcheck GC: 2212 nodes, 461 survivors ( 20.8%)
+--2449-- memcheck GC: 2245 new table size (driftup)
+--2449-- memcheck GC: 2245 nodes, 221 survivors (  9.8%)
+--2449-- memcheck GC: 2245 nodes, 419 survivors ( 18.6%)
+--2449-- memcheck GC: 2278 new table size (driftup)
+--2449-- memcheck GC: 2278 nodes, 567 survivors ( 24.8%)
+--2449-- memcheck GC: 2312 new table size (driftup)
+--2449-- memcheck GC: 2312 nodes, 383 survivors ( 16.5%)
+--2449-- memcheck GC: 2346 new table size (driftup)
+--2449-- memcheck GC: 2346 nodes, 811 survivors ( 34.5%)
+--2449-- memcheck GC: 2381 new table size (driftup)
+--2449-- memcheck GC: 2381 nodes, 614 survivors ( 25.7%)
+--2449-- memcheck GC: 2416 new table size (driftup)
+==2449== 
+==2449== HEAP SUMMARY:
+==2449==     in use at exit: 455,982 bytes in 2,526 blocks
+==2449==   total heap usage: 201,306 allocs, 198,780 frees, 201,558,079 bytes allocated
+==2449== 
+==2449== Searching for pointers to 2,526 not-freed blocks
+==2449== Checked 81,977,424 bytes
+==2449== 
+==2449== 5 bytes in 1 blocks are still reachable in loss record 9 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0xA5C5989: strdup (strdup.c:42)
+==2449==    by 0x1EA070BF: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E6CAEFC: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9001AD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB428: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B5E30: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x988A993: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9886AC6: glXGetFBConfigs (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9887905: glXChooseFBConfig (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x1DE17776: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449==    by 0x1DE17A9C: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   fun:glXGetFBConfigs
+   fun:glXChooseFBConfig
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+}
+==2449== 8 bytes in 1 blocks are still reachable in loss record 17 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1E90525A: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E961720: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB14232: radeon_drm_winsys_create (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E6CAFFD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9001AD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB428: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B5E30: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x988A993: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9886AC6: glXGetFBConfigs (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9887905: glXChooseFBConfig (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x1DE17776: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   fun:radeon_drm_winsys_create
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   fun:glXGetFBConfigs
+   fun:glXChooseFBConfig
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+}
+==2449== 8 bytes in 1 blocks are still reachable in loss record 20 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1E81F3: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8012: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 8 bytes in 1 blocks are still reachable in loss record 21 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1E81F3: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8040: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 24 bytes in 1 blocks are still reachable in loss record 192 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1E961713: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB14232: radeon_drm_winsys_create (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E6CAFFD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9001AD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB428: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B5E30: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x988A993: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9886AC6: glXGetFBConfigs (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9887905: glXChooseFBConfig (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x1DE17776: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449==    by 0x1DE17A9C: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   fun:radeon_drm_winsys_create
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   fun:glXGetFBConfigs
+   fun:glXChooseFBConfig
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+}
+==2449== 31 bytes in 1 blocks are still reachable in loss record 255 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E864B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8053: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 32 bytes in 1 blocks are still reachable in loss record 269 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1E90526C: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E961720: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB14232: radeon_drm_winsys_create (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E6CAFFD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9001AD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB428: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B5E30: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x988A993: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9886AC6: glXGetFBConfigs (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9887905: glXChooseFBConfig (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x1DE17776: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   fun:radeon_drm_winsys_create
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   fun:glXGetFBConfigs
+   fun:glXChooseFBConfig
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+}
+==2449== 32 bytes in 1 blocks are still reachable in loss record 275 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E8092: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E81B2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C6B28: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C847D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 35 bytes in 1 blocks are still reachable in loss record 311 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1E84C9: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E23A2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 40 bytes in 1 blocks are still reachable in loss record 358 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1EDB71: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2124: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DD3E1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E223D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 48 bytes in 1 blocks are still reachable in loss record 384 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1CF75D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C805C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 48 bytes in 1 blocks are still reachable in loss record 385 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1CF75D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C806A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 48 bytes in 1 blocks are still reachable in loss record 386 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1CF75D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8078: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 48 bytes in 1 blocks are still reachable in loss record 387 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1CF75D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E224E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 56 bytes in 1 blocks are still reachable in loss record 411 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1E96287B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92B97B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92BAA0: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92C530: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E944B06: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E94755F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E942548: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E94267F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9174FA: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9F1BDE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E91E19E: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+==2449== 56 bytes in 1 blocks are still reachable in loss record 412 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1E962892: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92B97B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92BAA0: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E92C530: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E944B06: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E94755F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E942548: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E94267F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9174FA: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9F1BDE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E91E19E: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+==2449== 64 bytes in 1 blocks are still reachable in loss record 453 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E8092: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E81B2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C7F05: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C875E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E28C0: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3524: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3EFD: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC223: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 64 bytes in 1 blocks are still reachable in loss record 454 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x4C2AFCF: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1DA745: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E38FA: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3FC1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCA4C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD029: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8E8B: dbus_bus_register (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C910E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply_and_block
+   fun:dbus_bus_register
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 72 bytes in 1 blocks are still reachable in loss record 511 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1D1DD3CA: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E223D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 80 bytes in 2 blocks are still reachable in loss record 652 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1D1E81F3: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D5F93: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DA87B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2DDF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2F05: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E387B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3FC1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCA4C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD029: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply_and_block
+}
+==2449== 96 bytes in 1 blocks are still reachable in loss record 693 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1D1DA5AF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E220F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 136 bytes in 1 blocks are still reachable in loss record 770 of 919
+==2449==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2449==    by 0x1E904F84: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9051C8: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9617F9: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB148F3: radeon_drm_winsys_create (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E6CAFFD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9001AD: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB428: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B5E30: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x988A993: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9886AC6: glXGetFBConfigs (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9887905: glXChooseFBConfig (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   fun:radeon_drm_winsys_create
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   fun:glXGetFBConfigs
+   fun:glXChooseFBConfig
+}
+==2449== 160 bytes in 1 blocks are still reachable in loss record 788 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E85DF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3B35: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3E33: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D165D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D1CDB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D90E2: dbus_message_new_signal (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CACE0: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD754: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_message_new_signal
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 223 bytes in 1 blocks are still reachable in loss record 805 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E8092: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E81B2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E6D5C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E7337: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D4020: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D82C5: dbus_message_iter_append_basic (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D9E18: dbus_message_new_error (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DCBF7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCD5D: dbus_connection_send_with_reply (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD00F: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_message_iter_append_basic
+   fun:dbus_message_new_error
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply
+   fun:dbus_connection_send_with_reply_and_block
+}
+==2449== 223 bytes in 1 blocks are still reachable in loss record 806 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E8092: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E81B2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E6D5C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E7337: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D4020: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D82C5: dbus_message_iter_append_basic (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D9E18: dbus_message_new_error (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DCBF7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCD5D: dbus_connection_send_with_reply (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB32B6F: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_message_iter_append_basic
+   fun:dbus_message_new_error
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 240 bytes in 1 blocks are still reachable in loss record 811 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1D1C7FB7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C842A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E237C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E4256: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EDF9E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EE437: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E265F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2493: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD73E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C90FB: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 256 bytes in 2 blocks are still reachable in loss record 817 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E8092: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E81B2: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D2196: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DA8CC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2DDF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2F05: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E387B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3FC1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 320 bytes in 1 blocks are still reachable in loss record 820 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E85DF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3B35: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3E33: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D165D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D200E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D679F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D82E5: dbus_message_iter_append_basic (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D8BF7: dbus_message_append_args_valist (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D8F68: dbus_message_append_args (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CA206: dbus_bus_add_match (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_message_iter_append_basic
+   fun:dbus_message_append_args_valist
+   fun:dbus_message_append_args
+   fun:dbus_bus_add_match
+}
+==2449== 320 bytes in 1 blocks are still reachable in loss record 821 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E85DF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3B35: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D3E33: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D165D: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D200E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D679F: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D82E5: dbus_message_iter_append_basic (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D8BF7: dbus_message_append_args_valist (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1D8F68: dbus_message_append_args (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CA2F1: dbus_bus_remove_match (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_message_iter_append_basic
+   fun:dbus_message_append_args_valist
+   fun:dbus_message_append_args
+   fun:dbus_bus_remove_match
+}
+==2449== 368 bytes in 2 blocks are still reachable in loss record 825 of 919
+==2449==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2449==    by 0x1D1D5EF4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1DA87B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2DDF: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2F05: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E387B: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3FC1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCA4C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD029: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8E8B: dbus_bus_register (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply_and_block
+   fun:dbus_bus_register
+}
+==2449== 2,056 bytes in 1 blocks are still reachable in loss record 889 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EA4C4: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E368A: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3EFD: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC223: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC9F0: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD029: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8E8B: dbus_bus_register (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C910E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply_and_block
+   fun:dbus_bus_register
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+}
+==2449== 2,056 bytes in 1 blocks are still reachable in loss record 890 of 919
+==2449==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2449==    by 0x1D1E7FBC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1EB2AC: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3920: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E3FC1: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1E2CA7: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CC073: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CCA4C: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1CD029: dbus_connection_send_with_reply_and_block (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C8E8B: dbus_bus_register (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1D1C910E: ??? (in /lib/x86_64-linux-gnu/libdbus-1.so.3.8.14)
+==2449==    by 0x1CB280C1: ??? (in /home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   fun:dbus_connection_send_with_reply_and_block
+   fun:dbus_bus_register
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.14
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5DBus.so.5.8.0
+}
+==2449== 131,072 bytes in 2 blocks are indirectly lost in loss record 918 of 919
+==2449==    at 0x4C2B1B6: memalign (vg_replace_malloc.c:760)
+==2449==    by 0x4C2B2D1: posix_memalign (vg_replace_malloc.c:913)
+==2449==    by 0x1EB3901F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E81C8D9: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7FA67C: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E82971F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E84597A: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FE211: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E8FB153: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x98B589C: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x9885B21: ??? (in /usr/lib/x86_64-linux-gnu/libGL.so.1.2.0)
+==2449==    by 0x1DE15B6A: ??? (in /home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:memalign
+   fun:posix_memalign
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/usr/lib/x86_64-linux-gnu/libGL.so.1.2.0
+   obj:/home/alex/Qt/5.8/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so
+}
+==2449== LEAK SUMMARY:
+==2449==    definitely lost: 0 bytes in 0 blocks
+==2449==    indirectly lost: 131,072 bytes in 2 blocks
+==2449==      possibly lost: 0 bytes in 0 blocks
+==2449==    still reachable: 7,261 bytes in 35 blocks
+==2449==         suppressed: 317,649 bytes in 2,489 blocks
+==2449== 
+==2449== Use --track-origins=yes to see where uninitialised values come from
+==2449== ERROR SUMMARY: 455 errors from 2 contexts (suppressed: 106 from 102)
+==2449== 
+==2449== 6 errors in context 1 of 2:
+==2449== Conditional jump or move depends on uninitialised value(s)
+==2449==    at 0x1EB5920D: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB593F7: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB594C2: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB53601: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB47D5B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB47E04: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB5A6B3: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB33F8F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35029: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB401C2: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35C50: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E829CAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+==2449== 
+==2449== 449 errors in context 2 of 2:
+==2449== Conditional jump or move depends on uninitialised value(s)
+==2449==    at 0x1E91DE7B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E9F180A: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E91E19E: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E916AF9: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E917059: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1EB35C5F: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E829CAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7FE075: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7E522B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E7FB0B3: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E81D9ED: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449==    by 0x1E845B9B: ??? (in /usr/lib/x86_64-linux-gnu/dri/r300_dri.so)
+==2449== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/r300_dri.so
+}
+--2449-- 
+--2449-- used_suppression:      1 <QApplication> /home/alex/tron/src/errors.supp:161 suppressed: 132,224 bytes in 2 blocks
+--2449-- used_suppression:    275 <ld-2.19.so> /home/alex/tron/src/errors.supp:2 suppressed: 171,056 bytes in 955 blocks
+--2449-- used_suppression:    539 <functions _ZN*> /home/alex/tron/src/errors.supp:62 suppressed: 113,368 bytes in 1,086 blocks
+--2449-- used_suppression:     38 <libX11.so.6.3.0> /home/alex/tron/src/errors.supp:246 suppressed: 28,529 bytes in 412 blocks
+--2449-- used_suppression:     32 <functions _Zn*> /home/alex/tron/src/errors.supp:56 suppressed: 5,293 bytes in 32 blocks
+--2449-- used_suppression:      1 <libxcb.so.1.1.0> /home/alex/tron/src/errors.supp:266 suppressed: 64 bytes in 2 blocks
+--2449-- used_suppression:      2 X on SUSE11 writev uninit padding /usr/lib/valgrind/default.supp:397
+--2449-- used_suppression:      9 <functions _ZN*> /home/alex/tron/src/errors.supp:68
+--2449-- used_suppression:      1 dl-hack4-64bit-addr-1 /usr/lib/valgrind/default.supp:1235
+==2449== 
+==2449== ERROR SUMMARY: 455 errors from 2 contexts (suppressed: 106 from 102)

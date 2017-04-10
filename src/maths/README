@@ -1,0 +1,22 @@
+classe Vectors qui permet de manipuler des vecteurs bornés à un espace définit.
+Les vecteurs extérieurs à cet espace sont considérés comme nuls.
+
+Exemple : 
+
+Espace e(300, 300, 300)
+Les vecteur a et b appartiennent à e.
+
+Vector a(20,40,20) est à l'intérieur de l'espace e.
+Vector b(20,30,400) est à l'extérieur. Il doit donc être considéré comme nul.
+
+Un espace nul doit au moins avoir une composante valant 0.
+
+Espace e_nul(0, 0, 0)
+Vector c(30,10,10)
+
+Si c appartient à l'espace nul, alors il sera considéré comme vecteur nul.
+
+--- compilation avec tests unitaires ---
+
+qmake DEFINES+=TESTS
+make

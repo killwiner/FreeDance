@@ -1,0 +1,9 @@
+#ifndef TESTSOPENGL_H
+#define TESTSOPENGL_H
+
+class testsOpengl : public Render {
+public:
+    testsOpengl();
+};
+
+#endif // TESTSOPENGL_H

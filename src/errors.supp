@@ -1,0 +1,272 @@
+{
+   <ld-2.19.so>
+   Memcheck:Leak
+   ...
+   obj:/lib/x86_64-linux-gnu/ld-2.19.so
+}
+{
+   <ld-2.19.so>
+   Memcheck:Leak
+   ...
+   obj:/lib/i386-linux-gnu/ld-2.19.so
+}   
+{
+   <libqxcb.so>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms/libqxcb.so
+}
+{
+   <libqxcb.so>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/i386-linux-gnu/qt5/plugins/platforms/libqxcb.so
+}
+{
+   <libQt5Core.so.5.3.2>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libQt5Core.so.5.3.2
+}
+{
+   <libQt5Core.so.5.3.2>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/i386-linux-gnu/sse2/libQt5Core.so.5.3.2
+}
+{
+   <functions _ZN*>
+   Memcheck:Addr1
+   ...
+   fun:_ZN*
+}
+{
+   <functions _ZN*>
+   Memcheck:Addr4
+   ...
+   fun:_ZN*
+}
+{
+   <functions _ZN*>
+   Memcheck:Addr8
+   ...
+   fun:_ZN*
+}
+{
+   <functions _Zn*>
+   Memcheck:Leak
+   ...
+   fun:_Zn*
+}
+{
+   <functions _ZN*>
+   Memcheck:Leak
+   ...
+   fun:_ZN*
+}
+{
+   <functions _ZN*>
+   Memcheck:Cond
+   ...
+   fun:_ZN*
+}
+{
+   <libdbus-1.so.3.8.13>
+   Memcheck:Leak
+   ...
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.8.13
+}
+{
+   <libdbus-1.so.3.8.13>
+   Memcheck:Leak
+   ...
+   obj:/lib/i386-linux-gnu/libdbus-1.so.3.8.13
+}
+{
+   <libglib-2.0.so.0.4200.1>
+   Memcheck:Leak
+   ...
+   obj:/lib/i386-linux-gnu/libglib-2.0.so.0.4200.1
+}
+{
+   <ilibnvidia-glcore.so.340.96>
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/libnvidia-glcore.so.340.96
+   ...
+}
+{
+   <libnvidia-glcore.so.340.96 Leak>
+   Memcheck:Leak
+   obj:/usr/lib/x86_64-linux-gnu/libnvidia-glcore.so.340.96
+   ...
+}
+{
+   <libGL.so.340.96>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/nvidia/current/libGL.so.340.96
+}
+{
+   <QApplication>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <QApplication>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:realloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <QApplication>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <QApplication>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <QApplication>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <libX11.so.6.3.0>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/i386-linux-gnu/libX11.so.6.3.0
+}
+{
+   <r600_dri.so>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/i386-linux-gnu/dri/r600_dri.so
+}
+{
+   <libGL.so.1.2.0>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/i386-linux-gnu/libGL.so.1.2.0
+}
+{
+   <libtbb.so.2>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:/usr/lib/libtbb.so.2
+}
+{
+   <lib-2.24.so>
+   Memcheck:Param
+   writev(vector[...])
+   obj:/lib/x86_64-linux-gnu/libc-2.24.so
+   ...
+}
+{
+   <libtasn1.so.6.5.2>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.2
+   ...
+}
+{
+   <ld-2.24.so>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/lib/x86_64-linux-gnu/ld-2.24.so
+}
+{
+   <libX11.so.6.3.0>
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+}
+{
+   <libusb-1.0.so.0.1.0>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libusb-1.0.so.0.1.0
+   ...
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   ...
+   obj:/usr/local/Qt-5.8.0/lib/libQt5Core.so.5.8.0
+}
+{
+   <libxcb.so.1.1.0>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   ...
+}
