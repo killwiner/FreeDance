@@ -1,3 +1,6 @@
-kinect/* filter=git-crypt diff=git-crypt
-humanShape/* filter=git-crypt diff=git-crypt
-joints/* filter=git-crypt diff=git-crypt
+kinect/*.cpp filter=git-crypt diff=git-crypt
+humanShape/*.cpp filter=git-crypt diff=git-crypt
+joints/*.cpp filter=git-crypt diff=git-crypt
+kinect/*.h filter=git-crypt diff=git-crypt
+humanShape/*.h filter=git-crypt diff=git-crypt
+joints/*.h filter=git-crypt diff=git-crypt
