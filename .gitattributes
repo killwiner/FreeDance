@@ -1,0 +1,3 @@
+kinect/* filter=git-crypt diff=git-crypt
+humanShape/* filter=git-crypt diff=git-crypt
+joints/* filter=git-crypt diff=git-crypt

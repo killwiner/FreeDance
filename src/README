@@ -68,3 +68,9 @@ qtdeclarative5-dev
 $ git-crypt keygen /path/to/keyfile # génère une clé de cryptage
 $ cd tron
 $ git-crypt init /path/to/keyfile
+le fichier .gitattributes regroupe les fichier à crypter
+
+Pour cloner :
+$ git clone /path/to/repo
+$ cd repo
+$ git-crypt init /path/to/keyfile
