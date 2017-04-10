@@ -8,8 +8,8 @@ Tests::Tests(rendering::TestsOpenglR *renderImgs) {
     //maths::TestsVector testsVector;
     //rendering::TestsRender testsRender(renderImgs);
     //draw::TestsDraw testsDraw(renderImgs);
-    //humanShape::TestsHumanShape testsHumanShape(renderImgs);
-    joints::TestsJoints testsJoints(renderImgs);
+    humanShape::TestsHumanShape testsHumanShape(renderImgs);
+    //joints::TestsJoints testsJoints(renderImgs);
     //kinect::TestsKinect testsKinect(renderImgs);
 
     std::vector<QObject*>::iterator iSuite;
