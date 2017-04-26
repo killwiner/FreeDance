@@ -6,9 +6,9 @@
 #include "maths/testsVector.h"
 #include "rendering/testsRender.h"
 #include "kinect/testsKinect.h"
-#include "humanShape/testsHumanShape.h"
+#include "armature/testsHumanShape.h"
 #include "draw/testsDraw.h"
-#include "joints/testsJoints.h"
+#include "armature/testsJoints.h"
 
 class Tests : public QObject
 {

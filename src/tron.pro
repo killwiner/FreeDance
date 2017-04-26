@@ -53,12 +53,13 @@ SOURCES += main.cpp \
     kinect/kinect.cpp \
     kinect/libfreenect.cpp \
     kinect/testsKinect.cpp \
-    humanShape/humanShape.cpp \
-    humanShape/testsHumanShape.cpp \
+    armature/humanShape.cpp \
+    armature/testsHumanShape.cpp \
     draw/draw.cpp \
     draw/testsDraw.cpp \
-    joints/joints.cpp \
-    joints/testsJoints.cpp
+    armature/joints.cpp \
+    armature/testsJoints.cpp \
+    armature/armature.cpp
 
 # RESOURCES += qml.qrc
 
@@ -82,10 +83,11 @@ HEADERS += maths/vectors.h \
     kinect/kinect.h \
     kinect/libfreenect.h \
     kinect/testsKinect.h \
-    humanShape/humanShape.h \
+    armature/humanShape.h \
     freeQSPointer.h \
-    humanShape/testsHumanShape.h \
+    armature/testsHumanShape.h \
     draw/draw.h \
     draw/testsDraw.h \
-    joints/joints.h \
-    joints/testsJoints.h
+    armature/joints.h \
+    armature/testsJoints.h \
+    armature/armature.h
