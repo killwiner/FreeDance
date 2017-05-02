@@ -23,6 +23,8 @@ private slots:
     void contour();
     void testGetP_cannyImage();
     void testGetP_idObject();
+    void testFollowPath();
+    void testStartFollowPath();
 };
 
 }

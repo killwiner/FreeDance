@@ -1,16 +1,17 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "../defines.h"
 #include <QtOpenGL>
 #include <QGLWidget>
 #include <opencv2/core.hpp>
 
 #include <QSharedPointer>
 
+#define QSPVImage QSharedPointer< std::vector<cv::Mat> >
+
 namespace rendering {
 
-class Render : public QGLWidget
+class Render : public QGLWidget, protected QGLFunctions
 {
     Q_OBJECT
 public:
@@ -21,6 +22,11 @@ public:
 
     // accesseurs
     bool toClose();
+    quint32 CreateShader(const GLenum &type);
+    void ShaderSource(const QString &source, const quint32 &shader);
+    void CompileShader(const quint32 &shader);
+    void GetShaderiv(const quint32 &shader, const GLenum &pname, int *params);
+    void GetShaderInfoLog(const quint32 &shader, int &lengthMessage, char *message);
 
     void setImages(const QSPVImage &VImage);
     void setImage(const cv::Mat *Image);

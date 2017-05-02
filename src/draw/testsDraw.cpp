@@ -2,6 +2,10 @@
 
 using namespace maths;
 
+enum typeColor {
+    RED, GREEN, BLUE
+};
+
 namespace draw {
 
 TestsDraw::TestsDraw(rendering::TestsOpenglR *render) : render_(render)

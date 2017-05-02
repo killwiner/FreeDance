@@ -1,8 +1,6 @@
 #ifndef LOADIMGS_H
 #define LOADIMGS_H
 
-#include "../defines.h"
-//#include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/imgcodecs/imgcodecs.hpp>
@@ -10,6 +8,8 @@
 
 #include <QString>
 #include <QSharedPointer>
+
+#define QSPVImage QSharedPointer< std::vector<cv::Mat> >
 
 class LoadImgs
 {

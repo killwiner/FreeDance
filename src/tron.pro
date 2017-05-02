@@ -59,7 +59,9 @@ SOURCES += main.cpp \
     draw/testsDraw.cpp \
     armature/joints.cpp \
     armature/testsJoints.cpp \
-    armature/armature.cpp
+    armature/armature.cpp \
+    shader/shader.cpp \
+    shader/testsShader.cpp
 
 # RESOURCES += qml.qrc
 
@@ -79,7 +81,6 @@ HEADERS += maths/vectors.h \
     tests.h \
     rendering/testsOpenglRender.h \
     rendering/loadimgs.h \
-    defines.h \
     kinect/kinect.h \
     kinect/libfreenect.h \
     kinect/testsKinect.h \
@@ -90,4 +91,6 @@ HEADERS += maths/vectors.h \
     draw/testsDraw.h \
     armature/joints.h \
     armature/testsJoints.h \
-    armature/armature.h
+    armature/armature.h \
+    shader/shader.h \
+    shader/testsShader.h

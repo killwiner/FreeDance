@@ -18,9 +18,10 @@
 #ifndef ESPACE_H
 #define ESPACE_H
 
-#include "../defines.h"
 #include <QtGlobal>
 #include <QSharedPointer>
+
+#define QSPEspace QSharedPointer<Espace>
 
 template <typename T_Scalar>
 struct components {
