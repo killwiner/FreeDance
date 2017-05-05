@@ -4,24 +4,25 @@
 #ifdef TESTS
 
 #include "testsuite.h"
-#include "shader.h"
 #include "../rendering/testsOpenglRender.h"
+#include "shader.h"
 
 namespace shader {
 
 class TestsShader: public QTestSuite {
-     Q_OBJECT
+    Q_OBJECT
 
 public:
-    TestsShader(rendering::TestsOpenglR *render);
+//    TestsShader();
     virtual ~TestsShader();
 
 private:
-    rendering::TestsOpenglR *render_;
 
 private slots:
-
-    void chargement();
+    void testLoadFileFail();
+    void testLoadFileSucces();
+    void testBuildFail();
+    void testBuildSucces();
 };
 
 }

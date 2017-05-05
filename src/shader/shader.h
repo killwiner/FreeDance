@@ -10,24 +10,34 @@
 
 namespace shader {
 
-class Shader {
+#ifdef TESTS
+class TestsShader;
+#endif // TESTS
+
+class Shader : public rendering::Render {
+
+#ifdef TESTS
+    friend TestsShader;
+#endif
 
 public:
-    Shader(const QString &vertexSource, const QString &fragmentSource, rendering::Render *render);
+    Shader(const QString &vertexSource, const QString &fragmentSource,
+           const quint16 &framesPerSecond, const quint16 &interval_time);
     ~Shader();
 
     quint32 getProgramID() const;
     void load();
 
 private:
-    rendering::Render *render_;
     quint32 vertexID, fragmentID, programID;
-    QString vertexSource_, fragmentSource_, Source;
+    QString vertexSource_, fragmentSource_;
+    QString Source;
 
     // type : type de shader
     void buildShader(quint32 &shader, GLenum type, const QString &file);
-    void LoadFile(const QString &file_name);
-    void control(const quint32 &shader);
+    void loadFile(const QString &file_name);
+    void controlLink(const quint32 &shader);
+    void controlBuild(const quint32 &shader);
 };
 }
 #endif //SHADER_H

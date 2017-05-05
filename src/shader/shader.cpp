@@ -2,13 +2,18 @@
 
 namespace shader {
 
-Shader::Shader(const QString &vertexSource, const QString &fragmentSource, rendering::Render *render) :
+Shader::Shader(const QString &vertexSource, const QString &fragmentSource,
+           const quint16 &framesPerSecond, const quint16 &interval_time):
     vertexID(0), fragmentID(0), programID(0),
     vertexSource_(vertexSource), fragmentSource_(fragmentSource),
-    render_(render)
+    rendering::Render(framesPerSecond, interval_time)
 {}
 
-Shader::~Shader() {}
+Shader::~Shader() {
+    glDeleteShader(vertexID);
+    glDeleteShader(fragmentID);
+    glDeleteProgram(programID);
+}
 
 quint32 Shader::getProgramID() const {
     return programID;
@@ -19,9 +24,26 @@ void Shader::load() {
     try {
         //compile les sources shader vertex
         buildShader(vertexID, GL_VERTEX_SHADER, vertexSource_);
+        controlBuild(vertexID);
 
         //compile les sources shader fragments
-        buildShader(vertexID, GL_FRAGMENT_SHADER, fragmentSource_);
+        buildShader(fragmentID, GL_FRAGMENT_SHADER, fragmentSource_);
+        controlBuild(fragmentID);
+
+        //création du programme
+        programID = glCreateProgram();
+
+        //association des shaders
+        glAttachShader(programID, vertexID);
+        glAttachShader(programID, fragmentID);
+
+        // Verrouillage des entrées shader
+        glBindAttribLocation(programID, 0, "in_Vertex");
+        glBindAttribLocation(programID, 1, "in_Color");
+        //glBindAttribLocation(programID, 2, "in_TexCoord0");
+
+        // Linkage du programme
+        glLinkProgram(programID);
     }
     catch (const char& strException) {
         std::cerr << "Exception caught !!" << std::endl;
@@ -33,7 +55,7 @@ void Shader::load() {
 void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name) {
 
     try {
-        shader = render_->CreateShader(type);
+        shader = glCreateShader(type);
         if(!shader)
             throw "(shader.cpp) error, bad type of shader";
     }
@@ -44,7 +66,7 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
     }
 
     try {
-        LoadFile(file_name);
+        loadFile(file_name);
     }
     catch (const char& strException) {
         std::cerr << "Exception caught !!" << std::endl;
@@ -52,29 +74,62 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
         throw;
     }
 
-    render_->ShaderSource(Source, shader);
-    render_->CompileShader(shader);
-    control(shader);
+    // ne pas contactener les deux expressions car toStdString est temporaire
+    std::string str = Source.toStdString();
+    const char* pstr = str.c_str();
+
+    glShaderSource(shader, 1, &pstr, 0);
+
+    glCompileShader(shader);
 }
 
-void Shader::control(const quint32 &shader) {
-
-    // Vérification de la compilation
-    int buildError = 0;
-    render_->GetShaderiv(shader, GL_COMPILE_STATUS, &buildError);
+void Shader::controlLink(const quint32 &shader) {
 
     try {
 
+        // Vérification du linkage
+        qint32 linkError = 0;
+        glGetProgramiv(programID, GL_LINK_STATUS, &linkError);
+
+        if(linkError != GL_TRUE) {
+            int lengthMessage = 0;
+            glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &lengthMessage);
+            char message[512];
+
+            //Récupération de l'erreur
+            if(lengthMessage < 512) {
+                glGetShaderInfoLog(shader, lengthMessage, &lengthMessage, message);
+                throw message;
+            }
+            throw "(shader.cpp) legthMessage > 512";
+        }
+    }
+    catch (const char& strException) {
+        std::cerr << "Exception caught !!" << std::endl;
+        std::cerr << strException << std::endl;
+        throw;
+    }
+}
+            
+void Shader::controlBuild(const quint32 &shader) {
+
+    try {
+
+        // Vérification de la compilation
+        qint32 buildError = 0;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &buildError);
+
         if(buildError != GL_TRUE) {
             int lengthMessage = 0;
-            render_->GetShaderiv(shader, GL_INFO_LOG_LENGTH, &lengthMessage);
-            char *message = new char[lengthMessage];
+            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &lengthMessage);
+            char message[512];
 
             // Récupération de l'erreur
-            render_->GetShaderInfoLog(shader, lengthMessage, message);
-            throw message;
-
-            delete[] message;
+            if(lengthMessage < 512) {
+                glGetShaderInfoLog(shader, lengthMessage, &lengthMessage, message);
+                throw message;
+            }
+            throw "(shader.cpp) legthMessage > 512";
         }
     }
     catch (const char& strException) {
@@ -84,7 +139,7 @@ void Shader::control(const quint32 &shader) {
     }
 }
 
-void Shader::LoadFile(const QString &file_name) {
+void Shader::loadFile(const QString &file_name) {
 
     QString Line;
 

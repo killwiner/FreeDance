@@ -2,6 +2,8 @@
 
 namespace rendering {
 
+Render::Render() {}
+
 Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : closing(false)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -38,31 +40,6 @@ void Render::setImage(const cv::Mat *Image)
 
 bool Render::toClose() {
     return closing;
-}
-
-quint32 Render::CreateShader(const GLenum &type) {
-    return glCreateShader(type);
-}
-
-void Render::ShaderSource(const QString &source, const quint32 &shader)
-{
-    const char *str = source.toStdString().c_str();
-    glShaderSource(shader, 1, &str, 0);
-}
-
-void Render::CompileShader(const quint32 &shader)
-{
-    glCompileShader(shader);
-}
-
-void Render::GetShaderiv(const quint32 &shader, const GLenum &pname, int *params)
-{
-    glGetShaderiv(shader, pname, params);
-}
-
-void Render::GetShaderInfoLog(const quint32 &shader, int &lengthMessage, char *message)
-{
-    glGetShaderInfoLog(shader, lengthMessage, &lengthMessage, message);
 }
 
 void Render::closeEvent(QCloseEvent *event)
