@@ -1,4 +1,0 @@
-src/kinect/*.cpp filter=git-crypt diff=git-crypt
-src/armature/*.cpp filter=git-crypt diff=git-crypt
-src/kinect/*.h filter=git-crypt diff=git-crypt
-src/armature/*.h filter=git-crypt diff=git-crypt
