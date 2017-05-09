@@ -36,7 +36,7 @@ private:
     // type : type de shader
     void buildShader(quint32 &shader, GLenum type, const QString &file);
     void loadFile(const QString &file_name);
-    void controlLink(const quint32 &shader);
+    void controlLink();
     void controlBuild(const quint32 &shader);
 };
 }

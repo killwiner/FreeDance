@@ -40,12 +40,13 @@ void Shader::load() {
         // Verrouillage des entrées shader
         glBindAttribLocation(programID, 0, "in_Vertex");
         glBindAttribLocation(programID, 1, "in_Color");
-        //glBindAttribLocation(programID, 2, "in_TexCoord0");
+        glBindAttribLocation(programID, 2, "in_TexCoord0");
 
         // Linkage du programme
         glLinkProgram(programID);
+        controlLink();
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;
@@ -59,7 +60,7 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
         if(!shader)
             throw "(shader.cpp) error, bad type of shader";
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;
@@ -68,7 +69,7 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
     try {
         loadFile(file_name);
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;
@@ -83,7 +84,7 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
     glCompileShader(shader);
 }
 
-void Shader::controlLink(const quint32 &shader) {
+void Shader::controlLink() {
 
     try {
 
@@ -97,14 +98,14 @@ void Shader::controlLink(const quint32 &shader) {
             char message[512];
 
             //Récupération de l'erreur
-            if(lengthMessage < 512) {
-                glGetShaderInfoLog(shader, lengthMessage, &lengthMessage, message);
+            if(lengthMessage < 512 && lengthMessage > 0) {
+                glGetProgramInfoLog(programID, lengthMessage, &lengthMessage, message);
                 throw message;
             }
-            throw "(shader.cpp) legthMessage > 512";
+            throw "(shader.cpp) error control link without message";
         }
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;
@@ -125,14 +126,14 @@ void Shader::controlBuild(const quint32 &shader) {
             char message[512];
 
             // Récupération de l'erreur
-            if(lengthMessage < 512) {
+            if(lengthMessage < 512 && lengthMessage > 0) {
                 glGetShaderInfoLog(shader, lengthMessage, &lengthMessage, message);
                 throw message;
             }
-            throw "(shader.cpp) legthMessage > 512";
+            throw "(shader.cpp) error control build without message";
         }
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;
@@ -142,6 +143,7 @@ void Shader::controlBuild(const quint32 &shader) {
 void Shader::loadFile(const QString &file_name) {
 
     QString Line;
+    Source = QString("");
 
     try {
         QFile FileData(file_name);
@@ -158,7 +160,7 @@ void Shader::loadFile(const QString &file_name) {
 
         FileData.close();
     }
-    catch (const char& strException) {
+    catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
         std::cerr << strException << std::endl;
         throw;

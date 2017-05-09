@@ -23,6 +23,10 @@ private slots:
     void testLoadFileSucces();
     void testBuildFail();
     void testBuildSucces();
+    void testControlBuildFail();
+    void testControlBuildSucces();
+    void testControlLinkFail();
+    void testControlLinkSucces();
 };
 
 }
