@@ -61,7 +61,8 @@ SOURCES += main.cpp \
     armature/testsJoints.cpp \
     armature/armature.cpp \
     shader/shader.cpp \
-    shader/testsShader.cpp
+    shader/testsShader.cpp \
+    shader/testsShaderRender.cpp
 
 # RESOURCES += qml.qrc
 
@@ -93,4 +94,5 @@ HEADERS += maths/vectors.h \
     armature/testsJoints.h \
     armature/armature.h \
     shader/shader.h \
-    shader/testsShader.h
+    shader/testsShader.h \
+    shader/testsShaderRender.h

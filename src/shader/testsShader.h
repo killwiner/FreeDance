@@ -5,7 +5,8 @@
 
 #include "testsuite.h"
 #include "../rendering/testsOpenglRender.h"
-#include "shader.h"
+#include "../rendering/loadimgs.h"
+#include "testsShaderRender.h"
 
 namespace shader {
 
@@ -13,8 +14,8 @@ class TestsShader: public QTestSuite {
     Q_OBJECT
 
 public:
-//    TestsShader();
-    virtual ~TestsShader();
+    TestsShader();
+    ~TestsShader();
 
 private:
 
@@ -27,6 +28,7 @@ private slots:
     void testControlBuildSucces();
     void testControlLinkFail();
     void testControlLinkSucces();
+    void testAffichage();
 };
 
 }

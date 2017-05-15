@@ -1,7 +1,18 @@
+#version 150 core
+
+//entrée shader
+in vec3 position;
+in vec2 texCoord;
+
+//sortie
+out vec2 coordTexture;
+
 void main()  
 {     
-   vec4 a = gl_Vertex;     
-   a.x = a.x * .5;     
-   a.y = a.y * .5;     
-   gl_Position = gl_ModelViewProjectionMatrix * a;  
+    // Position finale du vertex
+    gl_Position = vec4(position, 1.0);
+
+    // Envoi des coordonnées de texture au Fragment Shader
+    coordTexture = texCoord;
+
 }

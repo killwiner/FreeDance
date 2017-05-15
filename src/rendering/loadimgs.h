@@ -11,6 +11,8 @@
 
 #define QSPVImage QSharedPointer< std::vector<cv::Mat> >
 
+namespace rendering {
+
 class LoadImgs
 {
 public:
@@ -24,5 +26,5 @@ private:
     QSPVImage PVImage;
     void make_vector(cv::VideoCapture &video);
 };
-
+}
 #endif // LOADIMGS_H

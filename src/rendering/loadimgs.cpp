@@ -1,5 +1,7 @@
 #include "loadimgs.h"
 
+namespace rendering {
+
 LoadImgs::LoadImgs() {
 }
 
@@ -61,4 +63,5 @@ void LoadImgs::make_vector(cv::VideoCapture &video) {
 
 QSPVImage LoadImgs::getImages() const {
     return PVImage;
+}
 }

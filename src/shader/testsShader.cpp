@@ -4,8 +4,8 @@
 
 namespace shader {
 
-//    TestsShader::TestsShader() {
-//}
+    TestsShader::TestsShader() {
+    }
     TestsShader::~TestsShader() {}
 
     void TestsShader::testLoadFileFail() {
@@ -41,7 +41,7 @@ namespace shader {
             QFAIL("loadFile fail test");
         }
 
-        QString match = QString("gl_Vertex;");
+        QString match = QString("gl_Position");
         QVERIFY(shader.Source.contains(match));
     }
 
@@ -164,7 +164,27 @@ namespace shader {
             std::cerr << strException << std::endl;
             QFAIL("controlLink fail test");
         }
-    } 
+    }
+
+    void TestsShader::testAffichage() {
+        TestsShaderRender shaderRender(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+
+        shaderRender.setGeometry(200, 200, 400, 400);
+        shaderRender.show();
+        rendering::LoadImgs image;
+        QVERIFY(image.load_image("rendering/image_test.png") == true);
+        shaderRender.setImages(image.getImages());
+        try {
+            shaderRender.load();
+        }
+        catch (const char* strException) {
+            std::cerr << "Exception caught !!" << std::endl;
+            std::cerr << strException << std::endl;
+            QFAIL("testAffichage fail test");
+        }
+
+        shaderRender.loop_paint(200);
+    }
 }
 
 #endif //TESTS

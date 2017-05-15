@@ -10,6 +10,8 @@ Shader::Shader(const QString &vertexSource, const QString &fragmentSource,
 {}
 
 Shader::~Shader() {
+    glDetachShader(programID, vertexID);
+    glDetachShader(programID, fragmentID);
     glDeleteShader(vertexID);
     glDeleteShader(fragmentID);
     glDeleteProgram(programID);
@@ -38,10 +40,9 @@ void Shader::load() {
         glAttachShader(programID, fragmentID);
 
         // Verrouillage des entrées shader
-        glBindAttribLocation(programID, 0, "in_Vertex");
-        glBindAttribLocation(programID, 1, "in_Color");
-        glBindAttribLocation(programID, 2, "in_TexCoord0");
-
+        glBindAttribLocation(programID, 0, "position");
+        glBindAttribLocation(programID, 1, "outColor");
+        glBindAttribLocation(programID, 2, "texCoord");
         // Linkage du programme
         glLinkProgram(programID);
         controlLink();
