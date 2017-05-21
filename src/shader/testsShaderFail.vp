@@ -1,7 +1,0 @@
-void main()  
-{     
-   vec4 a = ERROR;     
-   a.x = a.x * .5;     
-   a.y = a.y * .5;     
-   gl_Position = gl_ModelViewProjectionMatrix * a;  
-}

@@ -4,6 +4,11 @@ QMAKE_CXXFLAGS += -std=c++0x -Wextra
 
 QT_VERSION = 5.8.0
 
+MOC_DIR = "../bin"
+OBJECTS_DIR = "../bin"
+DESTDIR = "../bin"
+TERGET = "OpenDance"
+
 # la première ligne est destinée à du 32 bits, erreur : moc: parse error "std"
 INCLUDEPATH += /usr/include/i386-linux-gnu/c++/4.9/ \
 /usr/local/include/opencv /usr/local/include/libfreenect
@@ -15,20 +20,6 @@ LIBS += -L/usr/local/lib \
 -lopencv_videoio \
 -lopencv_imgcodecs \
 -lfreenect
-#-lopencv_ml \
-#-lopencv_video \
-#-lopencv_features2d \
-#-lopencv_calib3d \
-#-lopencv_objdetect \
-#-lopencv_contrib \
-#-lopencv_legacy \
-#-lopencv_flann \
-
-#LIBS += `pkg-config opencv --cflags --libs`
-#LIBS += `pkg-config opencv --libs`
-#LIBS += -lopencv_core -lopencv_imgcodecs -lopencv_highgui
-#LIBS += -lopencv_core -lopencv_highgui
-#LIBS += -lopencv_imgproc -lopencv_highgui -lopencv_core
 
 # QT += qml quick
 QT += widgets core testlib opengl

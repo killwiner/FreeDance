@@ -4,7 +4,7 @@
 #include <QtOpenGL>
 #include <QGLWidget>
 #include <opencv2/core.hpp>
-
+#include <iostream>
 #include <QSharedPointer>
 
 #define QSPVImage QSharedPointer< std::vector<cv::Mat> >

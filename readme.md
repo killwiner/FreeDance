@@ -77,7 +77,7 @@ https://www.qt.io/developers
 $ apt-get install qt5-qmake qt5-default qtdeclarative5-dev
 $ cd src
 $ (the right local path)/qmake
-$ make
+$ make in ../bin
 
 ***************** Tools to work on the project ******************
 

@@ -19,6 +19,7 @@
 #define FUNCTIONS_H
 
 #define COMP(X, Y, P) std::abs((qint32)(((X) - (Y)) * (P)))
+#define PI 3.141593
 
 #include "vectors.h"
 #include <typeinfo>

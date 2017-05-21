@@ -46,7 +46,7 @@ namespace rendering {
     void TestsRender::affichage_d_une_image() {
 
         LoadImgs image;
-        QVERIFY(image.load_image("rendering/image_test.png") == true);
+        QVERIFY(image.load_image("../data/images/image_test_4.png") == true);
 
         render_->setImages(image.getImages());
 
@@ -62,14 +62,16 @@ namespace rendering {
     void TestsRender::affichage_d_une_video() {
 
         LoadImgs video;
-        QVERIFY(video.load_video("rendering/video_test.ogg") == true);
+        QVERIFY(video.load_video("../data/videos/video_test.mp4") == true);
         QSPVImage images = video.getImages();
         render_->setImages(images);
         render_->setGeometry(200, 200, images.data()->back().size().width, images.data()->back().size().height);
 
         QBENCHMARK
-        render_->loop_paint(TEST_VIDEO, video.getImages()->size());
+        // une exception est levée si on touche à la dernière image
+        render_->loop_paint(TEST_VIDEO, video.getImages()->size() - 1);
     }
+
 }
 
 #endif //TESTS

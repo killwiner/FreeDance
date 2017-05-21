@@ -3,7 +3,7 @@
 
 #ifdef TESTS
 
-#define FILE_DATA "maths/tests.data"
+#define FILE_DATA "../data/tests.data"
 
 #include "testsuite.h"
 #include "functions.h"

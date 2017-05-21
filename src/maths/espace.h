@@ -22,6 +22,7 @@
 #include <QSharedPointer>
 
 #define QSPEspace QSharedPointer<Espace>
+#define MQSPEspace QSharedPointer<maths::Espace>
 
 template <typename T_Scalar>
 struct components {

@@ -1,4 +1,5 @@
 #include "testsOpenglRender.h"
+#include <exception>
 
 #ifdef TESTS
 
@@ -17,8 +18,8 @@ void TestsOpenglR::loop_paint(const quint8 &test_funct, const qint32 &max_count)
 
     QEventLoop loop;
     connect(t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-
     connect(this, SIGNAL(close()), &loop, SLOT(quit()));
+
     for(count = 0; count < max_count; ++count) {
 
         if(toClose())

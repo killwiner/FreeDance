@@ -26,14 +26,14 @@ namespace shader {
    }
 
     void TestsShader::testLoadFileSucces() {
-	    Shader shader(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderSucces.vp"), QString("../data/testsShaderSucces.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
         shader.show();
         QTest::qSleep(2000);
         try {
-            shader.loadFile(QString("shader/testsShaderSucces.vp"));
+            shader.loadFile(QString("../data/testsShaderSucces.vp"));
         }
         catch (const char* strException) {
             std::cerr << "Exception caught !!" << std::endl;
@@ -63,7 +63,7 @@ namespace shader {
     }
 
     void TestsShader::testBuildSucces() {
-	    Shader shader(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderSucces.vp"), QString("../data/testsShaderSucces.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
@@ -84,7 +84,7 @@ namespace shader {
     }
 
     void TestsShader::testControlBuildFail() {
-	    Shader shader(QString("shader/testsShaderFail.vp"), QString("shader/testsShaderFail.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderFail.vp"), QString("../data/testsShaderFail.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
@@ -103,7 +103,7 @@ namespace shader {
     }
 
     void TestsShader::testControlBuildSucces() {
-	    Shader shader(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderSucces.vp"), QString("../data/testsShaderSucces.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
@@ -122,7 +122,7 @@ namespace shader {
     } 
 
     void TestsShader::testControlLinkFail() {
-	    Shader shader(QString("shader/testsShaderFail.vp"), QString("shader/testsShaderFail.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderFail.vp"), QString("../data/testsShaderFail.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
@@ -141,7 +141,7 @@ namespace shader {
     }
 
     void TestsShader::testControlLinkSucces() {
-	    Shader shader(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+	    Shader shader(QString("../data/testsShaderSucces.vp"), QString("../data/testsShaderSucces.fp"), 24, 1000);
 
         // pour lancer initializeOpenGLFunctions()
         shader.setGeometry(200, 200, 400, 400);
@@ -167,15 +167,16 @@ namespace shader {
     }
 
     void TestsShader::testAffichage() {
-        TestsShaderRender shaderRender(QString("shader/testsShaderSucces.vp"), QString("shader/testsShaderSucces.fp"), 24, 1000);
+        try {
+        TestsShaderRender shaderRender(QString("../data/testsShaderSucces.vp"), QString("../data/testsShaderSucces.fp"), 24, 1000);
 
         shaderRender.setGeometry(200, 200, 400, 400);
         shaderRender.show();
         rendering::LoadImgs image;
-        QVERIFY(image.load_image("rendering/image_test.png") == true);
+        QVERIFY(image.load_image("../data/images/image_test_4.png") == true);
         shaderRender.setImages(image.getImages());
-        try {
             shaderRender.load();
+        shaderRender.loop_paint(40);
         }
         catch (const char* strException) {
             std::cerr << "Exception caught !!" << std::endl;
@@ -183,7 +184,6 @@ namespace shader {
             QFAIL("testAffichage fail test");
         }
 
-        shaderRender.loop_paint(200);
     }
 }
 
