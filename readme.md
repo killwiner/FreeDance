@@ -81,6 +81,10 @@ $ make in ../bin
 
 ***************** Tools to work on the project ******************
 
+--- colored QTest ---
+$ apt-get install python-termcolor
+$ ./tron | python qtest.py
+
 --- memcheck with valgrind ---
 
 $ vim ~/.valgrindrc

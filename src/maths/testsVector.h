@@ -99,7 +99,10 @@ private slots:
     void projection_du_vecteur_sur_XY();
 
     // teste la rotation d'un vecteur tous les PI/2 sur le plan XY
-    void rotation_vecteur();
+    void quickRotation();
+
+    // teste la rotation d'un vecteur par raport à un angle
+    void angleRotation();
 
 };
 

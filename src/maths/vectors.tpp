@@ -152,13 +152,6 @@ template <typename T_Scalar>
 void Vector<T_Scalar>::set(const components<T_Scalar> &comp) {
     comp_ = comp;
 
-    components<quint16> size;
-    espace_->get_max(size);
-
-    if(comp_.x > size.x || comp_.y > size.y || comp_.z > size.z)
-        Null();
-    if(comp_.x < 0 || comp_.y < 0 || comp_.z < 0)
-        Null();
 }
 
 template <typename T_Scalar>
@@ -167,14 +160,6 @@ void Vector<T_Scalar>::set(const T_Scalar &x, const T_Scalar &y, const T_Scalar 
     comp_.x = x;
     comp_.y = y;
     comp_.z = z;
-
-    components<quint16> size;
-    espace_->get_max(size);
-
-    if(comp_.x > size.x || comp_.y > size.y || comp_.z > size.z)
-        Null();
-    if(comp_.x < 0 || comp_.y < 0 || comp_.z < 0)
-        Null();
 }
 
 template <typename T_Scalar>
@@ -184,14 +169,21 @@ bool Vector<T_Scalar>::isNull() const {
 
 template <typename T_Scalar>
 void Vector<T_Scalar>::Null() {
-    nil = true;
+
+    components<quint16> size;
+    espace_->get_max(size);
+
+    if(comp_.x > size.x || comp_.y > size.y || comp_.z > size.z)
+        nil = true;
+    if(comp_.x < 0 || comp_.y < 0 || comp_.z < 0)
+        nil = true;
 }
 
 template <typename T_Scalar1, typename T_Scalar2>
 Vector<T_Scalar1> operator/(Vector<T_Scalar1> const& a, T_Scalar2 const& s) {
 
     components<T_Scalar1> comp;
-    Vector<T_Scalar1> c(.0f, .0f, .0f, a.get_espace());
+    Vector<T_Scalar1> c(-1.0f, -1.0f, -1.0f, a.get_espace());
 
     if(!s)
         c.Null();
@@ -247,7 +239,7 @@ template <typename T_Scalar>
 Vector<T_Scalar> operator+(Vector<T_Scalar> const& vector_a, Vector<T_Scalar> const& vector_b) {
 
     if(vector_a.isNull() == true || vector_b.isNull() == true) {
-        Vector<T_Scalar> nil(0, 0, 0, vector_a.get_espace());
+        Vector<T_Scalar> nil(-1.0, -1.0, -1.0, vector_a.get_espace());
         nil.Null();
         return nil;
     }
@@ -268,7 +260,7 @@ template <typename T_Scalar>
 Vector<T_Scalar> operator-(Vector<T_Scalar> const& vector_a, Vector<T_Scalar> const& vector_b) {
 
     if(vector_a.isNull() == true || vector_b.isNull() == true) {
-        Vector<T_Scalar> nil(0, 0, 0, vector_a.get_espace());
+        Vector<T_Scalar> nil(-1.0, -1.0, -1.0, vector_a.get_espace());
         nil.Null();
         return nil;
     }
@@ -288,7 +280,7 @@ template <typename T_Scalar>
 Vector<T_Scalar> operator^(const Vector<T_Scalar>& vector_a, const Vector<T_Scalar>& vector_b) {
 
     if(vector_a.isNull() == true || vector_b.isNull() == true) {
-        Vector<T_Scalar> nil(0, 0, 0, vector_a.get_espace());
+        Vector<T_Scalar> nil(-1.0, -1.0, -1.0, vector_a.get_espace());
         nil.Null();
         return nil;
     }

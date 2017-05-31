@@ -19,14 +19,12 @@
 
 using namespace std;
 
-namespace maths {
-
 template <typename T_Scalar>
 Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar> &vector_v_start, const Vector<T_Scalar> &vector_w_start, const Vector<T_Scalar> &vector_v_end, const Vector<T_Scalar> &vector_w_end) {
 
     qint16 prec = vector_v_start.get_espace()->get_prec();
 
-    Vector<T_Scalar> nil(0, 0, 0, vector_v_start.get_espace());
+    Vector<T_Scalar> nil(-1.0f, -1.0f, -1.0f, vector_v_start.get_espace());
     nil.Null();
 
     T_Scalar z;
@@ -223,7 +221,7 @@ Vector<T_Scalar> _3D_to_2D_xy(const Vector<T_Scalar> &v) {
 }
 
 template <typename T_Scalar>
-Vector<T_Scalar> quick_rotation(Vector<T_Scalar> vector, qint32 number_of_steps) {
+Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const qint32 &number_of_steps) {
 
     T_Scalar x, y, z;
     vector.get_comp(x, y, z);
@@ -248,4 +246,22 @@ Vector<T_Scalar> quick_rotation(Vector<T_Scalar> vector, qint32 number_of_steps)
     return Vector<T_Scalar>(x, y, z, vector.get_espace());
 }
 
+template <typename T_Scalar>
+Vector<T_Scalar> angle_rotation(const Vector<T_Scalar> &vector, const T_Scalar &angle) {
+
+    T_Scalar n = maths::normal(vector);
+    T_Scalar x, y, z;
+    vector.get_comp(x, y, z);
+
+    if(typeid(float) == typeid(T_Scalar)) {
+        float alphaf = acosf(x / n);
+        return Vector<T_Scalar>(n * cosf(angle + alphaf), n * sinf(angle + alphaf), .0, vector.get_espace());
+    }
+    if(typeid(double) == typeid(T_Scalar)) {
+        double alpha = acos(x / n);
+        return Vector<T_Scalar>(n * cos(angle + alpha), n * sin(angle + alpha), .0, vector.get_espace());
+    }
+
+    double alphal = acosl(x / n);
+    return Vector<T_Scalar>(n * cosl(angle + alphal), n * sinl(angle + alphal), .0, vector.get_espace());
 }

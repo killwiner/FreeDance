@@ -44,8 +44,7 @@ T_Scalar lenght(const Vector<T_Scalar>&, const Vector<T_Scalar>&);
 // operator * between two matrix 3x3 and 3x1
 // opérateur * entre deux matrices 3x3 and 3x1
 template <typename T_Scalar>
-Vector<T_Scalar> prod_mat_3x3_3x1(const Vector<T_Scalar>& vector_a, Vector<T_Scalar>& vector_b);
-
+Vector<T_Scalar> prod_mat_3x3_3x1(const Vector<T_Scalar>& vector_a, const Vector<T_Scalar>& vector_b);
 
 // angle between two vectors
 // angle entre deux vecteurs
@@ -60,7 +59,12 @@ Vector<T_Scalar> _3D_to_2D_xy(const Vector<T_Scalar> &v); // eraze z axis
 // rotate the vector in a direct rotation with steps, each step on an angle PI/2 on plan XY
 // rotation du vecteur dans le sens direct avec un nombre de pas, chaque pas fait un angle de PI/2 sur le plan XY
 template <typename T_Scalar>
-Vector<T_Scalar> quick_rotation(Vector<T_Scalar> vector, int number_of_steps);
+Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const qint32 &number_of_steps);
+
+// rotate the vector with an angle
+//rotation du vector par rapport a un angle
+template <typename T_Scalar>
+Vector<T_Scalar> angle_rotation(const Vector<T_Scalar> &vector, const T_Scalar &angle);
 
 #include "functions.tpp"
 
