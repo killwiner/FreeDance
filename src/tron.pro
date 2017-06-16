@@ -44,6 +44,7 @@ SOURCES += main.cpp \
     kinect/kinect.cpp \
     kinect/libfreenect.cpp \
     kinect/testsKinect.cpp \
+    kinect/testsKinectRender.cpp \
     armature/humanShape.cpp \
     armature/testsHumanShape.cpp \
     draw/draw.cpp \
@@ -53,7 +54,8 @@ SOURCES += main.cpp \
     armature/armature.cpp \
     shader/shader.cpp \
     shader/testsShader.cpp \
-    shader/testsShaderRender.cpp
+    shader/testsShaderRender.cpp \
+    armature/thread.cpp
 
 # RESOURCES += qml.qrc
 
@@ -76,6 +78,7 @@ HEADERS += maths/vectors.h \
     kinect/kinect.h \
     kinect/libfreenect.h \
     kinect/testsKinect.h \
+    kinect/testsKinectRender.h \
     armature/humanShape.h \
     freeQSPointer.h \
     armature/testsHumanShape.h \
@@ -86,4 +89,5 @@ HEADERS += maths/vectors.h \
     armature/armature.h \
     shader/shader.h \
     shader/testsShader.h \
-    shader/testsShaderRender.h
+    shader/testsShaderRender.h \
+    armature/thread.h

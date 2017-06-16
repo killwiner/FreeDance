@@ -28,7 +28,7 @@ public:
     void setImage(const cv::Mat *Image);
 
 public slots:
-    void timeOutSlot();
+    virtual void timeOutSlot();
 
 signals:
     void close();
