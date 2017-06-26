@@ -59,7 +59,7 @@ Vector<T_Scalar> _3D_to_2D_xy(const Vector<T_Scalar> &v); // eraze z axis
 // rotate the vector in a direct rotation with steps, each step on an angle PI/2 on plan XY
 // rotation du vecteur dans le sens direct avec un nombre de pas, chaque pas fait un angle de PI/2 sur le plan XY
 template <typename T_Scalar>
-Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const qint32 &number_of_steps);
+Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const quint16 &number_of_steps);
 
 // rotate the vector with an angle
 //rotation du vector par rapport a un angle

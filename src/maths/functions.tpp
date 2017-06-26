@@ -221,26 +221,27 @@ Vector<T_Scalar> _3D_to_2D_xy(const Vector<T_Scalar> &v) {
 }
 
 template <typename T_Scalar>
-Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const qint32 &number_of_steps) {
+Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const quint16 &number_of_steps) {
 
     T_Scalar x, y, z;
     vector.get_comp(x, y, z);
 
-    qint32 n = number_of_steps % 4;
+    quint16 n = number_of_steps % 4;
 
     switch(n) {
     case 0:
 
         std::swap(x, y);
-        y = -y;
+        x = -x;
         break;
 
     case 1:
-        std::swap(x, y);
         x = -x;
+        y = -y;
         break;
+
     default:
-        x = -x;
+        std::swap(x, y);
         y = -y;
     }
     return Vector<T_Scalar>(x, y, z, vector.get_espace());

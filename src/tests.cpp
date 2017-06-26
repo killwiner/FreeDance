@@ -12,7 +12,7 @@ Tests::Tests(rendering::TestsOpenglR *renderImgs) {
     //armature::TestsHumanShape testsHumanShape(renderImgs);
     //draw::TestsDraw testsDraw(renderImgs);
     armature::TestsJoints testsJoints(renderImgs);
-    //kinect::TestsKinect testsKinect;
+    kinect::TestsKinect testsKinect;
 
 
     std::vector<QObject*>::iterator iSuite;
