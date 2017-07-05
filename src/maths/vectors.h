@@ -60,6 +60,9 @@ public:
     void get_comp(components<T_Scalar> &comp) const;
     void get_comp(T_Scalar &x, T_Scalar &y, T_Scalar &z) const;
     void get_comp(Vector<T_Scalar> &x, Vector<T_Scalar> &y, Vector<T_Scalar> &z) const;
+    T_Scalar get_X() const;
+    T_Scalar get_Y() const;
+    T_Scalar get_Z() const;
     void set(const components<T_Scalar> &comp);
     void set(const T_Scalar &x, const T_Scalar &y, const T_Scalar &z);
     bool isNull() const;

@@ -143,6 +143,21 @@ void Vector<T_Scalar>::get_comp(Vector<T_Scalar> &x, Vector<T_Scalar> &y, Vector
 }
 
 template <typename T_Scalar>
+T_Scalar Vector<T_Scalar>::get_X() const {
+    return comp_.x;
+}
+
+template <typename T_Scalar>
+T_Scalar Vector<T_Scalar>::get_Y() const {
+    return comp_.y;
+}
+
+template <typename T_Scalar>
+T_Scalar Vector<T_Scalar>::get_Z() const {
+    return comp_.z;
+}
+
+template <typename T_Scalar>
 void Vector<T_Scalar>::get_max(components<quint16> &size) const {
     espace_->get_max(size);
 }
