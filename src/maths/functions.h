@@ -1,5 +1,5 @@
 /*************************************************************************/
-/* This file is part of Tron.                                            */
+/* This file is part of FreeDance.                                       */
 /*                                                                       */
 /*  Tron is free software: you can redistribute it and/or modify         */
 /*  it under the terms of the GNU General Public License as published by */
@@ -21,6 +21,7 @@
 #define COMP(X, Y, P) std::abs((qint32)(((X) - (Y)) * (P)))
 #define PI 3.141593
 
+#include <opencv2/highgui.hpp>
 #include "vectors.h"
 #include <typeinfo>
 

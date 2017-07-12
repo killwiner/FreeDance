@@ -6,8 +6,11 @@ Render::Render() {}
 
 Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : closing(false)
 {
+    //Qt takes care of deleting the window from memory as soon as it is closed.
+    //If the parent will be destructed, then the children will be too.
     setAttribute(Qt::WA_DeleteOnClose);
 
+    //Create the timer and start it
     quint16 timerInterval = interval_time / framesPerSecond;
     t_Timer = new QTimer(this);
     connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
@@ -15,7 +18,6 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : c
 
     // Permet d'automatiser le swap buffer d'opengl
     setAutoBufferSwap(true);
-
 }
 
 Render::~Render() {
@@ -24,7 +26,6 @@ Render::~Render() {
    delete t_Timer;
    t_Timer = nullptr;
    glDeleteTextures(1, &texture);
-
 }
 
 void Render::setImages(const QSPVImage &PVImage) {
@@ -38,7 +39,7 @@ void Render::setImage(const cv::Mat *Image)
     PVImage_.data()->push_back(*Image);
 }
 
-bool Render::toClose() {
+bool Render::toClose() const {
     return closing;
 }
 
@@ -47,11 +48,13 @@ void Render::closeEvent(QCloseEvent *event)
     closing = true;
     emit close();
     event->ignore();
+    // hide the window before to close
     hide();
 }
 
 void Render::timeOutSlot()
 {
+    // every top clock we update the OpenGl image
     updateGL();
 }
 

@@ -270,3 +270,91 @@
    obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
    ...
 }
+{
+   <libGLX_nvidia>
+   Memcheck:Param
+   sendmsg(msg.msg_iov[0])
+   fun:sendmsg
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_nvidia.so.375.39
+   ...
+}
+{
+   <libudev>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/lib/x86_64-linux-gnu/libudev.so.1.6.5
+   ...
+}
+{
+   <libgobject>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:realloc
+   fun:g_realloc
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5000.3
+   ...
+}
+{
+   <libgobject>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:g_malloc0
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5000.3
+   ...
+}
+{
+   <libgobject>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.5000.3
+   ...
+}
+{
+   <libnvidia>
+   Memcheck:Param
+   write(buf)
+   obj:/lib/x86_64-linux-gnu/libc-2.24.so
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
+   fun:fflush
+   obj:/usr/lib/x86_64-linux-gnu/libnvidia-glcore.so.375.66
+   ...
+}
+{
+   <libGLX_nvidia>
+   Memcheck:Param
+   sendmsg(msg.msg_iov[0])
+   fun:sendmsg
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_nvidia.so.375.66
+   ...
+}
+{
+   <libnvidia-opencl>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libnvidia-opencl.so.375.66
+   ...
+}
+{
+   <libnvidia-opencl>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libnvidia-opencl.so.375.66
+   ...
+}
+{
+   <libc>
+   Memcheck:Param
+   write(buf)
+   obj:/lib/x86_64-linux-gnu/libc-2.24.so
+   ...
+}

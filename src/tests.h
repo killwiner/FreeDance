@@ -8,7 +8,6 @@
 #include "kinect/testsKinect.h"
 #include "armature/testsHumanShape.h"
 #include "draw/testsDraw.h"
-#include "armature/testsJoints.h"
 #include "shader/testsShader.h"
 
 class Tests : public QObject

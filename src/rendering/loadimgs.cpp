@@ -17,6 +17,7 @@ bool LoadImgs::load_image(const QString &fileName) {
     if(!PVImage->data())
         return false;
 
+    // turn colors in right order RGB to BGR
     cv::cvtColor(PVImage.data()->back(), PVImage.data()->back(), cv::COLOR_RGB2BGR );
 
     return true;
@@ -45,6 +46,7 @@ void LoadImgs::make_vector(cv::VideoCapture &video) {
     // capture number of images from the video file and loop to convert video into a vector of images
     // capture le nombre d'images dans le fichier video et boucle la convertion de la video en un vecteur d'images
     double nbr_imgs = video.get(CV_CAP_PROP_FRAME_COUNT);
+
     for(quint64 i = 0; i < nbr_imgs; ++i) {
 
         // capture the next image

@@ -9,10 +9,9 @@ Tests::Tests(rendering::TestsOpenglR *renderImgs) {
     //maths::TestsVector testsVector;
     //rendering::TestsRender testsRender(renderImgs);
     //shader::TestsShader testsShader;
-    //armature::TestsHumanShape testsHumanShape(renderImgs);
+    armature::TestsHumanShape testsHumanShape(renderImgs);
     //draw::TestsDraw testsDraw(renderImgs);
-    armature::TestsJoints testsJoints(renderImgs);
-    kinect::TestsKinect testsKinect;
+    //kinect::TestsKinect testsKinect;
 
 
     std::vector<QObject*>::iterator iSuite;

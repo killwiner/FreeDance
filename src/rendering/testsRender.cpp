@@ -48,9 +48,11 @@ namespace rendering {
         LoadImgs image;
         QVERIFY(image.load_image("../data/images/image_test_4.png") == true);
 
+        // render pointe sur la seule image du vecteur
         render_->setImages(image.getImages());
 
         QBENCHMARK
+        // on affiche l'image un bref instant
         render_->loop_paint(TEST_IMAGE, 40);
 
         // vérifie que le pixel soit bien rouge au niveau du petit cadre situé dans le coin
@@ -63,12 +65,15 @@ namespace rendering {
 
         LoadImgs video;
         QVERIFY(video.load_video("../data/videos/video_test.mp4") == true);
+        // on capture toutes les images de la vidéo
         QSPVImage images = video.getImages();
+        // on pointe sur le vecteur images
         render_->setImages(images);
+        // on redimenssionne la fenêtre
         render_->setGeometry(200, 200, images.data()->back().size().width, images.data()->back().size().height);
 
         QBENCHMARK
-        // une exception est levée si on touche à la dernière image
+        // Attention, une exception est levée si on touche à la dernière image
         render_->loop_paint(TEST_VIDEO, video.getImages()->size() - 1);
     }
 

@@ -5,26 +5,30 @@
 
 namespace rendering {
 
-TestsOpenglR::TestsOpenglR(const quint16 &framesPerSecond, const quint16 &interval_time) : Render(framesPerSecond, interval_time), color(.0f), color_up_down(true) {
+TestsOpenglR::TestsOpenglR(const quint16 &framesPerSecond, const quint16 &interval_time) : Render(framesPerSecond, interval_time), count(0), color(.0f), color_up_down(true) {
     connect(t_Timer, SIGNAL(timeout()), this, SLOT(next_step()));
 }
 
 TestsOpenglR::~TestsOpenglR() {
 }
 
-void TestsOpenglR::loop_paint(const quint8 &test_funct, const qint32 &max_count) {
+void TestsOpenglR::loop_paint(const quint8 &test_funct, const quint32 &max_count) {
 
     test_funct_ = test_funct;
 
+    // crée un thread pour effectuer une pause
     QEventLoop loop;
     connect(t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    // Si on ferme la fenêtre, le thread doit se terminer tout de suite
     connect(this, SIGNAL(close()), &loop, SLOT(quit()));
 
     for(count = 0; count < max_count; ++count) {
 
+        // On arrête tout si on ferme la fenêtre
         if(toClose())
             break;
 
+        // On lance le thread pour effectuer une pause entre chaque image
         loop.exec();
     }
 }
@@ -91,7 +95,7 @@ void TestsOpenglR::drawTriangle() {
 void TestsOpenglR::drawImage() {
 
     // signal pour lever le vérou de la kinect
-    emit nextSignal();
+    emit KinectSignal();
 
     // set textures parameters
     // GL_NEAREST : Returns the value of the texture element that is nearest (in Manhattan distance) to the specified texture coordinates.
@@ -103,7 +107,6 @@ void TestsOpenglR::drawImage() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // specify a two-dimensional texture image
-
     glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -111,7 +114,6 @@ void TestsOpenglR::drawImage() {
     glTranslatef (0.0, 0.0, -5.0);
     glEnable(GL_TEXTURE_2D);
 
-    //glBindTexture(GL_TEXTURE_2D, VTexture.back());
     glBindTexture(GL_TEXTURE_2D, texture);
 
     glBegin(GL_TRIANGLE_FAN);
@@ -135,7 +137,6 @@ void TestsOpenglR::drawVideo() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // specify a two-dimensional texture image
-
     glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->at(count).data);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

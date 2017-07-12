@@ -49,8 +49,6 @@ SOURCES += main.cpp \
     armature/testsHumanShape.cpp \
     draw/draw.cpp \
     draw/testsDraw.cpp \
-    armature/joints.cpp \
-    armature/testsJoints.cpp \
     armature/armature.cpp \
     shader/shader.cpp \
     shader/testsShader.cpp \
@@ -84,8 +82,6 @@ HEADERS += maths/vectors.h \
     armature/testsHumanShape.h \
     draw/draw.h \
     draw/testsDraw.h \
-    armature/joints.h \
-    armature/testsJoints.h \
     armature/armature.h \
     shader/shader.h \
     shader/testsShader.h \

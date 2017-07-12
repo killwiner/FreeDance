@@ -43,6 +43,7 @@ void Shader::load() {
         glBindAttribLocation(programID, 0, "position");
         glBindAttribLocation(programID, 1, "outColor");
         glBindAttribLocation(programID, 2, "texCoord");
+
         // Linkage du programme
         glLinkProgram(programID);
         controlLink();
@@ -56,6 +57,8 @@ void Shader::load() {
 
 void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name) {
 
+    QString Source;
+    // création du shader
     try {
         shader = glCreateShader(type);
         if(!shader)
@@ -67,8 +70,9 @@ void Shader::buildShader(quint32 &shader, GLenum type, const QString &file_name)
         throw;
     }
 
+    // on charge le programme
     try {
-        loadFile(file_name);
+        Source = loadFile(file_name);
     }
     catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;
@@ -141,10 +145,10 @@ void Shader::controlBuild(const quint32 &shader) {
     }
 }
 
-void Shader::loadFile(const QString &file_name) {
+QString Shader::loadFile(const QString &file_name) {
 
     QString Line;
-    Source = QString("");
+    QString Source = QString("");
 
     try {
         QFile FileData(file_name);
@@ -166,5 +170,6 @@ void Shader::loadFile(const QString &file_name) {
         std::cerr << strException << std::endl;
         throw;
     }
+    return Source;
 }
 }

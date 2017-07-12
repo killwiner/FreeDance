@@ -423,7 +423,9 @@ void TestsVector::quickRotation()
     qint16 pas = 6;
 
     // création du résultat attendu
-    Vector<float> expected_vector(-2.3, -5.5, 4.0, espace);
+    Vector<float> expected_vector(5.5, -2.3, 4.0, espace);
+
+    Vector<float> v = maths::quick_rotation(vector, pas);
 
     // teste la rotation
     QVERIFY(maths::quick_rotation(vector, pas) == expected_vector);
