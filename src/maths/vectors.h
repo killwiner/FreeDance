@@ -90,7 +90,6 @@ bool operator==(const Vector<T_Scalar>& vector_a, const Vector<T_Scalar> &vector
 template <typename T_Scalar>
 bool operator!=(Vector<T_Scalar> const& vector_a, const Vector<T_Scalar> &vector_b);
 
-
 // operator /
 template <typename T_Scalar1, typename T_Scalar2>
 Vector<T_Scalar1> operator/(const Vector<T_Scalar1> &v, const T_Scalar2 &s);

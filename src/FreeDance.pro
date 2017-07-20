@@ -53,7 +53,8 @@ SOURCES += main.cpp \
     shader/shader.cpp \
     shader/testsShader.cpp \
     shader/testsShaderRender.cpp \
-    armature/thread.cpp
+    armature/thread.cpp \
+    armature/border.cpp
 
 # RESOURCES += qml.qrc
 
