@@ -336,7 +336,7 @@ void TestsVector::normale_d_un_vecteur()
     float expected_scalar = 9.5969;
 
     // teste le calcul de la normale du vecteur en fonction de la précision spécifiée
-    QCOMPARE(COMP(maths::normal(vector_a), expected_scalar, espace->get_prec()), (int)0);
+    QCOMPARE(COMP(maths::length(vector_a), expected_scalar, espace->get_prec()), (int)0);
 }
 
 void TestsVector::distance_entre_deux_vecteurs()
@@ -352,7 +352,7 @@ void TestsVector::distance_entre_deux_vecteurs()
     float expected_scalar = 15.7797;
 
     // teste d'obtenir la distance entre deux vecteurs
-    QCOMPARE(COMP(maths::lenght(vector_a, vector_b), expected_scalar, espace->get_prec()), (int)0);
+    QCOMPARE(COMP(maths::length(vector_a, vector_b), expected_scalar, espace->get_prec()), (int)0);
 
 }
 

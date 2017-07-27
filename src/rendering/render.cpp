@@ -4,7 +4,7 @@ namespace rendering {
 
 Render::Render() {}
 
-Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : closing(false)
+Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : closing(false), t_Timer(this)
 {
     //Qt takes care of deleting the window from memory as soon as it is closed.
     //If the parent will be destructed, then the children will be too.
@@ -12,9 +12,8 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : c
 
     //Create the timer and start it
     quint16 timerInterval = interval_time / framesPerSecond;
-    t_Timer = new QTimer(this);
-    connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
-    t_Timer->start( timerInterval );
+    connect(&t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
+    t_Timer.start( timerInterval );
 
     // Permet d'automatiser le swap buffer d'opengl
     setAutoBufferSwap(true);
@@ -22,9 +21,7 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : c
 
 Render::~Render() {
 
-   t_Timer->stop();
-   delete t_Timer;
-   t_Timer = nullptr;
+   t_Timer.stop();
    glDeleteTextures(1, &texture);
 }
 

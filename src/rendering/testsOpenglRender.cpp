@@ -6,7 +6,7 @@
 namespace rendering {
 
 TestsOpenglR::TestsOpenglR(const quint16 &framesPerSecond, const quint16 &interval_time) : Render(framesPerSecond, interval_time), count(0), color(.0f), color_up_down(true) {
-    connect(t_Timer, SIGNAL(timeout()), this, SLOT(next_step()));
+    connect(&t_Timer, SIGNAL(timeout()), this, SLOT(next_step()));
 }
 
 TestsOpenglR::~TestsOpenglR() {
@@ -18,7 +18,7 @@ void TestsOpenglR::loop_paint(const quint8 &test_funct, const quint32 &max_count
 
     // crée un thread pour effectuer une pause
     QEventLoop loop;
-    connect(t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    connect(&t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     // Si on ferme la fenêtre, le thread doit se terminer tout de suite
     connect(this, SIGNAL(close()), &loop, SLOT(quit()));
 

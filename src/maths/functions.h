@@ -32,15 +32,15 @@ namespace maths {
 template <typename T_Scalar>
 Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar>&, const Vector<T_Scalar>&);
 
-// return the normal of a vector
-// retourne la normale d'un vecteur
+// return the length of a vector
+// retourne la norme d'un vecteur
 template <typename T_Scalar>
-T_Scalar normal(const Vector<T_Scalar> &);
+T_Scalar length(const Vector<T_Scalar> &);
 
 // return the lenght between two vectors
 // retourne la longeur entre deux vecteurs
 template <typename T_Scalar>
-T_Scalar lenght(const Vector<T_Scalar>&, const Vector<T_Scalar>&);
+T_Scalar length(const Vector<T_Scalar>&, const Vector<T_Scalar>&);
 
 // operator * between two matrix 3x3 and 3x1
 // opérateur * entre deux matrices 3x3 and 3x1

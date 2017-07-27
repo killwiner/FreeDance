@@ -56,7 +56,7 @@ signals:
     void close();
 
 protected:
-    QTimer *t_Timer;
+    QTimer t_Timer;
 
     GLuint texture;
     QSPVImage PVImage_;

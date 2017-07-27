@@ -143,7 +143,7 @@ Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar> &vector_v_start, const Vector
 }
 
 template <typename T_Scalar>
-T_Scalar normal(const Vector<T_Scalar> &vector) {
+T_Scalar length(const Vector<T_Scalar> &vector) {
 
     T_Scalar x, y, z;
     vector.get_comp(x, y, z);
@@ -158,14 +158,14 @@ T_Scalar normal(const Vector<T_Scalar> &vector) {
 }
 
 template <typename T_Scalar>
-T_Scalar lenght(const Vector<T_Scalar> &vector_a, const Vector<T_Scalar> &vector_b) {
+T_Scalar length(const Vector<T_Scalar> &vector_a, const Vector<T_Scalar> &vector_b) {
 
     T_Scalar ax, ay, az;
     T_Scalar bx, by, bz;
     vector_a.get_comp(ax, ay, az);
     vector_b.get_comp(bx, by, bz);
 
-    return maths::normal(Vector<T_Scalar>(bx - ax, by - ay, bz - az, vector_a.get_espace()));
+    return maths::length(Vector<T_Scalar>(bx - ax, by - ay, bz - az, vector_a.get_espace()));
 
 }
 
@@ -192,7 +192,7 @@ Vector<T_Scalar> prod_mat_3x3_3x1(const Vector<T_Scalar> &matrix, const Vector<T
 template <typename T_Scalar>
 T_Scalar angle_vectors(Vector<T_Scalar> const &a, Vector<T_Scalar> const &b) {
 
-    T_Scalar na_nb = maths::normal(a) * maths::normal(b);
+    T_Scalar na_nb = maths::length(a) * maths::length(b);
 
     if(!COMP(na_nb, 0, a.get_espace()->get_prec()))
         return 0;
@@ -250,7 +250,7 @@ Vector<T_Scalar> quick_rotation(const Vector<T_Scalar> &vector, const quint16 &n
 template <typename T_Scalar>
 Vector<T_Scalar> angle_rotation(const Vector<T_Scalar> &vector, const T_Scalar &angle) {
 
-    T_Scalar n = maths::normal(vector);
+    T_Scalar n = maths::length(vector);
     T_Scalar x, y, z;
     vector.get_comp(x, y, z);
 

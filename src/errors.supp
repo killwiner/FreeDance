@@ -358,3 +358,10 @@
    obj:/lib/x86_64-linux-gnu/libc-2.24.so
    ...
 }
+{
+   <libQt5Test>
+   Memcheck:Value8
+   ...
+   obj:/home/alex/Qt/5.8/gcc_64/lib/libQt5Test.so.5.8.0
+   ...
+}

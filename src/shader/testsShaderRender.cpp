@@ -28,7 +28,7 @@ void TestsShaderRender::loop_paint(const qint32 &max_count) {
 
     // crée un thread pour effectuer une pause
     QEventLoop loop;
-    connect(t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    connect(&t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     // Si on ferme la fenêtre, le thread doit se terminer tout de suite
     connect(this, SIGNAL(close()), &loop, SLOT(quit()));
     for(count = 0; count < max_count; ++count) {
