@@ -54,7 +54,9 @@ SOURCES += main.cpp \
     shader/testsShader.cpp \
     shader/testsShaderRender.cpp \
     armature/thread.cpp \
-    armature/border.cpp
+    armature/border.cpp \
+    armature/skeleton.cpp \
+    armature/testsSkeleton.cpp
 
 # RESOURCES += qml.qrc
 
@@ -87,4 +89,6 @@ HEADERS += maths/vectors.h \
     shader/shader.h \
     shader/testsShader.h \
     shader/testsShaderRender.h \
-    armature/thread.h
+    armature/thread.h \
+    armature/skeleton.h \
+    armature/testsSkeleton.h

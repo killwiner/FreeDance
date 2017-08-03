@@ -7,6 +7,7 @@
 #include "rendering/testsRender.h"
 #include "kinect/testsKinect.h"
 #include "armature/testsHumanShape.h"
+#include "armature/testsSkeleton.h"
 #include "draw/testsDraw.h"
 #include "shader/testsShader.h"
 

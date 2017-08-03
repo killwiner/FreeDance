@@ -18,6 +18,7 @@ public:
 
 private slots:
     void drawLine();
+    void drawPoint();
 
 private:
     rendering::TestsOpenglR *render_;

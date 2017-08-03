@@ -15,4 +15,7 @@ void Draw::arrow(const maths::Vector<float> &from, const maths::Vector<float> &t
     cv::arrowedLine(cv::InputOutputArray(*Image_), cv::Point2f(comp_from.x, comp_from.y), cv::Point2f(comp_to.x, comp_to.y), cv::Scalar(0, 255, 0), 2, CV_AA, 0, 0.2);
 }
 
+void Draw::point(const maths::Vector<float> &center, const cv::Scalar &color) {
+    cv::circle(cv::InputOutputArray(*Image_), cv::Point2f(center.get_X(), center.get_Y()), 10, color, CV_FILLED, 8, 0);
+}
 }
