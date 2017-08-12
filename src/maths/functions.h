@@ -30,7 +30,7 @@ namespace maths {
 // return the intersection point between two vectors
 // retourne l'intersection entre deux vecteurs
 template <typename T_Scalar>
-Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar>&, const Vector<T_Scalar>&);
+Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar> &vector_v_start, const Vector<T_Scalar> &vector_w_start, const Vector<T_Scalar> &vector_v_end, const Vector<T_Scalar> &vector_w_end);
 
 // return the length of a vector
 // retourne la norme d'un vecteur
