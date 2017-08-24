@@ -67,6 +67,7 @@ public:
     void set(const T_Scalar &x, const T_Scalar &y, const T_Scalar &z);
     bool isNull() const;
     void Null();
+    void swap(Vector<T_Scalar> &vector);
 
 private:
     // components of the vector

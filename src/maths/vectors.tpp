@@ -310,3 +310,11 @@ Vector<T_Scalar> operator^(const Vector<T_Scalar>& vector_a, const Vector<T_Scal
     r.set(compA.y * compB.z - compA.z * compB.y, compA.z * compB.x - compA.x * compB.z, compA.x * compB.y - compA.y * compB.x);
     return r;
 }
+
+template<typename T_Scalar>
+void Vector<T_Scalar>::swap(Vector<T_Scalar> &vector)
+{
+    Vector<T_Scalar> vector_tmp = vector;
+    vector = *this;
+    *this = vector_tmp;
+}
