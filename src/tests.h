@@ -3,6 +3,7 @@
 
 #ifdef TESTS
 
+#include "tools/testscircularvector.h"
 #include "maths/testsVector.h"
 #include "rendering/testsRender.h"
 #include "kinect/testsKinect.h"

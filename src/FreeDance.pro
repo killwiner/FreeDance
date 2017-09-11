@@ -56,7 +56,9 @@ SOURCES += main.cpp \
     armature/thread.cpp \
     armature/border.cpp \
     armature/skeleton.cpp \
-    armature/testsSkeleton.cpp
+    armature/testsSkeleton.cpp \
+    tools/testscircularvector.cpp \
+    tools/circularvector.tpp
 
 # RESOURCES += qml.qrc
 
@@ -91,4 +93,6 @@ HEADERS += maths/vectors.h \
     shader/testsShaderRender.h \
     armature/thread.h \
     armature/skeleton.h \
-    armature/testsSkeleton.h
+    armature/testsSkeleton.h \
+    tools/circularvector.h \
+    tools/testscircularvector.h
