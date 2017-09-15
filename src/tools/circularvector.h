@@ -23,12 +23,22 @@
 namespace tools {
 
 template <typename T_Obj>
-class CircularVector : protected std::vector<T_Obj>
+class CircularVector : public std::vector<T_Obj>
 {
 
 public:
     CircularVector();
+    CircularVector(const quint32 &size);
+    void push_back(T_Obj obj);
+    T_Obj &at(const qint32 &adr);
+    quint32 length(const qint32 &adrA, const qint32 &adrB) const;
+    void setSize(const quint32 &size);
+
+private:
+    quint32 size_, cursor;
 };
 }
+
+#include "circularvector.tpp"
 
 #endif // CIRCULARVECTOR_H

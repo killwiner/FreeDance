@@ -7,7 +7,7 @@ QT_VERSION = 5.8.0
 MOC_DIR = "../bin"
 OBJECTS_DIR = "../bin"
 DESTDIR = "../bin"
-TERGET = "FreeDance"
+TARGET = "FreeDance"
 
 # la première ligne est destinée à du 32 bits, erreur : moc: parse error "std"
 INCLUDEPATH += /usr/include/i386-linux-gnu/c++/4.9/ \

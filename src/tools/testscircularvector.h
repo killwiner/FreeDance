@@ -21,6 +21,7 @@
 #ifdef TESTS
 
 #include "testsuite.h"
+#include "circularvector.h"
 
 namespace tools {
 
@@ -31,7 +32,9 @@ public:
     TestsCircularVector();
 
 private slots:
-
+    void testPushBack();
+    void testAt();
+    void testLength();
 };
 }
 #endif // TESTS
