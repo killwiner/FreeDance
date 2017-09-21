@@ -15,7 +15,6 @@ Tests::Tests(rendering::TestsOpenglR *renderImgs) {
     //draw::TestsDraw testsDraw(renderImgs);
     kinect::TestsKinect testsKinect;
 
-
     std::vector<QObject*>::iterator iSuite;
     for (iSuite = QTestSuite::m_suites.begin(); iSuite != QTestSuite::m_suites.end(); ++iSuite)
     {
