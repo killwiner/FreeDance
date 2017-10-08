@@ -33,6 +33,7 @@ public:
     T_Obj &at(const qint32 &adr);
     quint32 length(const qint32 &adrA, const qint32 &adrB) const;
     void setSize(const quint32 &size);
+    typename std::vector<T_Obj>::value_type *ptr(const qint32 &adr);
 
 private:
     quint32 size_, cursor;

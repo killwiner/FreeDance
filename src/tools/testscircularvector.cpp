@@ -42,6 +42,15 @@ void TestsCircularVector::testLength()
     QCOMPARE(circularVector.length(1, 4), (quint32)4);
     QCOMPARE(circularVector.length(3, 1), (quint32)4);
 }
+
+void TestsCircularVector::testPtr()
+{
+    CircularVector<quint8> circularVector(5);
+    for(quint8 i = 5; i < 10; ++i)
+        circularVector.push_back(i);
+
+    QCOMPARE(circularVector.ptr(1), circularVector.ptr(6));
+}
 }
 
 #endif //TESTS

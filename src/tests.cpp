@@ -10,10 +10,10 @@ Tests::Tests(rendering::TestsOpenglR *renderImgs) {
     //maths::TestsVector testsVector;
     //rendering::TestsRender testsRender(renderImgs);
     //shader::TestsShader testsShader;
-    //armature::TestsHumanShape testsHumanShape(renderImgs);
+    armature::TestsHumanShape testsHumanShape(renderImgs);
     //armature::TestsSkeleton testsSkeleton(renderImgs);
     //draw::TestsDraw testsDraw(renderImgs);
-    kinect::TestsKinect testsKinect;
+    //kinect::TestsKinect testsKinect;
 
     std::vector<QObject*>::iterator iSuite;
     for (iSuite = QTestSuite::m_suites.begin(); iSuite != QTestSuite::m_suites.end(); ++iSuite)

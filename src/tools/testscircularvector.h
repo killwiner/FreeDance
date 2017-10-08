@@ -35,6 +35,7 @@ private slots:
     void testPushBack();
     void testAt();
     void testLength();
+    void testPtr();
 };
 }
 #endif // TESTS
