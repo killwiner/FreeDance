@@ -15,52 +15,38 @@
 /*  along with Tron.  If not, see <http://www.gnu.org/licenses/>.        */
 /*************************************************************************/
 
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef GAMERENDER_H
+#define GAMERENDER_H
 
-#include <QtGlobal>
-#include "rendering/render.h"
-#include <QGLFunctions>
-#include <string>
-#include <iostream>
-#include <QFile>
+#include "shader.h"
 
-namespace shader {
+namespace gameRender {
 
-#ifdef TESTS
-class TestsShader;
-#endif // TESTS
+class GameRender : public Shader {
 
-class Shader : public rendering::Render {
-
-#ifdef TESTS
-    friend TestsShader;
-#endif
+    Q_OBJECT
 
 public:
-    // interval_time : interval time between each image
-    // framesPerSecond : max of frames per second
-    Shader(const QString &vertexSource, const QString &fragmentSource,
-           const quint16 &framesPerSecond, const quint16 &interval_time);
-    ~Shader();
-
-    // accesseur qui retourne l'identifiant du programme
-    quint32 getProgramID() const;
-
-    void load();
+    GameRender (const QString &vertexSource, const QString &fragmentSource,
+                      const quint16 &framesPerSecond, const quint16 &interval_time);
+    virtual ~GameRender();
 
 protected:
-    quint32 programID;
+    // initialise OpenGL
+    virtual void initializeGL();
+    // redimensionne l'écran
+    virtual void resizeGL(int width, int height);
+    // dessine à l'écran
+    virtual void paintGL();
 
 private:
-    quint32 vertexID, fragmentID;
-    QString vertexSource_, fragmentSource_;
-
-    // type : type de shader
-    void buildShader(quint32 &shader, GLenum type, const QString &file);
-    QString loadFile(const QString &file_name);
-    void controlLink();
-    void controlBuild(const quint32 &shader);
+    // identifiant des vertex buffer object
+    GLuint vbo;
+    // coordonnées des vertices et des textures
+    static const float vertices_flat[60];
+    // taille de la fenêtre
+    int width_, height_;
 };
 }
-#endif //SHADER_H
+
+#endif // GAMERENDER_H

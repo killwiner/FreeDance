@@ -37,7 +37,11 @@ Vector<T_Scalar> cross_2Dxy(const Vector<T_Scalar> &vector_v_start, const Vector
 template <typename T_Scalar>
 T_Scalar length(const Vector<T_Scalar> &);
 
-// return the lenght between two vectors
+// return the vector as length = 1
+template <typename T_Scalar>
+Vector<T_Scalar> length_to_1(const Vector<T_Scalar> &vector);
+
+// return the length between two vectors
 // retourne la longeur entre deux vecteurs
 template <typename T_Scalar>
 T_Scalar length(const Vector<T_Scalar>&, const Vector<T_Scalar>&);

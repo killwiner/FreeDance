@@ -36,6 +36,8 @@ public:
 protected:
     // initialise OpenGL
     virtual void initializeGL();
+    // redimensionne l'écran
+    virtual void resizeGL(int width, int height);
     // dessine à l'écran
     virtual void paintGL();
 
@@ -46,6 +48,8 @@ private:
     qint32 count;
     // coordonnées des vertices et des textures
     static const float vertices[60];
+    // taille de la fenêtre
+    int width_, height_;
 };
 }
 

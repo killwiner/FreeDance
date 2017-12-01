@@ -4,7 +4,7 @@ namespace rendering {
 
 Render::Render() {}
 
-Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) : t_Timer(this), closing(false)
+Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  PVImage_(nullptr), t_Timer(this), closing(false)
 {
     //Qt takes care of deleting the window from memory as soon as it is closed.
     //If the parent will be destructed, then the children will be too.

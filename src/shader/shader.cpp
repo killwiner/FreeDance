@@ -41,8 +41,8 @@ void Shader::load() {
 
         // Verrouillage des entrées shader
         glBindAttribLocation(programID, 0, "position");
-        glBindAttribLocation(programID, 1, "outColor");
-        glBindAttribLocation(programID, 2, "texCoord");
+        glBindAttribLocation(programID, 1, "texCoord");
+//        uniformId = glGetUniformLocation(programID, "resolution");
 
         // Linkage du programme
         glLinkProgram(programID);

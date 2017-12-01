@@ -214,6 +214,30 @@ namespace shader {
         }
 
     }
+
+    void TestsShader::testTutorials()
+    {
+
+        for(quint8 i = 0; i < 10; ++i) {
+
+            try {
+                TestsShaderRender shaderRender(QString("../data/tutorial_shader/tutorial_")+QString::number(i+1)+QString(".vp"),
+                                               QString("../data/tutorial_shader/tutorial_")+QString::number(i+1)+QString(".fp"), 24, 1000);
+
+                shaderRender.setGeometry(200, 200, 400, 400);
+                shaderRender.show();
+                shaderRender.load();
+                shaderRender.loop_paint(40);
+            }
+            catch (const char* strException) {
+                std::cerr << "Exception caught !!" << std::endl;
+                std::cerr << strException << std::endl;
+                std::cerr << i + 1 << std::endl;
+                QFAIL("tutorial fail test");
+            }
+        }
+
+    }
 }
 
 #endif //TESTS

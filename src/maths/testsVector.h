@@ -43,6 +43,9 @@ private slots:
     // teste l'obtention des bornes
     void getMax();
 
+    // teste de changer la norme d'un vecteur à 1
+    void norme_vers_1();
+
     // teste l'opérateur ==
     void comparaison_equivalence_de_deux_vecteurs();
 

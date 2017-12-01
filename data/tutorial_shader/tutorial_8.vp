@@ -1,0 +1,13 @@
+#version 150 core
+
+// in : Variable représentant les données des tableaux Vertex Attrib (vertices, couleurs et tutti quanti)
+// out : Variable qui sera envoyée au shader suivant, soit le Fragment Shader dans notre cas
+
+// entrée shader
+in vec3 position;
+
+void main()
+{     
+    // Position finale du vertex
+    gl_Position = vec4(position, 1.0);
+}

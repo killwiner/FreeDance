@@ -1,4 +1,6 @@
+#ifdef TESTS
 #include "tests.h"
+#endif //TESTS
 
 int main(int argc, char *argv[])
 {
@@ -12,4 +14,8 @@ int main(int argc, char *argv[])
 
     #endif //TESTS
 
+    // lance l'intro
+    //intro::Intro intro();
+    //intro.show();
+    exit(0);
 }

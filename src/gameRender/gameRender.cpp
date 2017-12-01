@@ -1,10 +1,8 @@
-#include "testsShaderRender.h"
+#include "GameRender.h"
 
-#ifdef TESTS
+namespace gameRender {
 
-namespace shader {
-
-const float TestsShaderRender::vertices[60] = {
+const float GameRender::vertices_flat[60] = {
 //    X      Y     Z     U     V
   -1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
    1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
@@ -14,35 +12,17 @@ const float TestsShaderRender::vertices[60] = {
    1.0f,  1.0f, 0.0f, 1.0f, 0.0f
 };
 
-TestsShaderRender::TestsShaderRender(const QString &vertexSource, const QString &fragmentSource,
-                                     const quint16 &framesPerSecond, const quint16 &interval_time) :
+GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
+                       const quint16 &framesPerSecond, const quint16 &interval_time) :
     Shader(vertexSource, fragmentSource, framesPerSecond, interval_time) {
 }
 
-TestsShaderRender::~TestsShaderRender() {
+GameRender::~GameRender() {
     // désactivation du shader
     glUseProgram(0);
 }
 
-void TestsShaderRender::loop_paint(const qint32 &max_count) {
-
-    // crée un thread pour effectuer une pause
-    QEventLoop loop;
-    connect(&t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-    // Si on ferme la fenêtre, le thread doit se terminer tout de suite
-    connect(this, SIGNAL(close()), &loop, SLOT(quit()));
-    for(count = 0; count < max_count; ++count) {
-
-        // On arrête tout si on ferme la fenêtre
-        if(toClose())
-            break;
-
-        // On lance le thread pour effectuer une pause entre chaque image
-        loop.exec();
-    }
-}
-
-void TestsShaderRender::initializeGL()
+void GameRender::initializeGL()
 {
     // pour avoir accès aux fonctions d'OpenGL
     initializeGLFunctions();
@@ -85,12 +65,10 @@ void TestsShaderRender::initializeGL()
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
-void TestsShaderRender::resizeGL(int width, int height)
+void GameRender::resizeGL(int width, int height)
 {
-
     // spécifie les dimensions de la fenêtre visible sous opengl
     glViewport(0, 0, width, height);
 
@@ -99,7 +77,7 @@ void TestsShaderRender::resizeGL(int width, int height)
 
 }
 
-void TestsShaderRender::paintGL()
+void GameRender::paintGL()
 {
     // set textures parameters
     // GL_NEAREST : Returns the value of the texture element that is nearest (in Manhattan distance) to the specified texture coordinates.

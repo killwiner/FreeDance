@@ -266,3 +266,9 @@ Vector<T_Scalar> angle_rotation(const Vector<T_Scalar> &vector, const T_Scalar &
     double alphal = acosl(x / n);
     return Vector<T_Scalar>(n * cosl(angle + alphal), n * sinl(angle + alphal), .0, vector.get_espace());
 }
+
+template<typename T_Scalar>
+Vector<T_Scalar> length_to_1(const Vector<T_Scalar> &vector)
+{
+    return vector / length(vector);
+}

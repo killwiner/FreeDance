@@ -49,6 +49,17 @@ void TestsVector::getMax()
 
 }
 
+void TestsVector::norme_vers_1()
+{
+    // création des bornes
+    QSPEspace espace = QSPEspace(new Espace(200, 300, 400, 1000));
+
+    // création du vecteur
+    Vector<float> vecteur(5.4f, 2.2f, 8.6f, espace);
+
+    QCOMPARE(length(length_to_1(vecteur)), 1.0f);
+}
+
 void TestsVector::comparaison_equivalence_de_deux_vecteurs() {
 
     // création des bornes

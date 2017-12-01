@@ -37,6 +37,7 @@ public:
 private:
 
 private slots:
+    
     void testLoadFileFail();
     void testLoadFileSucces();
     void testBuildFail();
@@ -46,6 +47,8 @@ private slots:
     void testControlLinkFail();
     void testControlLinkSucces();
     void testAffichage();
+    
+    void testTutorials();
 };
 
 }
