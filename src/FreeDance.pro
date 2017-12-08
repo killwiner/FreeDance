@@ -24,7 +24,7 @@ LIBS += -L/usr/local/lib \
 # QT += qml quick
 QT += widgets core testlib opengl
 
-DEFINES += TESTS
+# DEFINES += TESTS
 CONFIG += C++11
 
 # pour valgrind
@@ -58,7 +58,9 @@ SOURCES += main.cpp \
     armature/skeleton.cpp \
     armature/testsSkeleton.cpp \
     tools/testscircularvector.cpp \
-    tools/circularvector.tpp
+    tools/circularvector.tpp \
+    gameRender/gameRender.cpp \
+    intro/intro.cpp
 
 # RESOURCES += qml.qrc
 
@@ -95,4 +97,6 @@ HEADERS += maths/vectors.h \
     armature/skeleton.h \
     armature/testsSkeleton.h \
     tools/circularvector.h \
-    tools/testscircularvector.h
+    tools/testscircularvector.h \
+    gameRender/gameRender.h \
+    intro/intro.h

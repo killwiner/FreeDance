@@ -1,5 +1,9 @@
 #ifdef TESTS
 #include "tests.h"
+#else
+#include <QApplication>
+#include "gameRender/gameRender.h"
+#include "intro/intro.h"
 #endif //TESTS
 
 int main(int argc, char *argv[])
@@ -14,8 +18,13 @@ int main(int argc, char *argv[])
 
     #endif //TESTS
 
+    // rendu par défaut
+    gameRender::GameRender render(QString("../data/shaderIntro.vp"), QString("../data/shaderIntro.fp"), 24, 1000);
+    // on redimenssionne la fenêtre
+    render.setGeometry(20, 20, 1280, 960);
+    render.show();
     // lance l'intro
-    //intro::Intro intro();
-    //intro.show();
+    intro::Intro intro(&render);
+    intro.video();
     exit(0);
 }

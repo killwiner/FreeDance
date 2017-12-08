@@ -5,7 +5,7 @@ namespace shader {
 Shader::Shader(const QString &vertexSource, const QString &fragmentSource,
            const quint16 &framesPerSecond, const quint16 &interval_time):
     rendering::Render(framesPerSecond, interval_time),
-    vertexID(0), fragmentID(0), programID(0),
+    programID(0), vertexID(0), fragmentID(0),
     vertexSource_(vertexSource), fragmentSource_(fragmentSource)
 {}
 

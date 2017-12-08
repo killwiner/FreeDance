@@ -18,11 +18,11 @@
 #ifndef GAMERENDER_H
 #define GAMERENDER_H
 
-#include "shader.h"
+#include "../shader/shader.h"
 
 namespace gameRender {
 
-class GameRender : public Shader {
+class GameRender : public shader::Shader {
 
     Q_OBJECT
 
@@ -30,6 +30,7 @@ public:
     GameRender (const QString &vertexSource, const QString &fragmentSource,
                       const quint16 &framesPerSecond, const quint16 &interval_time);
     virtual ~GameRender();
+    void loop_paint(const quint32 &max_count);
 
 protected:
     // initialise OpenGL
@@ -46,6 +47,9 @@ private:
     static const float vertices_flat[60];
     // taille de la fenêtre
     int width_, height_;
+    // itérations de la boucle animations
+    quint32 count;
+
 };
 }
 

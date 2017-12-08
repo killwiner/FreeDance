@@ -1,4 +1,4 @@
-#include "GameRender.h"
+#include "gameRender.h"
 
 namespace gameRender {
 
@@ -14,7 +14,7 @@ const float GameRender::vertices_flat[60] = {
 
 GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
                        const quint16 &framesPerSecond, const quint16 &interval_time) :
-    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time) {
+    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0) {
 }
 
 GameRender::~GameRender() {
@@ -51,10 +51,10 @@ void GameRender::initializeGL()
     // GL_STATIC_DRAW : données mises à jour rarrement
     // GL_DYNAMIC_DRAW : données mises à jour fréquemment
     // GL_STREAM_DRAW : données mises à jour à chaque frame
-    glBufferData(GL_ARRAY_BUFFER, 60 * sizeof(vertices), 0, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 60 * sizeof(vertices_flat), 0, GL_STATIC_DRAW);
 
     // envoie de données
-    glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(vertices), vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(vertices_flat), vertices_flat);
 
     // Vertex Attrib 0 (Vertices)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
@@ -90,7 +90,8 @@ void GameRender::paintGL()
 
     // specify a two-dimensional texture image
     if(PVImage_)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+        //glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->at(count).data);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -115,7 +116,23 @@ void GameRender::paintGL()
     glUseProgram(0);
 }
 
+void GameRender::loop_paint(const quint32 &max_count) {
+
+    // crée un thread pour effectuer une pause
+    QEventLoop loop;
+    connect(&t_Timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    // Si on ferme la fenêtre, le thread doit se terminer tout de suite
+    connect(this, SIGNAL(close()), &loop, SLOT(quit()));
+
+    for(count = 0; count < max_count; ++count) {
+
+        // On arrête tout si on ferme la fenêtre
+        if(toClose())
+            break;
+
+        // On lance le thread pour effectuer une pause entre chaque image
+        loop.exec();
+    }
 }
 
-#endif //TESTS
-
+}

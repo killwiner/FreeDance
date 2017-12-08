@@ -1,3 +1,5 @@
+#ifdef TESTS
+
 #include "testsDraw.h"
 
 using namespace maths;
@@ -61,3 +63,5 @@ void TestsDraw::drawPoint()
     render_->loop_paint(TEST_IMAGE, 40);
 }
 }
+
+#endif // TESTS

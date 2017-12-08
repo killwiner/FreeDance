@@ -56,10 +56,9 @@ signals:
     void close();
 
 protected:
-    QTimer t_Timer;
-
-    GLuint texture;
     QSPVImage PVImage_;
+    QTimer t_Timer;
+    GLuint texture;
 
     // actions gérées lors de la fermeture de la fenêtre
     void closeEvent(QCloseEvent *event);
