@@ -4,6 +4,7 @@
 #include <QApplication>
 #include "gameRender/gameRender.h"
 #include "intro/intro.h"
+#include "run/run.h"
 #endif //TESTS
 
 int main(int argc, char *argv[])
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
     render.show();
     // lance l'intro
     intro::Intro intro(&render);
+    run::Run run(&render);
+
     intro.video();
+    run.loop();
     exit(0);
 }

@@ -21,6 +21,8 @@
 #include "espace.h"
 #include <iostream>
 
+#define COMP(X, Y, P) std::abs((qint32)(((X) - (Y)) * (P)))
+
 namespace maths {
 
 // notes : A null vector is a vector out from the vectors space

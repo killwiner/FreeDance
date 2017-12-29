@@ -1,3 +1,5 @@
+#version 150 core
+
 // MAKING THE ASPECT RATIO OF THE COORDINATE SYSTEM 1.0
 //
 // As we have seen from the previous examples, we do get rectangles

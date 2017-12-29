@@ -14,6 +14,8 @@ public:
 
 private:
     gameRender::GameRender *render_;
+    void loadVideo();
+    quint32 videoSize;
 };
 }
 

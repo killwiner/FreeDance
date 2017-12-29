@@ -23,6 +23,8 @@
 #include <opencv2/core.hpp>
 #include <iostream>
 #include <QSharedPointer>
+#include "../maths/vectors.h"
+#include "../global.h"
 
 #define QSPVImage QSharedPointer< std::vector<cv::Mat> >
 
@@ -46,6 +48,10 @@ public:
     void setImages(const QSPVImage &VImage);
     // set only one image
     void setImage(const cv::Mat *Image);
+    // clear all images
+    void clearImages();
+    // get mouse position
+    maths::Vector<quint16> getMouseXY();
 
 public slots:
     // actions gérées sur chaque top horloge
@@ -58,7 +64,9 @@ signals:
 protected:
     QSPVImage PVImage_;
     QTimer t_Timer;
-    GLuint texture;
+    std::vector<GLuint> VTexture;
+
+GLuint texture;
 
     // actions gérées lors de la fermeture de la fenêtre
     void closeEvent(QCloseEvent *event);
@@ -71,7 +79,12 @@ protected:
 private:
     // Etat courant de la fenêtre, fermée ou non
     bool closing;
+    // Position de la souris
+    MQSPEspace espace_mouse;
+    maths::Vector<quint16> VMouse;
 
+    // récupère les coordonnées de la souris à chaque mouvement de souris
+    void mouseMoveEvent(QMouseEvent *event);
 };
 }
 

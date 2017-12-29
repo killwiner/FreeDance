@@ -19,6 +19,7 @@
 #define GAMERENDER_H
 
 #include "../shader/shader.h"
+#include "freeQSPointer.h"
 
 namespace gameRender {
 
@@ -30,7 +31,10 @@ public:
     GameRender (const QString &vertexSource, const QString &fragmentSource,
                       const quint16 &framesPerSecond, const quint16 &interval_time);
     virtual ~GameRender();
+    qint8 loop_paint();
     void loop_paint(const quint32 &max_count);
+    int loadTextures();
+    QSharedPointer<float> makeVertices(const maths::Vector<float> &vloc, const float &length);
 
 protected:
     // initialise OpenGL
@@ -42,14 +46,23 @@ protected:
 
 private:
     // identifiant des vertex buffer object
-    GLuint vbo;
+    GLuint vbo[2];
+    // identifiant des vao
+    QOpenGLVertexArrayObject vao[2];
+
     // coordonnées des vertices et des textures
-    static const float vertices_flat[60];
+    // ne fonctionne pas avec std::vector ou QList
+    QSharedPointer<float> vertices[2];
+
     // taille de la fenêtre
     int width_, height_;
     // itérations de la boucle animations
     quint32 count;
+    // crée un thread pour effectuer une pause
+    QEventLoop loop;
 
+    // initialise le thread event_loop
+    void init_loop();
 };
 }
 

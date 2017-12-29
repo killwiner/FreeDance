@@ -1,3 +1,5 @@
+#version 150 core
+
 // DISK
 //
 // Let's draw disks

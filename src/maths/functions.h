@@ -18,7 +18,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#define COMP(X, Y, P) std::abs((qint32)(((X) - (Y)) * (P)))
 #define PI 3.141593
 
 #include <opencv2/highgui.hpp>

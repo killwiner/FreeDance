@@ -17,12 +17,19 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  
 
     // Permet d'automatiser le swap buffer d'opengl
     setAutoBufferSwap(true);
+
+    // construction des coordonnées de la position de la souris par défaut
+    espace_mouse = MQSPEspace(new maths::Espace(WIN_WIDTH, WIN_HEIGHT, 0, 1000));
+    VMouse = maths::Vector<quint16>(0, 0, 0, espace_mouse);
+
+    setMouseTracking(true);
 }
 
 Render::~Render() {
 
    t_Timer.stop();
-   glDeleteTextures(1, &texture);
+   //for(std::vector<GLuint>::iterator it = VTexture.begin(); it < VTexture.end(); ++it)
+   //   glDeleteTextures(1, &(*it));
 }
 
 void Render::setImages(const QSPVImage &PVImage) {
@@ -34,6 +41,15 @@ void Render::setImage(const cv::Mat *Image)
     if(!PVImage_.data())
         PVImage_ = QSPVImage(new std::vector<cv::Mat>);
     PVImage_.data()->push_back(*Image);
+}
+
+void Render::clearImages() {
+    PVImage_.clear();
+}
+
+maths::Vector<quint16> Render::getMouseXY()
+{
+    return VMouse;
 }
 
 bool Render::toClose() const {
@@ -73,7 +89,7 @@ void Render::initializeGL()
     glMatrixMode(GL_MODELVIEW);
 
     // generate texture names
-    glGenTextures(1, &texture);
+    //glGenTextures(1, &texture);
 }
 
 void Render::resizeGL(int width, int height)
@@ -88,4 +104,8 @@ void Render::paintGL()
 {
 }
 
+void Render::mouseMoveEvent(QMouseEvent *event)
+{
+    VMouse = maths::Vector<quint16>(event->x(), event->y(), 0, espace_mouse);
+}
 }

@@ -60,7 +60,9 @@ SOURCES += main.cpp \
     tools/testscircularvector.cpp \
     tools/circularvector.tpp \
     gameRender/gameRender.cpp \
-    intro/intro.cpp
+    intro/intro.cpp \
+    run/run.cpp \
+    run/menu.cpp
 
 # RESOURCES += qml.qrc
 
@@ -99,4 +101,7 @@ HEADERS += maths/vectors.h \
     tools/circularvector.h \
     tools/testscircularvector.h \
     gameRender/gameRender.h \
-    intro/intro.h
+    intro/intro.h \
+    run/run.h \
+    run/menu.h \
+    global.h
