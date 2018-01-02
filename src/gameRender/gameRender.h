@@ -21,6 +21,11 @@
 #include "../shader/shader.h"
 #include "freeQSPointer.h"
 
+enum {
+    MOTION,
+    MENU
+};
+
 namespace gameRender {
 
 class GameRender : public shader::Shader {
@@ -33,8 +38,10 @@ public:
     virtual ~GameRender();
     qint8 loop_paint();
     void loop_paint(const quint32 &max_count);
-    int loadTextures();
-    QSharedPointer<float> makeVertices(const maths::Vector<float> &vloc, const float &length);
+    int loadTexture(const GLenum &idText);
+    void makeVertices(const maths::Vector<float> &vloc, const float &length, const float &ratio);
+    void paintStatus(const quint8 &status);
+    void makeVao(const quint8 &id);
 
 protected:
     // initialise OpenGL
@@ -45,14 +52,20 @@ protected:
     virtual void paintGL();
 
 private:
+
+    quint8 paint_status;
+
     // identifiant des vertex buffer object
-    GLuint vbo[2];
+    GLuint vbo[3];
+
+    quint8 id_vao;
+
     // identifiant des vao
-    QOpenGLVertexArrayObject vao[2];
+    QOpenGLVertexArrayObject vao[3];
 
     // coordonnées des vertices et des textures
     // ne fonctionne pas avec std::vector ou QList
-    QSharedPointer<float> vertices[2];
+    QSharedPointer<float> SPVertices[3];
 
     // taille de la fenêtre
     int width_, height_;

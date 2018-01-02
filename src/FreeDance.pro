@@ -62,7 +62,8 @@ SOURCES += main.cpp \
     gameRender/gameRender.cpp \
     intro/intro.cpp \
     run/run.cpp \
-    run/menu.cpp
+    run/menu.cpp \
+    run/button.cpp
 
 # RESOURCES += qml.qrc
 
@@ -104,4 +105,5 @@ HEADERS += maths/vectors.h \
     intro/intro.h \
     run/run.h \
     run/menu.h \
-    global.h
+    global.h \
+    run/button.h

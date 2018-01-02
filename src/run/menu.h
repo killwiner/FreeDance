@@ -1,8 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "../gameRender/gameRender.h"
-#include "../rendering/loadimgs.h"
+#include "button.h"
 
 namespace run {
 
@@ -16,7 +15,9 @@ public:
 private:
     maths::Vector<quint16> VMouse;
     gameRender::GameRender *render_;
-    void loadImage();
+
+    void initMouse();
+    void loadImage(const QString &fileName);
 };
 
 }

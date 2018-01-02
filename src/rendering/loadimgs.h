@@ -37,7 +37,7 @@ public:
     ~LoadImgs();
     bool load_image(const QString &fileName);
     bool load_video(const QString &fileName);
-    QSPVImage getImages() const;
+    QSPVImage getImages();
 
 private:
     QSPVImage PVImage;

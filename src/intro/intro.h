@@ -13,6 +13,7 @@ public:
     void video();
 
 private:
+    QSPVImage images;
     gameRender::GameRender *render_;
     void loadVideo();
     quint32 videoSize;

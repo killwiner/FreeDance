@@ -6,27 +6,8 @@ Menu::Menu() {}
 
 Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
-    loadImage();
-}
-
-void Menu::loadImage() {
-    rendering::LoadImgs image;
-    try {
-        if(!image.load_image("../data/images/options.png"))
-            throw "(menu.cpp) error, can't open the image";
-
-        // render pointe sur l'image
-        render_->setImages(image.getImages());
-        // on crée les textures
-        if(render_->loadTextures())
-            throw "(intro.cpp) error, can't generate textures";
-        render_->clearImages();
-    }
-    catch (const char* strException) {
-        std::cerr << "Exception caught !!" << std::endl;
-        std::cerr << strException << std::endl;
-        throw;
-    }
+    Button b_options(render_, QString("../data/images/options.png"));
+    initMouse();
 }
 
 void Menu::run() {
@@ -38,5 +19,34 @@ void Menu::run() {
         std::cout << "mouse : " << xy.get_X() << " - " << xy.get_Y() << std::endl;
     }
 
+}
+
+void Menu::initMouse() {
+    MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
+    render_->makeVertices(maths::Vector<float>(-.9f, .9f, .8f, espace), .1f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
+    render_->makeVao(2);
+    loadImage(QString("../data/images/mouse.png"));
+}
+
+void Menu::loadImage(const QString &fileName) {
+
+    rendering::LoadImgs image;
+    try {
+        std::cout << "file name : " << fileName.toStdString().c_str() << std::endl;
+        if(!image.load_image(fileName))
+            throw "(menu.cpp) error, can't open the image";
+
+        // render pointe sur l'image
+        render_->setImages(image.getImages());
+        // on crée les textures
+        if(render_->loadTexture(GL_TEXTURE2))
+            throw "(menu.cpp) error, can't generate the texture";
+        //render_->clearImages();
+    }
+    catch (const char* strException) {
+        std::cerr << "Exception caught !!" << std::endl;
+        std::cerr << strException << std::endl;
+        throw;
+    }
 }
 }

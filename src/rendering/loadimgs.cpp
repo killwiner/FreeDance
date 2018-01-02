@@ -12,13 +12,16 @@ LoadImgs::~LoadImgs() {
 bool LoadImgs::load_image(const QString &fileName) {
 
     PVImage = QSPVImage(new std::vector<cv::Mat>);
-    PVImage.data()->push_back(cv::imread(fileName.toStdString().c_str(), CV_LOAD_IMAGE_COLOR));
+    //PVImage.data()->push_back(cv::imread(fileName.toStdString().c_str(), CV_LOAD_IMAGE_COLOR));
+    PVImage.data()->push_back(cv::imread(fileName.toStdString().c_str(), CV_LOAD_IMAGE_UNCHANGED));
+    // -1 paramètre : pour charger le canal alpha
+    //PVImage.data()->push_back(cv::imread(fileName.toStdString().c_str(), -1));
 
     if(!PVImage->data())
         return false;
 
     // turn colors in right order RGB to BGR
-    cv::cvtColor(PVImage.data()->back(), PVImage.data()->back(), cv::COLOR_RGB2BGR );
+    //cv::cvtColor(PVImage.data()->back(), PVImage.data()->back(), cv::COLOR_RGB2BGR );
 
     return true;
 }
@@ -63,7 +66,7 @@ void LoadImgs::make_vector(cv::VideoCapture &video) {
     }
 }
 
-QSPVImage LoadImgs::getImages() const {
+QSPVImage LoadImgs::getImages() {
     return PVImage;
 }
 }

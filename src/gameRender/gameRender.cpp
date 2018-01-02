@@ -1,42 +1,10 @@
 #include "gameRender.h"
 
 namespace gameRender {
-/*
-const float GameRender::vertices[2][60] = {
-    {
-        //    X      Y     Z     U     V
-        -1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f,  1.0f, 0.0f, 1.0f, .0f,
-        -1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-        -1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-        1.0f,  1.0f, 0.0f, 1.0f, 0.0f
-    },
-    {
-        //    X      Y     Z     U     V
-        0.5f, 0.8f, 0.4f, 0.0f, 1.0f,
-        0.6f, 0.8f, 0.4f, 1.0f, 1.0f,
-        0.6f, 0.9f, 0.4f, 1.0f, .0f,
-        0.5f, 0.8f, 0.4f, 0.0f, 1.0f,
-        0.5f, 0.9f, 0.4f, 0.0f, 0.0f,
-        0.6f, 0.9f, 0.4f, 1.0f, 0.0f
-    }
-};
-*/
 
 GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
                        const quint16 &framesPerSecond, const quint16 &interval_time) :
-    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0) {
-
-    //when you allocate using new[] you need to call delete[], and not delete, to free the resource.
-    //vertices[0] = QSharedPointer<float>(new float[60], do_delete<float>);
-    //vertices[1] = QSharedPointer<float>(new float[60], do_delete<float>);
-
-    MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-
-    vertices[0] = makeVertices(maths::Vector<float>(-1.0f, -1.0f, .0f, espace), 2.0f);
-    vertices[1] = makeVertices(maths::Vector<float>(-.5f, -.5f, .4f, espace), .4f);
-
+    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), id_vao(0), paint_status(MOTION) {
     init_loop();
 }
 
@@ -45,9 +13,7 @@ GameRender::~GameRender() {
     glUseProgram(0);
 }
 
-QSharedPointer<float> GameRender::makeVertices(const maths::Vector<float> &vloc, const float &length) {
-
-    QSharedPointer<float> SPVertices = QSharedPointer<float>(new float[60], do_delete<float>);
+void GameRender::makeVertices(const maths::Vector<float> &vloc, const float &length, const float &ratio) {
 
     float vertices[60] = {
   //    X    Y    Z    U     V
@@ -59,15 +25,17 @@ QSharedPointer<float> GameRender::makeVertices(const maths::Vector<float> &vloc,
         .0f, .0f, .0f, 1.0f, 0.0f
     };
 
+    SPVertices[id_vao] = QSharedPointer<float>(new float[60], do_delete<float>);
+
     vertices[0] = vloc.get_X();
     vertices[1] = vloc.get_Y();
     vertices[2] = vloc.get_Z();
 
-    vertices[5] = vloc.get_X() + length;
+    vertices[5] = vloc.get_X() + length * ratio;
     vertices[6] = vloc.get_Y();
     vertices[7] = vloc.get_Z();
 
-    vertices[10] = vloc.get_X() + length;
+    vertices[10] = vloc.get_X() + length * ratio;
     vertices[11] = vloc.get_Y() + length;
     vertices[12] = vloc.get_Z();
 
@@ -79,20 +47,23 @@ QSharedPointer<float> GameRender::makeVertices(const maths::Vector<float> &vloc,
     vertices[21] = vloc.get_Y() + length;
     vertices[22] = vloc.get_Z();
 
-    vertices[25] = vloc.get_X() + length;
+    vertices[25] = vloc.get_X() + length * ratio;
     vertices[26] = vloc.get_Y() + length;
     vertices[27] = vloc.get_Z();
 
-    std::memcpy(SPVertices.data(), vertices, 60 * sizeof(float));
+    std::memcpy(SPVertices[id_vao].data(), vertices, 60 * sizeof(float));
 
-    return SPVertices;
+    ++id_vao;
 }
 
-int GameRender::loadTextures() {
+void GameRender::paintStatus(const quint8 &status)
+{
+    paint_status = status;
+}
+
+int GameRender::loadTexture(const GLenum &idText) {
     if(!PVImage_)
         return -1;
-
-    for(std::vector<cv::Mat>::iterator it = PVImage_.data()->begin(); it < PVImage_.data()->end(); ++it) {
 
         // generate texture names
         VTexture.push_back(0);
@@ -105,16 +76,14 @@ int GameRender::loadTextures() {
         }
 
         // utilisation des textures
-        if(PVImage_.data()->size() > 5)
-            glActiveTexture(GL_TEXTURE0);
-        else
-            glActiveTexture(GL_TEXTURE1);
+            glActiveTexture(idText);
 
         glBindTexture(GL_TEXTURE_2D, VTexture.back());
 
         // specify a two-dimensional texture image
         if(PVImage_)
-            glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, it->data);
+            //glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_BGRA, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
 
         // set textures parameters
         // GL_NEAREST : Returns the value of the texture element that is nearest (in Manhattan distance) to the specified texture coordinates.
@@ -122,10 +91,16 @@ int GameRender::loadTextures() {
         // texture determines that the texture should be magified.
         // GL_TEXTURE_MIN_FILTER : The texture minifying function is used whenever the level-of-detail function used when sampling from the texture
         // determines that the texture should be minified.
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    }
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Set texture clamping method
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
     return 0;
 }
 
@@ -151,40 +126,39 @@ void GameRender::initializeGL()
     glMatrixMode(GL_MODELVIEW);
 
     // vertex buffer object, génération
-    glGenBuffers(2, vbo);
+    glGenBuffers(3, vbo);
+}
 
-    for(quint8 i = 0; i < 2; ++i) {
+void GameRender::makeVao(const quint8 &id) {
 
-        // vérouillage
-        glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
+    // vérouillage
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[id]);
 
-        vao[i].create();
-        vao[i].bind();
+    vao[id].create();
+    vao[id].bind();
 
-        // transfert de données
-        // GL_STATIC_DRAW : données mises à jour rarrement
-        // GL_DYNAMIC_DRAW : données mises à jour fréquemment
-        // GL_STREAM_DRAW : données mises à jour à chaque frame
-        glBufferData(GL_ARRAY_BUFFER, 60 * sizeof(float[60]), 0, GL_STATIC_DRAW);
+    // transfert de données
+    // GL_STATIC_DRAW : données mises à jour rarrement
+    // GL_DYNAMIC_DRAW : données mises à jour fréquemment
+    // GL_STREAM_DRAW : données mises à jour à chaque frame
+    glBufferData(GL_ARRAY_BUFFER, 60 * sizeof(float[60]), 0, GL_STATIC_DRAW);
 
-        // envoie de données
-        //glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(vertices[i]), vertices[i]);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(float[60]), vertices[i].data());
+    // envoie de données
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(float[60]), SPVertices[id].data());
 
-        // Vertex Attrib 0 (Vertices)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
-        glEnableVertexAttribArray(0);
+    // Vertex Attrib 0 (Vertices)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
 
-        // Coordonnées de textures Attrib 2 (Texture)
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);
+    // Coordonnées de textures Attrib 2 (Texture)
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-        vao[i].release();
-
-    }
+    vao[id].release();
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
 
 void GameRender::resizeGL(int width, int height)
 {
@@ -211,24 +185,63 @@ void GameRender::paintGL()
 
     glEnable(GL_TEXTURE_2D);
 
+    switch(paint_status) {
+
+    case MOTION :
+
+        glActiveTexture(GL_TEXTURE0);
+
+        if(PVImage_)
+            glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->at(count).size().width, PVImage_.data()->at(count).size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->at(count).data);
+
+        // set textures parameters
+        // GL_NEAREST : Returns the value of the texture element that is nearest (in Manhattan distance) to the specified texture coordinates.
+        // GL_TEXTURE_MAG_FILTER : The texture magnification function is used whenever the level-of-detail function used when sampling from the
+        // texture determines that the texture should be magified.
+        // GL_TEXTURE_MIN_FILTER : The texture minifying function is used whenever the level-of-detail function used when sampling from the texture
+        // determines that the texture should be minified.
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glUniform1i(glGetUniformLocation(programID, "texBackground"), 0);
+
+        // dessine les objets au format triangles
+        vao[0].bind();
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        vao[0].release();
+
+        break;
+
+    case MENU :
+
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, VTexture.at(count));
+    glBindTexture(GL_TEXTURE_2D, VTexture.at(0));
     glUniform1i(glGetUniformLocation(programID, "texBackground"), 0);
 
-    // dessine les objets au format triangles
     vao[0].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao[0].release();
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, VTexture.back());
+    glBindTexture(GL_TEXTURE_2D, VTexture.at(1));
     glUniform1i(glGetUniformLocation(programID, "texBackground"), 1);
 
     vao[1].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao[1].release();
 
-    // lance le shader
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, VTexture.at(2));
+    glUniform1i(glGetUniformLocation(programID, "texBackground"), 2);
+
+    vao[2].bind();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vao[2].release();
+
+        // lance le shader
+        break;
+    }
+
     glUseProgram(0);
 }
 

@@ -32,8 +32,13 @@ Render::~Render() {
    //   glDeleteTextures(1, &(*it));
 }
 
-void Render::setImages(const QSPVImage &PVImage) {
-    PVImage_ = PVImage;
+void Render::setImages(QSPVImage PVImage) {
+    //PVImage_.data() += PVImage.data();
+    if(PVImage_)
+        PVImage_.data()->insert( PVImage_.data()->end(), PVImage.data()->begin(), PVImage.data()->end() );
+    else
+        // clone vector from PVImage to PVImage_
+        PVImage_ = QSPVImage(new std::vector<cv::Mat>(*PVImage.data()));
 }
 
 void Render::setImage(const cv::Mat *Image)

@@ -45,7 +45,7 @@ public:
     bool toClose() const;
 
     // set a vector of images for a video
-    void setImages(const QSPVImage &VImage);
+    void setImages(QSPVImage VImage);
     // set only one image
     void setImage(const cv::Mat *Image);
     // clear all images
