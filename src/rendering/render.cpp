@@ -23,6 +23,7 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  
     VMouse = maths::Vector<quint16>(0, 0, 0, espace_mouse);
 
     setMouseTracking(true);
+    setCursor(Qt::BlankCursor);
 }
 
 Render::~Render() {

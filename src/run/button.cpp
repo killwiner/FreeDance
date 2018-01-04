@@ -7,7 +7,9 @@ Button::Button() {}
 Button::Button(gameRender::GameRender *render, const QString &fileName) : render_(render)
 {
     MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-    render_->makeVertices(maths::Vector<float>(.7f, .7f, .4f, espace), .1f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
+//    render_->makeVertices(maths::Vector<float>(.7f, .7f, .4f, espace), .1f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
+    render_->makeVertices(maths::Vector<float>(-1.0f, -1.0f, .4f, espace), 8.0f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
+
     render_->makeVao(1);
     loadImage(fileName);
 }

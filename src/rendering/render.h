@@ -65,7 +65,7 @@ protected:
     QSPVImage PVImage_;
     QTimer t_Timer;
     std::vector<GLuint> VTexture;
-
+    MQSPEspace espace_mouse;
 GLuint texture;
 
     // actions gérées lors de la fermeture de la fenêtre
@@ -80,7 +80,6 @@ private:
     // Etat courant de la fenêtre, fermée ou non
     bool closing;
     // Position de la souris
-    MQSPEspace espace_mouse;
     maths::Vector<quint16> VMouse;
 
     // récupère les coordonnées de la souris à chaque mouvement de souris

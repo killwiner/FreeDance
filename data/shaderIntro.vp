@@ -3,16 +3,23 @@
 //entrée shader
 in vec3 position;
 in vec2 texCoord;
+uniform vec2 UNIF_translate;
 
 //sortie
 out vec2 coordTexture;
+out vec2 translate;
 
 void main()  
 {     
+    // effectue une translation
+    vec3 position = vec3(position.x + UNIF_translate.x, position.y + UNIF_translate.y, position.z);
+
     // Position finale du vertex
     gl_Position = vec4(position, 1.0);
 
     // Envoi des coordonnées de texture au Fragment Shader
     coordTexture = texCoord;
 
+    // envoie la translation au fragment
+    translate = UNIF_translate;
 }

@@ -13,7 +13,7 @@ uniform ivec2 resolution;
 
 void main()
 {
-    vec2 r =  2.0*vec2(gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
+    vec2 r =  2.0*vec2(gl_FragCoord.xy - 0.5 * resolution.xy / resolution.y);
     
     vec3 bgCol = vec3(0.3);
     vec3 col1 = vec3(0.216, 0.471, 0.698); // blue

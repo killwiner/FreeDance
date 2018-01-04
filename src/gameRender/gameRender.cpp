@@ -5,6 +5,9 @@ namespace gameRender {
 GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
                        const quint16 &framesPerSecond, const quint16 &interval_time) :
     Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), id_vao(0), paint_status(MOTION) {
+
+    VPointMouse = maths::Vector<quint16>(.0f, .0f, .0f, espace_mouse);
+
     init_loop();
 }
 
@@ -14,6 +17,8 @@ GameRender::~GameRender() {
 }
 
 void GameRender::makeVertices(const maths::Vector<float> &vloc, const float &length, const float &ratio) {
+
+    float l = 1.0f / length;
 
     float vertices[60] = {
   //    X    Y    Z    U     V
@@ -31,12 +36,12 @@ void GameRender::makeVertices(const maths::Vector<float> &vloc, const float &len
     vertices[1] = vloc.get_Y();
     vertices[2] = vloc.get_Z();
 
-    vertices[5] = vloc.get_X() + length * ratio;
+    vertices[5] = vloc.get_X() + l * ratio;
     vertices[6] = vloc.get_Y();
     vertices[7] = vloc.get_Z();
 
-    vertices[10] = vloc.get_X() + length * ratio;
-    vertices[11] = vloc.get_Y() + length;
+    vertices[10] = vloc.get_X() + l * ratio;
+    vertices[11] = vloc.get_Y() + l;
     vertices[12] = vloc.get_Z();
 
     vertices[15] = vloc.get_X();
@@ -44,11 +49,11 @@ void GameRender::makeVertices(const maths::Vector<float> &vloc, const float &len
     vertices[17] = vloc.get_Z();
 
     vertices[20] = vloc.get_X();
-    vertices[21] = vloc.get_Y() + length;
+    vertices[21] = vloc.get_Y() + l;
     vertices[22] = vloc.get_Z();
 
-    vertices[25] = vloc.get_X() + length * ratio;
-    vertices[26] = vloc.get_Y() + length;
+    vertices[25] = vloc.get_X() + l * ratio;
+    vertices[26] = vloc.get_Y() + l;
     vertices[27] = vloc.get_Z();
 
     std::memcpy(SPVertices[id_vao].data(), vertices, 60 * sizeof(float));
@@ -159,6 +164,18 @@ void GameRender::makeVao(const quint8 &id) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void GameRender::setMouseXY(const maths::Vector<quint16> &vector)
+{
+    VPointMouse = vector;
+}
+
+void GameRender::setStructVAO(const GLenum &id, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length, const maths::Vector<float> &Vtranslate)
+{
+    StVAO[id].alpha = alpha;
+    StVAO[id].lrngth = length;
+    StVAO[id].Vtex_resolution = Vtex_resolution;
+    StVAO[id].Vtranslate = Vtranslate;
+}
 
 void GameRender::resizeGL(int width, int height)
 {
@@ -169,6 +186,20 @@ void GameRender::resizeGL(int width, int height)
     height_ = height;
 }
 
+void GameRender::showVAO(const GLenum &id) {
+
+    glActiveTexture(GL_TEXTURE0 + id);
+    glBindTexture(GL_TEXTURE_2D, VTexture.at(id));
+    glUniform1i(glGetUniformLocation(programID, "UNIF_surface"), id);
+    glUniform2f(uniformId1, StVAO[id].Vtex_resolution.get_X(), StVAO[id].Vtex_resolution.get_Y());
+    glUniform2f(uniformId2, StVAO[id].alpha, StVAO[id].length);
+    glUniform2f(uniformId3, StVAO[id].Vtranslate.get_X(), StVAO[id].Vtranslate.get_Y());
+
+    vao[id].bind();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    vao[id].release();
+}
+
 void GameRender::paintGL()
 {
 
@@ -176,12 +207,15 @@ void GameRender::paintGL()
     glLoadIdentity();
     glTranslatef (0.0, 0.0, -5.0);
 
-    GLint uniformId = glGetUniformLocation(programID, "resolution");
+    GLint uniformId0 = glGetUniformLocation(programID, "UNIF_win_resolution");
+    GLint uniformId1 = glGetUniformLocation(programID, "UNIF_tex_resolution");
+    GLint uniformId2 = glGetUniformLocation(programID, "UNIF_alpha_length");
+    GLint uniformId3 = glGetUniformLocation(programID, "UNIF_translate");
 
     // activation du shader
     glUseProgram(getProgramID());
 
-    glUniform2i(uniformId, width_, height_);
+    glUniform2f(uniformId0, (float)width_, (float)height_);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -203,7 +237,10 @@ void GameRender::paintGL()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glUniform1i(glGetUniformLocation(programID, "texBackground"), 0);
+        glUniform1i(glGetUniformLocation(programID, "UNIF_surface"), 0);
+        glUniform2f(uniformId1, 1280, 960);
+        glUniform2f(uniformId2, 1.0f, .5f);
+        glUniform2f(uniformId3, .0f, .0f);
 
         // dessine les objets au format triangles
         vao[0].bind();
@@ -216,7 +253,10 @@ void GameRender::paintGL()
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, VTexture.at(0));
-    glUniform1i(glGetUniformLocation(programID, "texBackground"), 0);
+    glUniform1i(glGetUniformLocation(programID, "UNIF_surface"), 0);
+    glUniform2f(uniformId1, 1280, 960);
+    glUniform2f(uniformId2, 1.0f, .5f);
+    glUniform2f(uniformId3, .0f, .0f);
 
     vao[0].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -224,7 +264,10 @@ void GameRender::paintGL()
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, VTexture.at(1));
-    glUniform1i(glGetUniformLocation(programID, "texBackground"), 1);
+    glUniform1i(glGetUniformLocation(programID, "UNIF_surface"), 1);
+    glUniform2f(uniformId1, 128, 128);
+    glUniform2f(uniformId2, .2f, 8.0f);
+    glUniform2f(uniformId3, 1.8f, 1.8f);
 
     vao[1].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -232,7 +275,10 @@ void GameRender::paintGL()
 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, VTexture.at(2));
-    glUniform1i(glGetUniformLocation(programID, "texBackground"), 2);
+    glUniform1i(glGetUniformLocation(programID, "UNIF_surface"), 2);
+    glUniform2f(uniformId1, 128, 128);
+    glUniform2f(uniformId2, 1.0f, 8.0f);
+    glUniform2f(uniformId3, ((float)VPointMouse.get_X() - 20.0f) * 2.0f / (float)WIN_WIDTH, 2.0f - (((float)VPointMouse.get_Y() + 56.0f) * 2.0f / (float)WIN_HEIGHT));
 
     vao[2].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);

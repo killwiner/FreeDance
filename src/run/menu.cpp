@@ -16,6 +16,7 @@ void Menu::run() {
 
     if(xy != VMouse) {
         VMouse = xy;
+        render_->setMouseXY(xy);
         std::cout << "mouse : " << xy.get_X() << " - " << xy.get_Y() << std::endl;
     }
 
@@ -23,7 +24,7 @@ void Menu::run() {
 
 void Menu::initMouse() {
     MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-    render_->makeVertices(maths::Vector<float>(-.9f, .9f, .8f, espace), .1f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
+    render_->makeVertices(maths::Vector<float>(-1.0f, -1.0f, .8f, espace), 8.0f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
     render_->makeVao(2);
     loadImage(QString("../data/images/mouse.png"));
 }

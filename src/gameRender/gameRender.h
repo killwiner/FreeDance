@@ -26,6 +26,12 @@ enum {
     MENU
 };
 
+struct StructVAO {
+    maths::Vector<float> &Vtex_resolution;
+    maths::Vector<float> &Vtranslate;
+    float alpha, length;
+};
+
 namespace gameRender {
 
 class GameRender : public shader::Shader {
@@ -42,6 +48,9 @@ public:
     void makeVertices(const maths::Vector<float> &vloc, const float &length, const float &ratio);
     void paintStatus(const quint8 &status);
     void makeVao(const quint8 &id);
+    void setMouseXY(const maths::Vector<quint16> &vector);
+    void setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
+                      const maths::Vector<float> &Vtranslate);
 
 protected:
     // initialise OpenGL
@@ -53,6 +62,9 @@ protected:
 
 private:
 
+    StructVAO StVAO[3];
+
+    maths::Vector<quint16> VPointMouse;
     quint8 paint_status;
 
     // identifiant des vertex buffer object
@@ -76,6 +88,10 @@ private:
 
     // initialise le thread event_loop
     void init_loop();
+
+    void showVAO(const GLenum &idText, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
+                             const maths::Vector<float> &Vtranslate);
+
 };
 }
 
