@@ -35,6 +35,11 @@ void Intro::loadVideo() {
 }
 
 void Intro::video() {
+
+    //when you allocate using new[] you need to call delete[], and not delete, to free the resource.
+    MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
+    render_->setStructVAO(0, maths::Vector<float>((float)WIN_WIDTH, (float)WIN_HEIGHT, .0f, espace), 1.0f, .5f, maths::Vector<float>(.0f, .0f, .0f, espace));
+
     render_->paintStatus(MOTION);
     render_->loop_paint(videoSize);
 }

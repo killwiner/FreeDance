@@ -27,8 +27,8 @@ enum {
 };
 
 struct StructVAO {
-    maths::Vector<float> &Vtex_resolution;
-    maths::Vector<float> &Vtranslate;
+    maths::Vector<float> Vtex_resolution;
+    maths::Vector<float> Vtranslate;
     float alpha, length;
 };
 
@@ -45,11 +45,9 @@ public:
     qint8 loop_paint();
     void loop_paint(const quint32 &max_count);
     int loadTexture(const GLenum &idText);
-    void makeVertices(const maths::Vector<float> &vloc, const float &length, const float &ratio);
     void paintStatus(const quint8 &status);
-    void makeVao(const quint8 &id);
     void setMouseXY(const maths::Vector<quint16> &vector);
-    void setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
+    void setStructVAO(const quint8 &id, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
                       const maths::Vector<float> &Vtranslate);
 
 protected:
@@ -61,6 +59,11 @@ protected:
     virtual void paintGL();
 
 private:
+
+    GLint uniform_win_resol;
+    GLint uniform_tex_resol;
+    GLint uniform_alpha_length;
+    GLint uniform_translate;
 
     StructVAO StVAO[3];
 
@@ -89,8 +92,9 @@ private:
     // initialise le thread event_loop
     void init_loop();
 
-    void showVAO(const GLenum &idText, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
-                             const maths::Vector<float> &Vtranslate);
+    void makeVertices(const quint8 &id, const float &length, const float &z, const float &ratio);
+    void makeVao(const quint8 &id);
+    void showVAO(const quint8 &id);
 
 };
 }
