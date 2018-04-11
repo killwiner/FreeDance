@@ -51,7 +51,9 @@ public:
     // clear all images
     void clearImages();
     // get mouse position
-    maths::Vector<quint16> getMouseXY();
+    maths::Vector<float> getMouseXY();
+    // get window size
+    maths::Vector<quint16> getWinSize();
 
 public slots:
     // actions gérées sur chaque top horloge
@@ -66,6 +68,8 @@ protected:
     QTimer t_Timer;
     std::vector<GLuint> VTexture;
     MQSPEspace espace_mouse;
+    // Taille de la fenêtre
+    maths::Vector<quint16> VWinSize;
 GLuint texture;
 
     // actions gérées lors de la fermeture de la fenêtre
@@ -80,7 +84,7 @@ private:
     // Etat courant de la fenêtre, fermée ou non
     bool closing;
     // Position de la souris
-    maths::Vector<quint16> VMouse;
+    maths::Vector<float> VMouse;
 
     // récupère les coordonnées de la souris à chaque mouvement de souris
     void mouseMoveEvent(QMouseEvent *event);

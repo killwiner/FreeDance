@@ -13,8 +13,10 @@ public:
     void run();
 
 private:
-    maths::Vector<quint16> VMouse;
+    MQSPEspace espace;
+    maths::Vector<float> VMouse;
     gameRender::GameRender *render_;
+    Button b_options;
 
     void initMouse();
     void loadImage(const QString &fileName);

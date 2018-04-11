@@ -4,15 +4,26 @@ namespace run {
 
 Button::Button() {}
 
-Button::Button(gameRender::GameRender *render, const QString &fileName) : render_(render)
+Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate) : render_(render), Vtrans(Vtranslate), alpha(.2f)
 {
-    MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-    render_->setStructVAO(1, maths::Vector<float>((float)128, (float)128, .0f, espace), .2f, 8.0f, maths::Vector<float>(1.8f, 1.8f, .4f, espace));
-//    render_->makeVertices(maths::Vector<float>(.7f, .7f, .4f, espace), .1f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
-    //render_->makeVertices(maths::Vector<float>(-1.0f, -1.0f, .4f, espace), 8.0f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
-
-    //render_->makeVao(1);
+    render_->setStructVAO(1, maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), alpha, 8.0f, Vtranslate);
     loadImage(fileName);
+}
+
+void Button::run(const maths::Vector<float> &VMouse) {
+
+    if((float)VMouse.get_X() < Vtrans.get_X() + BUTTON_SIZE &&
+       VMouse.get_X() > Vtrans.get_X() &&
+       VMouse.get_Y() < Vtrans.get_Y() &&
+       VMouse.get_Y() > Vtrans.get_Y() - BUTTON_SIZE) {
+        if(alpha < 1.0f)
+            alpha += .1f;
+    }
+    else {
+        if(alpha > .2f)
+            alpha -= .1f;
+    }
+    render_->setVAOAlpha(1, alpha);
 }
 
 void Button::loadImage(const QString &fileName) {
@@ -26,7 +37,7 @@ void Button::loadImage(const QString &fileName) {
         // render pointe sur l'image
         render_->setImages(image.getImages());
         // on crée les textures
-        if(render_->loadTexture(GL_TEXTURE1))
+        if(render_->loadTexture(GL_TEXTURE1, true))
             throw "(button.cpp) error, can't generate the texture";
         //render_->clearImages();
     }

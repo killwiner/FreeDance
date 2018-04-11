@@ -19,5 +19,12 @@ qint16 Espace::get_prec() const
     return precision_;
 }
 
+void Espace::set(const quint16 &width, const quint16 &height, const quint16 &deep)
+{
+    size_.x = width;
+    size_.y = height;
+    size_.z = deep;
+}
+
 }
 

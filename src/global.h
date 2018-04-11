@@ -3,5 +3,6 @@
 
 #define WIN_WIDTH 1280
 #define WIN_HEIGHT 960
+#define NBR_VAO 3
 
 #endif // GLOBAL_H

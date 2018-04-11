@@ -20,7 +20,8 @@ Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  
 
     // construction des coordonnées de la position de la souris par défaut
     espace_mouse = MQSPEspace(new maths::Espace(WIN_WIDTH, WIN_HEIGHT, 0, 1000));
-    VMouse = maths::Vector<quint16>(0, 0, 0, espace_mouse);
+    VMouse = maths::Vector<float>(2.0f, 2.0f, 0, espace_mouse);
+    VWinSize = maths::Vector<quint16>(WIN_WIDTH, WIN_HEIGHT, 0, espace_mouse);
 
     setMouseTracking(true);
     setCursor(Qt::BlankCursor);
@@ -53,9 +54,14 @@ void Render::clearImages() {
     PVImage_.clear();
 }
 
-maths::Vector<quint16> Render::getMouseXY()
+maths::Vector<float> Render::getMouseXY()
 {
     return VMouse;
+}
+
+maths::Vector<quint16> Render::getWinSize()
+{
+    return VWinSize;
 }
 
 bool Render::toClose() const {
@@ -100,9 +106,10 @@ void Render::initializeGL()
 
 void Render::resizeGL(int width, int height)
 {
-
     // spécifie les dimensions de la fenêtre visible sous opengl
     glViewport(0, 0, width, height);
+
+    VWinSize.set(width, height, 0);
 
 }
 
@@ -112,6 +119,6 @@ void Render::paintGL()
 
 void Render::mouseMoveEvent(QMouseEvent *event)
 {
-    VMouse = maths::Vector<quint16>(event->x(), event->y(), 0, espace_mouse);
+    VMouse = maths::Vector<float>(2.0f * ((float)event->x() / VWinSize.get_X()), 2.0f - 2.0f * ((float)event->y() / VWinSize.get_Y()) - .09f, .0f, espace_mouse);
 }
 }

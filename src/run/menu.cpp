@@ -6,20 +6,21 @@ Menu::Menu() {}
 
 Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
-    Button b_options(render_, QString("../data/images/options.png"));
+    espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
+    maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
+    b_options = Button(render_, QString("../data/images/options.png"), Vtranslate);
     initMouse();
 }
 
 void Menu::run() {
 
-    maths::Vector<quint16> xy = render_->getMouseXY();
+    maths::Vector<float> xy = render_->getMouseXY();
 
     if(xy != VMouse) {
         VMouse = xy;
         render_->setMouseXY(xy);
-        std::cout << "mouse : " << xy.get_X() << " - " << xy.get_Y() << std::endl;
     }
-
+    b_options.run(xy);
 }
 
 void Menu::initMouse() {
@@ -41,7 +42,7 @@ void Menu::loadImage(const QString &fileName) {
         // render pointe sur l'image
         render_->setImages(image.getImages());
         // on crée les textures
-        if(render_->loadTexture(GL_TEXTURE2))
+        if(render_->loadTexture(GL_TEXTURE2, true))
             throw "(menu.cpp) error, can't generate the texture";
         //render_->clearImages();
     }

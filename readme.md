@@ -12,35 +12,17 @@ $ make -j 2
 $ make install
 $ ldconfig
 
-    /// libjasper-dev missing ? ///
-
-    Sur debian testing, pas de libjasper-dev. récupérer le paquet sur la stable :
-
-    $ vim /etc/apt/preferences.d/stable.pref
-
-        Package: *
-        Pin: release a=stable
-        Pin-Priority: 750
-
-    $ vim /etc/apt/preferences.d/testing.pref
-
-        Package: *
-        Pin: release a=testing
-        Pin-Priority: 900
-
-    modifier /etc/apt/sources.list.d en duplicant tous les links et en remplaçant dans les nouvelles lignes stretch par stable
-
 --- Build freenect ---
 
 & git clone https://github.com/OpenKinect/libfreenect
 
-$ apt-get libusb-1.0-0.dev libxi-dev libxmu-dev freeglut3-dev
+$ apt-get install libusb-1.0-0.dev libxi-dev libxmu-dev freeglut3-dev
 $ mkdir build
 $ cd build
 $ cmake ..
 $ make
 
-    // Architecture 64 bits : si problème avec libGL.so, renommer provisoirement libGL.so par libGL.so.1
+    // Architecture 64 bits : si problème avec libGL.so, renommer provisoirement libGL.so.1 en libGL.so
 
 $ sudo make install
 $ sudo ldconfig /usr/local/lib

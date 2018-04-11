@@ -4,9 +4,9 @@ namespace gameRender {
 
 GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
                        const quint16 &framesPerSecond, const quint16 &interval_time) :
-    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), id_vao(0), paint_status(MOTION) {
+    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), time_(.0f), paint_status(MOTION) {
 
-    VPointMouse = maths::Vector<quint16>(.0f, .0f, .0f, espace_mouse);
+    VPointMouse = maths::Vector<float>(.0f, .0f, .0f, espace_mouse);
 
     init_loop();
 }
@@ -58,7 +58,6 @@ void GameRender::makeVertices(const quint8 &id, const float &length, const float
 
     std::memcpy(SPVertices[id].data(), vertices, 60 * sizeof(float));
 
-    ++id_vao;
 }
 
 void GameRender::paintStatus(const quint8 &status)
@@ -66,7 +65,7 @@ void GameRender::paintStatus(const quint8 &status)
     paint_status = status;
 }
 
-int GameRender::loadTexture(const GLenum &idText) {
+int GameRender::loadTexture(const GLenum &idText, const bool &alpha) {
     if(!PVImage_)
         return -1;
 
@@ -86,9 +85,12 @@ int GameRender::loadTexture(const GLenum &idText) {
         glBindTexture(GL_TEXTURE_2D, VTexture.back());
 
         // specify a two-dimensional texture image
-        if(PVImage_)
-            //glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_BGRA, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+        if(PVImage_) {
+            if(!alpha)
+                glTexImage2D(GL_TEXTURE_2D, 0, 3, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_RGB, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+            else
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, PVImage_.data()->back().size().width, PVImage_.data()->back().size().height, 0, GL_BGRA, GL_UNSIGNED_BYTE, PVImage_.data()->back().data);
+        }
 
         // set textures parameters
         // GL_NEAREST : Returns the value of the texture element that is nearest (in Manhattan distance) to the specified texture coordinates.
@@ -164,7 +166,7 @@ void GameRender::makeVao(const quint8 &id) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void GameRender::setMouseXY(const maths::Vector<quint16> &vector)
+void GameRender::setMouseXY(const maths::Vector<float> &vector)
 {
     VPointMouse = vector;
 }
@@ -176,10 +178,15 @@ void GameRender::setStructVAO(const quint8 &id, const maths::Vector<float> &Vtex
     StVAO[id].Vtex_resolution = Vtex_resolution;
     StVAO[id].Vtranslate = Vtranslate;
 
-    makeVertices(id, length, Vtranslate.get_Z(), Vtex_resolution.get_X() * (float)height_/ (Vtex_resolution.get_Y() * (float)width_));
+    makeVertices(id, length, Vtranslate.get_Z(), Vtex_resolution.get_X() * (float)VWinSize.get_Y()/ (Vtex_resolution.get_Y() * (float)VWinSize.get_X()));
     makeVao(id);
 }
 
+void GameRender::setVAOAlpha(const quint8 &id, const float &alpha)
+{
+    StVAO[id].alpha = alpha;
+}
+/*
 void GameRender::resizeGL(int width, int height)
 {
     // spécifie les dimensions de la fenêtre visible sous opengl
@@ -188,7 +195,7 @@ void GameRender::resizeGL(int width, int height)
     width_ = width;
     height_ = height;
 }
-
+*/
 void GameRender::showVAO(const quint8 &id) {
 
     glActiveTexture(GL_TEXTURE0 + id);
@@ -197,6 +204,7 @@ void GameRender::showVAO(const quint8 &id) {
     glUniform2f(uniform_tex_resol, StVAO[id].Vtex_resolution.get_X(), StVAO[id].Vtex_resolution.get_Y());
     glUniform2f(uniform_alpha_length, StVAO[id].alpha, StVAO[id].length);
     glUniform2f(uniform_translate, StVAO[id].Vtranslate.get_X(), StVAO[id].Vtranslate.get_Y());
+    glUniform1i(uniform_idShader, id);
 
     vao[id].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -214,11 +222,14 @@ void GameRender::paintGL()
     uniform_tex_resol = glGetUniformLocation(programID, "UNIF_tex_resolution");
     uniform_alpha_length = glGetUniformLocation(programID, "UNIF_alpha_length");
     uniform_translate = glGetUniformLocation(programID, "UNIF_translate");
+    uniform_time = glGetUniformLocation(programID, "UNIF_time");
+    uniform_idShader = glGetUniformLocation(programID, "UNIF_idShader");
 
     // activation du shader
     glUseProgram(getProgramID());
 
-    glUniform2f(uniform_win_resol, (float)width_, (float)height_);
+    glUniform2f(uniform_win_resol, (float)VWinSize.get_X(), (float)VWinSize.get_Y());
+    glUniform1f(uniform_time, time_);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -244,6 +255,7 @@ void GameRender::paintGL()
         glUniform2f(uniform_tex_resol, StVAO[0].Vtex_resolution.get_X(), StVAO[0].Vtex_resolution.get_Y());
         glUniform2f(uniform_alpha_length, StVAO[0].alpha, StVAO[0].length);
         glUniform2f(uniform_translate, StVAO[0].Vtranslate.get_X(), StVAO[0].Vtranslate.get_Y());
+        glUniform1i(uniform_idShader, 0);
 
         // dessine les objets au format triangles
         vao[0].bind();
@@ -254,8 +266,8 @@ void GameRender::paintGL()
 
     case MENU :
 
-        StVAO[2].Vtranslate = maths::Vector<float> (((float)VPointMouse.get_X() - 20.0f) * 2.0f / (float)WIN_WIDTH,
-                              2.0f - (((float)VPointMouse.get_Y() + 56.0f) * 2.0f / (float)WIN_HEIGHT), .0f, espace_mouse);
+        StVAO[2].Vtranslate = maths::Vector<float> ((float)VPointMouse.get_X() - .03f,
+                              (float)VPointMouse.get_Y(), .0f, espace_mouse);
 
         showVAO(0);
         showVAO(1);
@@ -276,6 +288,8 @@ void GameRender::init_loop() {
 }
 
 qint8 GameRender::loop_paint() {
+
+    time_ = time_ < PI * 80 ? time_ + PI/8.0f : .0f;
 
     // On arrête tout si on ferme la fenêtre
     if(toClose())

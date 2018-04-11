@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     rendering::TestsOpenglR renderImgs(24, 1000);
     Tests tests(&renderImgs);
 
-    #endif //TESTS
+    #else
 
     // rendu par défaut
     gameRender::GameRender render(QString("../data/shaderIntro.vp"), QString("../data/shaderIntro.fp"), 24, 1000);
@@ -33,5 +33,8 @@ int main(int argc, char *argv[])
     render.load();
     intro.video();
     run.loop();
+
+    #endif //TESTS
+
     exit(0);
 }

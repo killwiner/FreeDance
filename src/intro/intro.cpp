@@ -24,7 +24,7 @@ void Intro::loadVideo() {
         render_->setImages(images);
 
         // on crée la texture du background
-        if(render_->loadTexture(GL_TEXTURE0))
+        if(render_->loadTexture(GL_TEXTURE0, false))
             throw "(intro.cpp) error, can't generate the texture";
     }
     catch (const char* strException) {

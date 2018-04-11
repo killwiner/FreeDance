@@ -44,6 +44,7 @@ public:
     // accesseurs
     void get_max(components<quint16> &size) const;
     qint16 get_prec() const;
+    void set(const quint16&, const quint16&, const quint16&);
 private:
 
     //bornes de l'espace vectoriel

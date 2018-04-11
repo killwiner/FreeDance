@@ -20,6 +20,7 @@
 
 #include "../shader/shader.h"
 #include "freeQSPointer.h"
+#include "../maths/functions.h"
 
 enum {
     MOTION,
@@ -44,17 +45,18 @@ public:
     virtual ~GameRender();
     qint8 loop_paint();
     void loop_paint(const quint32 &max_count);
-    int loadTexture(const GLenum &idText);
+    int loadTexture(const GLenum &idText, const bool &alpha);
     void paintStatus(const quint8 &status);
-    void setMouseXY(const maths::Vector<quint16> &vector);
+    void setMouseXY(const maths::Vector<float> &vector);
     void setStructVAO(const quint8 &id, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
                       const maths::Vector<float> &Vtranslate);
+    void setVAOAlpha(const quint8 &id, const float &alpha);
 
 protected:
     // initialise OpenGL
     virtual void initializeGL();
     // redimensionne l'écran
-    virtual void resizeGL(int width, int height);
+    //virtual void resizeGL(int width, int height);
     // dessine à l'écran
     virtual void paintGL();
 
@@ -64,26 +66,27 @@ private:
     GLint uniform_tex_resol;
     GLint uniform_alpha_length;
     GLint uniform_translate;
+    GLint uniform_time;
+    GLint uniform_idShader;
 
-    StructVAO StVAO[3];
+    StructVAO StVAO[NBR_VAO];
 
-    maths::Vector<quint16> VPointMouse;
+    maths::Vector<float> VPointMouse;
     quint8 paint_status;
+    float time_;
 
     // identifiant des vertex buffer object
     GLuint vbo[3];
 
-    quint8 id_vao;
-
     // identifiant des vao
-    QOpenGLVertexArrayObject vao[3];
+    QOpenGLVertexArrayObject vao[NBR_VAO];
 
     // coordonnées des vertices et des textures
     // ne fonctionne pas avec std::vector ou QList
-    QSharedPointer<float> SPVertices[3];
+    QSharedPointer<float> SPVertices[NBR_VAO];
 
     // taille de la fenêtre
-    int width_, height_;
+    //int width_, height_;
     // itérations de la boucle animations
     quint32 count;
     // crée un thread pour effectuer une pause
