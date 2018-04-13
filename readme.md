@@ -12,6 +12,9 @@ $ make -j 2
 $ make install
 $ ldconfig
 
+--- Install OpenAL ---
+$ apt-get install libopenal-dev libalut-dev libvorbis-dev
+
 --- Build freenect ---
 
 & git clone https://github.com/OpenKinect/libfreenect

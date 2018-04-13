@@ -11,6 +11,7 @@
 #include "armature/testsSkeleton.h"
 #include "draw/testsDraw.h"
 #include "shader/testsShader.h"
+#include "sound/testsSound.h"
 
 class Tests : public QObject
 {

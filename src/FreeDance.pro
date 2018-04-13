@@ -19,7 +19,11 @@ LIBS += -L/usr/local/lib \
 -lopencv_highgui \
 -lopencv_videoio \
 -lopencv_imgcodecs \
--lfreenect
+-lfreenect \
+-lopenal \
+-lalut \
+-lvorbis \
+-lvorbisfile
 
 # QT += qml quick
 QT += widgets core testlib opengl
@@ -63,7 +67,9 @@ SOURCES += main.cpp \
     intro/intro.cpp \
     run/run.cpp \
     run/menu.cpp \
-    run/button.cpp
+    run/button.cpp \
+    sound/sound.cpp \
+    sound/testsSound.cpp
 
 # RESOURCES += qml.qrc
 
@@ -106,4 +112,6 @@ HEADERS += maths/vectors.h \
     run/run.h \
     run/menu.h \
     global.h \
-    run/button.h
+    run/button.h \
+    sound/sound.h \
+    sound/testsSound.h
