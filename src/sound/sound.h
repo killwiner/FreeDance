@@ -8,13 +8,16 @@
 #include <iostream>
 #include <QString>
 #include <vector>
+#include <QThread>
 
 #define BUFFER_SIZE 32768
 
 namespace sound {
 
-class Sound
+class Sound : public QThread
 {
+    Q_OBJECT
+
 public:
     Sound();
     ~Sound();
@@ -23,6 +26,7 @@ public:
     void loadSoundWav(const QString &file);
     void loadSoundOgg(const QString &file);
     void play();
+    void playThread();
 
 private:
     ALCdevice *device;
@@ -44,6 +48,7 @@ private:
 
     void parametersOgg();
     void decodingOgg();
+    void run();
 };
 
 }

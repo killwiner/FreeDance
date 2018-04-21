@@ -16,9 +16,15 @@ class TestsSound: public QTestSuite
 public:
     TestsSound();
 
+private:
+    Sound Sd;
+
 private slots:
-    //void playSoundWav();
+
+
+    void playSoundWav();
     void playSoundOgg();
+    void playSoundThread();
 };
 
 }

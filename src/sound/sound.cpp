@@ -36,6 +36,7 @@ Sound::Sound()
 }
 
 Sound::~Sound() {
+    terminate(); // terminate the thread
     // cleanup context
     alDeleteSources(1, &source);
     alDeleteBuffers(1, &buffer);
@@ -167,6 +168,16 @@ void Sound::play()
         throw;
     }
 
+}
+
+void Sound::playThread()
+{
+    start();
+}
+
+void Sound::run()
+{
+    play();
 }
 
 void Sound::parametersOgg()

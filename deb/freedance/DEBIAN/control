@@ -1,0 +1,9 @@
+Package: freedance
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, gimp
+Maintainer: Killwin <alex.arranhado@gmail.com>
+Description: clone of JustDance, open-source project
+Homepage: https://gthub.com/killwiner

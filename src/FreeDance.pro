@@ -28,7 +28,7 @@ LIBS += -L/usr/local/lib \
 # QT += qml quick
 QT += widgets core testlib opengl
 
- DEFINES += TESTS
+DEFINES += TESTS
 CONFIG += C++11
 
 # pour valgrind
@@ -77,7 +77,7 @@ SOURCES += main.cpp \
 QML_IMPORT_PATH =
 
 # Default rules for deployment.
-include(deployment.pri)
+# include(deployment.pri)
 
 HEADERS += maths/vectors.h \
     testsuite.h \
