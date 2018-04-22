@@ -44,6 +44,7 @@ Sound::~Sound() {
     alcMakeContextCurrent(NULL);
     alcDestroyContext(context);
     alcCloseDevice(device);
+
 }
 
 void Sound::parametersWav()
@@ -81,6 +82,7 @@ void Sound::parametersWav()
 void Sound::loadSoundWav(const QString &file)
 {
     try {
+
         // create the buffer
         alGenBuffers((ALuint)1, &buffer);
         error = alGetError();
@@ -109,12 +111,18 @@ void Sound::loadSoundWav(const QString &file)
 
 void Sound::loadSoundOgg(const QString &file)
 {
-    std::FILE *f;
 
     try {
 
+        error = alGetError();
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, 4444";
+
         // create the buffer
-        alGenBuffers(1, &buffer);
+        alGenBuffers((ALuint)1, &buffer);
+        error = alGetError();
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, Can't create the buffer";
 
         f = fopen(file.toStdString().c_str(), "rb");
         if(f == NULL)
@@ -159,7 +167,34 @@ void Sound::play()
             error = alGetError();
             if (error != AL_NO_ERROR)
                 throw "(sound.cpp) error, playing error";
+            QThread::sleep(1);
         }
+/*
+        ALint NbQueued;
+        alGetSourcei(source, AL_BUFFERS_QUEUED, &NbQueued);
+        for (ALint i = 0; i < NbQueued; ++i) {
+            alSourceUnqueueBuffers(source, 1, &buffer);
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, 1111";
+        }
+*/
+/*
+        alSourceUnqueueBuffers(source, 1, &buffer);
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, 1111";
+*/
+        // unbind source
+        alSourcei(source, AL_BUFFER, 0);
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, 2222";
+
+        // Destruction du tampon
+        alDeleteBuffers(1, &buffer);
+        if (error != AL_NO_ERROR)
+            throw "(sound.cpp) error, 3333";
+
+        parametersWav();
+
     }
     catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;

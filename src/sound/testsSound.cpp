@@ -10,24 +10,29 @@ TestsSound::TestsSound()
 
 void TestsSound::playSoundWav()
 {
-    Sd.parametersWav();
-    Sd.loadSoundWav(QString("../data/sounds/test.wav"));
-    Sd.play();
+
+    //Sd.parametersWav();
+    //Sd.loadSoundWav(QString("../data/sounds/test1.wav"));
+    //Sd.play();
 }
 
 void TestsSound::playSoundOgg()
 {
-    Sd.loadSoundOgg(QString("../data/sounds/menu.ogg"));
+    QThread::sleep(1);
+    Sd.loadSoundOgg(QString("../data/sounds/test2.ogg"));
     Sd.play();
+
 }
 
 void TestsSound::playSoundThread()
 {
-    Sd.loadSoundOgg(QString("../data/sounds/menu.ogg"));
-    Sd.playThread();
-    for(short i = 0; i < 8; ++i) {
+    QThread::sleep(1);
+    Sd.loadSoundOgg(QString("../data/sounds/test3.ogg"));
+    //Sd.playThread();
+    Sd.play();
+    for(short i = 0; i < 10; ++i) {
         QThread::sleep(1);
-        std::cout << "*";
+        std::cout << std::to_string(i) << "-" << std::flush;
     }
     std::cout << std::endl;
 }

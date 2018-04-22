@@ -29,6 +29,7 @@ public:
     void playThread();
 
 private:
+    std::FILE *f;
     ALCdevice *device;
     ALCcontext *context;
     ALCenum error;
