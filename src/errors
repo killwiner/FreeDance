@@ -1,0 +1,26 @@
+sound/sound.cpp: In member function ‘void sound::Sound::play()’:
+sound/sound.cpp:144:18: error: invalid conversion from ‘ALuint* {aka unsigned int*}’ to ‘ALuint {aka unsigned int}’ [-fpermissive]
+     alSourcePlay(source);
+                  ^~~~~~
+In file included from sound/sound.h:4:0,
+                 from sound/sound.cpp:1:
+/usr/include/AL/al.h:537:25: note:   initializing argument 1 of ‘void alSourcePlay(ALuint)’
+ AL_API void AL_APIENTRY alSourcePlay(ALuint source);
+                         ^~~~~~~~~~~~
+sound/sound.cpp:153:33: error: invalid conversion from ‘ALuint* {aka unsigned int*}’ to ‘ALuint {aka unsigned int}’ [-fpermissive]
+             alGetSourcei(source + 1, AL_SOURCE_STATE, &source_state);
+                          ~~~~~~~^~~
+In file included from sound/sound.h:4:0,
+                 from sound/sound.cpp:1:
+/usr/include/AL/al.h:522:25: note:   initializing argument 1 of ‘void alGetSourcei(ALuint, ALenum, ALint*)’
+ AL_API void AL_APIENTRY alGetSourcei(ALuint source,  ALenum param, ALint *value);
+                         ^~~~~~~~~~~~
+sound/sound.cpp:179:19: error: invalid conversion from ‘ALuint* {aka unsigned int*}’ to ‘ALuint {aka unsigned int}’ [-fpermissive]
+         alSourcei(source, AL_BUFFER, buffer);
+                   ^~~~~~
+In file included from sound/sound.h:4:0,
+                 from sound/sound.cpp:1:
+/usr/include/AL/al.h:514:25: note:   initializing argument 1 of ‘void alSourcei(ALuint, ALenum, ALint)’
+ AL_API void AL_APIENTRY alSourcei(ALuint source, ALenum param, ALint value);
+                         ^~~~~~~~~
+make: *** [../bin/sound.o] Erreur 1

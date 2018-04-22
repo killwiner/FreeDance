@@ -33,7 +33,7 @@ private:
     ALCdevice *device;
     ALCcontext *context;
     ALCenum error;
-    ALuint source;
+    ALuint source[2];
     ALsizei size, freq;
     ALenum format;
     ALvoid *data;
