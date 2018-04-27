@@ -211,6 +211,24 @@ void GameRender::showVAO(const quint8 &id) {
     vao[id].release();
 }
 
+void GameRender::ratio(const quint8 &id) {
+    // vérouillage
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[id]);
+
+    float ratio = StVAO[id].Vtex_resolution.get_X() * (float)VWinSize.get_Y()/ (StVAO[id].Vtex_resolution.get_Y() * (float)VWinSize.get_X());
+    float l = 1.0f / StVAO[id].length;
+
+    *(SPVertices[id].data() + 5) = -1.0f + l * ratio;
+    *(SPVertices[id].data() + 10) = -1.0f + l * ratio;
+    *(SPVertices[id].data() + 25) = -1.0f + l * ratio;
+
+    // envoie de données
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(float[60]), SPVertices[id].data());
+
+    // dévérouillage
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 void GameRender::paintGL()
 {
 
@@ -270,7 +288,9 @@ void GameRender::paintGL()
                               (float)VPointMouse.get_Y(), .0f, espace_mouse);
 
         showVAO(0);
+        ratio(1);
         showVAO(1);
+        ratio(2);
         showVAO(2);
 
         break;

@@ -35,7 +35,11 @@ vec3 calcSine(vec2 uv,
 void main()
 {
     // ration de proportionalité entre les dimension de la fenêtre et de la texture
-    float ratio = (UNIF_tex_resolution.y * UNIF_win_resolution.x) / (UNIF_tex_resolution.x * UNIF_win_resolution.y);
+    float ratio;
+    if(UNIF_idShader != 0)
+        ratio = (UNIF_tex_resolution.y * UNIF_win_resolution.x) / (UNIF_tex_resolution.x * UNIF_win_resolution.y);
+    else
+        ratio = 1.0f;
 
     vec2 uv = gl_FragCoord.xy / UNIF_win_resolution.xy;
     uv *= UNIF_alpha_length.y * 2.0f;

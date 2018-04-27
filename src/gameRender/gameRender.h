@@ -98,6 +98,7 @@ private:
     void makeVertices(const quint8 &id, const float &length, const float &z, const float &ratio);
     void makeVao(const quint8 &id);
     void showVAO(const quint8 &id);
+    void ratio(const quint8 &id);
 
 };
 }

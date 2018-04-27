@@ -9,6 +9,7 @@ class Menu
 {
 public:
     Menu();
+    ~Menu();
     Menu(gameRender::GameRender *render);
     void run();
 

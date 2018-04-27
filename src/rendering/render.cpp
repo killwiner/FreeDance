@@ -4,7 +4,7 @@ namespace rendering {
 
 Render::Render() {}
 
-Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  PVImage_(nullptr), t_Timer(this), closing(false)
+Render::Render(const quint16 &framesPerSecond, const quint16 &interval_time) :  PVImage_(nullptr), t_Timer(this), closing(false), BMouse(false)
 {
     //Qt takes care of deleting the window from memory as soon as it is closed.
     //If the parent will be destructed, then the children will be too.
@@ -57,6 +57,15 @@ void Render::clearImages() {
 maths::Vector<float> Render::getMouseXY()
 {
     return VMouse;
+}
+
+bool Render::mouseButton()
+{
+    if(BMouse) {
+        BMouse = false;
+        return true;
+    }
+    return false;
 }
 
 maths::Vector<quint16> Render::getWinSize()
@@ -120,5 +129,10 @@ void Render::paintGL()
 void Render::mouseMoveEvent(QMouseEvent *event)
 {
     VMouse = maths::Vector<float>(2.0f * ((float)event->x() / VWinSize.get_X()), 2.0f - 2.0f * ((float)event->y() / VWinSize.get_Y()) - .09f, .0f, espace_mouse);
+}
+
+void Render::mousePressEvent(QMouseEvent *event)
+{
+    BMouse = true;
 }
 }

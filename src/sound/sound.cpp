@@ -20,7 +20,7 @@ Sound::Sound()
             throw "(sound.cpp) error, error on context";
 
         //Create the audio sources object
-        alGenSources((ALuint)2, source);
+        alGenSources((ALuint)1, &source);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, can't create the audio sources object";
@@ -33,10 +33,9 @@ Sound::Sound()
 }
 
 Sound::~Sound() {
-    terminate(); // terminate the thread
     // cleanup context
     alDeleteBuffers(1, &buffer);
-    alDeleteSources(2, source);
+    alDeleteSources(1, &source);
     device = alcGetContextsDevice(context);
     alcMakeContextCurrent(NULL);
     alcDestroyContext(context);
@@ -46,23 +45,23 @@ Sound::~Sound() {
 void Sound::parametersWav()
 {
     try {
-        alSourcef(source[1], AL_PITCH, 1);
+        alSourcef(source, AL_PITCH, 1);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, PITCH";
-        alSourcef(source[1], AL_GAIN, 1);
+        alSourcef(source, AL_GAIN, 1);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, GAIN";
-        alSource3f(source[1], AL_POSITION, 0, 0, 0);
+        alSource3f(source, AL_POSITION, 0, 0, 0);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, POSITION";
-        alSource3f(source[1], AL_VELOCITY, 0, 0, 0);
+        alSource3f(source, AL_VELOCITY, 0, 0, 0);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, VELOCITY";
-        alSourcei(source[1], AL_LOOPING, AL_FALSE);
+        alSourcei(source, AL_LOOPING, AL_FALSE);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, LOOP";
@@ -90,7 +89,7 @@ void Sound::loadSoundWav(const QString &file)
             throw "(sound.cpp) error, Can't load the file";
 
         // bind buffer with source
-        alSourcei(source[1], AL_BUFFER, buffer);
+        alSourcei(source, AL_BUFFER, buffer);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, Can't bind buffer";
@@ -125,7 +124,7 @@ void Sound::loadSoundOgg(const QString &file)
         alBufferData(buffer, format, &bufferData[0], static_cast<ALsizei>(bufferData.size()), freq);
 
         // Attach sound buffer to source
-        alSourcei(source[1], AL_BUFFER, buffer);
+        alSourcei(source, AL_BUFFER, buffer);
 
 	// Clean the off file
         ov_clear(&oggFile);
@@ -141,45 +140,29 @@ void Sound::loadSoundOgg(const QString &file)
 
 void Sound::play()
 {
-    alSourcePlay(source[1]);
+    alSourcePlay(source);
 
     try {
 
-        alGetSourcei(source[1], AL_SOURCE_STATE, &source_state);
+        alGetSourcei(source, AL_SOURCE_STATE, &source_state);
         error = alGetError();
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, Can't get source state";
         while (source_state == AL_PLAYING) {
-            alGetSourcei(source[1], AL_SOURCE_STATE, &source_state);
+            alGetSourcei(source, AL_SOURCE_STATE, &source_state);
             error = alGetError();
             if (error != AL_NO_ERROR)
                 throw "(sound.cpp) error, playing error";
             QThread::sleep(1);
         }
-/*
-        ALint NbQueued;
-        alGetSourcei(source, AL_BUFFERS_QUEUED, &NbQueued);
-        for (ALint i = 0; i < NbQueued; ++i) {
-            alSourceUnqueueBuffers(source, 1, &buffer);
-        if (error != AL_NO_ERROR)
-            throw "(sound.cpp) error, 1111";
-        }
-*/
-/*
-        alSourceUnqueueBuffers(source, 1, &buffer);
-        if (error != AL_NO_ERROR)
-            throw "(sound.cpp) error, 1111";
-*/
+
         // unbind buffer from source
-        alSourcei(source[1], AL_BUFFER, 0);
+        alSourcei(source, AL_BUFFER, 0);
         if (error != AL_NO_ERROR)
             throw "(sound.cpp) error, can't unbind buffer from source";
 
-	// bind buffer to the FreeSource
-        alSourcei(source[0], AL_BUFFER, buffer);
-        if (error != AL_NO_ERROR)
-            throw "(sound.cpp) error, can't bind buffer to source";
-
+        alDeleteBuffers(1, &buffer);
+        bufferData.clear();
     }
     catch (const char* strException) {
         std::cerr << "Exception caught !!" << std::endl;

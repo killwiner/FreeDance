@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
     gameRender::GameRender render(QString("../data/shaderIntro.vp"), QString("../data/shaderIntro.fp"), 24, 1000);
 
     // on redimenssionne la fenêtre
-    render.setGeometry(20, 20, 1280, 960);
+    render.setGeometry(20, 20, 1280, 720);
+    //render.showFullScreen();
     render.show();
 
     // lance l'intro

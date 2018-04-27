@@ -52,6 +52,8 @@ public:
     void clearImages();
     // get mouse position
     maths::Vector<float> getMouseXY();
+    // press mouse button
+    bool mouseButton();
     // get window size
     maths::Vector<quint16> getWinSize();
 
@@ -82,12 +84,14 @@ GLuint texture;
 
 private:
     // Etat courant de la fenêtre, fermée ou non
-    bool closing;
+    bool closing, BMouse;
     // Position de la souris
     maths::Vector<float> VMouse;
 
     // récupère les coordonnées de la souris à chaque mouvement de souris
     void mouseMoveEvent(QMouseEvent *event);
+    // événement lors du clic souris
+    void mousePressEvent(QMouseEvent *event);
 };
 }
 

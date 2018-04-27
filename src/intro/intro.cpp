@@ -10,7 +10,7 @@ void Intro::loadVideo() {
 
     rendering::LoadImgs video;
     try {
-        if(!video.load_video("../data/videos/intro.avi"))
+        if(!video.load_video("../data/videos/intro.ogg"))
             throw "(intro.cpp) error, can't open the video";
 
         // on capture toutes les images de la vidéo

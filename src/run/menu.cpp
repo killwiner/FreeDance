@@ -6,10 +6,14 @@ Menu::Menu() {}
 
 Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
+
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
     maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
     b_options = Button(render_, QString("../data/images/options.png"), Vtranslate);
     initMouse();
+}
+
+Menu::~Menu() {
 }
 
 void Menu::run() {
@@ -20,7 +24,7 @@ void Menu::run() {
         VMouse = xy;
         render_->setMouseXY(xy);
     }
-    b_options.run(xy);
+    b_options.run(xy, render_->mouseButton());
 }
 
 void Menu::initMouse() {

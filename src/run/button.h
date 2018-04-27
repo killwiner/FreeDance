@@ -14,7 +14,7 @@ class Button
 public:
     Button();
     Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate);
-    void run(const maths::Vector<float> &VMouse);
+    void run(const maths::Vector<float> &VMouse, const bool &bMouse);
     void loadImage(const QString &fileName);
 
 private:
@@ -22,6 +22,7 @@ private:
 
     maths::Vector<float> Vtrans;
     float alpha;
+    bool buttonActivated;
 
 };
 
