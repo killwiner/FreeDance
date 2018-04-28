@@ -91,6 +91,8 @@ private:
     quint32 count;
     // crée un thread pour effectuer une pause
     QEventLoop loop;
+    // avec ou sans texture
+    bool textured;
 
     // initialise le thread event_loop
     void init_loop();

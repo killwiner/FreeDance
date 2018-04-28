@@ -68,6 +68,7 @@ SOURCES += main.cpp \
     run/run.cpp \
     run/menu.cpp \
     run/button.cpp \
+    run/box.cpp \
     sound/sound.cpp \
     sound/testsSound.cpp
 
@@ -111,6 +112,7 @@ HEADERS += maths/vectors.h \
     intro/intro.h \
     run/run.h \
     run/menu.h \
+    run/box.h \
     global.h \
     run/button.h \
     sound/sound.h \

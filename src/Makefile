@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DTESTS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR='"/home/alex/FreeDance/src"'
+DEFINES       = -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR='"/home/alex/FreeDance/src"'
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++0x -Wextra -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -isystem /usr/include/i386-linux-gnu/c++/4.9/ -isystem /usr/local/include/opencv -isystem /usr/local/include/libfreenect -isystem /usr/include/i386-linux-gnu/qt5 -isystem /usr/include/i386-linux-gnu/qt5/QtOpenGL -isystem /usr/include/i386-linux-gnu/qt5/QtWidgets -isystem /usr/include/i386-linux-gnu/qt5/QtGui -isystem /usr/include/i386-linux-gnu/qt5/QtTest -isystem /usr/include/i386-linux-gnu/qt5/QtCore -I../bin -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
@@ -78,6 +78,7 @@ SOURCES       = main.cpp \
 		run/run.cpp \
 		run/menu.cpp \
 		run/button.cpp \
+		run/box.cpp \
 		sound/sound.cpp \
 		sound/testsSound.cpp ../bin/moc_testsuite.cpp \
 		../bin/moc_render.cpp \
@@ -129,6 +130,7 @@ OBJECTS       = ../bin/main.o \
 		../bin/run.o \
 		../bin/menu.o \
 		../bin/button.o \
+		../bin/box.o \
 		../bin/sound.o \
 		../bin/testsSound.o \
 		../bin/moc_testsuite.o \
@@ -197,6 +199,7 @@ DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -247,6 +250,7 @@ DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		intro/intro.h \
 		run/run.h \
 		run/menu.h \
+		run/box.h \
 		global.h \
 		run/button.h \
 		sound/sound.h \
@@ -280,6 +284,7 @@ DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		run/run.cpp \
 		run/menu.cpp \
 		run/button.cpp \
+		run/box.cpp \
 		sound/sound.cpp \
 		sound/testsSound.cpp
 QMAKE_TARGET  = FreeDance
@@ -340,6 +345,7 @@ Makefile: FreeDance.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -411,6 +417,7 @@ Makefile: FreeDance.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -449,8 +456,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents maths/vectors.h testsuite.h maths/espace.h maths/functions.h rendering/render.h maths/testsVector.h rendering/testsRender.h tests.h rendering/testsOpenglRender.h rendering/loadimgs.h kinect/kinect.h kinect/libfreenect.h kinect/testsKinect.h kinect/testsKinectRender.h armature/humanShape.h freeQSPointer.h armature/testsHumanShape.h draw/draw.h draw/testsDraw.h armature/armature.h shader/shader.h shader/testsShader.h shader/testsShaderRender.h armature/thread.h armature/skeleton.h armature/testsSkeleton.h tools/circularvector.h tools/testscircularvector.h gameRender/gameRender.h intro/intro.h run/run.h run/menu.h global.h run/button.h sound/sound.h sound/testsSound.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp testsuite.cpp maths/espace.cpp rendering/render.cpp maths/testsVector.cpp rendering/testsRender.cpp tests.cpp rendering/testsOpenglRender.cpp rendering/loadimgs.cpp kinect/kinect.cpp kinect/libfreenect.cpp kinect/testsKinect.cpp kinect/testsKinectRender.cpp armature/humanShape.cpp armature/testsHumanShape.cpp draw/draw.cpp draw/testsDraw.cpp armature/armature.cpp shader/shader.cpp shader/testsShader.cpp shader/testsShaderRender.cpp armature/thread.cpp armature/skeleton.cpp armature/testsSkeleton.cpp tools/testscircularvector.cpp gameRender/gameRender.cpp intro/intro.cpp run/run.cpp run/menu.cpp run/button.cpp sound/sound.cpp sound/testsSound.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents maths/vectors.h testsuite.h maths/espace.h maths/functions.h rendering/render.h maths/testsVector.h rendering/testsRender.h tests.h rendering/testsOpenglRender.h rendering/loadimgs.h kinect/kinect.h kinect/libfreenect.h kinect/testsKinect.h kinect/testsKinectRender.h armature/humanShape.h freeQSPointer.h armature/testsHumanShape.h draw/draw.h draw/testsDraw.h armature/armature.h shader/shader.h shader/testsShader.h shader/testsShaderRender.h armature/thread.h armature/skeleton.h armature/testsSkeleton.h tools/circularvector.h tools/testscircularvector.h gameRender/gameRender.h intro/intro.h run/run.h run/menu.h run/box.h global.h run/button.h sound/sound.h sound/testsSound.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp testsuite.cpp maths/espace.cpp rendering/render.cpp maths/testsVector.cpp rendering/testsRender.cpp tests.cpp rendering/testsOpenglRender.cpp rendering/loadimgs.cpp kinect/kinect.cpp kinect/libfreenect.cpp kinect/testsKinect.cpp kinect/testsKinectRender.cpp armature/humanShape.cpp armature/testsHumanShape.cpp draw/draw.cpp draw/testsDraw.cpp armature/armature.cpp shader/shader.cpp shader/testsShader.cpp shader/testsShaderRender.cpp armature/thread.cpp armature/skeleton.cpp armature/testsSkeleton.cpp tools/testscircularvector.cpp gameRender/gameRender.cpp intro/intro.cpp run/run.cpp run/menu.cpp run/button.cpp run/box.cpp sound/sound.cpp sound/testsSound.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -780,7 +787,8 @@ compiler_clean: compiler_moc_header_clean
 		intro/intro.h \
 		run/run.h \
 		run/menu.h \
-		run/button.h
+		run/button.h \
+		run/box.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/main.o main.cpp
 
 ../bin/testsuite.o: testsuite.cpp testsuite.h
@@ -1084,13 +1092,16 @@ compiler_clean: compiler_moc_header_clean
 		freeQSPointer.h \
 		maths/functions.h \
 		maths/functions.tpp \
+		sound/sound.h \
 		run/menu.h \
 		run/button.h \
+		run/box.h \
 		rendering/loadimgs.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/run.o run/run.cpp
 
 ../bin/menu.o: run/menu.cpp run/menu.h \
 		run/button.h \
+		run/box.h \
 		gameRender/gameRender.h \
 		shader/shader.h \
 		rendering/render.h \
@@ -1105,6 +1116,7 @@ compiler_clean: compiler_moc_header_clean
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/menu.o run/menu.cpp
 
 ../bin/button.o: run/button.cpp run/button.h \
+		run/box.h \
 		gameRender/gameRender.h \
 		shader/shader.h \
 		rendering/render.h \
@@ -1117,6 +1129,19 @@ compiler_clean: compiler_moc_header_clean
 		maths/functions.tpp \
 		rendering/loadimgs.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/button.o run/button.cpp
+
+../bin/box.o: run/box.cpp run/box.h \
+		gameRender/gameRender.h \
+		shader/shader.h \
+		rendering/render.h \
+		maths/vectors.h \
+		maths/espace.h \
+		maths/vectors.tpp \
+		global.h \
+		freeQSPointer.h \
+		maths/functions.h \
+		maths/functions.tpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/box.o run/box.cpp
 
 ../bin/sound.o: sound/sound.cpp sound/sound.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../bin/sound.o sound/sound.cpp

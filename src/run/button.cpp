@@ -4,10 +4,10 @@ namespace run {
 
 Button::Button() {}
 
-Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate) : render_(render), Vtrans(Vtranslate), alpha(.2f),
-    buttonActivated(false)
+Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate) : Box(render, Vtranslate,
+               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f),
+               buttonActivated(false)
 {
-    render_->setStructVAO(1, maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), alpha, 8.0f, Vtranslate);
     loadImage(fileName);
 }
 
@@ -17,16 +17,16 @@ void Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
        VMouse.get_X() > Vtrans.get_X() &&
        VMouse.get_Y() < Vtrans.get_Y() &&
        VMouse.get_Y() > Vtrans.get_Y() - BUTTON_SIZE) {
-        if(alpha < 1.0f)
-            alpha += .1f;
+        if(alpha_ < 1.0f)
+            alpha_ += .1f;
         if(bMouse)
             buttonActivated = true;
     }
     else {
-        if(alpha > .2f)
-            alpha -= .1f;
+        if(alpha_ > .2f)
+            alpha_ -= .1f;
     }
-    render_->setVAOAlpha(1, alpha);
+    render_->setVAOAlpha(1, alpha_);
 }
 
 void Button::loadImage(const QString &fileName) {

@@ -4,7 +4,7 @@ namespace gameRender {
 
 GameRender::GameRender(const QString &vertexSource, const QString &fragmentSource,
                        const quint16 &framesPerSecond, const quint16 &interval_time) :
-    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), time_(.0f), paint_status(MOTION) {
+    Shader(vertexSource, fragmentSource, framesPerSecond, interval_time), count(0), time_(.0f), paint_status(MOTION), textured(false) {
 
     VPointMouse = maths::Vector<float>(.0f, .0f, .0f, espace_mouse);
 
@@ -66,6 +66,8 @@ void GameRender::paintStatus(const quint8 &status)
 }
 
 int GameRender::loadTexture(const GLenum &idText, const bool &alpha) {
+
+    textured = true;	
     if(!PVImage_)
         return -1;
 
@@ -186,16 +188,7 @@ void GameRender::setVAOAlpha(const quint8 &id, const float &alpha)
 {
     StVAO[id].alpha = alpha;
 }
-/*
-void GameRender::resizeGL(int width, int height)
-{
-    // spécifie les dimensions de la fenêtre visible sous opengl
-    glViewport(0, 0, width, height);
 
-    width_ = width;
-    height_ = height;
-}
-*/
 void GameRender::showVAO(const quint8 &id) {
 
     glActiveTexture(GL_TEXTURE0 + id);

@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "../gameRender/gameRender.h"
+#include "box.h"
 #include "../rendering/loadimgs.h"
 
 #define BUTTON_SIZE .1
@@ -9,19 +9,16 @@
 
 namespace run {
 
-class Button
+class Button : public Box
 {
 public:
     Button();
     Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate);
+    Button(const QString &fileName);
     void run(const maths::Vector<float> &VMouse, const bool &bMouse);
     void loadImage(const QString &fileName);
 
 private:
-    gameRender::GameRender *render_;
-
-    maths::Vector<float> Vtrans;
-    float alpha;
     bool buttonActivated;
 
 };
