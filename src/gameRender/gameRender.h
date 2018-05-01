@@ -40,17 +40,19 @@ class GameRender : public shader::Shader {
     Q_OBJECT
 
 public:
-    GameRender (const QString &vertexSource, const QString &fragmentSource,
-                      const quint16 &framesPerSecond, const quint16 &interval_time);
+    GameRender ();
     virtual ~GameRender();
     qint8 loop_paint();
     void loop_paint(const quint32 &max_count);
     int loadTexture(const GLenum &idText, const bool &alpha);
     void paintStatus(const quint8 &status);
     void setMouseXY(const maths::Vector<float> &vector);
-    void setStructVAO(const quint8 &id, const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
+    void setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
                       const maths::Vector<float> &Vtranslate);
     void setVAOAlpha(const quint8 &id, const float &alpha);
+    void setIntroId();
+    void setMouseId();
+    void setOptionsId();
 
 protected:
     // initialise OpenGL
@@ -69,14 +71,18 @@ private:
     GLint uniform_time;
     GLint uniform_idShader;
 
-    StructVAO StVAO[NBR_VAO];
+    qint16 mid, introId, mouseId, optionsId;
+
+    //StructVAO StVAO[NBR_VAO];
+    std::vector<StructVAO> VStVAO;
 
     maths::Vector<float> VPointMouse;
-    quint8 paint_status;
+    qint16 paint_status;
     float time_;
 
     // identifiant des vertex buffer object
-    GLuint vbo[3];
+    GLuint vbo[NBR_VAO];
+    //std::vector<GLuint> Vvbo;
 
     // identifiant des vao
     QOpenGLVertexArrayObject vao[NBR_VAO];
@@ -97,8 +103,8 @@ private:
     // initialise le thread event_loop
     void init_loop();
 
-    void makeVertices(const quint8 &id, const float &length, const float &z, const float &ratio);
-    void makeVao(const quint8 &id);
+    void makeVertices(const float &length, const float &z, const float &ratio);
+    void makeVao();
     void showVAO(const quint8 &id);
     void ratio(const quint8 &id);
 

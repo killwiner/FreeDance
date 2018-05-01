@@ -20,18 +20,19 @@ int main(int argc, char *argv[])
     #else
 
     // rendu par défaut
-    gameRender::GameRender render(QString("../data/shaderIntro.vp"), QString("../data/shaderIntro.fp"), 24, 1000);
+    gameRender::GameRender render;
 
     // on redimenssionne la fenêtre
     render.setGeometry(20, 20, 1280, 720);
     //render.showFullScreen();
     render.show();
 
+    render.loadShader(QString("../data/shaderIntro"));
+
     // lance l'intro
     intro::Intro intro(&render);
     run::Run run(&render);
 
-    render.load();
     intro.video();
     run.loop();
 

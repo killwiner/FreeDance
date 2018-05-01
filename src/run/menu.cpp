@@ -6,9 +6,9 @@ Menu::Menu() {}
 
 Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
-
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
     maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
+    render_->setOptionsId();
     b_options = Button(render_, QString("../data/images/options.png"), Vtranslate);
     initMouse();
 }
@@ -29,7 +29,8 @@ void Menu::run() {
 
 void Menu::initMouse() {
     MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-    render_->setStructVAO(2, maths::Vector<float>((float)128, (float)128, .0f, espace), 1.0f, 8.0f, maths::Vector<float>(.0f, .0f, .8f, espace));
+    render_->setMouseId();
+    render_->setStructVAO(maths::Vector<float>((float)128, (float)128, .0f, espace), 1.0f, 8.0f, maths::Vector<float>(.0f, .0f, .8f, espace));
     //render_->makeVertices(maths::Vector<float>(-1.0f, -1.0f, .8f, espace), 8.0f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
     //render_->makeVao(2);
     loadImage(QString("../data/images/mouse.png"));

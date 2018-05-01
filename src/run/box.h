@@ -10,7 +10,7 @@ class Box
 public:
     Box();
     Box(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions, const float &alpha, const float &length);
-    void run();
+    //virtual void run();
 
 protected:
     gameRender::GameRender *render_;

@@ -40,20 +40,18 @@ class Shader : public rendering::Render {
 public:
     // interval_time : interval time between each image
     // framesPerSecond : max of frames per second
-    Shader(const QString &vertexSource, const QString &fragmentSource,
-           const quint16 &framesPerSecond, const quint16 &interval_time);
+    Shader(const quint16 &framesPerSecond, const quint16 &interval_time);
     ~Shader();
 
-    // accesseur qui retourne l'identifiant du programme
-    quint32 getProgramID() const;
-
-    void load();
-
-protected:
-    quint32 programID;
+    void loadShader(const QString &file_name);
+    void startShader();
+    bool useProgramID(const quint8 &id);
+    quint32 getProgramID(const quint8 &id);
 
 private:
-    quint32 vertexID, fragmentID;
+    std::vector<quint32> VProgramID;
+
+    std::vector<quint32> VVertexID, VFragmentID;
     QString vertexSource_, fragmentSource_;
 
     // type : type de shader
