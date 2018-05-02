@@ -282,10 +282,6 @@ void GameRender::paintGL()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         glUniform1i(glGetUniformLocation(getProgramID(0), "UNIF_surface"), 0);
-        glUniform2f(uniform_tex_resol, VStVAO.at(0).Vtex_resolution.get_X(), VStVAO.at(0).Vtex_resolution.get_Y());
-        glUniform2f(uniform_alpha_length, VStVAO.at(0).alpha, VStVAO.at(0).length);
-        glUniform2f(uniform_translate, VStVAO.at(0).Vtranslate.get_X(), VStVAO.at(0).Vtranslate.get_Y());
-        glUniform1i(uniform_idShader, 0);
 
         // dessine les objets au format triangles
         vao[introId].bind();
@@ -295,6 +291,9 @@ void GameRender::paintGL()
         break;
 
     case MENU :
+
+        // activation du shader
+        useProgramID(1);
 
         VStVAO.at(mouseId).Vtranslate = maths::Vector<float> ((float)VPointMouse.get_X() - .03f,
                               (float)VPointMouse.get_Y(), .0f, espace_mouse);

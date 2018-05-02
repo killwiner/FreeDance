@@ -27,7 +27,9 @@ int main(int argc, char *argv[])
     //render.showFullScreen();
     render.show();
 
-    render.loadShader(QString("../data/shaderIntro"));
+    render.loadShader(QString("../data/shaders/shaderIntro"));
+    render.loadShader(QString("../data/shaders/shaderButtonMouse"));
+    render.loadShader(QString("../data/shaders/shaderPanel"));
 
     // lance l'intro
     intro::Intro intro(&render);
