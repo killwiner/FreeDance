@@ -52,7 +52,8 @@ public:
     void setVAOAlpha(const quint8 &id, const float &alpha);
     void setIntroId();
     void setMouseId();
-    void setOptionsId();
+    void setOptionsBId();
+    void setOptionsPId();
 
 protected:
     // initialise OpenGL
@@ -71,7 +72,7 @@ private:
     GLint uniform_time;
     GLint uniform_idShader;
 
-    qint16 mid, introId, mouseId, optionsId;
+    qint16 mid, introId, mouseId, optionsBId, optionsPId;
 
     //StructVAO StVAO[NBR_VAO];
     std::vector<StructVAO> VStVAO;
@@ -105,7 +106,7 @@ private:
 
     void makeVertices(const float &length, const float &z, const float &ratio);
     void makeVao();
-    void showVAO(const quint8 &id);
+    void showVAO(const quint8 &id, const quint8 &programID);
     void ratio(const quint8 &id);
 
 };

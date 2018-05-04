@@ -7,7 +7,6 @@ Box::Box() {}
 Box::Box(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions, const float &alpha,
 		const float &length) : render_(render), Vtrans(Vtranslate), alpha_(alpha)
 {
-    //render_->loadShader(QString("../data/shaders/shaderBox"));
     render_->setStructVAO(Vdimensions, alpha, length, Vtranslate);
 }
 

@@ -70,7 +70,8 @@ SOURCES += main.cpp \
     run/button.cpp \
     run/box.cpp \
     sound/sound.cpp \
-    sound/testsSound.cpp
+    sound/testsSound.cpp \
+    run/panel.cpp
 
 # RESOURCES += qml.qrc
 
@@ -116,4 +117,5 @@ HEADERS += maths/vectors.h \
     global.h \
     run/button.h \
     sound/sound.h \
-    sound/testsSound.h
+    sound/testsSound.h \
+    run/panel.h

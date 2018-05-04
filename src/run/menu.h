@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include "button.h"
+#include "panel.h"
 
 namespace run {
 
@@ -18,6 +19,7 @@ private:
     maths::Vector<float> VMouse;
     gameRender::GameRender *render_;
     Button b_options;
+    Panel p_options;
 
     void initMouse();
     void loadImage(const QString &fileName);

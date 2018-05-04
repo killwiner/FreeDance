@@ -8,9 +8,11 @@ Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
     maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
-    render_->setOptionsId();
+    render_->setOptionsBId();
     b_options = Button(render_, QString("../data/images/options.png"), Vtranslate);
     initMouse();
+    render_->setOptionsPId();
+    p_options = Panel(render_, maths::Vector<float>(.5f, .5f, .4f, espace), maths::Vector<float>(.5f, .5f, .0f, espace));
 }
 
 Menu::~Menu() {
