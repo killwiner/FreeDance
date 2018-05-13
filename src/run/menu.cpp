@@ -7,12 +7,8 @@ Menu::Menu() {}
 Menu::Menu(gameRender::GameRender *render) : render_(render)
 {
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
-    maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
-    render_->setOptionsBId();
-    b_options = Button(render_, QString("../data/images/options.png"), Vtranslate);
+    options = Options(render);
     initMouse();
-    render_->setOptionsPId();
-    p_options = Panel(render_, maths::Vector<float>(.5f, .5f, .4f, espace), maths::Vector<float>(.5f, .5f, .0f, espace));
 }
 
 Menu::~Menu() {
@@ -26,13 +22,13 @@ void Menu::run() {
         VMouse = xy;
         render_->setMouseXY(xy);
     }
-    b_options.run(xy, render_->mouseButton());
+    options.run(xy, render_->mouseButton());
 }
 
 void Menu::initMouse() {
     MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
-    render_->setMouseId();
-    render_->setStructVAO(maths::Vector<float>((float)128, (float)128, .0f, espace), 1.0f, 8.0f, maths::Vector<float>(.0f, .0f, .8f, espace));
+    render_->setStructVAO(maths::Vector<float>((float)128, (float)128, .0f, espace), 1.0f, 8.0f,
+                          maths::Vector<float>(.0f, .0f, .8f, espace), MOUSEID);
     //render_->makeVertices(maths::Vector<float>(-1.0f, -1.0f, .8f, espace), 8.0f, (float)WIN_HEIGHT / (float)WIN_WIDTH);
     //render_->makeVao(2);
     loadImage(QString("../data/images/mouse.png"));
@@ -49,7 +45,7 @@ void Menu::loadImage(const QString &fileName) {
         // render pointe sur l'image
         render_->setImages(image.getImages());
         // on crée les textures
-        if(render_->loadTexture(GL_TEXTURE2, true))
+        if(render_->loadTexture(MOUSEID, true))
             throw "(menu.cpp) error, can't generate the texture";
         //render_->clearImages();
     }

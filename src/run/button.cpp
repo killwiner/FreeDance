@@ -4,14 +4,14 @@ namespace run {
 
 Button::Button() {}
 
-Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate) : Box(render, Vtranslate,
-               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f),
+Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate, const quint16 &id) : Box(render, Vtranslate,
+               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f, OPTIONSBID),
                buttonActivated(false)
 {
-    loadImage(fileName);
+    loadImage(fileName, id);
 }
 
-void Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
+bool Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
 
     if(!buttonActivated && (float)VMouse.get_X() < Vtrans.get_X() + BUTTON_SIZE &&
        VMouse.get_X() > Vtrans.get_X() &&
@@ -26,10 +26,11 @@ void Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
         if(alpha_ > .2f)
             alpha_ -= .1f;
     }
-    render_->setVAOAlpha(1, alpha_);
+    render_->setVAOAlpha(id_, alpha_);
+    return buttonActivated;
 }
 
-void Button::loadImage(const QString &fileName) {
+void Button::loadImage(const QString &fileName, const quint16 &id) {
 
     rendering::LoadImgs image;
     try {
@@ -40,7 +41,7 @@ void Button::loadImage(const QString &fileName) {
         // render pointe sur l'image
         render_->setImages(image.getImages());
         // on crée les textures
-        if(render_->loadTexture(GL_TEXTURE1, true))
+        if(render_->loadTexture(id, true))
             throw "(button.cpp) error, can't generate the texture";
         //render_->clearImages();
     }

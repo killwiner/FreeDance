@@ -5,8 +5,8 @@ namespace intro {
 Intro::Intro(gameRender::GameRender *render) : render_(render) {
     MQSPEspace espace = MQSPEspace(new maths::Espace(200, 200, 200, 1000));
     loadVideo();
-    render_->setIntroId();
-    render_->setStructVAO(maths::Vector<float>((float)WIN_WIDTH, (float)WIN_HEIGHT, .0f, espace), 1.0f, .5f, maths::Vector<float>(.0f, .0f, .0f, espace));
+    render_->setStructVAO(maths::Vector<float>((float)WIN_WIDTH, (float)WIN_HEIGHT, .0f, espace), 1.0f, .5f,
+                          maths::Vector<float>(.0f, .0f, .0f, espace), INTROID);
 }
 
 void Intro::loadVideo() {
@@ -27,7 +27,7 @@ void Intro::loadVideo() {
         render_->setImages(images);
 
         // on crée la texture du background
-        if(render_->loadTexture(GL_TEXTURE0, false))
+        if(render_->loadTexture(INTROID, false))
             throw "(intro.cpp) error, can't generate the texture";
     }
     catch (const char* strException) {

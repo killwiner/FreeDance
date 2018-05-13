@@ -71,7 +71,8 @@ SOURCES += main.cpp \
     run/box.cpp \
     sound/sound.cpp \
     sound/testsSound.cpp \
-    run/panel.cpp
+    run/panel.cpp \
+    run/options.cpp
 
 # RESOURCES += qml.qrc
 
@@ -118,4 +119,5 @@ HEADERS += maths/vectors.h \
     run/button.h \
     sound/sound.h \
     sound/testsSound.h \
-    run/panel.h
+    run/panel.h \
+    run/options.h

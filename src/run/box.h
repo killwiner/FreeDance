@@ -9,7 +9,8 @@ class Box
 {
 public:
     Box();
-    Box(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions, const float &alpha, const float &length);
+    Box(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions,
+        const float &alpha, const float &length, const quint16 &id);
     //virtual void run();
 
 protected:
@@ -17,6 +18,7 @@ protected:
 
     maths::Vector<float> Vtrans;
     float alpha_;
+    quint16 id_;
 
 };
 

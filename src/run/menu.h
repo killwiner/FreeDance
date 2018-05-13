@@ -1,8 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "button.h"
-#include "panel.h"
+#include "options.h"
 
 namespace run {
 
@@ -18,8 +17,7 @@ private:
     MQSPEspace espace;
     maths::Vector<float> VMouse;
     gameRender::GameRender *render_;
-    Button b_options;
-    Panel p_options;
+    Options options;
 
     void initMouse();
     void loadImage(const QString &fileName);

@@ -9,7 +9,9 @@ class Panel : public Box
 {
 public:
     Panel();
-    Panel(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions);
+    Panel(gameRender::GameRender *render, const maths::Vector<float> &Vtranslate, const maths::Vector<float> &Vdimensions, const quint16 &id);
+    void run(const bool &activate);
+
 };
 
 }

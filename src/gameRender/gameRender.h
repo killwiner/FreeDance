@@ -27,10 +27,18 @@ enum {
     MENU
 };
 
+enum {
+    INTROID,
+    OPTIONSBID,
+    MOUSEID,
+    OPTIONSPID
+};
+
 struct StructVAO {
     maths::Vector<float> Vtex_resolution;
     maths::Vector<float> Vtranslate;
     float alpha, length;
+    quint16 id;
 };
 
 namespace gameRender {
@@ -48,12 +56,8 @@ public:
     void paintStatus(const quint8 &status);
     void setMouseXY(const maths::Vector<float> &vector);
     void setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
-                      const maths::Vector<float> &Vtranslate);
+                      const maths::Vector<float> &Vtranslate, const quint16 mid);
     void setVAOAlpha(const quint8 &id, const float &alpha);
-    void setIntroId();
-    void setMouseId();
-    void setOptionsBId();
-    void setOptionsPId();
 
 protected:
     // initialise OpenGL
@@ -71,8 +75,6 @@ private:
     GLint uniform_translate;
     GLint uniform_time;
     GLint uniform_idShader;
-
-    qint16 mid, introId, mouseId, optionsBId, optionsPId;
 
     //StructVAO StVAO[NBR_VAO];
     std::vector<StructVAO> VStVAO;
@@ -104,10 +106,12 @@ private:
     // initialise le thread event_loop
     void init_loop();
 
-    void makeVertices(const float &length, const float &z, const float &ratio);
-    void makeVao();
+    void makeVertices(const float &length, const float &z, const float &ratio, const quint16 &mid);
+    void makeVao(const quint16 &mid);
     void showVAO(const quint8 &id, const quint8 &programID);
     void ratio(const quint8 &id);
+    void text(const quint8 &id);
+    void activateShader(const quint8 &id);
 
 };
 }

@@ -3,9 +3,9 @@
 namespace gameRender {
 
 GameRender::GameRender() : Shader(24, 1000),
-    count(0), time_(.0f), paint_status(MOTION), textured(false), mid(-1), introId(-1) {
+    count(0), time_(.0f), paint_status(MOTION), textured(false) {
 
-
+    VStVAO = std::vector<StructVAO>(NBR_VAO);
 
     VPointMouse = maths::Vector<float>(.0f, .0f, .0f, espace_mouse);
 
@@ -15,7 +15,7 @@ GameRender::GameRender() : Shader(24, 1000),
 GameRender::~GameRender() {
 }
 
-void GameRender::makeVertices(const float &length, const float &z, const float &ratio) {
+void GameRender::makeVertices(const float &length, const float &z, const float &ratio, const quint16 &mid) {
 
     float l = 1.0f / length;
 
@@ -81,7 +81,7 @@ int GameRender::loadTexture(const GLenum &idText, const bool &alpha) {
         }
 
         // utilisation des textures
-            glActiveTexture(idText);
+        glActiveTexture(GL_TEXTURE0 + idText);
 
         glBindTexture(GL_TEXTURE_2D, VTexture.back());
 
@@ -137,26 +137,7 @@ void GameRender::initializeGL()
     glGenBuffers(NBR_VAO, vbo);
 }
 
-void GameRender::setIntroId() {
-    ++mid;
-    introId = mid;
-}
-
-void GameRender::setMouseId() {
-    ++mid;
-    mouseId = mid;
-}
-
-void GameRender::setOptionsBId() {
-    ++mid;
-    optionsBId = mid;
-}
-
-void GameRender::setOptionsPId() {
-    ++mid;
-    optionsPId = mid;
-}
-void GameRender::makeVao() {
+void GameRender::makeVao(const quint16 &mid) {
 
     // vérouillage
     glBindBuffer(GL_ARRAY_BUFFER, vbo[mid]);
@@ -191,17 +172,18 @@ void GameRender::setMouseXY(const maths::Vector<float> &vector)
     VPointMouse = vector;
 }
 
-void GameRender::setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length, const maths::Vector<float> &Vtranslate)
+void GameRender::setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
+                              const maths::Vector<float> &Vtranslate, const quint16 mid)
 {
     StructVAO st;
     st.alpha = alpha;
     st.length = length;
     st.Vtex_resolution = Vtex_resolution;
     st.Vtranslate = Vtranslate;
-    VStVAO.push_back(st);
+    VStVAO.at(mid) = st;
 
-    makeVertices(length, Vtranslate.get_Z(), Vtex_resolution.get_X() * (float)VWinSize.get_Y()/ (Vtex_resolution.get_Y() * (float)VWinSize.get_X()));
-    makeVao();
+    makeVertices(length, Vtranslate.get_Z(), Vtex_resolution.get_X() * (float)VWinSize.get_Y()/ (Vtex_resolution.get_Y() * (float)VWinSize.get_X()), mid);
+    makeVao(mid);
 }
 
 void GameRender::setVAOAlpha(const quint8 &id, const float &alpha)
@@ -209,10 +191,28 @@ void GameRender::setVAOAlpha(const quint8 &id, const float &alpha)
     VStVAO.at(id).alpha = alpha;
 }
 
-void GameRender::showVAO(const quint8 &id, const quint8 &programID) {
-
+void GameRender::text(const quint8 &id) {
     glActiveTexture(GL_TEXTURE0 + id);
     glBindTexture(GL_TEXTURE_2D, VTexture.at(id));
+}
+
+void GameRender::activateShader(const quint8 &id)
+{
+    // activation du shader
+    useProgramID(id);
+
+    uniform_win_resol = glGetUniformLocation(getProgramID(id), "UNIF_win_resolution");
+    uniform_tex_resol = glGetUniformLocation(getProgramID(id), "UNIF_tex_resolution");
+    uniform_time = glGetUniformLocation(getProgramID(id), "UNIF_time");
+    uniform_alpha_length = glGetUniformLocation(getProgramID(id), "UNIF_alpha_length");
+    uniform_translate = glGetUniformLocation(getProgramID(id), "UNIF_translate");
+
+    glUniform2f(uniform_win_resol, (float)VWinSize.get_X(), (float)VWinSize.get_Y());
+    glUniform1f(uniform_time, time_);
+}
+
+void GameRender::showVAO(const quint8 &id, const quint8 &programID) {
+
     glUniform1i(glGetUniformLocation(getProgramID(programID), "UNIF_surface"), id);
     glUniform2f(uniform_tex_resol, VStVAO.at(id).Vtex_resolution.get_X(), VStVAO.at(id).Vtex_resolution.get_Y());
     glUniform2f(uniform_alpha_length, VStVAO.at(id).alpha, VStVAO.at(id).length);
@@ -249,17 +249,7 @@ void GameRender::paintGL()
     glLoadIdentity();
     glTranslatef (0.0, 0.0, -5.0);
 
-    uniform_win_resol = glGetUniformLocation(getProgramID(0), "UNIF_win_resolution");
-    uniform_tex_resol = glGetUniformLocation(getProgramID(0), "UNIF_tex_resolution");
-    uniform_time = glGetUniformLocation(getProgramID(0), "UNIF_time");
-    uniform_alpha_length = glGetUniformLocation(getProgramID(0), "UNIF_alpha_length");
-    uniform_translate = glGetUniformLocation(getProgramID(0), "UNIF_translate");
-
-    // activation du shader
-    useProgramID(0);
-
-    glUniform2f(uniform_win_resol, (float)VWinSize.get_X(), (float)VWinSize.get_Y());
-    glUniform1f(uniform_time, time_);
+    activateShader(0);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -282,34 +272,20 @@ void GameRender::paintGL()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         // dessine les objets au format triangles
-        vao[introId].bind();
+        vao[INTROID].bind();
         glDrawArrays(GL_TRIANGLES, 0, 6);
-        vao[introId].release();
+        vao[INTROID].release();
 
         break;
 
     case MENU :
 
-        VStVAO.at(mouseId).Vtranslate = maths::Vector<float> ((float)VPointMouse.get_X() - .03f,
+        VStVAO.at(MOUSEID).Vtranslate = maths::Vector<float> ((float)VPointMouse.get_X() - .03f,
                               (float)VPointMouse.get_Y(), .0f, espace_mouse);
 
-        showVAO(introId, 0);
-
-        // activation du shader
-        useProgramID(1);
-
-        uniform_win_resol = glGetUniformLocation(getProgramID(1), "UNIF_win_resolution");
-        uniform_tex_resol = glGetUniformLocation(getProgramID(1), "UNIF_tex_resolution");
-        uniform_time = glGetUniformLocation(getProgramID(1), "UNIF_time");
-        uniform_alpha_length = glGetUniformLocation(getProgramID(1), "UNIF_alpha_length");
-        uniform_translate = glGetUniformLocation(getProgramID(1), "UNIF_translate");
-
-        glUniform2f(uniform_win_resol, (float)VWinSize.get_X(), (float)VWinSize.get_Y());
-
-        ratio(optionsBId);
-        showVAO(optionsBId, 1);
-        ratio(mouseId);
-        showVAO(mouseId, 1);
+        text(0);
+        showVAO(INTROID, 0);
+/*
 
         useProgramID(2);
 
@@ -321,9 +297,31 @@ void GameRender::paintGL()
 
         glUniform2f(uniform_win_resol, (float)VWinSize.get_X(), (float)VWinSize.get_Y());
 
+
+
+        glUniform1i(glGetUniformLocation(getProgramID(2), "UNIF_surface"), optionsPId);
+        glUniform2f(uniform_tex_resol, VStVAO.at(optionsPId).Vtex_resolution.get_X(), VStVAO.at(optionsPId).Vtex_resolution.get_Y());
+        glUniform2f(uniform_alpha_length, VStVAO.at(optionsPId).alpha, VStVAO.at(optionsPId).length);
+        glUniform2f(uniform_translate, VStVAO.at(optionsPId).Vtranslate.get_X(), VStVAO.at(optionsPId).Vtranslate.get_Y());
+        glUniform1i(uniform_idShader, optionsPId);
+
         vao[optionsPId].bind();
         glDrawArrays(GL_TRIANGLES, 0, 6);
         vao[optionsPId].release();
+*/
+
+
+        activateShader(1);
+        ratio(OPTIONSBID);
+        text(OPTIONSBID);
+        showVAO(OPTIONSBID, 1);
+
+        ratio(MOUSEID);
+        text(MOUSEID);
+        showVAO(MOUSEID, 1);
+
+        activateShader(2);
+        showVAO(OPTIONSPID, 2);
 
         break;
     }
