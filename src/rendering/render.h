@@ -68,7 +68,7 @@ signals:
 protected:
     QSPVImage PVImage_;
     QTimer t_Timer;
-    std::vector<GLuint> VTexture;
+    //std::vector<GLuint> VTexture;
     MQSPEspace espace_mouse;
     // Taille de la fenêtre
     maths::Vector<quint16> VWinSize;

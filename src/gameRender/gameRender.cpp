@@ -71,8 +71,8 @@ int GameRender::loadTexture(const GLenum &idText, const bool &alpha) {
         return -1;
 
         // generate texture names
-        VTexture.push_back(0);
-        glGenTextures(1, &VTexture.back());
+        //VTexture.push_back(0);
+        glGenTextures(1, &Texture[idText]);
 
         GLenum err;
         while((err = glGetError()) != GL_NO_ERROR) {
@@ -83,7 +83,7 @@ int GameRender::loadTexture(const GLenum &idText, const bool &alpha) {
         // utilisation des textures
         glActiveTexture(GL_TEXTURE0 + idText);
 
-        glBindTexture(GL_TEXTURE_2D, VTexture.back());
+        glBindTexture(GL_TEXTURE_2D, Texture[idText]);
 
         // specify a two-dimensional texture image
         if(PVImage_) {
@@ -193,7 +193,7 @@ void GameRender::setVAOAlpha(const quint8 &id, const float &alpha)
 
 void GameRender::text(const quint8 &id) {
     glActiveTexture(GL_TEXTURE0 + id);
-    glBindTexture(GL_TEXTURE_2D, VTexture.at(id));
+    glBindTexture(GL_TEXTURE_2D, Texture[id]);
 }
 
 void GameRender::activateShader(const quint8 &id)

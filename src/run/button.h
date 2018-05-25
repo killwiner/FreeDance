@@ -14,7 +14,7 @@ class Button : public Box
 public:
     Button();
     Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate, const quint16 &id);
-    Button(const QString &fileName);
+    //Button(const QString &fileName);
     bool run(const maths::Vector<float> &VMouse, const bool &bMouse);
     void loadImage(const QString &fileName, const quint16 &id);
 

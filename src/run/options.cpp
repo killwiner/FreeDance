@@ -13,7 +13,7 @@ Options::Options(gameRender::GameRender *render) : render_(render), activated(fa
 }
 
 void Options::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
-    p_options.run(b_options.run(VMouse, bMouse));
+    p_options.run(b_options.run(VMouse, bMouse), VMouse, bMouse);
 }
 
 }

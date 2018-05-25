@@ -31,7 +31,8 @@ enum {
     INTROID,
     OPTIONSBID,
     MOUSEID,
-    OPTIONSPID
+    OPTIONSPID,
+    SCREENBID
 };
 
 struct StructVAO {
@@ -76,6 +77,7 @@ private:
     GLint uniform_time;
     GLint uniform_idShader;
 
+    GLuint Texture[NBR_VAO];
     //StructVAO StVAO[NBR_VAO];
     std::vector<StructVAO> VStVAO;
 

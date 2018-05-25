@@ -1,9 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "button.h"
 #include "panel.h"
-#include "../gameRender/gameRender.h"
 
 namespace run {
 

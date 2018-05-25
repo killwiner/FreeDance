@@ -5,7 +5,7 @@ namespace run {
 Button::Button() {}
 
 Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate, const quint16 &id) : Box(render, Vtranslate,
-               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f, OPTIONSBID),
+               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f, id),
                buttonActivated(false)
 {
     loadImage(fileName, id);
