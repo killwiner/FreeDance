@@ -17,6 +17,7 @@ protected:
     gameRender::GameRender *render_;
 
     maths::Vector<float> Vtrans;
+    maths::Vector<float> Vsize_;
     float alpha_;
     quint16 id_;
 

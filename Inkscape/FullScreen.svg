@@ -63,6 +63,107 @@
        x2="153.19238"
        y2="56.857071"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5319"
+       id="radialGradient5325-9"
+       cx="130"
+       cy="1022.3622"
+       fx="130"
+       fy="1022.3622"
+       r="122.00003"
+       gradientTransform="matrix(1,0,0,0.26229529,0,754.20141)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4222"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4230"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4238"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       y2="56.857071"
+       x2="153.19238"
+       y1="11.85707"
+       x1="53.192383"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4254"
+       xlink:href="#linearGradient5327"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="56.857071"
+       x2="153.19238"
+       y1="11.85707"
+       x1="53.192383"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4256"
+       xlink:href="#linearGradient5327"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="56.857071"
+       x2="153.19238"
+       y1="11.85707"
+       x1="53.192383"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4258"
+       xlink:href="#linearGradient5327"
+       inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4310"
+       gradientUnits="userSpaceOnUse"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4312"
+       gradientUnits="userSpaceOnUse"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4314"
+       gradientUnits="userSpaceOnUse"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5327"
+       id="linearGradient4316"
+       gradientUnits="userSpaceOnUse"
+       x1="53.192383"
+       y1="11.85707"
+       x2="153.19238"
+       y2="56.857071" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -72,16 +173,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="100.8607"
+     inkscape:cx="102.37593"
      inkscape:cy="-7.2084876"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g4197-2"
      showgrid="true"
      units="px"
      inkscape:window-width="1680"
-     inkscape:window-height="993"
+     inkscape:window-height="1001"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      objecttolerance="10000"
      showguides="true">
@@ -106,27 +207,86 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-988.3622)">
-    <path
-       style="fill:url(#radialGradient5325);fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 20,992.3622 220,0 c 0,0 10,0 10,10 0,10 0,40 0,40 0,0 0,10 -10,10 -10,0 -220,0 -220,0 0,0 -10,0 -10,-10 0,-10 0,-40 0,-40 0,0 0,-10 10,-10 z"
-       id="path4696"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/lydia/FreeDance/data/images/buttonFullScreen.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot4136"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient5333);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(36.807617,985.50513)"><flowRegion
-         id="flowRegion4138"
-         style="fill-opacity:1;fill:url(#linearGradient5333)"><rect
-           id="rect4140"
-           width="157.14285"
-           height="83.571426"
-           x="17.142857"
-           y="7.5714283"
-           style="fill:url(#linearGradient5333);fill-opacity:1" /></flowRegion><flowPara
-         id="flowPara4142"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Dyuthi;-inkscape-font-specification:'Dyuthi, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient5333);fill-opacity:1">FullScreen</flowPara></flowRoot>  </g>
+    <g
+       id="g4197"
+       transform="translate(0.46196548,0)"
+       inkscape:export-filename="/home/ttz/FreeDance/data/images/buttonScreenMode.png"
+       inkscape:export-xdpi="91.026932"
+       inkscape:export-ydpi="91.026932">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/lydia/FreeDance/data/images/buttonFullScreen.png"
+         inkscape:connector-curvature="0"
+         id="path4696"
+         d="m 20,992.3622 220,0 c 0,0 10,0 10,10 0,10 0,40 0,40 0,0 0,10 -10,10 -10,0 -220,0 -220,0 0,0 -10,0 -10,-10 0,-10 0,-40 0,-40 0,0 0,-10 10,-10 z"
+         style="fill:url(#radialGradient5325);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <flowRoot
+         transform="translate(36.807617,985.50513)"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient5333);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="flowRoot4136"
+         xml:space="preserve"><flowRegion
+           style="fill:url(#linearGradient4314);fill-opacity:1"
+           id="flowRegion4138"><rect
+             style="fill:url(#linearGradient4312);fill-opacity:1"
+             y="7.5714283"
+             x="17.142857"
+             height="83.571426"
+             width="157.14285"
+             id="rect4140" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Dyuthi;-inkscape-font-specification:'Dyuthi, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient4316);fill-opacity:1"
+           id="flowPara4142">FullScreen</flowPara></flowRoot>      <text
+         sodipodi:linespacing="125%"
+         id="text4193"
+         y="1033.6718"
+         x="18.942812"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#800000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Bookman Uralic';-inkscape-font-specification:'Bookman Uralic, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#800000"
+           y="1033.6718"
+           x="18.942812"
+           id="tspan4195"
+           sodipodi:role="line">FullScreen</tspan></text>
+    </g>
+    <g
+       transform="translate(0.46196548,62.555889)"
+       id="g4197-2">
+      <path
+         inkscape:export-ydpi="91.026932"
+         inkscape:export-xdpi="91.026932"
+         inkscape:export-filename="/home/ttz/FreeDance/data/images/buttonScreenMode.png"
+         inkscape:connector-curvature="0"
+         id="path4696-4"
+         d="m 20,992.3622 220,0 c 0,0 10,0 10,10 0,10 0,40 0,40 0,0 0,10 -10,10 -10,0 -220,0 -220,0 0,0 -10,0 -10,-10 0,-10 0,-40 0,-40 0,0 0,-10 10,-10 z"
+         style="fill:url(#radialGradient5325-9);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <flowRoot
+         transform="translate(36.807617,985.50513)"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient4310);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="flowRoot4136-7"
+         xml:space="preserve"><flowRegion
+           style="fill:url(#linearGradient4256);fill-opacity:1"
+           id="flowRegion4138-7"><rect
+             style="fill:url(#linearGradient4254);fill-opacity:1"
+             y="7.5714283"
+             x="17.142857"
+             height="83.571426"
+             width="157.14285"
+             id="rect4140-5" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50px;line-height:125%;font-family:Dyuthi;-inkscape-font-specification:'Dyuthi, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient4258);fill-opacity:1"
+           id="flowPara4142-4">FullScreen</flowPara></flowRoot>      <text
+         sodipodi:linespacing="125%"
+         id="text4193-8"
+         y="1033.6718"
+         x="49.314377"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Bookman Uralic';-inkscape-font-specification:'Bookman Uralic, Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#800000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"
+         inkscape:export-filename="/home/ttz/FreeDance/data/images/buttonScreenMode.png"
+         inkscape:export-xdpi="91.026932"
+         inkscape:export-ydpi="91.026932"><tspan
+           sodipodi:role="line"
+           id="tspan4318"
+           x="49.314377"
+           y="1033.6718">Window</tspan></text>
+    </g>
+  </g>
 </svg>

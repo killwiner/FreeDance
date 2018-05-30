@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     render.loadShader(QString("../data/shaders/shaderIntro"));
     render.loadShader(QString("../data/shaders/shaderButtonMouse"));
     render.loadShader(QString("../data/shaders/shaderPanel"));
+    render.loadShader(QString("../data/shaders/shaderButtonChoice"));
 
     // lance l'intro
     intro::Intro intro(&render);

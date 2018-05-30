@@ -8,7 +8,8 @@ Options::Options(gameRender::GameRender *render) : render_(render), activated(fa
 {
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
     maths::Vector<float> Vtranslate(1.8f, 1.8f, .4f, espace);
-    b_options = Button(render_, QString("../data/images/options.png"), Vtranslate, OPTIONSBID);
+    maths::Vector<float> Vsize(128.f, 128.f, .4f, espace);
+    b_options = Button(render_, QString("../data/images/options.png"), Vsize, Vtranslate, OPTIONSBID);
     p_options = Panel(render_, maths::Vector<float>(.5f, .5f, .2f, espace), maths::Vector<float>(.2f, .2f, .0f, espace), OPTIONSPID);
 }
 

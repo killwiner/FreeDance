@@ -9,7 +9,8 @@ Panel::Panel(gameRender::GameRender *render, const maths::Vector<float> &Vtransl
 {
     espace = MQSPEspace(new maths::Espace(2.0f, 2.0f, .0f, 1000));
     maths::Vector<float> VtranslateB(1.f, 1.f, .4f, espace);
-    b_screenMode = Button(render_, QString("../data/images/buttonScreenMode.png"), VtranslateB, SCREENBID);
+    maths::Vector<float> VsizeB(244.f, 64.f, .4f, espace);
+    b_screenMode = Button(render_, QString("../data/images/buttonScreenMode.png"), VsizeB, VtranslateB, SCREENBID);
 }
 
 void Panel::run(const bool &activate, const maths::Vector<float> &VMouse, const bool &bMouse) {
@@ -25,6 +26,7 @@ void Panel::run(const bool &activate, const maths::Vector<float> &VMouse, const 
     render_->setVAOAlpha(id_, alpha_);
 
     b_screenMode.run(VMouse, bMouse);
+
 }
 
 }

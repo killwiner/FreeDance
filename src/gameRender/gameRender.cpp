@@ -18,6 +18,7 @@ GameRender::~GameRender() {
 void GameRender::makeVertices(const float &length, const float &z, const float &ratio, const quint16 &mid) {
 
     float l = 1.0f / length;
+    //float l = 1.0f;
 
     float vertices[60] = {
   //    X    Y    Z    U     V
@@ -170,6 +171,7 @@ void GameRender::makeVao(const quint16 &mid) {
 void GameRender::setMouseXY(const maths::Vector<float> &vector)
 {
     VPointMouse = vector;
+    //VPointMouse.set(vector.get_X(), vector.get_Y() - .1f, .0f);
 }
 
 void GameRender::setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
@@ -322,6 +324,9 @@ void GameRender::paintGL()
 
         activateShader(2);
         showVAO(OPTIONSPID, 2);
+
+        activateShader(3);
+        showVAO(SCREENBID, 3);
 
         break;
     }

@@ -4,8 +4,9 @@ namespace run {
 
 Button::Button() {}
 
-Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vtranslate, const quint16 &id) : Box(render, Vtranslate,
-               maths::Vector<float>((float)BUTTON_RESOLUTION, (float)BUTTON_RESOLUTION, .0f, Vtranslate.get_espace()), .2f, 8.0f, id),
+Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vsize,
+               const maths::Vector<float> &Vtranslate, const quint16 &id) : Box(render, Vtranslate,
+               Vsize, .2f, BUTTON_HEIGHT, id),
                buttonActivated(false)
 {
     loadImage(fileName, id);
@@ -13,11 +14,16 @@ Button::Button(gameRender::GameRender *render, const QString &fileName, const ma
 
 bool Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
 
-    if(!buttonActivated && (float)VMouse.get_X() < Vtrans.get_X() + BUTTON_SIZE &&
+    float ratio = (Vsize_.get_Y() * WIN_WIDTH) / (Vsize_.get_X() * WIN_HEIGHT);
+    //std::cout << (float)VMouse.get_X() << " " << (float)VMouse.get_Y() << " " << ratio << std::endl;
+    std::cout << "---> " << Vsize_.get_Y() << std::endl;
+
+    if(!buttonActivated && (float)VMouse.get_X() < Vtrans.get_X() + (1.0f / (BUTTON_HEIGHT * ratio)) &&
        VMouse.get_X() > Vtrans.get_X() &&
-       VMouse.get_Y() < Vtrans.get_Y() &&
-       VMouse.get_Y() > Vtrans.get_Y() - BUTTON_SIZE) {
-        if(alpha_ < 1.0f)
+       VMouse.get_Y() < Vtrans.get_Y() + (1.0f / BUTTON_HEIGHT) - .1f &&
+       VMouse.get_Y() > Vtrans.get_Y() - .1f) {
+
+    if(alpha_ < 1.0f)
             alpha_ += .1f;
         if(bMouse)
             buttonActivated = true;
@@ -34,7 +40,6 @@ void Button::loadImage(const QString &fileName, const quint16 &id) {
 
     rendering::LoadImgs image;
     try {
-        std::cout << "file name : " << fileName.toStdString().c_str() << std::endl;
         if(!image.load_image(fileName))
             throw "(button.cpp) error, can't open the image";
 
