@@ -3,7 +3,7 @@
 namespace gameRender {
 
 GameRender::GameRender() : Shader(24, 1000),
-    count(0), time_(.0f), paint_status(MOTION), textured(false) {
+    count(0), time_(.0f), paint_status(MOTION), textured(false), boolButton(false) {
 
     VStVAO = std::vector<StructVAO>(NBR_VAO);
 
@@ -224,6 +224,46 @@ void GameRender::showVAO(const quint8 &id, const quint8 &programID) {
     vao[id].bind();
     glDrawArrays(GL_TRIANGLES, 0, 6);
     vao[id].release();
+}
+
+void GameRender::m_boolButton(const quint8 &id) {
+    boolButton = !boolButton;
+
+    float dep = 1.0f/(VStVAO.at(id).length * 2.0f);
+    //std::cout << (float)VStVAO.at(id).length << std::endl;
+    //float dep = 1.0f/16.0f;
+
+    if(boolButton)
+        VStVAO.at(id).Vtranslate -= maths::Vector<float>(.0f, dep, .0f, espace_mouse);
+    else
+        VStVAO.at(id).Vtranslate += maths::Vector<float>(.0f, dep, .0f, espace_mouse);
+
+    // vérouillage
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[id]);
+
+    if(boolButton) {
+        *(SPVertices[id].data() + 1) += dep;
+        *(SPVertices[id].data() + 6) += dep;
+        *(SPVertices[id].data() + 11) += dep;
+        *(SPVertices[id].data() + 16) += dep;
+        *(SPVertices[id].data() + 21) += dep;
+        *(SPVertices[id].data() + 26) += dep;
+
+    }
+    else {
+        *(SPVertices[id].data() + 1) -= dep;
+        *(SPVertices[id].data() + 6) -= dep;
+        *(SPVertices[id].data() + 11) -= dep;
+        *(SPVertices[id].data() + 16) -= dep;
+        *(SPVertices[id].data() + 21) -= dep;
+        *(SPVertices[id].data() + 26) -= dep;
+    }
+
+    // envoie de données
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 60 * sizeof(float[60]), SPVertices[id].data());
+
+    // dévérouillage
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GameRender::ratio(const quint8 &id) {

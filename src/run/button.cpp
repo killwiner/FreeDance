@@ -5,9 +5,9 @@ namespace run {
 Button::Button() {}
 
 Button::Button(gameRender::GameRender *render, const QString &fileName, const maths::Vector<float> &Vsize,
-               const maths::Vector<float> &Vtranslate, const quint16 &id) : Box(render, Vtranslate,
-               Vsize, .2f, BUTTON_HEIGHT, id),
-               buttonActivated(false)
+               const maths::Vector<float> &Vtranslate, const quint16 &id, const bool &alpCh) : Box(render, Vtranslate,
+               Vsize, .2f, BUTTON_LENGTH, id),
+               buttonActivated(false), alpCh_(alpCh)
 {
     loadImage(fileName, id);
 }
@@ -15,15 +15,30 @@ Button::Button(gameRender::GameRender *render, const QString &fileName, const ma
 bool Button::run(const maths::Vector<float> &VMouse, const bool &bMouse) {
 
     float ratio = (Vsize_.get_Y() * WIN_WIDTH) / (Vsize_.get_X() * WIN_HEIGHT);
-    //std::cout << (float)VMouse.get_X() << " " << (float)VMouse.get_Y() << " " << ratio << std::endl;
-    std::cout << "---> " << Vsize_.get_Y() << std::endl;
+
+    if (!alpCh_) {
+
+        if(alpha_ < 1.0f)
+            alpha_ += .1f;
+
+        render_->setVAOAlpha(id_, alpha_);
+
+        if(bMouse)
+            if(!buttonActivated && (float)VMouse.get_X() < Vtrans.get_X() + (1.0f / (BUTTON_HEIGHT * ratio)) &&
+                    VMouse.get_X() > Vtrans.get_X() &&
+                    VMouse.get_Y() < Vtrans.get_Y() + (1.0f / BUTTON_HEIGHT) - .1f &&
+                    VMouse.get_Y() > Vtrans.get_Y() - .1f)
+                render_->m_boolButton(id_);
+
+        return false;
+    }
 
     if(!buttonActivated && (float)VMouse.get_X() < Vtrans.get_X() + (1.0f / (BUTTON_HEIGHT * ratio)) &&
-       VMouse.get_X() > Vtrans.get_X() &&
-       VMouse.get_Y() < Vtrans.get_Y() + (1.0f / BUTTON_HEIGHT) - .1f &&
-       VMouse.get_Y() > Vtrans.get_Y() - .1f) {
+            VMouse.get_X() > Vtrans.get_X() &&
+            VMouse.get_Y() < Vtrans.get_Y() + (1.0f / BUTTON_HEIGHT) - .1f &&
+            VMouse.get_Y() > Vtrans.get_Y() - .1f) {
 
-    if(alpha_ < 1.0f)
+        if(alpha_ < 1.0f)
             alpha_ += .1f;
         if(bMouse)
             buttonActivated = true;

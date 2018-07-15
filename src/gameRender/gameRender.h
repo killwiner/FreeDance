@@ -59,6 +59,7 @@ public:
     void setStructVAO(const maths::Vector<float> &Vtex_resolution, const float &alpha, const float &length,
                       const maths::Vector<float> &Vtranslate, const quint16 mid);
     void setVAOAlpha(const quint8 &id, const float &alpha);
+    void m_boolButton(const quint8 &id);
 
 protected:
     // initialise OpenGL
@@ -104,6 +105,8 @@ private:
     QEventLoop loop;
     // avec ou sans texture
     bool textured;
+
+    bool boolButton;
 
     // initialise le thread event_loop
     void init_loop();

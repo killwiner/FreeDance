@@ -12,6 +12,9 @@ $ make -j 2
 $ make install
 $ ldconfig
 
+--- Build opencv-3.2.0 sous Debian Testing ---
+$ apt-get install libopencv-dev
+
 --- Install OpenAL ---
 $ apt-get install libopenal-dev libalut-dev libvorbis-dev
 
