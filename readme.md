@@ -1,5 +1,7 @@
 A clone of Justdance for the Open Source projects.
 
+!!!! Warning : This project has been abandoned !!!!
+
 ***************** To Build the project ***************
 
 --- Build opencv-3.2.0 ---
